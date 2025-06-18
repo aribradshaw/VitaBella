@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hero Header - Weight Loss</title>
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,700&f[]=tusker-grotesk@700&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'Tusker Grotesk';
+      src: url('https://www.vitabella.com/wp-content/uploads/2025/03/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://www.vitabella.com/wp-content/uploads/2025/03/Switzer-Variable.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .hero-body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Switzer', sans-serif;
+      background-color: #4263AE;
+      background-image: url('https://www.vitabella.com/wp-content/uploads/2025/04/slider4.webp'); /* First image */
+      background-size: cover; /* Cover the entire width of the page */
+      background-position: center bottom; /* Centered at the bottom */
+      background-repeat: no-repeat; /* Prevent repetition */
+      color: white;
+      transition: background-image 1s ease-in-out, background-color 1s ease-in-out; /* Smooth transition for background image and color */
+    }
+
+  .hero-container {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 160px 30px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-image: url('https://www.vitabella.com/wp-content/uploads/2025/04/HormoneDesktop.webp'); /* Second image */
+    background-size: auto; /* Keep the second image at its actual size */
+    background-position: right bottom; /* Centered at the bottom of the container */
+    background-repeat: no-repeat; /* Prevent repetition */
+    transition: background-image 1s ease-in-out, opacity 1s ease-in-out; /* Smooth fade effect and transition for background image */
+    overflow:visible;
+    min-height:600px;
+  }
+
+  @media (max-width: 767px) {
+      .hero-container {
+        padding-left: 10px; /* Add 10px padding on the left */
+        padding-right: 10px; /* Add 10px padding on the right */
+        gap:5px;
+        align-items: center; /* Center horizontally */
+        justify-content: flex-start; /* Align items to the top */
+        text-align: center; /* Center-align text */
+        padding: 90px 10px; /* Adjust padding for smaller screens */
+        min-height:500px;
+        background-size: 300px auto; /* Adjust size for smaller screens */
+        background-position: center bottom; /* Centered at the bottom of the container */
+        min-height: 580px; /* Ensure a consistent minimum height */
+        max-height: 580px; /* Prevent the height from changing */
+        overflow: hidden; /* Prevent content overflow */
+      }
+    }
+
+  .hero-container.fade-in {
+    opacity: 1; /* Fade in */}
+
+    .hero-heading, h2.hero-heading {
+      font-family: 'Tusker Grotesk', sans-serif;
+      font-size: 80px;
+      line-height: 100px;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    @media (max-width: 1340px) {
+      .hero-heading {
+        font-size: 60px;
+        line-height: 121%;
+      }
+    }
+
+    /* Media query for screens below 767px */
+    @media (max-width: 767px) {
+      .hero-heading {
+        font-size: 40px; /* Reduce font size */
+        line-height: 141%; /* Adjust line height */
+      }
+    }
+
+    .highlight {
+      color: #CEE9FF;
+    }
+
+    .subtext {
+      font-size: 18px;
+      max-width: 500px;
+            color: white;
+            -webkit-text-size-adjust: 100%; /* Prevents automatic text scaling */
+            text-size-adjust: 100%; /* Standard property for other browsers */
+    }
+
+    @media (max-width: 767px) {
+      .subtext {
+        font-size: 16px; /* Adjust font size for smaller screens */
+        max-width: 100%; /* Allow text to span the full width */
+      }
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #CEE9FF;
+      color: #4263AE;
+      padding: 6px 24px;
+      width: 225px;
+      justify-content: space-between;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      background-image: url('https://www.vitabella.com/wp-content/uploads/2025/03/green-dark-arrow-1.png');
+      background-repeat: no-repeat;
+      background-position: right 6px center; /* 10px from right, vertically centered */
+      background-size: 28px 28px !important; /* Forces the icon to 28px x 28px */
+      min-height: 30px; /* Ensures the button is tall enough for the icon */
+      -webkit-text-size-adjust: 100%; /* Prevents automatic text scaling */
+      text-size-adjust: 100%; /* Standard property for other browsers */
+    }
+
+    @media (max-width: 767px) {
+      .cta-button {
+        width: 220px;
+        font-size: 14px; /* Adjust font size for smaller screens */
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.33);
+      margin: 40px 0;
+      max-width:400px;
+      margin: 15px; /* Remove extra space */
+      padding: 0; /* Remove extra space */
+    }
+
+    @media (max-width: 767px) {
+      .divider {
+        width: 320px; /* Allow the divider to span the full width */
+        margin: 10px; /* Remove extra space */
+        padding: 0; /* Remove extra space */
+      }
+    }
+
+    .testimonial {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 15px;
+      flex-wrap: nowrap;
+      max-width: 420px;
+      margin: 0; /* Remove extra space */
+      padding: 0; /* Remove extra space */
+    }
+
+    @media (max-width: 767px) {
+      .testimonial {
+        width:320px; /* Set a fixed width for smaller screens */
+        align-items: flex-start; /* Align items to the top */
+      }
+    }
+
+    .testimonial img {
+      height: 49px;
+    }
+
+    @media (max-width: 767px) {
+    .testimonial img {
+      height:43px; 
+      width:40%; /* Adjust width for smaller screens */
+      max-width:40%; /* Adjust width for smaller screens */
+    }
+  }
+
+    .testimonial-text {
+      font-family: 'Switzer', sans-serif;
+      -webkit-text-size-adjust: 100%; /* Prevents automatic text scaling */
+      text-size-adjust: 100%; /* Standard property for other browsers */
+    }
+
+    @media (max-width: 767px) {
+    .testimonial-text {
+      text-align: left; /* Align text to the left */
+      width:60%;
+    }
+  }
+
+    .testimonial-text h4 {
+      font-size: 21px;
+      margin: 0;
+      color: white;
+    }
+
+    @media (max-width: 767px) {
+      .testimonial-text h4 {
+        font-size: 16px;
+      }
+    }
+
+    .testimonial-text p {
+      font-size: 15px;
+      margin: 0;
+      color: #CEE9FF;
+    }
+
+    @media (max-width: 767px) {
+      .testimonial-text p {
+        font-size: 13px;
+      }
+    }
+
+    .navbar {
+      background-color: #F3EFEA;
+      width: 100%; /* Full width of the page */
+      border-top: 1px solid transparent; /* Default border, dynamically updated */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+          }
+
+    .navbar-inner {
+      max-width: 1340px; /* Contain buttons within 1340px */
+      margin: 0 auto; /* Center the inner div */
+      display: flex;
+    }
+
+    .navbar button {
+      flex: 1; /* Each button takes up an equal portion of the width */
+      max-width: calc(100% / 8); /* Ensure each button is 1/8 of the width */
+      background: none;
+      border: none;
+      font-size: 16px; /* Default font size */
+      cursor: pointer;
+      padding: 15px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px; /* Space between SVG and text */
+      color: black;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-align: center; /* Center-align text */
+      border-radius:0px;
+    }
+
+    @media (max-width: 767px) {
+      .navbar button {
+        display: flex; /* Use flexbox for alignment */
+        flex-direction: column; /* Stack icon and text vertically */
+        align-items: center; /* Center content horizontally */
+        justify-content: center; /* Center content vertically */
+        gap: 5px; /* Add spacing between the icon and text */
+        height: auto; /* Remove fixed height */
+        padding: 25px 10px; /* Add 25px padding on top and bottom, 10px on left and right */
+        text-align: center; /* Center-align text */
+      }}
+
+    .navbar button img {
+      width: 28px;
+      height: 28px;
+      padding-bottom: 5px;
+    }
+
+    @media (max-width: 767px) {
+      .navbar button img {
+        width: 7vw; /* Set the icon width to 1/10 of the viewport width */
+        height: 7vw; /* Set the icon height to 1/10 of the viewport width */
+      }
+    }
+
+    .navbar button.active {
+      background-color: #4263AE; /* Active button background */
+      color: white; /* Active button text color */
+    }
+
+    .navbar button.active img {
+      filter: invert(1) brightness(2); /* Makes the icon white */
+    }
+
+    /* Media query for screens below 1275px */
+    @media (max-width: 1275px) {
+      .navbar button {
+        font-size: 15px; /* Reduce font size by 1 */
+      }
+    }
+    @media (max-width: 1210px) {
+      .navbar button {
+        font-size: 14px; /* Reduce font size by 1 */
+      }
+    }
+    @media (max-width: 1141px) {
+      .navbar button {
+        font-size: 13px; /* Reduce font size by 1 */
+      }
+    }
+    @media (max-width: 1080px) {
+      .navbar button {
+        font-size: 12px; /* Reduce font size by 1 */
+      }
+    }
+    @media (mad-width:767px){
+      .navbar button{
+        font-size:14px;
+        height:150px; /* Set a fixed height for the navbar */
+      }
+    }
+
+    @media (max-width: 767px) {
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        overflow: hidden; /* Prevent overflow */
+      }
+
+      .navbar-inner {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .navbar button {
+        flex: 1 1 33.33%; /* Each button takes up 1/3 of the space */
+        max-width: 33.33%; /* Ensure buttons don't exceed 1/3 of the width */
+        text-align: center;
+        transition: transform 0.3s ease; /* Smooth transition for button updates */
+      }
+
+      .navbar button.active {
+        font-weight: bold;
+        background-color: #012B27; /* Active button background */
+        color: white; /* Active button text color */
+      }
+
+      .navbar button.hidden {
+        display: none; /* Hide buttons not in view */
+      }
+    }
+  </style>
+</head>
+
+<body data-rsssl=1 data-rsssl="1">
+  <div class="hero-body">
+    <div class="hero-container">
+      <div class="hero-heading">CLINICALLY PROVEN</div>
+      <h2 class="hero-heading highlight">WEIGHT LOSS</h2>
+      <p class="subtext">
+        Clinically-proven, doctor-backed solutions to help you lose weight effectively and safely.
+      </p>
+
+    <a href="/membership/" class="cta-button">
+      Start Your Treatment
+    </a>
+
+    <div class="divider"></div>
+
+    <div class="testimonial">
+      <img src="https://www.vitabella.com/wp-content/uploads/2025/03/fourreviewpeople.webp" alt="review people" width="142px" />
+      <div class="testimonial-text">
+        <h4>10,000+ Customers</h4>
+        <p>reached their weight loss goals</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <div class="navbar-inner">
+      <button data-category="weight-loss">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-3.svg" alt="Weight Loss Icon" />
+        Weight Loss
+      </button>
+      <button class="active" data-category="hormone-therapy">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-7.svg" alt="Hormone Therapy Icon" />
+        Hormone Therapy
+      </button>
+      <button data-category="anti-aging">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-10.svg" alt="Anti-Aging Icon" />
+        Anti-Aging
+      </button>
+      <button data-category="sexual-wellness">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-9.svg" alt="Sexual Wellness Icon" />
+        Sexual Wellness
+      </button>
+      <button data-category="cognitive-health">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-8.svg" alt="Cognitive Health Icon" />
+        Cognitive Health
+      </button>
+      <button data-category="hair-loss">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-6-1.svg" alt="Hair Loss Icon" />
+        Hair Loss
+      </button>
+      <button data-category="injury-recovery">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-5-1.svg" alt="Injury and Recovery Icon" />
+        Injury & Recovery
+      </button>
+      <button data-category="skin-care">
+        <img src="https://www.vitabella.com/wp-content/uploads/2025/03/Asset-4.svg" alt="Skin Care Icon" />
+        Skin Care
+      </button>
+    </div>
+  </div></div>
+
+    <script>
+    // Simulated data (in a real scenario, this would come from a server via AJAX)
+      const heroData = {
+        "weight-loss": {
+            categoryName: "Weight Loss",
+            solutionsText: "you lose weight effectively and safely",
+            goalsText: "weight loss",
+            mainColor: "#D6FEA1",
+            backgroundColor: "#547553", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/02/icon-1.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/03/bg-container_result.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/WeightLossMobile3.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/WeightLossDesktop2.webp", // Placeholder image
+        },
+        "hormone-therapy": {
+            categoryName: "Hormone Therapy",
+            solutionsText: "optimize hormones and fertility",
+            goalsText: "hormone therapy",
+            mainColor: "#CEE9FF",
+            backgroundColor: "#4263AE", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/blue-arrow-1.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/slider4.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/HormoneTherapyMobile.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/HormoneDesktop.webp", // Placeholder image
+        },
+        "anti-aging": {
+            categoryName: "Anti-Aging",
+            solutionsText: "you improve healthspan and lifespan",
+            goalsText: "longevity",
+            mainColor: "#FAEDCD",
+            backgroundColor: "#B16F38", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/grey-arrow.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/ANTI-AGING.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/AntiAgingMobile.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/AntiAgingDesktop.webp", // Placeholder image
+        },
+        "sexual-wellness": {
+            categoryName: "Sexual Wellness",
+            solutionsText: "improve sexual function and intimacy",
+            goalsText: "sexual wellness",
+            mainColor: "#FFBBB7",
+            backgroundColor: "#831435", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/dark-pink-arrow.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/bg-container-1.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/SexualWellnessMobile3.webp", // Mobile Image
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/SexualWellnessDesktop-1.webp", // Main image
+        },
+        "cognitive-health": {
+            categoryName: "Cognitive Health",
+            solutionsText: "improve brain function and cognition",
+            goalsText: "cognitive health",
+            mainColor: "#CEE9FF",
+            backgroundColor: "#40699E", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/blue-arrow-1.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/blue-color.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/CognitiveHealthMobile.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/CognitiveHealthDesktop2.webp", // Placeholder image
+        },
+        "hair-loss": {
+            categoryName: "Hair Loss",
+            solutionsText: "sustain and improve hair growth",
+            goalsText: "hair growth",
+            mainColor: "#FFD19F",
+            backgroundColor: "#98312B", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/maroon-arrow.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/meroon.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/HairLossMobile3.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/HairLossDesktop.webp", // Placeholder image
+        },
+        "injury-recovery": {
+            categoryName: "Injury & Recovery",
+            solutionsText: "turn your injury setback into a comeback",
+            goalsText: "recovery",
+            mainColor: "#DBFFEE",
+            backgroundColor: "#76AC94", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/dark-green-arrow.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/04/lightgreen-color.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/InjuryMobile.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/InjuryDesktop.webp", // Placeholder image
+        },
+        "skin-care": {
+            categoryName: "Skin Care",
+            solutionsText: "boost confidence with healthy, glowing skin",
+            goalsText: "skin care",
+            mainColor: "#FAEDCD",
+            backgroundColor: "#CF8F59", // Placeholder background color
+            buttonIcon: "https://www.vitabella.com/wp-content/uploads/2025/03/skin-care-arrow.svg", //svg for the button
+            backgroundImage: "https://www.vitabella.com/wp-content/uploads/2025/03/bg-container-1_result.webp", // Add URL if you have a background image
+            mobileImage: "https://www.vitabella.com/wp-content/uploads/2025/04/SkinCareMobile.webp",
+            mainImage: "https://www.vitabella.com/wp-content/uploads/2025/04/SkinCareDesktop.webp", // Placeholder image
+        }
+    };
+
+    // Function to update the hero header based on the selected category
+    function updateHeroHeader(categoryKey) {
+      const data = heroData[categoryKey];
+
+      // Update the hero-heading highlight text
+      document.querySelector('.hero-heading.highlight').textContent = data.categoryName;
+
+      // Update the subtext solutionsText
+      document.querySelector('.subtext').textContent = `Clinically-proven, doctor-backed solutions to help ${data.solutionsText}.`;
+
+      // Update the testimonial-text goalsText
+      document.querySelector('.testimonial-text p').textContent = `reached their ${data.goalsText} goals`;
+
+      // Update the .highlight color
+      document.querySelector('.highlight').style.color = data.mainColor;
+
+      // Update the .cta-button background-color, background-image, and text color
+      const ctaButton = document.querySelector('.cta-button');
+      ctaButton.style.backgroundColor = data.mainColor;
+      ctaButton.style.backgroundImage = `url('${data.buttonIcon}')`;
+      ctaButton.style.color = data.backgroundColor; // Update text color to match backgroundColor
+
+      // Update the testimonial-text color
+      document.querySelector('.testimonial-text p').style.color = data.mainColor;
+
+      // Reset the background color of all buttons
+      document.querySelectorAll('.navbar button').forEach((button) => {
+        button.style.backgroundColor = ''; // Reset background color
+        button.classList.remove('active'); // Remove active class
+      });
+
+      // Update the new active button's background color and add active class
+      const activeButton = document.querySelector(`.navbar button[data-category="${categoryKey}"]`);
+      activeButton.style.backgroundColor = data.backgroundColor;
+      activeButton.classList.add('active');
+
+      // Update the body background image (full width) with a fade effect
+      const heroBody = document.querySelector('.hero-body');
+      heroBody.style.transition = 'background-image 1s ease-in-out, background-color 1s ease-in-out';
+      heroBody.style.backgroundImage = `url('${data.backgroundImage}')`;
+      heroBody.style.backgroundColor = data.backgroundColor; // Update to the slide's backgroundColor
+
+      // Update the hero-container background image (contained to 1340px) with fade effect
+      const heroContainer = document.querySelector('.hero-container');
+      heroContainer.classList.remove('fade-in'); // Remove fade-in class to reset
+
+      // Lazy load the background image
+      const imageToUse = window.innerWidth <= 767 ? data.mobileImage : data.mainImage;
+      const img = new Image();
+      img.src = imageToUse;
+      img.onload = () => {
+        heroContainer.style.backgroundImage = `url('${imageToUse}')`;
+        heroContainer.classList.add('fade-in'); // Add fade-in class for smooth transition
+      };
+
+      // Update the border color of the navbar
+      const navbar = document.querySelector('.navbar');
+      navbar.style.borderTopColor = data.mainColor;
+    }
+
+    // Function to update the navbar layout for mobile
+    function updateNavbarLayout(currentIndex) {
+      if (window.innerWidth > 767) return; // Only apply this logic on mobile (767px or less)
+
+      const buttons = document.querySelectorAll('.navbar button');
+      const totalButtons = buttons.length;
+
+      // Reset all buttons
+      buttons.forEach((button) => {
+        button.classList.remove('active', 'hidden');
+        button.style.order = ''; // Reset order
+      });
+
+      // Calculate previous, current, and next button indices
+      const prevIndex = (currentIndex - 1 + totalButtons) % totalButtons;
+      const nextIndex = (currentIndex + 1) % totalButtons;
+
+      // Update button classes and order
+      buttons[currentIndex].classList.add('active'); // Active button
+      buttons[currentIndex].style.order = 1; // Center the active button
+      buttons[prevIndex].style.order = 0; // Previous button
+      buttons[nextIndex].style.order = 2; // Next button
+
+      // Hide all other buttons
+      buttons.forEach((button, index) => {
+        if (index !== currentIndex && index !== prevIndex && index !== nextIndex) {
+          button.classList.add('hidden');
+        }
+      });
+    }
+
+    // Function to set consistent hero container height on mobile
+    function setHeroContainerHeight() {
+      if (window.innerWidth <= 767) {
+        const heroContainer = document.querySelector('.hero-container');
+        heroContainer.style.height = '500px'; // Set a fixed height for mobile
+      } else {
+        const heroContainer = document.querySelector('.hero-container');
+        heroContainer.style.height = ''; // Reset height for larger screens
+      }
+    }
+
+    // Add event listeners to navbar buttons
+    document.querySelectorAll('.navbar button').forEach((button, index) => {
+      button.addEventListener('click', () => {
+        currentIndex = index; // Update the current index
+        updateHeroHeader(categoryKeys[currentIndex]); // Update the hero header
+        updateNavbarLayout(currentIndex); // Update the navbar layout (only on mobile)
+      });
+    });
+
+    // Automatically transition slides every 5000ms
+    let currentIndex = 1; // Start with the second slide (index 1)
+    const categoryKeys = Object.keys(heroData);
+
+    setInterval(() => {
+      const nextIndex = (currentIndex + 1) % categoryKeys.length; // Calculate the next index
+      const nextCategoryKey = categoryKeys[nextIndex];
+      const nextImage = window.innerWidth <= 767 ? heroData[nextCategoryKey].mobileImage : heroData[nextCategoryKey].mainImage;
+
+      // Preload the next background image
+      const img = new Image();
+      img.src = nextImage;
+
+      img.onload = () => {
+        // Once the image is preloaded, update the slide
+        currentIndex = nextIndex; // Update the current index
+        updateHeroHeader(nextCategoryKey); // Update the hero header
+        updateNavbarLayout(currentIndex); // Update the navbar layout (only on mobile)
+      };
+
+      img.onerror = (error) => {
+        console.error('Error preloading image:', error);
+      };
+    }, 5000);
+
+    // Initialize with the second category (e.g., "hormone-therapy")
+    updateHeroHeader('hormone-therapy');
+
+    // Initialize the navbar layout for mobile
+    if (window.innerWidth <= 767) {
+      updateNavbarLayout(currentIndex);
+    }
+
+    // Call the function on page load and resize
+    setHeroContainerHeight();
+    window.addEventListener('resize', setHeroContainerHeight);
+
+    // Add a resize event listener to handle viewport changes
+    window.addEventListener('resize', () => {
+      updateHeroHeader(categoryKeys[currentIndex]); // Reapply the current category on resize
+      if (window.innerWidth <= 767) {
+        updateNavbarLayout(currentIndex); // Reapply the navbar layout on resize (only on mobile)
+      }
+    });
+  </script>
+</body>
+</html>

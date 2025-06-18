@@ -1,0 +1,168 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './Header.css';
+import VitaBellaLogo from '../common/VitaBellaLogo';
+import VitaBellaArrow from '../common/VitaBellaArrow';
+
+// Treatment categories and images (replace src with your actual images)
+const treatmentCategories = [
+	{
+		name: 'Weight Loss',
+		slug: '/weight-loss',
+		img: '/images/categories/weight-loss.jpg',
+	},
+	{
+		name: 'Hormone Therapy',
+		slug: '/hormone-therapy',
+		img: '/images/categories/hormone-therapy.jpg',
+	},
+	{
+		name: 'Anti-Aging',
+		slug: '/anti-aging',
+		img: '/images/categories/anti-aging.jpg',
+	},
+	{
+		name: 'Sexual Wellness',
+		slug: '/sexual-wellness',
+		img: '/images/categories/sexual-wellness.jpg',
+	},
+	{
+		name: 'Cognitive Health',
+		slug: '/cognitive-health',
+		img: '/images/categories/cognitive-health.jpg',
+	},
+	{
+		name: 'Hair Loss',
+		slug: '/hair-loss',
+		img: '/images/categories/hair-loss.jpg',
+	},
+	{
+		name: 'Injury & Recovery',
+		slug: '/injury-recovery',
+		img: '/images/categories/injury-recovery.jpg',
+	},
+	{
+		name: 'Skin Care',
+		slug: '/skin-care',
+		img: '/images/categories/skin-care.jpg',
+	},
+];
+
+const Header: React.FC = () => {
+	const [treatmentOpen, setTreatmentOpen] = useState(false);
+	const [resourcesOpen, setResourcesOpen] = useState(false);
+	const treatmentRef = useRef<HTMLLIElement>(null);
+	const resourcesRef = useRef<HTMLLIElement>(null);
+	const location = useLocation();
+
+	// Close dropdowns on outside click
+	useEffect(() => {
+		function handleClick(e: MouseEvent) {
+			if (
+				treatmentRef.current &&
+				!treatmentRef.current.contains(e.target as Node) &&
+				resourcesRef.current &&
+				!resourcesRef.current.contains(e.target as Node)
+			) {
+				setTreatmentOpen(false);
+				setResourcesOpen(false);
+			}
+		}
+		document.addEventListener('mousedown', handleClick);
+		return () => document.removeEventListener('mousedown', handleClick);
+	}, []);
+
+	return (
+		<header className="header">
+			<div className="header-container">
+				<div className="logo">
+					<Link to="/">
+						<VitaBellaLogo style={{ height: '2.2rem', display: 'block' }} />
+					</Link>
+				</div>
+				<nav className="navigation">
+					<ul className="nav-list">
+						<li className={location.pathname === '/about' ? 'active' : ''}>
+							<Link to="/about">About</Link>
+						</li>
+						<li
+							className={location.pathname === '/membership' ? 'active' : ''}
+						>
+							<Link to="/membership">Membership</Link>
+						</li>
+						<li
+							className={`dropdown-parent${treatmentOpen ? ' open' : ''}`}
+							ref={treatmentRef}
+							onMouseEnter={() => setTreatmentOpen(true)}
+							onMouseLeave={() => setTreatmentOpen(false)}
+						>
+							<button
+								className="dropdown-toggle"
+								aria-haspopup="true"
+								aria-expanded={treatmentOpen}
+							>
+								Treatment
+							</button>
+							<div className={`dropdown-menu treatment-dropdown${treatmentOpen ? ' open' : ''}`}
+								style={{ pointerEvents: treatmentOpen ? 'auto' : 'none' }}
+							>
+								<div className="dropdown-title">Explore Treatments</div>
+								<div className="treatment-grid">
+									{treatmentCategories.map((cat) => (
+										<Link
+											to={cat.slug}
+											className="treatment-item"
+											key={cat.slug}
+											onClick={() => setTreatmentOpen(false)}
+										>
+											<div className="treatment-img">
+												<img src={cat.img} alt={cat.name} />
+											</div>
+											<div className="treatment-label">{cat.name}</div>
+										</Link>
+									))}
+								</div>
+							</div>
+						</li>
+						<li
+							className={`dropdown-parent${resourcesOpen ? ' open' : ''}`}
+							ref={resourcesRef}
+							onMouseEnter={() => setResourcesOpen(true)}
+							onMouseLeave={() => setResourcesOpen(false)}
+						>
+							<button
+								className="dropdown-toggle"
+								aria-haspopup="true"
+								aria-expanded={resourcesOpen}
+							>
+								Resources
+							</button>
+							<div className={`dropdown-menu resources-dropdown${resourcesOpen ? ' open' : ''}`}
+								style={{ pointerEvents: resourcesOpen ? 'auto' : 'none' }}
+							>
+								<Link to="/faq" onClick={() => setResourcesOpen(false)}>FAQ</Link>
+								<Link to="/blog" onClick={() => setResourcesOpen(false)}>Blog</Link>
+							</div>
+						</li>
+					</ul>
+				</nav>
+				<div className="header-actions">
+					<Link to="/membership" className="get-started-btn">
+						<span>Get Started</span>
+						<VitaBellaArrow />
+					</Link>
+					<a
+						href="https://vitabella.md-hq.com/"
+						className="login-btn"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Login
+					</a>
+				</div>
+			</div>
+		</header>
+	);
+};
+
+export default Header;
