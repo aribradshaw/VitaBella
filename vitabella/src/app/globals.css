@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'Tusker Grotesk';
+  src: url('https://www.vitabella.com/wp-content/uploads/2025/03/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://www.vitabella.com/wp-content/uploads/2025/03/Switzer-Variable.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --base: 15px;
+  --space-1x: var(--base);
+  --space-2x: calc(var(--base) * 2);
+  --space-3x: calc(var(--base) * 3);
+  --space-4x: calc(var(--base) * 4);
+
+  --e-global-color-primary: #D6FEA1;
+  --e-global-color-secondary: #F3EFEA;
+  --e-global-color-text: #012B27;
+  --e-global-color-accent: #BFF009;
+  --e-global-color-4b2522b: #FFFFFF;
+  --e-global-color-da2b538: #333333;
+  --e-global-color-21fdcab: #555555;
+
+  --contact-email: "info@vitabella.com";
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    /* Removed padding to eliminate unwanted space around header */
+    font-family: 'Switzer', sans-serif;
+    background-color: #F3EFEA; /* Light background color */
+    color: #333333; /* Primary text color */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #012B27; /* Heading color */
+}
+
+a {
+    color: #4263AE; /* Link color */
+    text-decoration: none; /* Remove underline from links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline links on hover */
+}
+
+button {
+    background-color: #CEE9FF; /* Button background color */
+    color: #4263AE; /* Button text color */
+    border: none;
+    border-radius: 5px;
+    padding: var(--space-1x) var(--space-2x);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: var(--space-1x) 0;
+}
+
+button:hover {
+    background-color: #D6FEA1; /* Button hover color */
+}
+
+.navbar {
+    background-color: #F3EFEA; /* Navbar background color */
+    padding: var(--space-1x);
+}
+
+.navbar button.active {
+    background-color: #4263AE; /* Active button background */
+    color: white; /* Active button text color */
+}
+
+.divider {
+  margin: var(--space-1x) 0;
+  max-width: calc(var(--base) * 26.67);
+  height: 2px;
+  background: #fff;
+  opacity: 0.25;
+  border-radius: 1px;
+}
+
+.vitabella-arrow {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  margin-right: -4px; /* Adjusted for tighter fit */
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  box-sizing: content-box;
+  background: #163c2d;
+  border-radius: 50%;
+  /* If you want the arrow to be centered in the circle, use flex */
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1340px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+}
+
+@media (max-width: 1340px) {
+  .container {
+    max-width: 100vw;
+    padding-left: var(--space-1x);
+    padding-right: var(--space-1x);
+  }
+}
