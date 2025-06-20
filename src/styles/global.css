@@ -18,6 +18,16 @@
   --space-2x: calc(var(--base) * 2);
   --space-3x: calc(var(--base) * 3);
   --space-4x: calc(var(--base) * 4);
+
+  --e-global-color-primary: #D6FEA1;
+  --e-global-color-secondary: #F3EFEA;
+  --e-global-color-text: #012B27;
+  --e-global-color-accent: #BFF009;
+  --e-global-color-4b2522b: #FFFFFF;
+  --e-global-color-da2b538: #333333;
+  --e-global-color-21fdcab: #555555;
+
+  --contact-email: "info@vitabella.com";
 }
 
 html, body {
@@ -29,11 +39,11 @@ body {
     /* Removed padding to eliminate unwanted space around header */
     font-family: 'Switzer', sans-serif;
     background-color: #F3EFEA; /* Light background color */
-    color: #4263AE; /* Primary text color */
+    color: #333333; /* Primary text color */
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #4263AE; /* Heading color */
+    color: #012B27; /* Heading color */
 }
 
 a {
@@ -58,13 +68,6 @@ button {
 
 button:hover {
     background-color: #D6FEA1; /* Button hover color */
-}
-
-.footer {
-    background-color: #4263AE; /* Footer background color */
-    color: white; /* Footer text color */
-    padding: var(--space-2x);
-    text-align: center;
 }
 
 .navbar {
