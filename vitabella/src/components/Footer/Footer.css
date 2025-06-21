@@ -1,8 +1,8 @@
 /* Footer styles go here */
 
 .footer {
-  background: var(--e-global-color-secondary, #F3EFEA);
-  color: var(--e-global-color-text, #012B27);
+  background: var(--e-global-color-off-white);
+  color: var(--e-global-color-dark-green);
   padding: 0;
   font-size: 1rem;
 }
@@ -28,6 +28,7 @@
   text-transform: uppercase;
   margin-bottom: 16px;
   letter-spacing: 0.03em;
+  color: var(--e-global-color-dark-green);
 }
 
 .footer-logo-row {
@@ -36,16 +37,9 @@
   gap: 10px;
 }
 
-.footer-brand-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--e-global-color-text, #012B27);
-  letter-spacing: 0.04em;
-}
-
 .footer-brand-desc {
   margin: 12px 0 16px 0;
-  color: var(--e-global-color-da2b538, #333333);
+  color: var(--e-global-color-grey1);
   font-size: 1rem;
 }
 
@@ -61,6 +55,7 @@
   margin-bottom: 8px;
   font-size: 1rem;
   letter-spacing: 0.02em;
+  color: var(--e-global-color-dark-green);
 }
 
 .footer-inquiries-list > div {
@@ -72,12 +67,13 @@
 }
 
 .footer-inquiries-list a {
-  color: var(--e-global-color-text, #012B27);
+  color: var(--e-global-color-dark-green);
   text-decoration: none;
 }
 
 .footer-inquiries-list a:hover {
   text-decoration: underline;
+  color: #19443a;
 }
 
 .footer-col ul {
@@ -91,20 +87,20 @@
 }
 
 .footer-col ul li a {
-  color: var(--e-global-color-da2b538, #333333);
+  color: var(--e-global-color-grey1);
   text-decoration: none;
   font-weight: 500;
 }
 
 .footer-col ul li a:hover {
   text-decoration: underline;
-  color: inherit;
+  color: #19443a;
 }
 
 .footer-newsletter-form {
   display: flex;
   margin: 12px 0 8px 0;
-  background: #fff;
+  background: var(--e-global-color-white);
   border-radius: 22px;
   overflow: hidden;
   border: 1px solid #e0e0e0;
@@ -117,12 +113,12 @@
   padding: 12px 16px;
   font-size: 1rem;
   outline: none;
-  background: transparent;
+  background: var(--e-global-color-white);
 }
 
 .footer-newsletter-form button {
-  background: var(--e-global-color-text, #012B27);
-  color: var(--e-global-color-4b2522b, #fff);
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-white);
   border: none;
   padding: 0 24px;
   font-size: 1rem;
@@ -135,8 +131,8 @@
 }
 
 .footer-newsletter-form button:hover {
-  background: var(--e-global-color-accent, #BFF009);
-  color: var(--e-global-color-text, #012B27);
+  background: var(--e-global-color-green);
+  color: var(--e-global-color-dark-green);
 }
 
 .footer-newsletter-arrow {
@@ -149,6 +145,7 @@
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 6px;
+  color: var(--e-global-color-dark-green);
 }
 
 .footer-social {
@@ -158,15 +155,15 @@
 }
 
 .footer-social a {
-  color: var(--e-global-color-text, #012B27);
+  color: var(--e-global-color-dark-green);
   font-size: 1.3rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .footer-social a:hover {
+  color: #4263AE; /* Use a bold blue for high contrast on beige */
   text-decoration: underline;
-  color: inherit;
 }
 
 .footer-bottom-wrapper {
@@ -184,7 +181,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.98rem;
-  color: var(--e-global-color-da2b538, #333333);
+  color: var(--e-global-color-grey1);
   background: transparent;
 }
 
@@ -195,7 +192,7 @@
 }
 
 .footer-bottom-links a {
-  color: var(--e-global-color-da2b538, #333333);
+  color: var(--e-global-color-grey1);
   text-decoration: none;
   font-size: 1rem;
   display: flex;
@@ -205,13 +202,13 @@
 
 .footer-bottom-links a:hover {
   text-decoration: underline;
-  color: inherit;
+  color: #19443a;
 }
 
 .footer-disclaimer {
   margin: 18px 0 0 0;
   font-size: 0.92rem;
-  color: var(--e-global-color-21fdcab, #555555);
+  color: var(--e-global-color-grey2);
   border-top: 1px solid #e0e0e0;
   padding-top: 10px;
 }

@@ -35,13 +35,14 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
 }
 
 body {
     /* Removed padding to eliminate unwanted space around header */
-    font-family: 'Switzer', sans-serif;
+    font-family: 'Switzer', Arial, Helvetica, sans-serif;
     background-color: #fff; /* Set background to white */
-    color: var(--e-global-color-grey2); /* Primary text color */
+    color: #333333; /* Primary text color */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -51,6 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
     color: #4263AE; /* Link color */
     text-decoration: none; /* Remove underline from links */
+    font-family: 'Switzer', Arial, Helvetica, sans-serif;
 }
 
 a:hover {
@@ -133,10 +135,10 @@ button:hover {
 
 /* Font utility classes for easy use */
 .font-switzer {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
 }
 .font-tusker {
-  font-family: 'Tusker Grotesk', sans-serif;
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
 }
 .font-bold {
   font-weight: 700;
@@ -201,8 +203,9 @@ button:hover {
   font-size: 21px;
   line-height: 1.1;
 }
+.body,
 .body-text {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: var(--e-global-color-grey2);
@@ -217,7 +220,7 @@ button:hover {
 }
 
 .caption {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
   font-size: 1.08rem;
   color: var(--e-global-color-dark-green);
   font-weight: 700;

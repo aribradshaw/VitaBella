@@ -4,7 +4,7 @@ import Link from 'next/link';
 import VitaBellaLogo from '../common/VitaBellaLogo';
 import './Footer.css';
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../../constants/contacts';
-import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter, FaEnvelope, FaPhone, FaLocationDot, FaUserShield, FaFile, FaSitemap, FaUniversalAccess } from 'react-icons/fa6';
 
 const SOCIAL_ICON_MAP: Record<string, any> = {
   facebook: FaFacebookF,
@@ -33,15 +33,15 @@ const Footer: React.FC = () => {
             <div className="footer-inquiries-title">INQUIRIES</div>
             <div className="footer-inquiries-list">
               <div>
-                <span role="img" aria-label="email">✉️</span>
+                <FaEnvelope style={{ marginRight: 6 }} aria-label="email" />
                 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               </div>
               <div>
-                <span role="img" aria-label="phone">📞</span>
+                <FaPhone style={{ marginRight: 6 }} aria-label="phone" />
                 <a href="tel:4806020444">(480) 602-0444</a>
               </div>
               <div>
-                <span role="img" aria-label="location">📍</span>
+                <FaLocationDot style={{ marginRight: 6 }} aria-label="location" />
                 <span>7014 E Camelback Rd Suite B100A,<br />Scottsdale, AZ 85251</span>
               </div>
             </div>
@@ -107,10 +107,10 @@ const Footer: React.FC = () => {
             Vita Bella® is a registered trademark of Vita Bella Health LLC
           </div>
           <nav className="footer-bottom-links">
-            <Link href="/privacy-policy"><span role="img" aria-label="privacy">🛡️</span> Privacy Policy</Link>
-            <Link href="/terms"><span role="img" aria-label="terms">📄</span> Terms of Service</Link>
-            <a href="/sitemap.xml"><span role="img" aria-label="sitemap">🗺️</span> Sitemap</a>
-            <Link href="/accessibility"><span role="img" aria-label="accessibility">♿</span> Accessibility</Link>
+            <Link href="/privacy-policy"><span style={{ display: 'flex', alignItems: 'center' }}><FaUserShield style={{ marginRight: 4 }} aria-label="privacy" /> Privacy Policy</span></Link>
+            <Link href="/terms"><span style={{ display: 'flex', alignItems: 'center' }}><FaFile style={{ marginRight: 4 }} aria-label="terms" /> Terms of Service</span></Link>
+            <a href="/sitemap.xml"><span style={{ display: 'flex', alignItems: 'center' }}><FaSitemap style={{ marginRight: 4 }} aria-label="sitemap" /> Sitemap</span></a>
+            <Link href="/accessibility"><span style={{ display: 'flex', alignItems: 'center' }}><FaUniversalAccess style={{ marginRight: 4 }} aria-label="accessibility" /> Accessibility</span></Link>
           </nav>
         </div>
         <div className="footer-disclaimer">
