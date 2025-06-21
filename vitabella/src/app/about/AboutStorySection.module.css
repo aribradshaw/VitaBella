@@ -1,0 +1,38 @@
+.about-story-section {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin-top: var(--space-4x);
+  margin-bottom: var(--space-1x);
+  gap: var(--space-2x);
+}
+.about-story-photo {
+  flex: 0 1 33.5%;
+  min-width: 260px;
+  max-width: 480px;
+}
+.about-story-content {
+  flex: 1 1 66.5%;
+  min-width: 320px;
+  max-width: 900px;
+}
+.about-story-quote-photo {
+  margin: var(--space-1x) 0 var(--space-1x) var(--space-1x);
+  /* Ensures equal top, bottom, and left spacing */
+  border-radius: 16px;
+  object-fit: cover;
+  min-width: 30%;
+  max-width: 35%;
+  height: 150px;
+  box-sizing: border-box;
+}
+@media (max-width: 900px) {
+  .about-story-section {
+    flex-direction: column;
+    gap: var(--space-2x);
+  }
+  .about-story-photo, .about-story-content {
+    max-width: 100%;
+    margin-right: 0;
+  }
+}

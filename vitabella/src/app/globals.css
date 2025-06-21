@@ -20,13 +20,13 @@
   --space-4x: calc(var(--base) * 4);
   --border-radius: 10px;
 
-  --e-global-color-primary: #D6FEA1;
-  --e-global-color-secondary: #F3EFEA;
-  --e-global-color-text: #012B27;
-  --e-global-color-accent: #BFF009;
-  --e-global-color-4b2522b: #FFFFFF;
-  --e-global-color-da2b538: #333333;
-  --e-global-color-21fdcab: #555555;
+  --e-global-color-lightgreen: #D6FEA1;
+  --e-global-color-off-white: #F3EFEA;
+  --e-global-color-dark-green: #012B27;
+  --e-global-color-green: #BFF009;
+  --e-global-color-white: #FFFFFF;
+  --e-global-color-grey1: #333333;
+  --e-global-color-grey2: #555555;
 
   --contact-email: "info@vitabella.com";
 }
@@ -41,11 +41,11 @@ body {
     /* Removed padding to eliminate unwanted space around header */
     font-family: 'Switzer', sans-serif;
     background-color: #fff; /* Set background to white */
-    color: #333333; /* Primary text color */
+    color: var(--e-global-color-grey2); /* Primary text color */
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #012B27; /* Heading color */
+    color: var(--e-global-color-dark-green); /* Heading color */
 }
 
 a {
@@ -58,8 +58,8 @@ a:hover {
 }
 
 button {
-    background-color: #CEE9FF; /* Button background color */
-    color: #4263AE; /* Button text color */
+    background-color: var(--e-global-color-dark-green); /* Button background color */
+    color: var(--e-global-color-off-white); /* Button text color */
     border: none;
     border-radius: 5px;
     padding: var(--space-1x) var(--space-2x);
@@ -73,7 +73,7 @@ button:hover {
 }
 
 .navbar {
-    background-color: #F3EFEA; /* Navbar background color */
+    background-color: var(--e-global-color-off-white); /* Navbar background color */
     padding: var(--space-1x);
 }
 
@@ -86,7 +86,7 @@ button:hover {
   margin: var(--space-1x) 0;
   max-width: calc(var(--base) * 26.67);
   height: 2px;
-  background: #fff;
+  background: var(--e-global-color-white);
   opacity: 0.25;
   border-radius: 1px;
 }
@@ -106,7 +106,7 @@ button:hover {
   margin-bottom: 0;
   padding: 0;
   box-sizing: content-box;
-  background: #163c2d;
+  background: var(--e-global-color-dark-green);
   border-radius: 50%;
   /* If you want the arrow to be centered in the circle, use flex */
   align-items: center;
@@ -205,7 +205,7 @@ button:hover {
   font-family: 'Switzer', sans-serif;
   font-weight: 400;
   font-size: 16px;
-  color:#555555;
+  color: var(--e-global-color-grey2);
   line-height: 1.5;
 }
 
@@ -214,4 +214,14 @@ button:hover {
   border-radius: var(--border-radius);
   object-fit: cover;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.caption {
+  font-family: 'Switzer', sans-serif;
+  font-size: 1.08rem;
+  color: var(--e-global-color-dark-green);
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
 }

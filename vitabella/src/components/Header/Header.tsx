@@ -11,42 +11,42 @@ const treatmentCategories = [
 	{
 		name: 'Weight Loss',
 		slug: '/weight-loss',
-		img: '/images/categories/weight-loss.jpg',
+		img: '/modules/menu/weightloss.webp',
 	},
 	{
 		name: 'Hormone Therapy',
 		slug: '/hormone-therapy',
-		img: '/images/categories/hormone-therapy.jpg',
+		img: '/modules/menu/hormonetherapy.webp',
 	},
 	{
 		name: 'Anti-Aging',
 		slug: '/anti-aging',
-		img: '/images/categories/anti-aging.jpg',
+		img: '/modules/menu/antiaging.webp',
 	},
 	{
 		name: 'Sexual Wellness',
 		slug: '/sexual-wellness',
-		img: '/images/categories/sexual-wellness.jpg',
+		img: '/modules/menu/sexualwellness.webp',
 	},
 	{
 		name: 'Cognitive Health',
 		slug: '/cognitive-health',
-		img: '/images/categories/cognitive-health.jpg',
+		img: '/modules/menu/cognitivehealth.webp',
 	},
 	{
 		name: 'Hair Loss',
 		slug: '/hair-loss',
-		img: '/images/categories/hair-loss.jpg',
+		img: '/modules/menu/hairloss.webp',
 	},
 	{
 		name: 'Injury & Recovery',
 		slug: '/injury-recovery',
-		img: '/images/categories/injury-recovery.jpg',
+		img: '/modules/menu/injuryandrecovery.webp',
 	},
 	{
 		name: 'Skin Care',
 		slug: '/skin-care',
-		img: '/images/categories/skin-care.jpg',
+		img: '/modules/menu/skincare.webp',
 	},
 ];
 

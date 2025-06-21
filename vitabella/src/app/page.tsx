@@ -2,6 +2,13 @@ import Hero from '../components/Hero/Hero';
 import SectionHeader from '../components/SectionHeader/SectionHeader';
 import HowItWorks from '../components/HowItWorks/HowItWorks';
 
+export const metadata = {
+    title: {
+        default: 'Vita Bella Health | Complete Wellness Plans, 100% Online Providers',
+    },
+    description: 'Unlock your body’s full potential with Vita Bella Health. Our comprehensive wellness plans are designed to elevate your fitness, reclaim your confidence, and support your journey to optimal health.',
+}
+
 export default function Home() {
   return (
     <>
