@@ -1,0 +1,108 @@
+.about-hero-section {
+  position: relative;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: var(--space-1x);
+  padding-bottom: var(--space-2x);
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+.about-hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.about-hero-darken {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(51, 51, 51, 0.5); /* #333333 at 50% opacity */
+  z-index: 2;
+  pointer-events: none;
+}
+.about-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(255, 153, 0, 0.35) 0%, rgba(255, 153, 0, 0.25) 100%);
+  z-index: 3;
+}
+.about-hero-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  transition: opacity 1.5s linear;
+}
+.about-hero-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 180px;
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+}
+.about-hero-title {
+  font-family: 'Switzer', sans-serif;
+  font-size: 120px;
+  font-weight: 400;
+  margin: 0 0 0 0;
+  line-height: 1.05;
+  color: #fff;
+}
+.about-hero-italic {
+  font-style: italic;
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  text-transform: none;
+}
+.about-hero-subtitle {
+  font-family: 'Switzer', sans-serif;
+  margin: 0 0 0 0;
+  max-width: 700px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size:21px;
+  font-weight:500;
+}
+.aboutHeader {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 120px;
+  font-weight: 400;
+  margin: 0 0 -15 0;
+  line-height: 1;
+}
+@media (max-width: 700px) {
+  .about-hero-title {
+    font-size: 2.2rem;
+  }
+  .about-hero-subtitle {
+    font-size: 1rem;
+  }
+  .about-hero-section {
+    min-height: 40vh;
+    height: 40vh;
+  }
+}

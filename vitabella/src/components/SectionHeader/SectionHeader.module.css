@@ -4,10 +4,31 @@
   align-items: flex-start;
   margin: 0 0 1.5rem 0;
   gap: 2rem;
-  padding-top: var(--space-2x);
+  padding-top: var(--space-4x);
   padding-bottom: var(--space-2x);
+}
+
+.left {
+  flex: 1;
+}
+
+.h2-alt {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.1;
+}
+
+.h2 {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.1;
 }
 
 .right {
   max-width: 500px;
+  font-size: 1.25rem;
+  color: #555;
+  margin-top: 1.5rem;
 }

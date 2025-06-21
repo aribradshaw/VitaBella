@@ -18,6 +18,7 @@
   --space-2x: calc(var(--base) * 2);
   --space-3x: calc(var(--base) * 3);
   --space-4x: calc(var(--base) * 4);
+  --border-radius: 10px;
 
   --e-global-color-primary: #D6FEA1;
   --e-global-color-secondary: #F3EFEA;
@@ -33,12 +34,13 @@
 html, body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 body {
     /* Removed padding to eliminate unwanted space around header */
     font-family: 'Switzer', sans-serif;
-    background-color: #F3EFEA; /* Light background color */
+    background-color: #fff; /* Set background to white */
     color: #333333; /* Primary text color */
 }
 
@@ -205,4 +207,11 @@ button:hover {
   font-size: 16px;
   color:#555555;
   line-height: 1.5;
+}
+
+.img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
 }
