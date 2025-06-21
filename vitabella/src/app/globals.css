@@ -228,3 +228,28 @@ button:hover {
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
 }
+
+.vitabella-button {
+  background: var(--e-global-color-lightgreen);
+  color: var(--e-global-color-dark-green);
+  font-family: Switzer, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.4rem 0.4rem 0.4rem 1.4rem;
+  min-width: 180px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+.vitabella-button:hover {
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-lightgreen);
+}

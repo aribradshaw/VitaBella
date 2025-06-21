@@ -1,0 +1,84 @@
+/* Shared slider styles for VitaBellaSlider, to be imported by both CategorySlider and SimpleCustomerSlider */
+.sliderWrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1340px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.sliderTrack {
+  display: flex;
+  gap: var(--space-1x);
+  flex: 1 1 0;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.sliderTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.arrowBtn {
+  background: none;
+  border: none;
+  color: var(--e-global-color-dark-green);
+  font-size: 2.2rem;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  top: 0;
+  flex-shrink: 0;
+}
+.arrowBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.arrowBtn:not(:disabled):hover {
+  background: var(--e-global-color-lightgreen);
+}
+
+.slidesFlex {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .sliderTrack {
+    gap: 1.2rem;
+  }
+}
+@media (max-width: 700px) {
+  .sliderTrack {
+    gap: 0.7rem;
+  }
+  .arrowBtn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+}
