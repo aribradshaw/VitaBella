@@ -58,8 +58,8 @@ const SimpleCustomerSlider = () => {
 		<VitaBellaSlider
 			items={testimonials}
 			visibleCount={VISIBLE_CARDS}
-			renderSlide={(t) => (
-				<div className={styles.slide}>
+			renderSlide={(t, idx) => (
+				<div className={styles.slide} key={idx}>
 					<img
 						src={t.src}
 						alt={t.alt}
@@ -69,6 +69,8 @@ const SimpleCustomerSlider = () => {
 					<div className={styles.caption}>{t.caption}</div>
 				</div>
 			)}
+			// Ensure slider can loop through all items robustly
+			key={testimonials.length + "-" + VISIBLE_CARDS}
 		/>
 	);
 };

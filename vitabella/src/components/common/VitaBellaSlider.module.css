@@ -14,6 +14,7 @@
   max-width: 1340px;
   box-sizing: border-box;
   justify-content: center;
+  min-height: 300px;
 }
 
 .sliderTrack {
@@ -22,10 +23,11 @@
   flex: 1 1 0;
   width: auto;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   overflow: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
+  min-height: 100%;
 }
 .sliderTrack::-webkit-scrollbar {
   display: none;
@@ -62,9 +64,10 @@
 .slidesFlex {
   flex: 1 1 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   min-width: 0;
+  min-height: 100%;
 }
 
 @media (max-width: 1100px) {

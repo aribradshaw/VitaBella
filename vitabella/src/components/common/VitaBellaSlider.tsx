@@ -28,19 +28,19 @@ function VitaBellaSlider<T>({
   nextArrow,
 }: VitaBellaSliderProps<T>) {
   const [index, setIndex] = useState(0);
-  const maxIndex = items.length - visibleCount;
   const sliderRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef<number | null>(null);
   const dragging = useRef(false);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
+  // Clean infinite loop logic
   const handlePrev = () => {
     setDirection(-1);
-    setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+    setIndex((prev) => (prev - 1 + items.length) % items.length);
   };
   const handleNext = () => {
     setDirection(1);
-    setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    setIndex((prev) => (prev + 1) % items.length);
   };
 
   // Drag/Swipe logic
@@ -65,13 +65,10 @@ function VitaBellaSlider<T>({
   };
 
   // Prepare visible slides (looping)
-  const slides = items
-    .slice(index, index + visibleCount)
-    .concat(
-      index + visibleCount > items.length
-        ? items.slice(0, (index + visibleCount) % items.length)
-        : []
-    );
+  const slides = Array.from({ length: visibleCount }, (_, i) => {
+    const idx = (index + i) % items.length;
+    return items[idx];
+  });
 
   return (
     <div className={`${styles.sliderWrapper} ${className}`.trim()} style={style}>
@@ -96,8 +93,7 @@ function VitaBellaSlider<T>({
             onTouchMove={onDragMove}
             onTouchEnd={onDragEnd}
             style={{ cursor: 'grab', userSelect: 'none' }}
-          >
-            <motion.div
+          >            <motion.div
               key={index}
               initial={{ x: direction > 0 ? 340 : -340 }}
               animate={{ x: 0 }}
@@ -108,11 +104,10 @@ function VitaBellaSlider<T>({
                 damping: 30,
                 duration: 0.4,
               }}
-              style={{ display: "flex", gap: 'var(--space-1x)' }}
+              style={{ display: "flex", gap: '12px', alignItems: 'stretch', height: '100%' }}
             >
               <AnimatePresence initial={false} mode="popLayout">
-                {slides.map((item, i) => (
-                  <motion.div
+                {slides.map((item, i) => (                  <motion.div
                     key={i}
                     layout
                     variants={fadeVariants}
@@ -120,7 +115,7 @@ function VitaBellaSlider<T>({
                     animate="animate"
                     exit="exit"
                     transition={{ duration: 0.35 }}
-                    style={{ height: "100%" }}
+                    style={{ height: "100%", display: "flex", alignItems: "stretch" }}
                   >
                     {renderSlide(item, (index + i) % items.length)}
                   </motion.div>
