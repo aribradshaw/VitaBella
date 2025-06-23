@@ -8,6 +8,8 @@ interface VitaBellaSliderProps<T> {
   renderSlide: (item: T, idx: number) => React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  prevArrow?: React.ReactNode;
+  nextArrow?: React.ReactNode;
 }
 
 const fadeVariants = {
@@ -22,6 +24,8 @@ function VitaBellaSlider<T>({
   renderSlide,
   className = "",
   style = {},
+  prevArrow,
+  nextArrow,
 }: VitaBellaSliderProps<T>) {
   const [index, setIndex] = useState(0);
   const maxIndex = items.length - visibleCount;
@@ -78,7 +82,7 @@ function VitaBellaSlider<T>({
           aria-label="Previous"
           type="button"
         >
-          &#x2039;
+          {prevArrow || "\u2039"}
         </button>
         <div className={styles.slidesFlex}>
           <div
@@ -131,7 +135,7 @@ function VitaBellaSlider<T>({
           aria-label="Next"
           type="button"
         >
-          &#x203A;
+          {nextArrow || "\u203A"}
         </button>
       </div>
     </div>

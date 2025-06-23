@@ -1,11 +1,13 @@
-import React from 'react';
+import MembershipClient from './MembershipClient';
 
-const Membership: React.FC = () => {
-  return (
-	<div>
-	  {/* Membership page content goes here */}
-	</div>
-  );
-};
+export const metadata = {
+    title: {
+        default: 'Membership',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Join Vita Bella Health for exclusive access to comprehensive health services, personalized care, and unbeatable savings.',
+}
 
-export default Membership;
+export default function MembershipPage() {
+    return <MembershipClient />;
+}
