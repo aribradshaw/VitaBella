@@ -11,6 +11,7 @@ import VitaBellaButton from '@/components/common/VitaBellaButton';
 import styles from './Membership.module.css';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
+import AboutStats from '../about/AboutStats';
 
 const features = [
   'Wholesale priced prescriptions',
@@ -173,7 +174,16 @@ const MembershipClient: React.FC = () => {
         right={
           <>Full service to all qualifying states. We are working hard to bring Vita Bella to as many US states as possible!</>        }
       />
-        <StatesMap />
+      <StatesMap />
+      <SectionHeader
+        left={{
+          h2Alt: "We've transformed",
+          h2: '10,000 lives.',
+        }}
+        right={
+          <>Stop settling for less; seize control of your health, and unleash your radiance with our results-driven medical program.</>        }
+      />
+      <AboutStats />
     </>
   );
 };

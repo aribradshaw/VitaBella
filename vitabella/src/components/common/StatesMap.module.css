@@ -11,7 +11,10 @@
 .mapContainer {
   width: 66%;
   max-width: 800px;
-  position: relative; /* Add position relative for tooltip positioning */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .statesMap {
@@ -26,6 +29,9 @@
   gap: var(--space-3x);
   margin-top: var(--space-2x);
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 }
 
 .legendItem {
@@ -47,6 +53,24 @@
   font-weight: 500;
   color: var(--e-global-color-grey2);
   line-height: 1.4;
+}
+
+.legendBrandmark {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.legendBrandmarkGreen {
+  /* Overlay the global green using CSS filter for SVG */
+  filter: brightness(0) saturate(100%) invert(87%) sepia(97%) saturate(749%) hue-rotate(38deg) brightness(104%) contrast(101%);
+}
+
+.legendBrandmarkDarkGreen {
+  /* Overlay the global dark green using CSS filter for SVG */
+  filter: brightness(0) saturate(100%) invert(7%) sepia(98%) saturate(749%) hue-rotate(138deg) brightness(90%) contrast(101%);
 }
 
 /* React-based tooltip for states with notes */

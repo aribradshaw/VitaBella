@@ -257,30 +257,29 @@ const StatesMap: React.FC<StatesMapProps> = ({
             {tooltip.content}
           </div>
         )}
+        {showLegend && (
+          <div className={styles.legend}>
+            <div className={styles.legendItem}>
+              <img 
+                src="/brand/Brandmark.svg" 
+                alt="Service Available" 
+                className={`${styles.legendBrandmark} ${styles.legendBrandmarkGreen}`}
+                style={{ width: 24, height: 24 }}
+              />
+              <span className={styles.legendText}>Service Available</span>
+            </div>
+            <div className={styles.legendItem}>
+              <img 
+                src="/brand/Brandmark.svg" 
+                alt="Service Not Yet Available" 
+                className={`${styles.legendBrandmark} ${styles.legendBrandmarkDarkGreen}`}
+                style={{ width: 24, height: 24 }}
+              />
+              <span className={styles.legendText}>Service Not Yet Available</span>
+            </div>
+          </div>
+        )}
       </div>
-      
-      {showLegend && (
-        <div className={styles.legend}>
-          <div className={styles.legendItem}>
-            <div 
-              className={styles.legendColor}
-              style={{ 
-                backgroundColor: 'var(--e-global-color-green)',
-              }}
-            />
-            <span className={styles.legendText}>Service Available</span>
-          </div>
-          <div className={styles.legendItem}>
-            <div 
-              className={styles.legendColor}
-              style={{ 
-                backgroundColor: 'var(--e-global-color-dark-green)',
-              }}
-            />
-            <span className={styles.legendText}>Service Not Yet Available</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

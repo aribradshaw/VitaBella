@@ -10,7 +10,7 @@
 /* Hero Section */
 .heroSection {
   position: relative;
-  height: 60vh;
+  height: 25vh;
   min-height: 500px;
   background-image: url('/modules/feelthedifference.webp');
   background-size: cover;
@@ -49,10 +49,9 @@
 }
 
 .title {
-  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
   font-weight: 600;
   font-size: clamp(2.5rem, 6vw, 4rem);
-  text-transform: uppercase;
   color: var(--e-global-color-white);
   margin: 0 0 var(--space-1x) 0;
   line-height: 1.05;
@@ -64,7 +63,7 @@
   font-weight: 300;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   color: var(--e-global-color-white);
-  margin: 0 0 var(--space-3x) 0;
+  margin: 0 0 var(--space-1x) 0;
   line-height: 1.2;
 }
 
@@ -73,11 +72,12 @@
   max-width: 1340px;
   height: 1px;
   background: rgba(255, 255, 255, 0.4);
-  margin: var(--space-2x) 0 var(--space-3x) 0;
+  margin: var(--space-1x) 0;
 }
 
 .buttonContainer {
   display: inline-block;
+  margin-bottom: var(--space-1x);
 }
 
 /* Trust Images Container */
@@ -87,7 +87,8 @@
   max-width: 1340px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-3x) var(--space-1x);
+  padding: 0 var(--space-1x) var(--space-1x) var(--space-1x);
+  margin-bottom: var(--space-1x);
   overflow: hidden;
 }
 
