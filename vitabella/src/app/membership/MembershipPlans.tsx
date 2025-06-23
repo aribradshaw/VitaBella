@@ -64,10 +64,8 @@ const MembershipPlans: React.FC = () => {
     } else {
       return <span className={styles.featureNo}>No</span>;
     }
-  };
-
-  return (
-    <section className={styles.membershipPlans}>
+  };  return (
+    <section id="membership-plans" className={styles.membershipPlans} data-section="membership-plans">
       <div className={styles.container}>
         {/* Tab Navigation */}
         <div className={styles.tabNavigation}>

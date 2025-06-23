@@ -108,7 +108,7 @@ button:hover {
   margin-bottom: 0;
   padding: 0;
   box-sizing: content-box;
-  background: var(--e-global-color-dark-green);
+  /* Removed background since SVG has its own circle */
   border-radius: 50%;
   /* If you want the arrow to be centered in the circle, use flex */
   align-items: center;
@@ -250,6 +250,19 @@ button:hover {
   cursor: pointer;
 }
 .vitabella-button:hover {
-  background: var(--e-global-color-dark-green);
-  color: var(--e-global-color-lightgreen);
+  background: var(--e-global-color-dark-green) !important;
+  color: var(--e-global-color-lightgreen) !important;
+  box-shadow: 0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4) !important;
+}
+.vitabella-button:hover span {
+  color: var(--e-global-color-lightgreen) !important;
+}
+
+/* Ensure arrow color changes on hover too */
+.vitabella-button:hover .vitabella-arrow .arrow-circle {
+  fill: var(--e-global-color-lightgreen) !important;
+}
+
+.vitabella-button:hover .vitabella-arrow .arrow-path {
+  fill: var(--e-global-color-dark-green) !important;
 }

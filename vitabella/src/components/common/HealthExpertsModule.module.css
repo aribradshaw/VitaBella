@@ -1,0 +1,117 @@
+/* HealthExpertsModule.module.css */
+
+.healthExpertsModule {
+  padding: var(--space-1x) 0;
+  background-color: var(--e-global-color-white);
+}
+
+.expertsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3x);
+  max-width: 1340px;
+  margin: 0 auto;
+}
+
+.expertCard {
+  background: var(--e-global-color-white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.expertCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.expertImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.expertCard:hover .expertImage {
+  transform: scale(1.05);
+}
+
+.expertInfo {
+  padding: var(--space-2x) var(--space-1x) var(--space-3x) var(--space-1x);
+}
+
+.expertName {
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: var(--e-global-color-dark-green);
+  margin: 0 0 var(--space-1x) 0;
+  line-height: 1.2;
+}
+
+.expertTitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--e-global-color-dark-green);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.expertSubtitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--e-global-color-grey2);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 1340px) {
+  .expertsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3x);
+  }
+}
+
+@media (max-width: 768px) {
+  .expertsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2x);
+  }
+  
+  .expertName {
+    font-size: 1.3rem;
+  }
+  
+  .expertTitle {
+    font-size: 0.9rem;
+  }
+  
+  .expertSubtitle {
+    font-size: 0.85rem;
+  }
+  
+  .expertInfo {
+    padding: var(--space-1x) var(--space-1x) var(--space-2x) var(--space-1x);
+  }
+}
+
+@media (max-width: 480px) {
+  .healthExpertsModule {
+    padding: var(--space-3x) 0;
+  }
+}

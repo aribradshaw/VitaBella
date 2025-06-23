@@ -10,14 +10,14 @@ import AboutStats from './AboutStats';
 import StopWaitingModule from './StopWaitingModule';
 import AboutHeroVideo from "./AboutHeroVideo";
 import CategorySlider from "@/components/common/CategorySlider";
+import HealthExpertsModule from '@/components/common/HealthExpertsModule';
 
 const AboutClient: React.FC = () => {
     return (
         <>
             {/* Full-width hero section, outside container */}
             <AboutHeroVideo />
-            <AboutStorySection />
-            <SectionHeader
+            <AboutStorySection />            <SectionHeader
               left={{
                 h2Alt: 'Trusted and supported by industry leading, licensed doctors.',
                 h2: '',
@@ -26,6 +26,7 @@ const AboutClient: React.FC = () => {
                 <>Together, we created a fine-tuned set of protocols that our healthcare providers use for all of our clients. These protocols are made with a specific focus on safety, quality, and are results driven.</>
               }
             />
+            <HealthExpertsModule />
             <SectionHeader
               left={{
                 h2Alt: 'Empower Your Health,',

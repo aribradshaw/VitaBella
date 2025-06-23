@@ -3,9 +3,14 @@
 import React from 'react';
 import MembershipCategorySlider from './MembershipCategorySlider';
 import MembershipPlans from './MembershipPlans';
+import BenefitsModule from '@/components/common/BenefitsModule';
+import FeelTheDifferenceModule from '@/components/common/FeelTheDifferenceModule';
+import HealthExpertsModule from '@/components/common/HealthExpertsModule';
+import StatesMap from '@/components/common/StatesMap';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
 import styles from './Membership.module.css';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
+import HowItWorks from '@/components/HowItWorks/HowItWorks';
 
 const features = [
   'Wholesale priced prescriptions',
@@ -21,6 +26,13 @@ const COLORS = {
 };
 
 const MembershipClient: React.FC = () => {
+  const handleHeroButtonClick = () => {
+    const membershipPlansElement = document.querySelector('#membership-plans');
+    if (membershipPlansElement) {
+      membershipPlansElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <main style={{
@@ -97,17 +109,15 @@ const MembershipClient: React.FC = () => {
           </div>
           <p style={{ color: '#e0e0e0', fontSize: '1.08rem', fontWeight: 400, marginBottom: 'var(--space-3x)', marginTop: 0 }}>
             Join the most exclusive wellness membership with 8+ treatment categories, expert medical support, and unbeatable savings – all designed for your long-term success.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 var(--space-2x) 0' }}>
+          </p>          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 var(--space-2x) 0' }}>
             <VitaBellaButton 
-              href="/get-started" 
+              onClick={handleHeroButtonClick}
               style={{ 
                 minWidth: 'unset', 
                 maxWidth: 260, 
                 width: 'auto', 
                 fontSize: '1rem', 
                 fontWeight: 700, 
-                padding: '0.6rem 1.6rem',
                 borderRadius: '2rem',
                 whiteSpace: 'nowrap',
               }}
@@ -127,16 +137,43 @@ const MembershipClient: React.FC = () => {
           <>Both plans begin with a one-time $99 consultation fee (45-minute appointment) and entail a six-month minimum commitment.</>
         }
       />
-      <MembershipPlans />
+      <MembershipPlans />      
       <SectionHeader
         left={{
           h2Alt: 'The membership that works as',
           h2: 'hard as you do.',
         }}
         right={
-          <><strong>THE FUTURE OF PERSONALIZED HEALTHCARE.</strong> More than just a medication. You get expert-led care, personalized treatment, and ongoing support.</>
+          <><div><strong>THE FUTURE OF PERSONALIZED HEALTHCARE.</strong></div> More than just a medication. You get expert-led care, personalized treatment, and ongoing support.</>
         }
       />
+      <BenefitsModule onMembershipPage={true} />
+      <SectionHeader
+        left={{
+          h2Alt: 'How it works',
+          h2: 'Simple, Smart, Seamless.',
+        }}
+        right={
+          <>We’ll guide and support you as you unlock your potential, elevate your fitness, and reclaim your confidence.</>        }
+      />      <HowItWorks />
+      <FeelTheDifferenceModule onMembershipPage={true} />
+      <SectionHeader
+        left={{
+          h2Alt: 'Backed by the country’s',
+          h2: 'leading health experts.',
+        }}
+        right={
+          <>With decades of experience and proven medical  advancements: real expertise, not generic advice.</>        }
+      />
+      <HealthExpertsModule />      <SectionHeader
+        left={{
+          h2Alt: 'Near-nationwide',
+          h2: 'coverage.',
+        }}
+        right={
+          <>Full service to all qualifying states. We are working hard to bring Vita Bella to as many US states as possible!</>        }
+      />
+        <StatesMap />
     </>
   );
 };
