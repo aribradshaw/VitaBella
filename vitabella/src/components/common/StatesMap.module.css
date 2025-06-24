@@ -64,13 +64,21 @@
 }
 
 .legendBrandmarkGreen {
-  /* Overlay the global green using CSS filter for SVG */
-  filter: brightness(0) saturate(100%) invert(87%) sepia(97%) saturate(749%) hue-rotate(38deg) brightness(104%) contrast(101%);
+  /* Use mask to apply exact global green color */
+  background-color: var(--e-global-color-green);
+  -webkit-mask: url('/brand/Brandmark.svg') no-repeat center;
+  mask: url('/brand/Brandmark.svg') no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .legendBrandmarkDarkGreen {
-  /* Overlay the global dark green using CSS filter for SVG */
-  filter: brightness(0) saturate(100%) invert(7%) sepia(98%) saturate(749%) hue-rotate(138deg) brightness(90%) contrast(101%);
+  /* Use mask to apply exact global dark green color */
+  background-color: var(--e-global-color-dark-green);
+  -webkit-mask: url('/brand/Brandmark.svg') no-repeat center;
+  mask: url('/brand/Brandmark.svg') no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 /* React-based tooltip for states with notes */

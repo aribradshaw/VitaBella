@@ -8,56 +8,56 @@ const categories = [
 		key: "sexual-wellness",
 		title: "Sexual Wellness",
 		desc: "Clinically-proven treatments like Sildenafil, Tadalafil, and Oxytocin can help improve sexual function and intimacy.",
-		image: "", // Add image path here
+		image: "/categories/sexual-wellness/sexualwellnessslider.webp",
 		href: "/sexual-wellness",
 	},
 	{
 		key: "cognitive-health",
 		title: "Cognitive Health",
 		desc: "Clinically-proven treatments like NAD+ and Methylene Blue to help promote optimal cognitive function and execution.",
-		image: "", // Add image path here
+		image: "/categories/cognitive-health/cognitivehealthslider.webp",
 		href: "/cognitive-health",
 	},
 	{
 		key: "hormone-therapy",
 		title: "Hormone Therapy",
 		desc: "Clinically-proven treatments like Testosterone help boost you to your optimal self.",
-		image: "", // Add image path here
+		image: "/categories/hormone-therapy/hormonetherapyslider.webp",
 		href: "/hormone-therapy",
 	},
 	{
 		key: "anti-aging",
 		title: "Anti-Aging",
 		desc: "Science-backed therapies to help you look and feel younger, longer.",
-		image: "", // Add image path here
+		image: "/categories/anti-aging/antiagingslider.webp",
 		href: "/anti-aging",
 	},
 	{
 		key: "hair-loss",
 		title: "Hair Loss",
 		desc: "Effective solutions to help restore hair growth and confidence.",
-		image: "", // Add image path here
+		image: "/categories/hair-loss/hairlossslider.webp",
 		href: "/hair-loss",
 	},
 	{
 		key: "injury-recovery",
 		title: "Injury & Recovery",
 		desc: "Advanced treatments to accelerate your recovery and get you back to your best.",
-		image: "", // Add image path here
+		image: "/categories/injury-and-recovery/injuryrecoveryslider.webp",
 		href: "/injury-recovery",
 	},
 	{
 		key: "skin-care",
 		title: "Skin Care",
 		desc: "Medical-grade skincare for radiant, healthy skin.",
-		image: "", // Add image path here
+		image: "/categories/skin-care/skincareslider.webp",
 		href: "/skin-care",
 	},
 	{
 		key: "weight-loss",
 		title: "Weight Loss",
 		desc: "Personalized programs to help you achieve and maintain your ideal weight.",
-		image: "", // Add image path here
+		image: "/categories/weight-loss/weightlossslider.webp",
 		href: "/weight-loss",
 	},
 ];
@@ -72,7 +72,16 @@ const CategorySlider: React.FC = () => {
 			renderSlide={(cat) => (
 				<div className={styles.card}>
 					<div className={styles.imageHolder}>
-						{/* Place category image here */}
+						<img 
+							src={cat.image} 
+							alt={cat.title}
+							style={{
+								width: "100%",
+								height: "100%",
+								objectFit: "cover",
+								borderRadius: "18px 18px 0 0"
+							}}
+						/>
 					</div>
 					<div className={styles.cardContent}>
 						<div className={styles.cardTitle}>{cat.title}</div>

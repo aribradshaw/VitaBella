@@ -65,18 +65,23 @@
   padding-right: var(--space-1x);
 }
 .about-hero-title {
-  font-family: 'Switzer', sans-serif;
-  font-size: 120px;
-  font-weight: 400;
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-size: 80px;
+  font-weight: 600;
   margin: 0 0 0 0;
   line-height: 1.05;
   color: #fff;
+  text-transform: uppercase;
+}
+.about-hero-standard {
+  font-style: normal;
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
 }
 .about-hero-italic {
   font-style: italic;
-  font-family: 'Switzer', sans-serif;
-  font-weight: 400;
-  text-transform: none;
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
 }
 .about-hero-subtitle {
   font-family: 'Switzer', sans-serif;

@@ -260,20 +260,18 @@ const StatesMap: React.FC<StatesMapProps> = ({
         {showLegend && (
           <div className={styles.legend}>
             <div className={styles.legendItem}>
-              <img 
-                src="/brand/Brandmark.svg" 
-                alt="Service Available" 
+              <div 
                 className={`${styles.legendBrandmark} ${styles.legendBrandmarkGreen}`}
                 style={{ width: 24, height: 24 }}
+                aria-label="Service Available"
               />
               <span className={styles.legendText}>Service Available</span>
             </div>
             <div className={styles.legendItem}>
-              <img 
-                src="/brand/Brandmark.svg" 
-                alt="Service Not Yet Available" 
+              <div 
                 className={`${styles.legendBrandmark} ${styles.legendBrandmarkDarkGreen}`}
                 style={{ width: 24, height: 24 }}
+                aria-label="Service Not Yet Available"
               />
               <span className={styles.legendText}>Service Not Yet Available</span>
             </div>

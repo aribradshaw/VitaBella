@@ -126,7 +126,7 @@
 }
 
 .benefitContent {
-  padding: 0 var(--space-2x) 0 calc(32px + var(--space-3x));
+  padding: 0 var(--space-2x) var(--space-1x) calc(32px + var(--space-3x));
   animation: slideDown 0.3s ease-out;
 }
 

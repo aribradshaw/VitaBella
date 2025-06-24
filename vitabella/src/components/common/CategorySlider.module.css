@@ -29,7 +29,7 @@
   height: 100%; /* Ensure card takes full height in flex context */
   /* Add explicit height for all cards */
   min-height: 420px;
-  max-height: 420px;
+  max-height: 480px;
 }
 .card:hover {
   box-shadow: 0 4px 24px rgba(44,60,50,0.13);
@@ -37,7 +37,7 @@
 
 .imageHolder {
   width: 100%;
-  height: 180px;
+  height: 260px;
   border-radius: 18px 18px 0 0;
   background: #e6e6e6;
   display: flex;
@@ -131,7 +131,7 @@
     max-height: 340px;
   }
   .imageHolder {
-    height: 120px;
+    height: 160px;
   }
   .sliderTrack {
     gap: 1.2rem;
@@ -150,7 +150,7 @@
     max-height: 260px;
   }
   .imageHolder {
-    height: 70px;
+    height: 100px;
   }
   .cardContent {
     padding: 0.7rem 0.7rem 0 0.7rem;

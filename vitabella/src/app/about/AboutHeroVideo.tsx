@@ -11,6 +11,35 @@ const AboutHeroVideo: React.FC = () => {
     const [opacityB, setOpacityB] = useState(0);
     const [isReady, setIsReady] = useState(false);
     const rafRef = useRef<number | null>(null);
+    const playPromiseA = useRef<Promise<void> | null>(null);
+    const playPromiseB = useRef<Promise<void> | null>(null);
+
+    // Helper function to safely play video
+    const safePlay = async (video: HTMLVideoElement, promiseRef: React.MutableRefObject<Promise<void> | null>) => {
+        try {
+            const promise = video.play();
+            promiseRef.current = promise;
+            await promise;
+        } catch (error) {
+            // Ignore AbortError which happens when play is interrupted
+            if (error instanceof Error && error.name !== 'AbortError') {
+                console.warn('Video play error:', error);
+            }
+        }
+    };
+
+    // Helper function to safely pause video
+    const safePause = async (video: HTMLVideoElement, promiseRef: React.MutableRefObject<Promise<void> | null>) => {
+        try {
+            // Wait for any pending play promise to resolve first
+            if (promiseRef.current) {
+                await promiseRef.current.catch(() => {}); // Ignore errors
+            }
+            video.pause();
+        } catch (error) {
+            console.warn('Video pause error:', error);
+        }
+    };
 
     useEffect(() => {
         const videoA = videoARef.current;
@@ -34,6 +63,7 @@ const AboutHeroVideo: React.FC = () => {
 
     useEffect(() => {
         if (!isReady) return;
+        
         const videoA = videoARef.current!;
         const videoB = videoBRef.current!;
         let fadeStart: number | null = null;
@@ -41,29 +71,45 @@ const AboutHeroVideo: React.FC = () => {
         let fadeFrom: 'A' | 'B' = active;
         let fadeTo: 'A' | 'B' = active === 'A' ? 'B' : 'A';
 
-        videoA.currentTime = 0;
-        videoB.currentTime = 0;
-        videoA.pause();
-        videoB.pause();
-        setOpacityA(active === 'A' ? 1 : 0);
-        setOpacityB(active === 'B' ? 1 : 0);
-        if (active === 'A') videoA.play();
-        else videoB.play();
+        const initializeVideos = async () => {
+            videoA.currentTime = 0;
+            videoB.currentTime = 0;
+            
+            // Safely pause both videos first
+            await safePause(videoA, playPromiseA);
+            await safePause(videoB, playPromiseB);
+            
+            setOpacityA(active === 'A' ? 1 : 0);
+            setOpacityB(active === 'B' ? 1 : 0);
+            
+            // Play the active video
+            if (active === 'A') {
+                await safePlay(videoA, playPromiseA);
+            } else {
+                await safePlay(videoB, playPromiseB);
+            }
+        };
+
+        initializeVideos();
 
         function loop() {
             const currentVideo = active === 'A' ? videoA : videoB;
             const nextVideo = active === 'A' ? videoB : videoA;
+            const nextPromiseRef = active === 'A' ? playPromiseB : playPromiseA;
+            
             if (!fading && currentVideo.duration - currentVideo.currentTime <= FADE_DURATION) {
                 fading = true;
                 fadeStart = performance.now();
                 fadeFrom = active;
                 fadeTo = active === 'A' ? 'B' : 'A';
                 nextVideo.currentTime = 0;
-                nextVideo.play();
+                safePlay(nextVideo, nextPromiseRef);
             }
+            
             if (fading && fadeStart !== null) {
                 const elapsed = (performance.now() - fadeStart) / 1000;
                 const t = Math.min(elapsed / FADE_DURATION, 1);
+                
                 if (fadeFrom === 'A') {
                     setOpacityA(1 - t);
                     setOpacityB(t);
@@ -71,26 +117,32 @@ const AboutHeroVideo: React.FC = () => {
                     setOpacityA(t);
                     setOpacityB(1 - t);
                 }
+                
                 if (t >= 1) {
-                    if (fadeFrom === 'A') videoA.pause();
-                    else videoB.pause();
+                    const oldVideo = fadeFrom === 'A' ? videoA : videoB;
+                    const oldPromiseRef = fadeFrom === 'A' ? playPromiseA : playPromiseB;
+                    
+                    safePause(oldVideo, oldPromiseRef);
                     setActive(fadeTo);
                     fading = false;
                     fadeStart = null;
+                    
                     setTimeout(() => {
-                        if (fadeFrom === 'A') {
-                            videoA.currentTime = 0;
-                        } else {
-                            videoB.currentTime = 0;
-                        }
+                        oldVideo.currentTime = 0;
                     }, 100);
                 }
             }
+            
             rafRef.current = requestAnimationFrame(loop);
         }
         rafRef.current = requestAnimationFrame(loop);
         return () => {
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+            }
+            // Clean up any pending promises
+            playPromiseA.current = null;
+            playPromiseB.current = null;
         };
     }, [isReady, active]);
 
@@ -117,9 +169,9 @@ const AboutHeroVideo: React.FC = () => {
             <div className={styles['about-hero-darken']} />
             <div className={styles['about-hero-overlay']} />
             <div className={styles['about-hero-content']}>
-                <div className={styles['aboutHeader']}>A healthcare</div>
                 <h1 className={styles['about-hero-title']}>
-                    <span className={styles['about-hero-italic']}>revolution</span>
+                    <span className={styles['about-hero-standard']}>A HEALTHCARE </span>
+                    <span className={styles['about-hero-italic']}>REVOLUTION</span>
                 </h1>
                 <p className={styles['about-hero-subtitle']}>
                     Vita Bella is changing healthcare. We are building a community<br />

@@ -38,7 +38,6 @@ const MembershipClient: React.FC = () => {
     <>
       <main style={{
         background: `linear-gradient(180deg, rgb(24,39,33) 0%, #0D1814 100%)`,
-        minHeight: '100vh',
         color: COLORS.white,
         fontFamily: 'Switzer, Arial, Helvetica, sans-serif',
         width: '100vw',
@@ -85,7 +84,7 @@ const MembershipClient: React.FC = () => {
             display: 'flex',
             justifyContent: 'center',
             gap: 'var(--space-2x)',
-            margin: 'var(--space-2x) 0 var(--space-2x) 0',
+            margin: '0 0 var(--space-2x) 0',
             flexWrap: 'wrap',
           }}>
             {features.map((f, i) => (
@@ -108,9 +107,9 @@ const MembershipClient: React.FC = () => {
               </span>
             ))}
           </div>
-          <p style={{ color: '#e0e0e0', fontSize: '1.08rem', fontWeight: 400, marginBottom: 'var(--space-3x)', marginTop: 0 }}>
+          <p style={{ color: '#e0e0e0', fontSize: '1.08rem', fontWeight: 400, marginBottom: 'var(--space-1x)', marginTop: 0 }}>
             Join the most exclusive wellness membership with 8+ treatment categories, expert medical support, and unbeatable savings – all designed for your long-term success.
-          </p>          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 var(--space-2x) 0' }}>
+          </p>          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 0 0' }}>
             <VitaBellaButton 
               onClick={handleHeroButtonClick}
               style={{ 
@@ -125,7 +124,7 @@ const MembershipClient: React.FC = () => {
             >Let's Get Started</VitaBellaButton>
           </div>
         </section>
-        <section style={{ marginTop: 'var(--space-4x)', width: '100vw', maxWidth: '100vw', padding: 0 }}>
+        <section style={{ marginBottom: 'var(--space-1x)', width: '100vw', maxWidth: '100vw', padding: 0 }}>
           <MembershipCategorySlider />
         </section>
       </main>
