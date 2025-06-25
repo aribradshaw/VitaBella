@@ -1,12 +1,13 @@
-import React from 'react';
+import WeightLossClient from './WeightLossClient';
 
-const WeightLoss: React.FC = () => {
-    return (
-        <div>
-            <h1>Weight Loss</h1>
-            <p>Welcome to the Weight Loss category page. Here you will find information and resources to help you on your weight loss journey.</p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Weight Loss',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Weight Loss treatments designed to help you achieve your health goals. Our expert team provides personalized care for your weight management needs.',
+}
 
-export default WeightLoss;
+export default function WeightLossPage() {
+    return <WeightLossClient />;
+}

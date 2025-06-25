@@ -1,25 +1,13 @@
-import React from 'react';
+import HormoneTherapyClient from './HormoneTherapyClient';
 
-const HormoneTherapy: React.FC = () => {
-    return (
-        <div>
-            <h1>Hormone Therapy</h1>
-            <p>
-                Hormone therapy is a treatment that helps to balance hormones in the body. It can be beneficial for various conditions, including menopause symptoms, hormonal imbalances, and more.
-            </p>
-            <h2>Benefits of Hormone Therapy</h2>
-            <ul>
-                <li>Improved mood and energy levels</li>
-                <li>Better sleep quality</li>
-                <li>Enhanced libido</li>
-                <li>Support for weight management</li>
-            </ul>
-            <h2>Our Approach</h2>
-            <p>
-                At Vita Bella, we provide personalized hormone therapy solutions tailored to your individual needs. Our team of experts will work with you to develop a comprehensive treatment plan.
-            </p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Hormone Therapy',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Hormone Therapy treatments designed to help you achieve your health goals. Our expert team provides personalized care for your hormone health needs.',
+}
 
-export default HormoneTherapy;
+export default function HormoneTherapyPage() {
+    return <HormoneTherapyClient />;
+}

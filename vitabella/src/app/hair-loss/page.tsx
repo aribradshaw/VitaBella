@@ -1,22 +1,13 @@
-import React from 'react';
+import HairLossClient from './HairLossClient';
 
-const HairLoss: React.FC = () => {
-    return (
-        <div>
-            <h1>Hair Loss Solutions</h1>
-            <p>Discover our clinically proven treatments for hair loss that help restore your confidence and promote healthy hair growth.</p>
-            <h2>Our Approach</h2>
-            <p>At Vita Bella, we offer personalized solutions tailored to your specific needs. Our team of experts is dedicated to helping you achieve your hair restoration goals.</p>
-            <h2>Why Choose Us?</h2>
-            <ul>
-                <li>Expert Guidance</li>
-                <li>Proven Results</li>
-                <li>Comprehensive Care</li>
-            </ul>
-            <h2>Get Started</h2>
-            <p>Contact us today to learn more about our hair loss treatments and schedule a consultation.</p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Hair Loss Treatment',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Hair Loss treatments designed to help you regain confidence and achieve healthy hair. Our expert team provides personalized care for your hair restoration needs.',
+}
 
-export default HairLoss;
+export default function HairLossPage() {
+    return <HairLossClient />;
+}

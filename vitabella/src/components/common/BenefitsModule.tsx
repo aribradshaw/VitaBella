@@ -150,11 +150,53 @@ const BenefitsModule: React.FC<BenefitsModuleProps> = ({ onMembershipPage = fals
     <section className={styles.benefitsModule}>      <div className={styles.container}>
         <div className={styles.leftSection}>
           <div className={styles.imageContainer} ref={imageContainerRef}>
-            <img 
-              src="/modules/membershipleft.webp" 
-              alt="Health tracking interface" 
-              className={styles.membershipImage}
-            />
+            {onMembershipPage ? (
+              <img 
+                src="/modules/membershipleft.webp" 
+                alt="Health tracking interface" 
+                className={styles.membershipImage}
+              />
+            ) : (
+              <div className={styles.statisticsContainer}>
+                <div className={styles.statisticsOverlay}>
+                  <div className={styles.statisticsContent}>
+                    <h2 className={styles.statisticsTitle}>
+                      Here is why people<br />choose <span className={styles.brandName}>Vita Bella</span>
+                    </h2>
+                    
+                    <div className={styles.statisticsGrid}>
+                      <div className={styles.statCard}>
+                        <div className={styles.statNumber}>93%</div>
+                        <div className={styles.statText}>
+                          Customers rated <span className={styles.highlight}>reaching their sexual wellness goals within 6 months.</span>
+                        </div>
+                      </div>
+                      
+                      <div className={styles.statCard}>
+                        <div className={styles.statNumber}>88%</div>
+                        <div className={styles.statText}>
+                          Customers rated <span className={styles.highlight}>improved cognitive ability.</span>
+                        </div>
+                      </div>
+                      
+                      <div className={styles.statCard}>
+                        <div className={styles.statNumber}>90%</div>
+                        <div className={styles.statText}>
+                          Customers rated <span className={styles.highlight}>more sustained energy, better sleep & overall wellbeing.</span>
+                        </div>
+                      </div>
+                      
+                      <div className={styles.statCard}>
+                        <div className={styles.statNumber}>96%</div>
+                        <div className={styles.statText}>
+                          Customers rated <span className={styles.highlight}>feeling more confident after using our treatments.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         

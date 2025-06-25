@@ -1,12 +1,13 @@
-import React from 'react';
+import CognitiveHealthClient from './CognitiveHealthClient';
 
-const CognitiveHealth: React.FC = () => {
-    return (
-        <div>
-            <h1>Cognitive Health</h1>
-            <p>Welcome to the Cognitive Health category page. Here, we provide information and resources to help you improve brain function and cognition.</p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Cognitive Health',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Cognitive Health treatments designed to enhance mental clarity and well-being. Our expert team provides personalized care for your cognitive health needs.',
+}
 
-export default CognitiveHealth;
+export default function CognitiveHealthPage() {
+    return <CognitiveHealthClient />;
+}

@@ -178,18 +178,50 @@ const ReviewCard: React.FC<{ review: typeof reviews[0]; idx: number }> = ({ revi
 	);
 };
 
-const CustomerReviews: React.FC = () => {
-	// Remove the old getFlexRatios function since it's now in ReviewCard component
+interface CustomerReviewsProps {
+	page?: 'about' | 'other';
+	pageTitle?: string;
+}
+
+const CustomerReviews: React.FC<CustomerReviewsProps> = ({ page = 'other', pageTitle }) => {
+	// Determine background image and color based on page
+	const backgroundImage = page === 'about' 
+		? "url('/modules/customerreviews.webp')" 
+		: "url('/modules/membershipmountain.webp')";
+	
+	const backgroundColor = page === 'about' ? '#4E604F' : '#032B27';
+
+	const sectionStyle = {
+		background: `${backgroundImage} center top/cover no-repeat, ${backgroundColor}`,
+		backgroundSize: '100% auto'
+	};
 
 	return (
-		<section className={styles.customerReviewsSection}>
+		<section className={styles.customerReviewsSection} style={sectionStyle}>
 			<div className={styles.bgTop} />
 			<div className={styles.customerReviewsContent}>
 				<div className={styles.headerWrap}>
 					<div className={styles.headerText}>
 						<div className={styles.reviewsLabel}>Customer Reviews</div>
 						<h2 className={styles.reviewsTitle}>
-							See why people love their <br /> Vita Bella transformation
+							{page === 'about' ? (
+								<>See why people love their <br /> Vita Bella transformation</>
+							) : (
+								<>
+									<span style={{ 
+										fontWeight: 600, 
+										color: 'var(--e-global-color-green)' 
+									}}>
+										10K+
+									</span>{' '}
+									<span style={{ 
+										fontWeight: 400, 
+										color: 'var(--e-global-color-white)' 
+									}}>
+										reached their <br /> {pageTitle} goals
+									</span>
+								</>
+							)}
 						</h2>
 					</div>
 					<div className={styles.starsWrap}>

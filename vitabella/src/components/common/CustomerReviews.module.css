@@ -1,7 +1,8 @@
 /* CustomerReviews.module.css */
 .customerReviewsSection {
   width: 100%;
-  background: url('/modules/customerreviews.webp') center top/contain no-repeat, #4F5F4E;
+  background-color: #4F5F4E;
+  min-height: 450px;
   border-radius: 2rem;
   overflow: hidden;
   position: relative;
@@ -203,6 +204,7 @@
 @media (max-width: 900px) {
   .customerReviewsSection {
     border-radius: 1rem;
+    min-height: 350px;
   }
   .bgTop {
     height: 140px;
@@ -246,6 +248,7 @@
 @media (max-width: 600px) {
   .customerReviewsSection {
     border-radius: 0.5rem;
+    min-height: 280px;
   }
   .bgTop {
     height: 80px;

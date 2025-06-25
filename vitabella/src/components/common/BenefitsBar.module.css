@@ -1,0 +1,113 @@
+.benefitsBar {
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-white);
+  padding: 16px 0;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.benefitsTrack {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 0 20px;
+  will-change: transform;
+  transition: none;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 1.2rem;
+  color: var(--e-global-color-lightgreen);
+  flex-shrink: 0;
+}
+
+.text {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Static layout when not scrolling */
+.benefitsTrack.static {
+  justify-content: space-evenly;
+  padding: 0 40px;
+}
+
+.benefitsTrack.static .benefitItem {
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .benefitsTrack {
+    gap: 30px;
+  }
+  
+  .text {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .benefitsTrack {
+    gap: 25px;
+  }
+  
+  .text {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .benefitsTrack {
+    gap: 20px;
+  }
+  
+  .benefitItem {
+    gap: 8px;
+  }
+  
+  .icon {
+    font-size: 1rem;
+  }
+  
+  .text {
+    font-size: 0.75rem;
+  }
+}

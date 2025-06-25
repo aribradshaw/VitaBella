@@ -1,12 +1,13 @@
-import React from 'react';
+import SkinCareClient from './SkinCareClient';
 
-const SkinCare: React.FC = () => {
-    return (
-        <div>
-            <h1>Skin Care</h1>
-            <p>Discover our range of skin care solutions designed to boost confidence with healthy, glowing skin.</p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Skin Care',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Skin Care treatments designed to rejuvenate and enhance your skin health. Our expert team provides personalized care for your skin needs.',
+}
 
-export default SkinCare;
+export default function SkinCarePage() {
+    return <SkinCareClient />;
+}

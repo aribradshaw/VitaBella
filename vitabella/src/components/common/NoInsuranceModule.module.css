@@ -1,0 +1,246 @@
+/* NoInsuranceModule.module.css */
+.noInsuranceSection {
+  width: 100%;
+  background-image: url('/modules/noinsurance.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: var(--space-3x) 0;
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: none !important; /* Override global container max-width */
+  padding: var(--space-3x);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.innerContainer {
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: var(--space-3x);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.contentWrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.card {
+  background: var(--e-global-color-white);
+  border-radius: 1.5rem;
+  padding: var(--space-2x);
+  box-shadow: 0 4px 32px rgba(44, 60, 50, 0.1);
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1x);
+}
+
+.cardHeader {
+  background: var(--e-global-color-green);
+  border-radius: 1rem;
+  padding: var(--space-1x) var(--space-2x);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1x);
+  margin-bottom: var(--space-1x);
+}
+
+.headerIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.headerText {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--e-global-color-dark-green);
+}
+
+.cardTitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--e-global-color-dark-green);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.benefitsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1x);
+  margin: 0;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1x);
+  padding: var(--space-1x) 0;
+  border-bottom: 1px solid rgba(44, 60, 50, 0.1);
+}
+
+.benefitItem:last-child {
+  border-bottom: none;
+}
+
+.checkIcon {
+  width: 24px;
+  height: 24px;
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.benefitText {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--e-global-color-dark-green);
+  line-height: 1.4;
+}
+
+.ctaButton {
+  margin-top: var(--space-1x);
+  align-self: flex-start;
+  width: auto;
+}
+
+/* Override button styles for inverted colors */
+.ctaButton {
+  background: var(--e-global-color-dark-green) !important;
+  color: var(--e-global-color-lightgreen) !important;
+  box-shadow: 0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4) !important;
+}
+
+.ctaButton:hover {
+  background: var(--e-global-color-lightgreen) !important;
+  color: var(--e-global-color-dark-green) !important;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07) !important;
+}
+
+/* Override button text color specifically */
+.ctaButton span {
+  color: inherit !important;
+}
+
+.ctaButton:hover span {
+  color: inherit !important;
+}
+
+/* Override arrow colors for this specific button - use higher specificity */
+.ctaButton :global(.vitabella-arrow) :global(.arrow-circle) {
+  fill: var(--e-global-color-lightgreen) !important;
+}
+
+.ctaButton :global(.vitabella-arrow) :global(.arrow-path) {
+  fill: var(--e-global-color-dark-green) !important;
+}
+
+.ctaButton:hover :global(.vitabella-arrow) :global(.arrow-circle) {
+  fill: var(--e-global-color-dark-green) !important;
+}
+
+.ctaButton:hover :global(.vitabella-arrow) :global(.arrow-path) {
+  fill: var(--e-global-color-lightgreen) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .noInsuranceSection {
+    min-height: 400px;
+    margin: var(--space-2x) 0;
+    border-radius: 1.5rem;
+  }
+  
+  .innerContainer {
+    padding: var(--space-2x);
+  }
+  
+  .card {
+    max-width: 100%;
+    padding: var(--space-2x);
+    border-radius: 1rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
+  }
+  
+  .benefitText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .noInsuranceSection {
+    min-height: 350px;
+    background-position: center right;
+    border-radius: 1rem;
+  }
+  
+  .innerContainer {
+    padding: var(--space-1x);
+  }
+  
+  .card {
+    padding: var(--space-1x) var(--space-2x);
+    border-radius: 0.8rem;
+  }
+  
+  .cardHeader {
+    padding: 0.5rem var(--space-1x);
+    border-radius: 0.7rem;
+  }
+  
+  .headerIcon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .headerText {
+    font-size: 0.9rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+  
+  .benefitText {
+    font-size: 0.95rem;
+  }
+  
+  .checkIcon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+  }
+}

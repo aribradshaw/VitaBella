@@ -45,6 +45,11 @@ const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
     transition: "background 0.18s, color 0.18s, box-shadow 0.18s",
     position: "relative" as const,
     cursor: "pointer",
+    // CSS custom properties for arrow colors - can be overridden
+    "--arrow-circle-color": "var(--e-global-color-dark-green)",
+    "--arrow-path-color": "var(--e-global-color-green)",
+    "--arrow-circle-hover-color": "var(--e-global-color-lightgreen)",
+    "--arrow-path-hover-color": "var(--e-global-color-dark-green)",
     ...style,
   };
 

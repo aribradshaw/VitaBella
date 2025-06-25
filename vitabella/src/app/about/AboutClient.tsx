@@ -43,7 +43,7 @@ const AboutClient: React.FC = () => {
               }
             />
             <CategorySlider />
-            <CustomerReviews />
+            <CustomerReviews page="about" />
             <SectionHeader
               left={{
                 h2Alt: 'Join 10,000+',

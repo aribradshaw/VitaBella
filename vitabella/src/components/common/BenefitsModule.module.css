@@ -180,6 +180,100 @@
   color: var(--e-global-color-dark-green);
 }
 
+/* Statistics Container for non-membership pages */
+.statisticsContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--e-global-color-dark-green);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.statisticsOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3x);
+}
+
+.statisticsOverlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/modules/logotile.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  z-index: 1;
+}
+
+.statisticsContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.statisticsTitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 2.75rem;
+  color: var(--e-global-color-white);
+  margin: 0 0 var(--space-3x) 0;
+  line-height: 1.2;
+}
+
+.brandName {
+  color: var(--e-global-color-lightgreen);
+}
+
+.statisticsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2x);
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: var(--space-2x);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statNumber {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: var(--e-global-color-white);
+  margin-bottom: var(--space-1x);
+  line-height: 1;
+}
+
+.statText {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--e-global-color-white);
+  line-height: 1.4;
+}
+
+.highlight {
+  color: var(--e-global-color-lightgreen);
+  font-weight: 500;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .container {
@@ -196,6 +290,18 @@
   .membershipImage {
     height: 100%;
     object-fit: cover;
+  }
+  
+  .statisticsOverlay {
+    padding: var(--space-2x);
+  }
+  
+  .statisticsTitle {
+    font-size: 1.75rem;
+  }
+  
+  .statNumber {
+    font-size: 2rem;
   }
 }
 
@@ -216,6 +322,28 @@
     object-fit: cover;
   }
   
+  .statisticsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-1x);
+  }
+  
+  .statisticsTitle {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2x);
+  }
+  
+  .statCard {
+    padding: var(--space-1x);
+  }
+  
+  .statNumber {
+    font-size: 1.75rem;
+  }
+  
+  .statText {
+    font-size: 0.85rem;
+  }
+  
   .benefitTitle {
     font-size: 16px;
   }
@@ -233,6 +361,22 @@
 }
 
 @media (max-width: 480px) {
+  .statisticsOverlay {
+    padding: var(--space-1x);
+  }
+  
+  .statisticsTitle {
+    font-size: 1.25rem;
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+  }
+  
+  .statText {
+    font-size: 0.8rem;
+  }
+  
   .benefitIcon {
     width: 28px;
     height: 28px;

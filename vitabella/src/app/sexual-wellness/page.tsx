@@ -1,15 +1,13 @@
-import React from 'react';
+import SexualWellnessClient from './SexualWellnessClient';
 
-const SexualWellness: React.FC = () => {
-    return (
-        <div>
-            <h1>Sexual Wellness</h1>
-            <p>
-                Explore our clinically-proven solutions for improving sexual function and intimacy. 
-                Our expert-backed therapies are designed to enhance your overall well-being.
-            </p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Sexual Wellness',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Sexual Wellness treatments designed to enhance intimacy and well-being. Our expert team provides personalized care for your sexual health needs.',
+}
 
-export default SexualWellness;
+export default function SexualWellnessPage() {
+    return <SexualWellnessClient />;
+}

@@ -58,14 +58,15 @@ export default function HowItWorks() {
 						<Image
 							src={img}
 							alt={imgAlt}
-							width={320}
-							height={180}
+							fill
+							sizes="320px"
 							className={'img'}
-							style={
-								idx === 0 || idx === 3
+							style={{
+								objectFit: "cover",
+								...(idx === 0 || idx === 3
 									? { objectPosition: 'top center' }
-									: {}
-							}
+									: {})
+							}}
 						/>
 						{(idx === 0 || idx === 3) && (
 							<div

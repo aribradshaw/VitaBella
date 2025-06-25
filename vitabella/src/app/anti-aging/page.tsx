@@ -1,13 +1,13 @@
-import React from 'react';
+import AntiAgingClient from './AntiAgingClient';
 
-const AntiAging: React.FC = () => {
-    return (
-        <div>
-            <h1>Anti-Aging</h1>
-            <p>Discover our clinically proven solutions for anti-aging.</p>
-            <p>Our treatments are designed to help you maintain a youthful appearance and improve your overall well-being.</p>
-        </div>
-    );
-};
+export const metadata = {
+    title: {
+        default: 'Anti-Aging',
+        template: '%s | Vita Bella Health',
+    },
+    description: 'Explore our Anti-Aging treatments designed to rejuvenate and enhance your overall well-being. Our expert team provides personalized care for your anti-aging needs.',
+}
 
-export default AntiAging;
+export default function AntiAgingPage() {
+    return <AntiAgingClient />;
+}

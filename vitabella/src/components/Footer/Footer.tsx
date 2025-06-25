@@ -1,7 +1,8 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import VitaBellaLogo from '../common/VitaBellaLogo';
+import VitaBellaButton from '../common/VitaBellaButton';
 import './Footer.css';
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../../constants/contacts';
 import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter, FaEnvelope, FaPhone, FaLocationDot, FaUserShield, FaFile, FaSitemap, FaUniversalAccess } from 'react-icons/fa6';
@@ -16,6 +17,19 @@ const SOCIAL_ICON_MAP: Record<string, any> = {
 };
 
 const Footer: React.FC = () => {
+  const [isFormExpanded, setIsFormExpanded] = useState(false);
+
+  const handleInputFocus = () => {
+    setIsFormExpanded(true);
+  };
+
+  const handleFormBlur = (e: React.FocusEvent) => {
+    // Check if the focus is moving to another element within the form
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsFormExpanded(false);
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -74,12 +88,20 @@ const Footer: React.FC = () => {
         <div className="footer-col">
           <div className="footer-col-title">NEWSLETTER: STAY IN TOUCH!</div>
           <p>Subscribe to our newsletter to never miss a deal or coupon code.</p>
-          <form className="footer-newsletter-form" onSubmit={e => e.preventDefault()}>
-            <input type="email" placeholder="Enter your e-mail address" required />
-            <button type="submit">
-              Subscribe
-              <span className="footer-newsletter-arrow" aria-hidden="true">↗</span>
-            </button>
+          <form 
+            className={`footer-newsletter-form ${isFormExpanded ? 'expanded' : ''}`} 
+            onSubmit={e => e.preventDefault()}
+            onBlur={handleFormBlur}
+          >
+            <input 
+              type="email" 
+              placeholder="Enter your e-mail address" 
+              required 
+              onFocus={handleInputFocus}
+            />
+            <div className="footer-newsletter-button-container">
+              <VitaBellaButton onClick={() => {}}>Subscribe</VitaBellaButton>
+            </div>
           </form>
           <div className="footer-social-title">FOLLOW US ON SOCIAL MEDIA</div>
           <div className="footer-social">
@@ -109,7 +131,7 @@ const Footer: React.FC = () => {
           <nav className="footer-bottom-links">
             <Link href="/privacy-policy"><span style={{ display: 'flex', alignItems: 'center' }}><FaUserShield style={{ marginRight: 4 }} aria-label="privacy" /> Privacy Policy</span></Link>
             <Link href="/terms"><span style={{ display: 'flex', alignItems: 'center' }}><FaFile style={{ marginRight: 4 }} aria-label="terms" /> Terms of Service</span></Link>
-            <a href="/sitemap.xml"><span style={{ display: 'flex', alignItems: 'center' }}><FaSitemap style={{ marginRight: 4 }} aria-label="sitemap" /> Sitemap</span></a>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer"><span style={{ display: 'flex', alignItems: 'center' }}><FaSitemap style={{ marginRight: 4 }} aria-label="sitemap" /> Sitemap</span></a>
             <Link href="/accessibility"><span style={{ display: 'flex', alignItems: 'center' }}><FaUniversalAccess style={{ marginRight: 4 }} aria-label="accessibility" /> Accessibility</span></Link>
           </nav>
         </div>

@@ -266,3 +266,12 @@ button:hover {
 .vitabella-button:hover .vitabella-arrow .arrow-path {
   fill: var(--e-global-color-dark-green) !important;
 }
+
+/* VitaBella Button Arrow Hover States */
+.vitabella-button:hover .arrow-circle {
+  fill: var(--arrow-circle-hover-color, var(--e-global-color-lightgreen)) !important;
+}
+
+.vitabella-button:hover .arrow-path {
+  fill: var(--arrow-path-hover-color, var(--e-global-color-dark-green)) !important;
+}
