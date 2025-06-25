@@ -1,6 +1,6 @@
 # Vita Bella Website
 
-**Version 1.1**
+**Version 1.2**
 
 Welcome to the Vita Bella website project! This is a modern, modular, and SEO-optimized web application built with Next.js 15 and TypeScript. The site provides detailed information about Vita Bella's health and wellness products and services, with a focus on dynamic product pages, beautiful design, and a seamless user experience.
 
@@ -90,3 +90,7 @@ This software and all source code in this repository are proprietary and the exc
 Unauthorized copying, distribution, modification, or use of this code, in whole or in part, is strictly prohibited without prior written consent from Vita Bella Health LLC.
 
 For licensing inquiries, please contact [info@vitabella.com](mailto:info@vitabella.com).
+
+## Bugs
+
+We want to make it so the animated text on the All Products page only activates when the text is too long for the card's current size. Currently, the animation logic works well for the smaller card sizes but it is wonky on larger cards where we have text animating that should be static.
