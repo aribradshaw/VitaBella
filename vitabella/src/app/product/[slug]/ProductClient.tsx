@@ -7,6 +7,8 @@ import ProductHero from './ProductHero';
 import ProductScience from './ProductScience';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
+import ProductReviews from '@/components/common/ProductReviews';
+import ProductMechanismModule from '@/components/common/ProductMechanismModule';
 
 export interface Product {
   Title: string;
@@ -49,6 +51,7 @@ export default function ProductClient({ product }: ProductClientProps) {
         <ProductHero product={product} />
         <BenefitsBar />
         <ProductScience product={product} />
+        <ProductMechanismModule product={product} />
         <SectionHeader
           left={{
             h2Alt: 'Real Stories,',
@@ -78,6 +81,7 @@ export default function ProductClient({ product }: ProductClientProps) {
             </>
           }
         />
+        <ProductReviews subheader="Real Stories Real Transformations" />
       </div>
       <style jsx global>{`
         .product-cta-button {

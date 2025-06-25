@@ -14,11 +14,11 @@ const testimonials = [
 		alt: "Marilyn C. posing with arms crossed",
 		caption: "Erica G.",
 	},
-	{
-		src: "/testimonial/simple/ankinl.webp",
-		alt: "Amir V. showing fitness progress",
-		caption: "Ankin L.",
-	},
+	// {
+	// 	src: "/testimonial/simple/ankinl.webp",
+	// 	alt: "Amir V. showing fitness progress",
+	// 	caption: "Ankin L.",
+	// },
 	{
 		src: "/testimonial/simple/bambil.webp",
 		alt: "Amir V. showing fitness progress",

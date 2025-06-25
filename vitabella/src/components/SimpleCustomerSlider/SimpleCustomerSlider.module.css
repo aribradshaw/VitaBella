@@ -64,7 +64,7 @@
 }
 .photo {
   width: 200px;
-  height: 260px;
+  height: 300px;
   object-fit: cover;
   border-radius: var(--border-radius);
   margin-bottom: calc(var(--space-1x) / 2);
