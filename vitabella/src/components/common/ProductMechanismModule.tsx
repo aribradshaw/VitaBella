@@ -40,7 +40,7 @@ const ProductMechanismModule: React.FC<ProductMechanismModuleProps> = ({ product
           {/* Left */}
           <div style={{ flex: '1 1 55%', minWidth: 0, maxWidth: '55%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
             <h2 className="h2-alt" style={{ color: 'var(--e-global-color-white)', marginBottom: 8, fontWeight: 400, marginTop: 0 }}>
-              <span style={{ fontWeight: 400 }}>The mechanism of </span>
+              <span style={{ fontWeight: 400 }}>The mechanism of</span><br />
               <span style={{ fontWeight: 600 }}>{product.Title}</span>
             </h2>
             <div className="body-text" style={{ marginBottom: 10, color: 'var(--e-global-color-white)' }}>{product.mechanism}</div>
