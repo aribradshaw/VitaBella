@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getAllFAQs, getFAQBySlug } from '../../../lib/faq';
+import { getAllFAQs, getFAQBySlug } from '../../../lib/faq-server';
 import { Metadata } from 'next';
 import VitaBellaButton from '../../../components/common/VitaBellaButton';
 import '../FAQ.css';

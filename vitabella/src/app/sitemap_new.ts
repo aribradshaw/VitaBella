@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getAllFAQs } from '../lib/faq'
+import { getAllFAQs } from '../lib/faq-server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vitabella.com'

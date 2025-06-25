@@ -275,3 +275,12 @@ button:hover {
 .vitabella-button:hover .arrow-path {
   fill: var(--arrow-path-hover-color, var(--e-global-color-dark-green)) !important;
 }
+
+/* Line clamp utility for text truncation */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

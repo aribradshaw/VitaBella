@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllFAQs } from '../../lib/faq';
+import { getAllFAQs } from '../../lib/faq-server';
 import FAQSearch from '../../components/FAQ/FAQSearch';
 import FAQSchema from '../../components/FAQ/FAQSchema';
 import { Metadata } from 'next';
