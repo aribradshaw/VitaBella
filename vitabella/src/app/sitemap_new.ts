@@ -5,13 +5,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vitabella.com'
   
   // Get FAQ pages
-  const faqs = await getAllFAQs()
+  const faqs = await getAllFAQs();
   const faqPages = faqs.map((faq) => ({
     url: `${baseUrl}/faq/${faq.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
-  }))
+  }));
   
   // Static pages
   const staticPages = [
