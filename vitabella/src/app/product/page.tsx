@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import productsData from './products.json';
 import Image from 'next/image';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
+import '../productcard-buttons.css';
 
 const allCategories = [
   'Anti-Aging',
@@ -187,38 +188,21 @@ export default function ProductListPage() {
                   <h2 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 8px 0', textAlign: 'center', color: 'var(--e-global-color-dark-green)', width: '100%' }}>{product.Title}</h2>
                   <div style={{ fontSize: 13, color: '#333', textAlign: 'center', marginBottom: 12, minHeight: 32, lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', width: '100%' }}>{desc}</div>
                   <div className="product-price" style={{ fontWeight: 700, fontSize: 18, marginBottom: 12, width: '100%', textAlign: 'center' }}>
-                    ${product.Price}
+                    from ${product.Price}/mo.*
                   </div>
                 </div>
                 <div className="product-card-buttons-alt">
                   <VitaBellaButton
-                    href="/membership"
-                    className="vitabella-productcard-btn"
-                    style={{
-                      background: 'var(--e-global-color-dark-green)',
-                      color: 'var(--e-global-color-lightgreen)',
-                      border: '1.5px solid var(--e-global-color-dark-green)',
-                      fontWeight: 700,
-                      fontSize: '1rem',
-                      borderRadius: 18,
-                      marginBottom: 8,
-                    }}
-                  >
-                    Get Started
-                  </VitaBellaButton>
-                  <VitaBellaButton
                     href={`/product/${product.Slug}`}
-                    className="vitabella-productcard-btn"
-                    style={{
-                      background: '#fff',
-                      color: 'var(--e-global-color-dark-green)',
-                      border: '1.5px solid #e6f5e0',
-                      fontWeight: 700,
-                      fontSize: '1rem',
-                      borderRadius: 18,
-                    }}
+                    className="vitabella-productcard-btn-learnmore"
                   >
                     Learn More
+                  </VitaBellaButton>
+                  <VitaBellaButton
+                    href="/membership"
+                    className="vitabella-productcard-btn-getstarted"
+                  >
+                    Get Started
                   </VitaBellaButton>
                 </div>
               </div>
@@ -252,6 +236,9 @@ export default function ProductListPage() {
           margin-bottom: 0;
         }
       `}</style>
+      <div style={{textAlign: 'center', color: '#888', fontSize: 13, marginTop: 32, marginBottom: 0, width: '100%'}}>
+        *with Membership, consult, and provider approval
+      </div>
     </div>
   );
 }

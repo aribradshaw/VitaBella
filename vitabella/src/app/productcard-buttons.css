@@ -1,0 +1,83 @@
+/* Vita Bella Product Card Button Styles (compartmentalized) */
+
+/* LEARN MORE: Copy of .start-today-btn from ProductMechanismModule */
+.vitabella-productcard-btn-learnmore {
+  background: #fff !important;
+  color: var(--e-global-color-dark-green) !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 2rem;
+  padding: 0.4rem 1.4rem;
+  min-width: 0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+.vitabella-productcard-btn-learnmore:hover {
+  background: var(--e-global-color-lightgreen) !important;
+  color: var(--e-global-color-dark-green) !important;
+}
+.vitabella-productcard-btn-learnmore .vitabella-arrow .arrow-circle,
+.vitabella-productcard-btn-learnmore:hover .vitabella-arrow .arrow-circle {
+  fill: var(--e-global-color-dark-green) !important;
+}
+.vitabella-productcard-btn-learnmore .vitabella-arrow .arrow-path,
+.vitabella-productcard-btn-learnmore:hover .vitabella-arrow .arrow-path {
+  fill: var(--e-global-color-green) !important;
+}
+.vitabella-productcard-btn-learnmore span,
+.vitabella-productcard-btn-learnmore:hover span {
+  color: var(--e-global-color-dark-green) !important;
+}
+
+/* GET STARTED: Copy of Real Stories/Transformations Get Started button */
+.vitabella-productcard-btn-getstarted {
+  background: var(--e-global-color-dark-green) !important;
+  color: var(--e-global-color-lightgreen) !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 2rem;
+  padding: 0.4rem 1.4rem;
+  min-width: 0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+.vitabella-productcard-btn-getstarted:hover {
+  background: var(--e-global-color-lightgreen) !important;
+  color: var(--e-global-color-dark-green) !important;
+}
+.vitabella-productcard-btn-getstarted .vitabella-arrow .arrow-circle {
+  fill: var(--e-global-color-lightgreen) !important;
+}
+.vitabella-productcard-btn-getstarted:hover .vitabella-arrow .arrow-circle {
+  fill: var(--e-global-color-dark-green) !important;
+}
+.vitabella-productcard-btn-getstarted .vitabella-arrow .arrow-path {
+  fill: var(--e-global-color-dark-green) !important;
+}
+.vitabella-productcard-btn-getstarted:hover .vitabella-arrow .arrow-path {
+  fill: var(--e-global-color-green) !important;
+}
+.vitabella-productcard-btn-getstarted span {
+  color: var(--e-global-color-lightgreen) !important;
+}
+.vitabella-productcard-btn-getstarted:hover span {
+  color: var(--e-global-color-dark-green) !important;
+}
