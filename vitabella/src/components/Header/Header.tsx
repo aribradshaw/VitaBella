@@ -40,7 +40,7 @@ const treatmentCategories = [
 	},
 	{
 		name: 'Injury & Recovery',
-		slug: '/injury-recovery',
+		slug: '/injury-and-recovery',
 		img: '/modules/menu/injuryandrecovery.webp',
 	},
 	{

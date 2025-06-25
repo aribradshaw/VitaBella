@@ -44,7 +44,7 @@ const categories = [
 		title: "Injury & Recovery",
 		desc: "Advanced treatments to accelerate your recovery and get you back to your best.",
 		image: "/categories/injury-and-recovery/injuryrecoveryslider.webp",
-		href: "/injury-recovery",
+		href: "/injury-and-recovery",
 	},
 	{
 		key: "skin-care",
