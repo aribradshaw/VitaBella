@@ -1,165 +1,257 @@
-import Link from 'next/link';
+"use client";
+
+import React, { useState, useMemo } from 'react';
+import productsData from './products.json';
 import Image from 'next/image';
-import products from './products.json';
-import { Product } from './[slug]/ProductClient';
+import VitaBellaButton from '@/components/common/VitaBellaButton';
 
-export const metadata = {
-  title: 'Products | Vita Bella',
-  description: 'Explore our comprehensive range of wellness and health optimization products.',
-};
+const allCategories = [
+  'Anti-Aging',
+  'Cognitive Health',
+  'Weight Loss',
+  'Sexual Wellness',
+  'Injury and Recovery',
+  'Hormone Therapy',
+  'Skin Care',
+  'Hair Loss',
+];
 
-export default function ProductsPage() {
-  const typedProducts = products as Product[];
-  const activeProducts = typedProducts.filter(product => product.Status === 'Active');
+function getProductCategories(product: any) {
+  return product['Product categories']?.split('|').map((c: string) => c.trim()) || [];
+}
 
-  // Group products by category
-  const productsByCategory = activeProducts.reduce((acc, product) => {
-    const categories = product['Product categories']?.split('|') || ['Uncategorized'];
-    categories.forEach(category => {
-      const trimmedCategory = category.trim();
-      if (!acc[trimmedCategory]) {
-        acc[trimmedCategory] = [];
-      }
-      acc[trimmedCategory].push(product);
+export default function ProductListPage() {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
+
+  const filteredProducts = useMemo(() => {
+    return productsData.filter(product => {
+      if (product.Status && product.Status.toLowerCase() === 'inactive') return false;
+      const matchesSearch =
+        product.Title.toLowerCase().includes(search.toLowerCase()) ||
+        product['Short Description']?.toLowerCase().includes(search.toLowerCase());
+      const matchesCategory = category
+        ? getProductCategories(product).includes(category)
+        : true;
+      return matchesSearch && matchesCategory;
     });
-    return acc;
-  }, {} as Record<string, Product[]>);
+  }, [search, category]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="py-20" style={{ backgroundColor: 'var(--e-global-color-off-white)' }}>
-        <div className="container">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="h1 mb-6" style={{ color: 'var(--e-global-color-dark-green)' }}>
-              Our Products
-            </h1>
-            <p className="h6 mb-8" style={{ color: 'var(--e-global-color-grey2)' }}>
-              Discover our comprehensive range of wellness and health optimization products, 
-              each designed to help you achieve your health goals with science-backed solutions.
-            </p>
-            <div className="text-center">
-              <span className="text-2xl font-bold" style={{ color: 'var(--e-global-color-dark-green)' }}>
-                {activeProducts.length} Products Available
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Products by Category */}
-      <section className="py-16">
-        <div className="container">
-          {Object.entries(productsByCategory).map(([category, categoryProducts]) => (
-            <div key={category} className="mb-16">
-              <h2 className="h2 mb-8" style={{ color: 'var(--e-global-color-dark-green)' }}>
-                {category}
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categoryProducts.map((product) => (
-                  <Link
-                    key={product.Slug}
-                    href={`/product/${product.Slug}`}
-                    className="group block bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem 1rem' }}>
+      <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: 24 }}>All Products</h1>
+      {/* Search bar row */}
+      <div style={{ width: '100%', marginBottom: 18 }}>
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '0.9rem 1.2rem',
+            borderRadius: 24,
+            border: '1px solid #cce3c1',
+            fontSize: 18,
+            outline: 'none',
+            boxSizing: 'border-box',
+          }}
+        />
+      </div>
+      {/* Category buttons row */}
+      <div
+        className="category-row"
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          overflowX: 'visible',
+          gap: 12,
+          marginBottom: 24,
+          maxWidth: '100%',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {allCategories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setCategory(cat === category ? '' : cat)}
+            style={{
+              background: cat === category ? 'var(--e-global-color-dark-green)' : '#fff',
+              color: cat === category ? 'var(--e-global-color-lightgreen)' : 'var(--e-global-color-dark-green)',
+              border: '1.5px solid var(--e-global-color-dark-green)',
+              borderRadius: 18,
+              padding: '0.35rem 0.9rem',
+              fontWeight: 600,
+              fontSize: 15,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+              whiteSpace: 'nowrap',
+              flex: '0 0 auto',
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+      <style>{`
+        @media (max-width: 1340px) {
+          .category-row {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+          }
+        }
+        /* Stack buttons when card is narrow */
+        @media (max-width: 350px), (max-width: 600px) {
+          .product-card-buttons {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+          .product-card-buttons .vitabella-button {
+            min-width: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+        /* Default: row layout */
+        @media (min-width: 601px) {
+          .product-card-buttons {
+            flex-direction: row !important;
+            gap: 12px !important;
+          }
+        }
+        @media (max-width: 900px) {
+          .product-card-buttons {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+        }
+        @media (max-width: 400px) {
+          .product-card-buttons {
+            flex-direction: column !important;
+            gap: 6px !important;
+          }
+        }
+      `}</style>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+        gap: 32,
+      }}>
+        {filteredProducts.map(product => {
+          // Always use imageBG, stripping /public if present
+          let imageSrc = product.imageBG ? product.imageBG.replace(/^\/public/, '') : '';
+          // Truncate description to 20 words
+          let desc = product['Short Description'] || '';
+          const words = desc.split(' ');
+          if (words.length > 20) {
+            desc = words.slice(0, 20).join(' ') + '...';
+          }
+          return (
+            <div
+              key={product.Slug}
+              style={{
+                background: '#fff',
+                borderRadius: 24,
+                boxShadow: '0 2px 16px rgba(44,60,50,0.07)',
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: 380,
+                position: 'relative',
+                border: '1.5px solid #e6f5e0',
+                transition: 'box-shadow 0.18s',
+                overflow: 'hidden',
+              }}
+            >
+              {/* 1:1 aspect ratio image */}
+              <a href={`/product/${product.Slug}`} style={{ width: '100%', display: 'block', aspectRatio: '1 / 1', position: 'relative', background: '#f6f6f6', borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden' }}>
+                {imageSrc ? (
+                  <img
+                    src={imageSrc}
+                    alt={product.Title}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderTopLeftRadius: 24, borderTopRightRadius: 24, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, margin: 0, display: 'block' }}
+                  />
+                ) : null}
+              </a>
+              {/* Card content with horizontal padding */}
+              <div style={{
+                paddingTop: 18,
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                flex: 1
+              }}>
+                <div className="product-card-text">
+                  <h2 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 8px 0', textAlign: 'center', color: 'var(--e-global-color-dark-green)', width: '100%' }}>{product.Title}</h2>
+                  <div style={{ fontSize: 13, color: '#333', textAlign: 'center', marginBottom: 12, minHeight: 32, lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', width: '100%' }}>{desc}</div>
+                  <div className="product-price" style={{ fontWeight: 700, fontSize: 18, marginBottom: 12, width: '100%', textAlign: 'center' }}>
+                    ${product.Price}
+                  </div>
+                </div>
+                <div className="product-card-buttons-alt">
+                  <VitaBellaButton
+                    href="/membership"
+                    className="vitabella-productcard-btn"
+                    style={{
+                      background: 'var(--e-global-color-dark-green)',
+                      color: 'var(--e-global-color-lightgreen)',
+                      border: '1.5px solid var(--e-global-color-dark-green)',
+                      fontWeight: 700,
+                      fontSize: '1rem',
+                      borderRadius: 18,
+                      marginBottom: 8,
+                    }}
                   >
-                    {/* Product Image */}
-                    <div className="relative h-48 overflow-hidden">
-                      {product.imageM && (
-                        <Image
-                          src={product.imageM.replace('/public', '')}
-                          alt={product.Title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      )}
-                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-bold" style={{ backgroundColor: 'var(--e-global-color-green)', color: 'var(--e-global-color-dark-green)' }}>
-                        ${product.Price}
-                      </div>
-                      {product.Sku && (
-                        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                          {product.Sku}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="p-6">
-                      <h3 className="h4 mb-3 group-hover:transition-colors" style={{ color: 'var(--e-global-color-dark-green)' }}>
-                        {product.Title}
-                      </h3>
-                      
-                      <p className="body-text mb-4 line-clamp-3">
-                        {product['Short Description'] || product.Content?.substring(0, 120) + '...'}
-                      </p>
-
-                      {/* Key Benefits */}
-                      {(product.introp1 || product.benefit1) && (
-                        <div className="mb-4">
-                          <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--e-global-color-grey2)' }}>
-                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--e-global-color-green)' }}></span>
-                            {product.introp1 || product.benefit1}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Product Details */}
-                      <div className="flex justify-between items-center text-sm mb-4" style={{ color: 'var(--e-global-color-grey2)' }}>
-                        {product.application && (
-                          <span>{product.application}</span>
-                        )}
-                        {product.frequency && (
-                          <span>{product.frequency}</span>
-                        )}
-                      </div>
-
-                      {/* CTA Button */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold" style={{ color: 'var(--e-global-color-dark-green)' }}>
-                          ${product.Price}
-                        </span>
-                        <span className="vitabella-button text-sm">
-                          <span>Learn More</span>
-                          <div className="vitabella-arrow">
-                            <svg width="24" height="24" viewBox="0 0 30 30" fill="none">
-                              <circle className="arrow-circle" cx="15" cy="15" r="15" fill="var(--e-global-color-dark-green)"/>
-                              <path className="arrow-path" d="M15 8L22 15L15 22M22 15H8" stroke="var(--e-global-color-lightgreen)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </div>
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                    Get Started
+                  </VitaBellaButton>
+                  <VitaBellaButton
+                    href={`/product/${product.Slug}`}
+                    className="vitabella-productcard-btn"
+                    style={{
+                      background: '#fff',
+                      color: 'var(--e-global-color-dark-green)',
+                      border: '1.5px solid #e6f5e0',
+                      fontWeight: 700,
+                      fontSize: '1rem',
+                      borderRadius: 18,
+                    }}
+                  >
+                    Learn More
+                  </VitaBellaButton>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16" style={{ backgroundColor: 'var(--e-global-color-off-white)' }}>
-        <div className="container">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="h2 mb-6" style={{ color: 'var(--e-global-color-dark-green)' }}>
-              Ready to Start Your Journey?
-            </h2>
-            <p className="body-text mb-8">
-              Our medical team is here to help you find the right products for your health goals. 
-              Start with a consultation to get personalized recommendations.
-            </p>
-            <button className="vitabella-button mx-auto">
-              <span>Schedule Consultation</span>
-              <div className="vitabella-arrow">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                  <circle className="arrow-circle" cx="15" cy="15" r="15" fill="var(--e-global-color-dark-green)"/>
-                  <path className="arrow-path" d="M15 8L22 15L15 22M22 15H8" stroke="var(--e-global-color-lightgreen)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </button>
+          );
+        })}
+        {filteredProducts.length === 0 && (
+          <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888', fontSize: 20, padding: 40 }}>
+            No products found.
           </div>
-        </div>
-      </section>
+        )}
+      </div>
+      <style>{`
+        .product-card-buttons-alt {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          margin-top: 8px;
+          padding: var(--space-1x);
+          box-sizing: border-box;
+
+        }
+        .product-card-buttons-alt .vitabella-button {
+          display: block;
+          width: 100%;
+          margin-bottom: 8px;
+          min-width: 0;
+          max-width: 100%;
+        }
+        .product-card-buttons-alt .vitabella-button:last-child {
+          margin-bottom: 0;
+        }
+      `}</style>
     </div>
   );
 }

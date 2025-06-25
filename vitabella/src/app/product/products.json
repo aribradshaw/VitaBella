@@ -265,7 +265,7 @@
     "frequency": "Once Daily",
     "application": "Injectable",
     "dosage": "200mcg/mL",
-    "imageBG": "/public/products/BG/GonadorelinHCL.webp",
+    "imageBG": "/public/products/BG/GonadorelinHCLBG.webp",
     "imageM": "/public/products/Male/gonadorelin-hcl.webp",
     "imageF": "/public/products/Female/gonadorelin-hcl.webp"
   },
@@ -400,7 +400,7 @@
     "frequency": "Once Daily",
     "application": "Oral Capsule",
     "dosage": "1.5mg - 4.5mg",
-    "imageBG": "/public/products/BG/LDNBG.webp.webp",
+    "imageBG": "/public/products/BG/LDNBG.webp",
     "imageM": "/public/products/Male/low-dose-naltrexone.webp",
     "imageF": "/public/products/Female/low-dose-naltrexone.webp"
   },
@@ -508,7 +508,7 @@
     "frequency": "2-3 times per week",
     "application": "Injectable",
     "dosage": "1mg/mL",
-    "imageBG": "/public/products/BG/MethylcobalaminBG",
+    "imageBG": "/public/products/BG/MethylcobalaminBG.webp",
     "imageM": "/public/products/Male/methylcobalamin-b-12.webp",
     "imageF": "/public/products/Female/methylcobalamin-b-12.webp"
   },
@@ -859,7 +859,7 @@
     "frequency": "As Needed",
     "application": "Oral Capsule",
     "dosage": "20 - 100mg",
-    "imageBG": "/public/products/BG/SildnafilBG.webp",
+    "imageBG": "/public/products/BG/SildenafilBG.webp",
     "imageM": "/public/products/Male/sildenafil.webp",
     "imageF": "/public/products/Female/sildenafil.webp"
   },
@@ -1083,7 +1083,7 @@
     "Title": "Testosterone Cypionate with Anastrozole",
     "Status": "Active",
     "Content": "Testosterone is a hormone that occurs naturally in both sexes. Once a man reaches the age of 30, his body begins a gradual decline in testosterone production, which can have negative effects on his sex life, energy, weight, and even mental health and confidence. Improving this hormone balance has been linked to enhanced sex drive, fewer erectile dysfunction (ED) symptoms, more sustained energy, and deeper sleep.\n\nTestosterone, when introduced into the body, can be converted into estrogen through a process called aromatization, facilitated by the aromatase enzyme. Elevated estrogen levels in men can lead to undesirable side effects like gynecomastia (breast tissue development) and fluid retention. Anastrozole is an aromatase inhibitor, meaning it blocks the aromatase enzyme, thereby reducing the conversion of testosterone to estrogen. By including anastrozole in the therapy, clinicians aim to maintain a more favorable testosterone-to-estrogen ratio, minimizing estrogen-related side effects while still providing the benefits of testosterone replacement. This careful balancing act is crucial for optimizing the effectiveness and safety of testosterone therapy.",
-    "Short Description": "<p class=\"ai-optimize-40 ai-optimize-introduction\">Testosterone naturally declines in men after rage 30, affecting sex drive, energy, weight, and mental health. Let us help improve your hormone balance.</p>",
+    "Short Description": "Testosterone naturally declines in men after rage 30, affecting sex drive, energy, weight, and mental health. Let us help improve your hormone balance.",
     "Sku": "VB045",
     "Price": 18,
     "Product categories": "Hormone Therapy",
@@ -1102,7 +1102,7 @@
     "frequency": "Once Weekly",
     "application": "Injectable",
     "dosage": "200mg/0.5mg/mL",
-    "imageBG": "/public/products/BG/TestosteroneCypionateAnastrozole.webp",
+    "imageBG": "/public/products/BG/TestosteroneCypionateAnastrozoleBG.webp",
     "imageM": "/public/products/Male/testosterone-cypionate-anastrozole.webp",
     "imageF": ""
   },
