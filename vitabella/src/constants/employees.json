@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Phil Vella",
+        "role": "Founder & CEO",
+        "image": "/brand/employees/PhilVella.webp",
+        "calendlylink": "https://calendly.com/phil-vitabella",
+        "calendlystatus": "Available"
+    },
+    {
+        "name": "Amanda Arnier",
+        "role": "Administrative Stuff",
+        "image": "/brand/employees/AmandaArnier.webp",
+        "calendlylink": "https://calendly.com/amanda-vitabella",
+        "calendlystatus": "Available"
+    },
+    {
+        "name": "Dr. Robert Lieske",
+        "role": "Chief Medical Officer",
+        "image": "/brand/employees/RobertLieske.webp",
+        "calendlylink": "https://calendly.com/robert-vitabella",
+        "calendlystatus": "Available"
+    },
+    {
+        "name": "Ari Daniel Bradshaw",
+        "role": "Tech",
+        "image": "/brand/employees/AriDanielBradshaw.webp",
+        "calendlylink": "https://calendly.com/ari-vitabella",
+        "calendlystatus": "Inactive"
+    }
+]

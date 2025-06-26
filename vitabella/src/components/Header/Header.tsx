@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import './Header.css';
 import VitaBellaLogo from '../common/VitaBellaLogo';
 import VitaBellaArrow from '../common/VitaBellaArrow';
+import VitaBellaButton from '../common/VitaBellaButton';
 
 // Treatment categories and images (replace src with your actual images)
 const treatmentCategories = [
@@ -121,6 +122,24 @@ const Header: React.FC = () => {
 											<div className="treatment-label">{cat.name}</div>
 										</Link>
 									))}
+								</div>
+								<div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+									<VitaBellaButton
+										href="/product"
+										style={{
+											background: 'var(--e-global-color-dark-green)',
+											color: 'var(--e-global-color-lightgreen)',
+											minWidth: 0,
+											width: 220,
+											fontSize: '1.08rem',
+											padding: '0.9em 2.2em',
+											border: '1.5px solid var(--e-global-color-dark-green)',
+										}}
+										className="vitabella-btn-getstarted"
+										onClick={() => setTreatmentOpen(false)}
+									>
+										View All Products
+									</VitaBellaButton>
 								</div>
 							</div>
 						</li>

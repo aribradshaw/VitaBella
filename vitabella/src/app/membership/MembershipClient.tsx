@@ -182,7 +182,7 @@ const MembershipClient: React.FC = () => {
         right={
           <>Stop settling for less; seize control of your health, and unleash your radiance with our results-driven medical program.</>        }
       />
-      <AboutStats />
+      <AboutStats onMembershipPage={true} />
     </>
   );
 };

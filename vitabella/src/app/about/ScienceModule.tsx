@@ -29,7 +29,7 @@ const ScienceModule: React.FC = () => {
           
           <div className={styles.buttonWrapper}>
             <VitaBellaButton 
-              href="/treatments"
+              href="/product"
               style={{ minWidth: 150, padding: "0.4rem 0.4rem 0.4rem 1rem", width: "auto", display: "inline-flex" }}
             >
               Explore Treatments

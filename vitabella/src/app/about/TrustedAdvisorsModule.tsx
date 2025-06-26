@@ -65,7 +65,7 @@ const TrustedAdvisorsModule: React.FC = () => {
           </div>
           
           <div className={styles.buttonContainer}>
-            <VitaBellaButton href="/treatments">
+            <VitaBellaButton href="/product">
               Explore Treatments
             </VitaBellaButton>
           </div>

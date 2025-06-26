@@ -1,6 +1,13 @@
 import Hero from '../components/Hero/Hero';
 import SectionHeader from '../components/SectionHeader/SectionHeader';
 import HowItWorks from '../components/HowItWorks/HowItWorks';
+import CalendlyScheduler from '../components/common/CalendlyScheduler';
+import CustomerReviews from '@/components/common/CustomerReviews';
+import SimpleCustomerSlider from '@/components/SimpleCustomerSlider/SimpleCustomerSlider';
+import AboutStats from '../app/about/AboutStats';
+import HealthyHome from '../components/common/HealthyHome';
+import ProductMechanismBottomRow from '../components/common/ProductMechanismBottomRow';
+import Newsletter from '../components/common/Newsletter';
 
 export const metadata = {
     title: {
@@ -42,7 +49,38 @@ export default function Home() {
             <>Find your balance, feel energized, and radiate with treatments tailored to you—because self-care is a daily essential.</>
           }
         />
-        {}
+        <HealthyHome />
+        <CustomerReviews page="about" />
+        <SectionHeader
+              left={{
+                h2Alt: 'Join 10,000+',
+                h2: 'patients and counting.',
+              }}
+              right={
+                <>Stop settling for less; seize control of your health, and unleash your radiance with our results-driven medical program.</>
+              }
+        />
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <SimpleCustomerSlider />
+            </div>
+        <AboutStats />
+        {/* Product Mechanism Bottom Row */}
+        <div style={{ width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', background: 'var(--e-global-color-dark-green)', padding: 'var(--space-4x) 0', borderRadius: 32, marginTop: 'var(--space-3x)' }}>
+          <div className="container">
+            <ProductMechanismBottomRow product={{ Title: 'NAD+' }} />
+          </div>
+        </div>
+        <SectionHeader
+          left={{
+            h2Alt: "Schedule a Consultation",
+            h2: 'with Vita Bella',
+          }}
+          right={
+            <>Use our interactive calendars to schedule a consultation at your earliest convenience.</>
+          }
+        />
+        <CalendlyScheduler />
+        <Newsletter />
       </div>
     </>
   );
