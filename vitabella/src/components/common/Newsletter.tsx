@@ -1,9 +1,17 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import styles from "./Newsletter.module.css";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
 
 const Newsletter = () => {
+  const trackMetaLead = () => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead');
+    }
+  };
+
   return (
     <section className={styles.newsletterSection}>
       <div className={styles.bgWrap}>
@@ -26,14 +34,14 @@ const Newsletter = () => {
           <div className={styles.newsletterDesc}>
             Sign up to our newsletter to stay in front of all the future deals, promotions and new treatments. Stay up-to-date with the future you.
           </div>
-          <form className={styles.form} autoComplete="off">
+          <form className={styles.form} autoComplete="off" onSubmit={e => { e.preventDefault(); trackMetaLead(); }}>
             <input
               type="email"
               className={styles.input}
               placeholder="Enter your e-mail address"
               required
             />
-            <VitaBellaButton type="submit" className={styles.signupBtn}>
+            <VitaBellaButton type="submit" className={styles.signupBtn} onClick={trackMetaLead}>
               Sign Up
             </VitaBellaButton>
           </form>

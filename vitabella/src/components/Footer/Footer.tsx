@@ -6,6 +6,7 @@ import VitaBellaButton from '../common/VitaBellaButton';
 import './Footer.css';
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../../constants/contacts';
 import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter, FaEnvelope, FaPhone, FaLocationDot, FaUserShield, FaFile, FaSitemap, FaUniversalAccess } from 'react-icons/fa6';
+import Script from "next/script";
 
 const SOCIAL_ICON_MAP: Record<string, any> = {
   facebook: FaFacebookF,
@@ -30,8 +31,42 @@ const Footer: React.FC = () => {
     }
   };
 
+  // Meta Pixel Lead tracking function
+  const trackMetaLead = () => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead');
+    }
+  };
+
   return (
     <footer className="footer">
+      {/* HubSpot Embed Code */}
+      <Script
+        id="hubspot-script"
+        src="//js.hs-scripts.com/48837321.js"
+        strategy="afterInteractive"
+      />
+      {/* Meta/Facebook Pixel Code */}
+      <Script id="facebook-pixel" strategy="afterInteractive">
+        {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+          t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '939687859797994');
+          fbq('track', 'PageView');
+        `}
+      </Script>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src="https://www.facebook.com/tr?id=939687859797994&ev=PageView&noscript=1"
+          alt=""
+        />
+      </noscript>
       <div className="footer-main">
         <div className="footer-col brand">
           <div className="footer-logo-row">
@@ -90,7 +125,7 @@ const Footer: React.FC = () => {
           <p>Subscribe to our newsletter to never miss a deal or coupon code.</p>
           <form 
             className={`footer-newsletter-form ${isFormExpanded ? 'expanded' : ''}`} 
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => { e.preventDefault(); trackMetaLead(); }}
             onBlur={handleFormBlur}
           >
             <input 
@@ -100,7 +135,7 @@ const Footer: React.FC = () => {
               onFocus={handleInputFocus}
             />
             <div className="footer-newsletter-button-container">
-              <VitaBellaButton onClick={() => {}}>Subscribe</VitaBellaButton>
+              <VitaBellaButton onClick={trackMetaLead}>Subscribe</VitaBellaButton>
             </div>
           </form>
           <div className="footer-social-title">FOLLOW US ON SOCIAL MEDIA</div>

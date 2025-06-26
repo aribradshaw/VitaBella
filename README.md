@@ -1,6 +1,6 @@
 # Vita Bella Website
 
-**Version 1.2**
+**Version 1.4**
 
 Welcome to the Vita Bella website project! This is a modern, modular, and SEO-optimized web application built with Next.js 15 and TypeScript. The site provides detailed information about Vita Bella's health and wellness products and services, with a focus on dynamic product pages, beautiful design, and a seamless user experience.
 

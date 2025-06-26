@@ -23,63 +23,67 @@ export default function Home() {
       <div className="home">
         <SectionHeader
           left={{
-            h2Alt: 'One Program.',
-            h2: 'A lifetime of benefits.',
+        h2Alt: 'One Program.',
+        h2: 'A lifetime of benefits.',
           }}
           right={
-            <>Whether you’re looking to unlock your body’s full potential, elevate your fitness, or reclaim your confidence, we’re here to guide and support you every step of the way.</>
+        <>Whether you’re looking to unlock your body’s full potential, elevate your fitness, or reclaim your confidence, we’re here to guide and support you every step of the way.</>
           }
         />
         <HowItWorks />
         <SectionHeader
           left={{
-            h2Alt: "Men's Treatments",
-            h2: 'Reignite, Strengthen, Dominate',
+        h2Alt: "Men's Treatments",
+        h2: 'Reignite, Strengthen, Dominate',
           }}
           right={
-            <>Targeted treatments to fuel your power, enhance your endurance, and maintain your competitive edge.</>
+        <>Targeted treatments to fuel your power, enhance your endurance, and maintain your competitive edge.</>
           }
         />
         <SectionHeader
           left={{
-            h2Alt: "Women’s Treatments",
-            h2: 'Revive & Radiate',
+        h2Alt: "Women’s Treatments",
+        h2: 'Revive & Radiate',
           }}
           right={
-            <>Find your balance, feel energized, and radiate with treatments tailored to you—because self-care is a daily essential.</>
+        <>Find your balance, feel energized, and radiate with treatments tailored to you—because self-care is a daily essential.</>
           }
         />
         <HealthyHome />
         <CustomerReviews page="about" />
         <SectionHeader
-              left={{
-                h2Alt: 'Join 10,000+',
-                h2: 'patients and counting.',
-              }}
-              right={
-                <>Stop settling for less; seize control of your health, and unleash your radiance with our results-driven medical program.</>
-              }
+          left={{
+            h2Alt: 'Join 10,000+',
+            h2: 'patients and counting.',
+          }}
+          right={
+            <>Stop settling for less; seize control of your health, and unleash your radiance with our results-driven medical program.</>
+          }
         />
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <SimpleCustomerSlider />
-            </div>
+        </div>
         <AboutStats />
         {/* Product Mechanism Bottom Row */}
         <div style={{ width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', background: 'var(--e-global-color-dark-green)', padding: 'var(--space-4x) 0', borderRadius: 32, marginTop: 'var(--space-3x)' }}>
           <div className="container">
-            <ProductMechanismBottomRow product={{ Title: 'NAD+' }} />
+        <ProductMechanismBottomRow product={{ Title: 'NAD+' }} />
           </div>
         </div>
+        {/*
         <SectionHeader
           left={{
-            h2Alt: "Schedule a Consultation",
-            h2: 'with Vita Bella',
+        h2Alt: "Schedule a Consultation",
+        h2: 'with Vita Bella',
           }}
           right={
-            <>Use our interactive calendars to schedule a consultation at your earliest convenience.</>
+        <>Use our interactive calendars to schedule a consultation at your earliest convenience.</>
           }
         />
+        */}
+        {/*
         <CalendlyScheduler />
+        */}
         <Newsletter />
       </div>
     </>

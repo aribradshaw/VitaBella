@@ -12,6 +12,7 @@ import styles from './Membership.module.css';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
 import AboutStats from '../about/AboutStats';
+import CalendlyScheduler from '../../components/common/CalendlyScheduler';
 
 const features = [
   'Wholesale priced prescriptions',
@@ -137,7 +138,16 @@ const MembershipClient: React.FC = () => {
           <>Both plans begin with a one-time $99 consultation fee (45-minute appointment) and entail a six-month minimum commitment.</>
         }
       />
-      <MembershipPlans />      
+      <MembershipPlans />
+      <SectionHeader
+        left={{
+          h2Alt: 'Schedule to Speak',
+          h2: 'with a Member Specialist!',
+        }}
+        right={
+          <>Do you have any questions about our services? Schedule a call today.</>        }
+      />   
+      <CalendlyScheduler />
       <SectionHeader
         left={{
           h2Alt: 'The membership that works as',
@@ -155,7 +165,8 @@ const MembershipClient: React.FC = () => {
         }}
         right={
           <>We’ll guide and support you as you unlock your potential, elevate your fitness, and reclaim your confidence.</>        }
-      />      <HowItWorks />
+      />      
+      <HowItWorks />
       <FeelTheDifferenceModule onMembershipPage={true} />
       <SectionHeader
         left={{
@@ -165,7 +176,8 @@ const MembershipClient: React.FC = () => {
         right={
           <>With decades of experience and proven medical  advancements: real expertise, not generic advice.</>        }
       />
-      <HealthExpertsModule />      <SectionHeader
+      <HealthExpertsModule />      
+      <SectionHeader
         left={{
           h2Alt: 'Near-nationwide',
           h2: 'coverage.',
