@@ -7,6 +7,7 @@ import './Footer.css';
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../../constants/contacts';
 import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter, FaEnvelope, FaPhone, FaLocationDot, FaUserShield, FaFile, FaSitemap, FaUniversalAccess } from 'react-icons/fa6';
 import Script from "next/script";
+import { newsletterSubmit } from "@/lib/newsletterSubmit";
 
 const SOCIAL_ICON_MAP: Record<string, any> = {
   facebook: FaFacebookF,
@@ -17,8 +18,14 @@ const SOCIAL_ICON_MAP: Record<string, any> = {
   x: FaXTwitter,
 };
 
+const RECAPTCHA_SITE_KEY = "6Lfy92IrAAAAADLslEBpVbu9fGpkzBdatjtcXw9C";
+
 const Footer: React.FC = () => {
   const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputFocus = () => {
     setIsFormExpanded(true);
@@ -35,6 +42,28 @@ const Footer: React.FC = () => {
   const trackMetaLead = () => {
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq('track', 'Lead');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess(false);
+    try {
+      const token = await (window as any).grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'newsletter' });
+      const res = await newsletterSubmit(email, token);
+      if (res.success) {
+        setSuccess(true);
+        setEmail("");
+        trackMetaLead();
+      } else {
+        setError(res.error || "Something went wrong. Please try again.");
+      }
+    } catch (err: any) {
+      setError("Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,7 +154,7 @@ const Footer: React.FC = () => {
           <p>Subscribe to our newsletter to never miss a deal or coupon code.</p>
           <form 
             className={`footer-newsletter-form ${isFormExpanded ? 'expanded' : ''}`} 
-            onSubmit={e => { e.preventDefault(); trackMetaLead(); }}
+            onSubmit={handleSubmit}
             onBlur={handleFormBlur}
           >
             <input 
@@ -133,10 +162,30 @@ const Footer: React.FC = () => {
               placeholder="Enter your e-mail address" 
               required 
               onFocus={handleInputFocus}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              disabled={loading || success}
             />
             <div className="footer-newsletter-button-container">
-              <VitaBellaButton onClick={trackMetaLead}>Subscribe</VitaBellaButton>
+              <VitaBellaButton
+                label={loading ? "Subscribing..." : success ? "Thank You!" : "Subscribe"}
+                type="submit"
+                href="#"
+                bg="var(--e-global-color-dark-green)"
+                bgHover="var(--e-global-color-lightgreen)"
+                text="var(--e-global-color-white)"
+                textHover="var(--e-global-color-dark-green)"
+                arrowCircleColor="var(--e-global-color-lightgreen)"
+                arrowCircleColorHover="var(--e-global-color-dark-green)"
+                arrowPathColor="var(--e-global-color-dark-green)"
+                arrowPathColorHover="var(--e-global-color-lightgreen)"
+                className="footer-newsletter-btn"
+                disabled={loading || success}
+                onClick={() => {}}
+              />
             </div>
+            {error && <div style={{ color: 'red', marginTop: 8 }}>{error}</div>}
+            {success && <div style={{ color: 'green', marginTop: 8 }}>Thank you for signing up!</div>}
           </form>
           <div className="footer-social-title">FOLLOW US ON SOCIAL MEDIA</div>
           <div className="footer-social">
@@ -174,6 +223,7 @@ const Footer: React.FC = () => {
           We improve our products and advertising by using Microsoft Clarity to see how you use our website. By using our site, you agree that we and Microsoft can collect and use this data. Our <Link href="/privacy-policy">privacy policy</Link> has more details.
         </div>
       </div>
+      <script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}></script>
     </footer>
   );
 };

@@ -1,0 +1,129 @@
+import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+import fs from 'fs/promises';
+import path from 'path';
+
+const ACTIVE_CAMPAIGN_API_KEY = '76fc23c599c82bae14ec48c3351a42ed65944ea68bfcbf08452d9155627b2ec7f8c7c014';
+const ACTIVE_CAMPAIGN_API_URL = 'https://vitabella.api-us1.com/api/3/contacts';
+const DOE_LIST_ID = 'YOUR_LIST_ID'; // TODO: Replace with actual list ID
+const CSV_PATH = path.resolve(process.cwd(), 'data/newsletter_signups.csv');
+const ADMIN_EMAIL = 'aribradshawaz@gmail.com'; // Change to info@vitabella.com when ready
+const FROM_EMAIL = 'no-reply@vitabella.com';
+const RECAPTCHA_SECRET = '6Lfy92IrAAAAACVH-HFaoOA-NzGvKVwlNxVKVsv8';
+
+async function verifyRecaptcha(token: string) {
+  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
+  });
+  const data = await res.json();
+  return data.success && data.score >= 0.5;
+}
+
+async function sendThankYouEmail(email: string) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com', // Or your SMTP provider
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  await transporter.sendMail({
+    from: `Vita Bella <${FROM_EMAIL}>`,
+    to: email,
+    subject: 'Thank you for signing up!',
+    text: 'Thank you for signing up for the Vita Bella newsletter! We appreciate your interest.',
+    html: '<p>Thank you for signing up for the <b>Vita Bella</b> newsletter! We appreciate your interest.</p>',
+  });
+}
+
+async function sendAdminNotification(email: string) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  await transporter.sendMail({
+    from: `Vita Bella <${FROM_EMAIL}>`,
+    to: ADMIN_EMAIL,
+    subject: 'New Newsletter Signup',
+    text: `New newsletter signup: ${email}`,
+    html: `<p>New newsletter signup: <b>${email}</b></p>`,
+  });
+}
+
+async function saveToCSV(email: string) {
+  const header = 'email,signed_up_at\n';
+  const row = `${email},${new Date().toISOString()}\n`;
+  try {
+    await fs.access(CSV_PATH);
+  } catch {
+    await fs.mkdir(path.dirname(CSV_PATH), { recursive: true });
+    await fs.writeFile(CSV_PATH, header, { flag: 'wx' });
+  }
+  await fs.appendFile(CSV_PATH, row);
+}
+
+async function sendToActiveCampaign(email: string) {
+  // Get the list ID for "2025 Prospect | DOE" if not set
+  let listId = DOE_LIST_ID;
+  if (!listId || listId === 'YOUR_LIST_ID') {
+    // Fetch lists and find the correct one
+    const res = await fetch('https://vitabella.api-us1.com/api/3/lists', {
+      headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY },
+    });
+    const data = await res.json();
+    const found = data.lists?.find((l: any) => l.name?.includes('2025 Prospect'));
+    if (found) listId = found.id;
+  }
+  // Add contact to list
+  const res = await fetch(ACTIVE_CAMPAIGN_API_URL, {
+    method: 'POST',
+    headers: {
+      'Api-Token': ACTIVE_CAMPAIGN_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      contact: {
+        email,
+        "listid": [listId],
+        "tags": ['2025 Prospect | DOE'],
+      },
+    }),
+  });
+  if (!res.ok) {
+    throw new Error('ActiveCampaign error');
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const { email, recaptchaToken } = await req.json();
+    if (!email || !recaptchaToken) {
+      return NextResponse.json({ error: 'Missing email or recaptcha' }, { status: 400 });
+    }
+    // 1. Verify recaptcha
+    const isHuman = await verifyRecaptcha(recaptchaToken);
+    if (!isHuman) {
+      return NextResponse.json({ error: 'Recaptcha failed' }, { status: 400 });
+    }
+    // 2. Save to CSV
+    await saveToCSV(email);
+    // 3. Send thank you email
+    await sendThankYouEmail(email);
+    // 4. Send admin notification
+    await sendAdminNotification(email);
+    // 5. Send to ActiveCampaign
+    await sendToActiveCampaign(email);
+    return NextResponse.json({ success: true });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message || 'Unknown error' }, { status: 500 });
+  }
+}

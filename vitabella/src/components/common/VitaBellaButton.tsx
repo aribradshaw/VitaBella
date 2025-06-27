@@ -17,6 +17,7 @@ interface VitaBellaButtonProps {
   className?: string;
   style?: React.CSSProperties;
   onClick?: () => void;
+  type?: "button" | "submit";
   [key: string]: any;
 }
 
@@ -34,6 +35,7 @@ const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
   className = "",
   style = {},
   onClick,
+  type,
   ...props
 }) => {
   const [hover, setHover] = React.useState(false);
@@ -60,11 +62,28 @@ const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
     ...style,
   } as React.CSSProperties;
 
-  // Custom CSS variables for arrow colors
   const customVars = {
     "--arrow-circle-color": hover ? arrowCircleColorHover : arrowCircleColor,
     "--arrow-path-color": hover ? arrowPathColorHover : arrowPathColor,
   } as React.CSSProperties;
+
+  // Render as <button> for form actions, <a> for links
+  if (type === "submit" || type === "button") {
+    return (
+      <button
+        type={type}
+        className={`vitabella-button${className ? " " + className : ""}`}
+        style={{ ...mergedStyle, ...customVars }}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={onClick}
+        {...props}
+      >
+        <span style={{ flex: 1, textAlign: "left", textDecoration: "none" }}>{label}</span>
+        <VitaBellaArrow style={{ marginLeft: "0.7em", marginRight: "0.2em", width: 30, height: 30 }} />
+      </button>
+    );
+  }
 
   return (
     <a
