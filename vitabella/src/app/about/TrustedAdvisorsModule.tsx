@@ -65,9 +65,18 @@ const TrustedAdvisorsModule: React.FC = () => {
           </div>
           
           <div className={styles.buttonContainer}>
-            <VitaBellaButton href="/product">
-              Explore Treatments
-            </VitaBellaButton>
+            <VitaBellaButton
+              href="/product"
+              label="Explore Treatments"
+              bg="var(--e-global-color-dark-green)"
+              bgHover="var(--e-global-color-green)"
+              text="var(--e-global-color-white)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-lightgreen)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColor="var(--e-global-color-dark-green)"
+              arrowPathColorHover="var(--e-global-color-green)"
+            />
           </div>
         </div>
       </div>

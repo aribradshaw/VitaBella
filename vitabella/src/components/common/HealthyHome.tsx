@@ -61,12 +61,17 @@ const HealthyHome = () => (
             At Vita Bella, we use the latest science-backed treatments to help you meet your goals safely and effectively.
           </div>
           <VitaBellaButton 
-            href="/membership" 
-            style={{ minWidth: 0, width: 180, fontSize: '1rem', padding: '0.4rem' }}
-            className={buttonStyles.ctaButton}
-          >
-            Get Started
-          </VitaBellaButton>
+            href="/membership"
+            label="Get Started"
+            bg="var(--e-global-color-dark-green)"
+            bgHover="var(--e-global-color-lightgreen)"
+            text="var(--e-global-color-white)"
+            textHover="var(--e-global-color-dark-green)"
+            arrowCircleColor="var(--e-global-color-lightgreen)"
+            arrowCircleColorHover="var(--e-global-color-dark-green)"
+            arrowPathColor="var(--e-global-color-dark-green)"
+            arrowPathColorHover="var(--e-global-color-lightgreen)"
+          />
         </div>
       </div>
     </div>

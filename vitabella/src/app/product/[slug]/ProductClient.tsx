@@ -62,21 +62,26 @@ export default function ProductClient({ product }: ProductClientProps) {
               See how our patients have achieved lasting results.<br />
               <div style={{ marginTop: '1.5rem' }}>
                 <VitaBellaButton 
+                  label="Get Started"
                   href="/membership"
-                  className="product-cta-button"
+                  bg="var(--e-global-color-dark-green)"
+                  bgHover="var(--e-global-color-green)"
+                  text="var(--e-global-color-white)"
+                  textHover="var(--e-global-color-dark-green)"
+                  arrowCircleColor="var(--e-global-color-green)"
+                  arrowCircleColorHover="var(--e-global-color-dark-green)"
+                  arrowPathColor="var(--e-global-color-dark-green)"
+                  arrowPathColorHover="var(--e-global-color-green)"
                   style={{
-                    background: 'var(--e-global-color-dark-green)',
-                    color: 'var(--e-global-color-lightgreen)',
                     display: 'inline-flex',
                     width: 'auto',
-                    '--arrow-circle-color': 'var(--e-global-color-lightgreen)',
-                    '--arrow-path-color': 'var(--e-global-color-dark-green)',
-                    '--arrow-circle-hover-color': 'var(--e-global-color-dark-green)',
-                    '--arrow-path-hover-color': 'var(--e-global-color-lightgreen)'
-                  } as React.CSSProperties}
-                >
-                  Get Started
-                </VitaBellaButton>
+                    minWidth: 180,
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    borderRadius: '2rem',
+                    boxShadow: '0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4)',
+                  }}
+                />
               </div>
             </>
           }

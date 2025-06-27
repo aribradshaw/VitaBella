@@ -125,21 +125,18 @@ const Header: React.FC = () => {
 								</div>
 								<div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
 									<VitaBellaButton
+										label="View All Products"
 										href="/product"
-										style={{
-											background: 'var(--e-global-color-dark-green)',
-											color: 'var(--e-global-color-lightgreen)',
-											minWidth: 0,
-											width: 220,
-											fontSize: '1.08rem',
-											padding: '0.9em 2.2em',
-											border: '1.5px solid var(--e-global-color-dark-green)',
-										}}
-										className="vitabella-btn-getstarted"
+										bg="var(--e-global-color-dark-green)"
+										bgHover="var(--e-global-color-lightgreen)"
+										text="var(--e-global-color-lightgreen)"
+										textHover="var(--e-global-color-dark-green)"
+										arrowCircleColor="var(--e-global-color-lightgreen)"
+										arrowCircleColorHover="var(--e-global-color-dark-green)"
+										arrowPathColor="var(--e-global-color-dark-green)"
+										arrowPathColorHover="var(--e-global-color-lightgreen)"
 										onClick={() => setTreatmentOpen(false)}
-									>
-										View All Products
-									</VitaBellaButton>
+									/>
 								</div>
 							</div>
 						</li>

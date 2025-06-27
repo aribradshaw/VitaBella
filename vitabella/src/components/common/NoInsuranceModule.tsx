@@ -44,9 +44,16 @@ const NoInsuranceModule: React.FC<NoInsuranceModuleProps> = ({ pageTitle = "Sexu
             <VitaBellaButton 
               href="/membership"
               className={styles.ctaButton}
-            >
-              Start Your Journey
-            </VitaBellaButton>
+              label="Start Your Journey"
+              bg="var(--e-global-color-dark-green)"
+              bgHover="var(--e-global-color-green)"
+              text="var(--e-global-color-white)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-green)"
+              arrowPathColor="var(--e-global-color-dark-green)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColorHover="var(--e-global-color-green)"
+            />
           </div>
         </div>
       </div>

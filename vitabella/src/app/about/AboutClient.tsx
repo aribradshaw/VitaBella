@@ -21,14 +21,16 @@ const AboutClient: React.FC = () => {
         <>
             {/* Full-width hero section, outside container */}
             <AboutHeroVideo />
-            <AboutStorySection />            <SectionHeader
+            <AboutStorySection />            
+            <SectionHeader
               left={{
                 h2Alt: 'Trusted and supported by industry leading, licensed doctors.',
                 h2: '',
               }}
               right={
                 <>Together, we created a fine-tuned set of protocols that our healthcare providers use for all of our clients. These protocols are made with a specific focus on safety, quality, and are results driven.</>
-              }            />
+              }            
+            />
             <HealthExpertsModule />
             <TelemedicineModule />
             <ScienceModule />

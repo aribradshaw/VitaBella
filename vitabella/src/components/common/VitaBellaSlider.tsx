@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./VitaBellaSlider.module.css";
 
@@ -10,6 +10,8 @@ interface VitaBellaSliderProps<T> {
   style?: React.CSSProperties;
   prevArrow?: React.ReactNode;
   nextArrow?: React.ReactNode;
+  currentIndex?: number;
+  onSlideChange?: (idx: number) => void;
 }
 
 const fadeVariants = {
@@ -26,21 +28,36 @@ function VitaBellaSlider<T>({
   style = {},
   prevArrow,
   nextArrow,
+  currentIndex,
+  onSlideChange,
 }: VitaBellaSliderProps<T>) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(currentIndex || 0);
   const sliderRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef<number | null>(null);
   const dragging = useRef(false);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
+  // Sync with controlled currentIndex
+  useEffect(() => {
+    if (typeof currentIndex === 'number' && currentIndex !== index) {
+      setDirection(currentIndex > index ? 1 : -1);
+      setIndex(currentIndex);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
+
   // Clean infinite loop logic
   const handlePrev = () => {
     setDirection(-1);
-    setIndex((prev) => (prev - 1 + items.length) % items.length);
+    const newIndex = (index - 1 + items.length) % items.length;
+    setIndex(newIndex);
+    if (onSlideChange) onSlideChange(newIndex);
   };
   const handleNext = () => {
     setDirection(1);
-    setIndex((prev) => (prev + 1) % items.length);
+    const newIndex = (index + 1) % items.length;
+    setIndex(newIndex);
+    if (onSlideChange) onSlideChange(newIndex);
   };
 
   // Drag/Swipe logic

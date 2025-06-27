@@ -85,9 +85,19 @@ const StopWaitingModule: React.FC = () => (
           More treatments, better care, no hidden costs.
         </div>
       </div>
-      <VitaBellaButton href="/membership" fontSize={16} borderRadius={24} padding="16px 40px" style={{ marginTop: "var(--space-1x)" }}>
-        Start Your Journey
-      </VitaBellaButton>
+      <VitaBellaButton
+        label="Start Your Journey"
+        href="/membership"
+        bg="var(--e-global-color-green)"
+        bgHover="var(--e-global-color-white)"
+        text="var(--e-global-color-dark-green)"
+        textHover="var(--e-global-color-dark-green)"
+        arrowCircleColor="var(--e-global-color-dark-green)"
+        arrowCircleColorHover="var(--e-global-color-dark-green)"
+        arrowPathColor="var(--e-global-color-green)"
+        arrowPathColorHover="var(--e-global-color-white)"
+        style={{ marginTop: "var(--space-1x)", fontSize: 16, borderRadius: 24 }}
+      />
     </div>
   </section>
 );

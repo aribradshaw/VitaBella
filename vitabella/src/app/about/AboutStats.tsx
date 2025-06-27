@@ -183,13 +183,34 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 						<span style={{ display: "block" }}>YOU OWE IT TO YOURSELF</span>
 					</div>
 					{onMembershipPage ? (
-						<VitaBellaButton onClick={handleButtonClick}>
-							Join Vita Bella
-						</VitaBellaButton>
+						<VitaBellaButton
+							label="Join Vita Bella"
+							href="#membership-plans"
+							onClick={handleButtonClick}
+							bg="var(--e-global-color-lightgreen)"
+							bgHover="var(--e-global-color-green)"
+							text="var(--e-global-color-dark-green)"
+							textHover="var(--e-global-color-dark-green)"
+							arrowCircleColor="var(--e-global-color-dark-green)"
+							arrowCircleColorHover="var(--e-global-color-dark-green)"
+							arrowPathColor="var(--e-global-color-lightgreen)"
+							arrowPathColorHover="var(--e-global-color-lightgreen)"
+							style={{ minWidth: 180, width: 'fit-content', maxWidth: '100%' }}
+						/>
 					) : (
-						<VitaBellaButton href="/membership">
-							Join Vita Bella
-						</VitaBellaButton>
+						<VitaBellaButton
+							label="Join Vita Bella"
+							href="/membership"
+							bg="var(--e-global-color-lightgreen)"
+							bgHover="var(--e-global-color-green)"
+							text="var(--e-global-color-dark-green)"
+							textHover="var(--e-global-color-dark-green)"
+							arrowCircleColor="var(--e-global-color-dark-green)"
+							arrowCircleColorHover="var(--e-global-color-dark-green)"
+							arrowPathColor="var(--e-global-color-lightgreen)"
+							arrowPathColorHover="var(--e-global-color-lightgreen)"
+							style={{ minWidth: 180, width: 'fit-content', maxWidth: '100%' }}
+						/>
 					)}
 				</div>
 			</div>

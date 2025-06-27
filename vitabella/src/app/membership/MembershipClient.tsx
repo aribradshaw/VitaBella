@@ -112,7 +112,17 @@ const MembershipClient: React.FC = () => {
             Join the most exclusive wellness membership with 8+ treatment categories, expert medical support, and unbeatable savings – all designed for your long-term success.
           </p>          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 0 0' }}>
             <VitaBellaButton 
+              label="Let's Get Started"
+              href="#membership-plans"
               onClick={handleHeroButtonClick}
+              bg="var(--e-global-color-lightgreen)"
+              bgHover="var(--e-global-color-green)"
+              text="var(--e-global-color-dark-green)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-dark-green)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColor="var(--e-global-color-lightgreen)"
+              arrowPathColorHover="var(--e-global-color-green)"
               style={{ 
                 minWidth: 'unset', 
                 maxWidth: 260, 
@@ -122,7 +132,7 @@ const MembershipClient: React.FC = () => {
                 borderRadius: '2rem',
                 whiteSpace: 'nowrap',
               }}
-            >Let's Get Started</VitaBellaButton>
+            />
           </div>
         </section>
         <section style={{ marginBottom: 'var(--space-1x)', width: '100vw', maxWidth: '100vw', padding: 0 }}>

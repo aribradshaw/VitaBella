@@ -1,34 +1,46 @@
+"use client";
+
 import React from "react";
 import VitaBellaArrow from "@/components/common/VitaBellaArrow";
 
 interface VitaBellaButtonProps {
-  href?: string;
-  onClick?: () => void;
-  children: React.ReactNode;
-  style?: React.CSSProperties;
+  bg?: string;
+  bgHover?: string;
+  text?: string;
+  textHover?: string;
+  arrowCircleColor?: string;
+  arrowCircleColorHover?: string;
+  arrowPathColor?: string;
+  arrowPathColorHover?: string;
+  label: string;
+  href: string;
   className?: string;
-  // Only allow valid DOM props
+  style?: React.CSSProperties;
+  onClick?: () => void;
   [key: string]: any;
 }
 
 const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
+  bg = "var(--e-global-color-lightgreen)",
+  bgHover = "var(--e-global-color-dark-green)",
+  text = "var(--e-global-color-dark-green)",
+  textHover = "var(--e-global-color-lightgreen)",
+  arrowCircleColor = "var(--e-global-color-dark-green)",
+  arrowCircleColorHover = "var(--e-global-color-lightgreen)",
+  arrowPathColor = "var(--e-global-color-lightgreen)",
+  arrowPathColorHover = "var(--e-global-color-dark-green)",
+  label,
   href,
-  onClick,
-  children,
-  style = {},
   className = "",
+  style = {},
+  onClick,
   ...props
 }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (onClick) {
-      e.preventDefault();
-      onClick();
-    }
-  };
+  const [hover, setHover] = React.useState(false);
 
-  const commonStyles = {
-    background: "var(--e-global-color-lightgreen)",
-    color: "var(--e-global-color-dark-green)",
+  const mergedStyle: React.CSSProperties = {
+    background: hover ? bgHover : bg,
+    color: hover ? textHover : text,
     fontFamily: "Switzer, Arial, Helvetica, sans-serif",
     fontWeight: 700,
     fontSize: "1.1rem",
@@ -43,38 +55,28 @@ const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
     gap: "1.2rem",
     boxShadow: "0 2px 8px rgba(44, 60, 50, 0.07)",
     transition: "background 0.18s, color 0.18s, box-shadow 0.18s",
-    position: "relative" as const,
+    position: "relative",
     cursor: "pointer",
-    // CSS custom properties for arrow colors - can be overridden
-    "--arrow-circle-color": "var(--e-global-color-dark-green)",
-    "--arrow-path-color": "var(--e-global-color-green)",
-    "--arrow-circle-hover-color": "var(--e-global-color-lightgreen)",
-    "--arrow-path-hover-color": "var(--e-global-color-dark-green)",
     ...style,
-  };
+  } as React.CSSProperties;
 
-  if (onClick) {
-    return (
-      <button
-        className={`vitabella-button ${className}`.trim()}
-        style={commonStyles}
-        onClick={handleClick}
-        {...Object.fromEntries(Object.entries(props).filter(([k]) => k !== "borderRadius"))}
-      >
-        <span style={{ flex: 1, textAlign: "left", textDecoration: "none" }}>{children}</span>
-        <VitaBellaArrow style={{ marginLeft: "0.7em", marginRight: "0.2em", width: 30, height: 30 }} />
-      </button>
-    );
-  }
+  // Custom CSS variables for arrow colors
+  const customVars = {
+    "--arrow-circle-color": hover ? arrowCircleColorHover : arrowCircleColor,
+    "--arrow-path-color": hover ? arrowPathColorHover : arrowPathColor,
+  } as React.CSSProperties;
 
   return (
     <a
       href={href}
-      className={`vitabella-button ${className}`.trim()}
-      style={commonStyles}
-      {...Object.fromEntries(Object.entries(props).filter(([k]) => k !== "borderRadius"))}
+      className={`vitabella-button${className ? " " + className : ""}`}
+      style={{ ...mergedStyle, ...customVars }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onClick}
+      {...props}
     >
-      <span style={{ flex: 1, textAlign: "left", textDecoration: "none" }}>{children}</span>
+      <span style={{ flex: 1, textAlign: "left", textDecoration: "none" }}>{label}</span>
       <VitaBellaArrow style={{ marginLeft: "0.7em", marginRight: "0.2em", width: 30, height: 30 }} />
     </a>
   );

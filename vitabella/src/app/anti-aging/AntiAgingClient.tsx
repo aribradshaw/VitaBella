@@ -9,6 +9,7 @@ import CustomerReviews from '@/components/common/CustomerReviews';
 import NoInsuranceModule from '@/components/common/NoInsuranceModule';
 import BenefitsModule from '@/components/common/BenefitsModule';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
+import ProductCategorySlider from '@/components/common/ProductCategorySlider';
 
 const AntiAgingClient: React.FC = () => {
     const pageTitle = "Anti-Aging";
@@ -25,6 +26,7 @@ const AntiAgingClient: React.FC = () => {
                 <>Under proper supervision of a Vita Bella medical professional, our medicine can safely boost both mental and physical capabilities.</>
               }            
             />
+            <ProductCategorySlider category="Anti-Aging" visibleCount={3} />
             <SectionHeader
               left={{
                 h2Alt: 'One simple process.',

@@ -223,13 +223,32 @@ const BenefitsModule: React.FC<BenefitsModuleProps> = ({ onMembershipPage = fals
             ))}
           </div>          <div className={styles.actionSection}>
             {onMembershipPage ? (
-              <VitaBellaButton onClick={handleButtonClick}>
-                Start Your Transformation
-              </VitaBellaButton>
+              <VitaBellaButton
+                label="Start Your Transformation"
+                href="#membership-plans"
+                onClick={handleButtonClick}
+                bg="var(--e-global-color-dark-green)"
+                bgHover="var(--e-global-color-lightgreen)"
+                text="var(--e-global-color-white)"
+                textHover="var(--e-global-color-dark-green)"
+                arrowCircleColor="var(--e-global-color-green)"
+                arrowCircleColorHover="var(--e-global-color-dark-green)"
+                arrowPathColor="var(--e-global-color-dark-green)"
+                arrowPathColorHover="var(--e-global-color-lightgreen)"
+              />
             ) : (
-              <VitaBellaButton href="/membership">
-                Start Your Transformation
-              </VitaBellaButton>
+              <VitaBellaButton
+                label="Start Your Transformation"
+                href="/membership"
+                bg="var(--e-global-color-dark-green)"
+                bgHover="var(--e-global-color-lightgreen)"
+                text="var(--e-global-color-white)"
+                textHover="var(--e-global-color-dark-green)"
+                arrowCircleColor="var(--e-global-color-green)"
+                arrowCircleColorHover="var(--e-global-color-dark-green)"
+                arrowPathColor="var(--e-global-color-dark-green)"
+                arrowPathColorHover="var(--e-global-color-lightgreen)"
+              />
             )}
               <div className={styles.reviewsSection}>
               <div className={styles.stars}>

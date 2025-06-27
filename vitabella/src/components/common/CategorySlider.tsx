@@ -88,21 +88,17 @@ const CategorySlider: React.FC = () => {
 						<div className={styles.cardDesc}>{cat.desc}</div>
 						<div className={styles.buttonBottom}>
 							<VitaBellaButton
+								label="Get Started Today"
 								href={cat.href}
-								style={{
-									background: "#fff",
-									color: "var(--e-global-color-dark-green)",
-									border: "none",
-									boxShadow: "none",
-									minWidth: 0,
-									padding: "0.4rem 1.2rem",
-									fontWeight: 700,
-									fontSize: "1rem",
-									marginTop: 0,
-								}}
-							>
-								Get Started Today
-							</VitaBellaButton>
+								bg="var(--e-global-color-white)"
+								bgHover="var(--e-global-color-lightgreen)"
+								text="var(--e-global-color-dark-green)"
+								textHover="var(--e-global-color-dark-green)"
+								arrowCircleColor="var(--e-global-color-dark-green)"
+								arrowCircleColorHover="var(--e-global-color-dark-green)"
+								arrowPathColor="var(--e-global-color-white)"
+								arrowPathColorHover="var(--e-global-color-lightgreen)"
+							/>
 						</div>
 					</div>
 				</div>

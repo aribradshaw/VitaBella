@@ -42,13 +42,32 @@ const FeelTheDifferenceModule: React.FC<FeelTheDifferenceModuleProps> = ({ onMem
           </p>
           <div className={styles.divider} />          <div className={styles.buttonContainer}>
             {onMembershipPage ? (
-              <VitaBellaButton onClick={handleButtonClick}>
-                Start Your Journey
-              </VitaBellaButton>
+              <VitaBellaButton
+                label="Start Your Journey"
+                href="#membership-plans"
+                onClick={handleButtonClick}
+                bg="var(--e-global-color-green)"
+                bgHover="var(--e-global-color-dark-green)"
+                text="var(--e-global-color-dark-green)"
+                textHover="var(--e-global-color-white)"
+                arrowCircleColor="var(--e-global-color-dark-green)"
+                arrowCircleColorHover="var(--e-global-color-green)"
+                arrowPathColor="var(--e-global-color-green)"
+                arrowPathColorHover="var(--e-global-color-dark-green)"
+              />
             ) : (
-              <VitaBellaButton href="/membership">
-                Start Your Journey
-              </VitaBellaButton>
+              <VitaBellaButton
+                label="Start Your Journey"
+                href="/membership"
+                bg="var(--e-global-color-green)"
+                bgHover="var(--e-global-color-dark-green)"
+                text="var(--e-global-color-dark-green)"
+                textHover="var(--e-global-color-white)"
+                arrowCircleColor="var(--e-global-color-dark-green)"
+                arrowCircleColorHover="var(--e-global-color-green)"
+                arrowPathColor="var(--e-global-color-green)"
+                arrowPathColorHover="var(--e-global-color-dark-green)"
+              />
             )}
           </div>
             <div className={styles.trustImagesContainer}>

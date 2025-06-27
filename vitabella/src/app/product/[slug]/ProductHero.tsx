@@ -321,11 +321,18 @@ export default function ProductHero({ product }: ProductHeroProps) {
 
               {/* CTA Button */}
               <VitaBellaButton 
+                label="Get Started"
                 href="/membership"
-                style={{ display: 'inline-flex', alignSelf: 'flex-start' }}
-              >
-                Get Started
-              </VitaBellaButton>
+                bg="var(--e-global-color-green)"
+                bgHover="var(--e-global-color-dark-green)"
+                text="var(--e-global-color-dark-green)"
+                textHover="var(--e-global-color-white)"
+                arrowCircleColor="var(--e-global-color-dark-green)"
+                arrowCircleColorHover="var(--e-global-color-green)"
+                arrowPathColor="var(--e-global-color-green)"
+                arrowPathColorHover="var(--e-global-color-dark-green)"
+                style={{ display: 'inline-flex', alignSelf: 'flex-start', minWidth: 180, fontSize: '1.1rem', fontWeight: 700, borderRadius: '2rem', boxShadow: '0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4)' }}
+              />
             </div>
           </div>
         </div>

@@ -23,7 +23,20 @@ const ProductMechanismBottomRow: React.FC<ProductMechanismBottomRowProps> = ({ p
           <div style={{ fontSize: 56, fontWeight: 700, color: 'var(--e-global-color-green)', lineHeight: 1, marginBottom: 8, textAlign: 'left' }}>60%</div>
           <div className="h4" style={{ fontFamily: 'Switzer, Arial, Helvetica, sans-serif', fontWeight: 400, color: 'var(--e-global-color-white)', marginBottom: 8, textTransform: 'none', textAlign: 'left' }}>more affordable than our competitors.</div>
           <div className="body-text" style={{ color: 'var(--e-global-color-white)', marginBottom: 16, textAlign: 'left' }}>Select the membership plan that suits your goals and lifestyle, and book your initial consultation.</div>
-          <VitaBellaButton href="/membership" className="start-today-btn" style={{ width: 'fit-content', minWidth: 0, maxWidth: '100%', display: 'inline-flex' }}>Start Today</VitaBellaButton>
+          <VitaBellaButton
+  href="/membership"
+  label="Start Today"
+  bg="var(--e-global-color-white)"
+  bgHover="var(--e-global-color-lightgreen)"
+  text="var(--e-global-color-dark-green)"
+  textHover="var(--e-global-color-dark-green)"
+  arrowCircleColor="var(--e-global-color-dark-green)"
+  arrowCircleColorHover="var(--e-global-color-dark-green)"
+  arrowPathColor="var(--e-global-color-lightgreen)"
+  arrowPathColorHover="var(--e-global-color-lightgreen)"
+  className="start-today-btn"
+  style={{ width: 'fit-content', minWidth: 0, maxWidth: '100%', display: 'inline-flex' }}
+/>
         </div>
         {/* Bottom Right: Table */}
         <div style={{ flex: '1 1 55%', minWidth: 0, maxWidth: '55%', background: 'rgba(255,255,255,0.07)', border: '3px dotted var(--e-global-color-lightgreen)', borderRadius: 18, padding: 'var(--space-2x)', marginLeft: 'auto', display: 'flex', flexDirection: 'column', gap: 12, justifyContent: 'center', height: '100%' }}>

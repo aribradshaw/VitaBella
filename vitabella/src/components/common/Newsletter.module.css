@@ -134,45 +134,6 @@
   z-index: 1;
 }
 
-.signupBtn {
-  flex: 0 0 auto;
-  border-radius: 2em !important;
-  margin-left: 0.75em;
-  padding: 0.4em 0.4em 0.4em 1.1em !important; /* smaller button, less right padding */
-  height: auto;
-  z-index: 2;
-  box-shadow: none;
-  position: relative;
-  left: 0;
-  background: var(--e-global-color-lightgreen) !important;
-  color: var(--e-global-color-dark-green) !important;
-  min-width: 0;
-  font-size: 1.1rem;
-  font-family: 'Switzer', Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-}
-
-.signupBtn:hover {
-  background: var(--e-global-color-dark-green) !important;
-  color: var(--e-global-color-lightgreen) !important;
-}
-
-.signupBtn svg {
-  margin-left: 0.7em;
-  margin-right: 0;
-  padding: 0.2em 0.2em 0.2em 0.2em;
-  width: 1.5em;
-  height: 1.5em;
-  display: inline-block;
-  vertical-align: middle;
-  box-sizing: content-box;
-}
-
 @media (max-width: 900px) {
   .newsletterTitle, .newsletterTitleMain, .newsletterTitleSub {
     font-size: 2.1rem;

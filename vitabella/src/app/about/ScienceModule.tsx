@@ -28,12 +28,19 @@ const ScienceModule: React.FC = () => {
           </p>
           
           <div className={styles.buttonWrapper}>
-            <VitaBellaButton 
+            <VitaBellaButton
               href="/product"
+              label="Explore Treatments"
+              bg="var(--e-global-color-dark-green)"
+              bgHover="var(--e-global-color-lightgreen)"
+              text="var(--e-global-color-white)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-lightgreen)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColor="var(--e-global-color-dark-green)"
+              arrowPathColorHover="var(--e-global-color-lightgreen)"
               style={{ minWidth: 150, padding: "0.4rem 0.4rem 0.4rem 1rem", width: "auto", display: "inline-flex" }}
-            >
-              Explore Treatments
-            </VitaBellaButton>
+            />
           </div>
         </div>
         

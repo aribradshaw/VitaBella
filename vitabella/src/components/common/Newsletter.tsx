@@ -41,9 +41,21 @@ const Newsletter = () => {
               placeholder="Enter your e-mail address"
               required
             />
-            <VitaBellaButton type="submit" className={styles.signupBtn} onClick={trackMetaLead}>
-              Sign Up
-            </VitaBellaButton>
+            <VitaBellaButton
+              type="submit"
+              label="Sign Up"
+              href="#"
+              className={styles.signupBtn}
+              onClick={trackMetaLead}
+              bg="var(--e-global-color-dark-green)"
+              bgHover="var(--e-global-color-lightgreen)"
+              text="var(--e-global-color-white)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-lightgreen)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColor="var(--e-global-color-dark-green)"
+              arrowPathColorHover="var(--e-global-color-lightgreen)"
+            />
           </form>
         </div>
       </div>

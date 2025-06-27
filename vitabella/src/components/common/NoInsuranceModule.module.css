@@ -134,45 +134,6 @@
   width: auto;
 }
 
-/* Override button styles for inverted colors */
-.ctaButton {
-  background: var(--e-global-color-dark-green) !important;
-  color: var(--e-global-color-lightgreen) !important;
-  box-shadow: 0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4) !important;
-}
-
-.ctaButton:hover {
-  background: var(--e-global-color-lightgreen) !important;
-  color: var(--e-global-color-dark-green) !important;
-  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07) !important;
-}
-
-/* Override button text color specifically */
-.ctaButton span {
-  color: inherit !important;
-}
-
-.ctaButton:hover span {
-  color: inherit !important;
-}
-
-/* Override arrow colors for this specific button - use higher specificity */
-.ctaButton :global(.vitabella-arrow) :global(.arrow-circle) {
-  fill: var(--e-global-color-lightgreen) !important;
-}
-
-.ctaButton :global(.vitabella-arrow) :global(.arrow-path) {
-  fill: var(--e-global-color-dark-green) !important;
-}
-
-.ctaButton:hover :global(.vitabella-arrow) :global(.arrow-circle) {
-  fill: var(--e-global-color-dark-green) !important;
-}
-
-.ctaButton:hover :global(.vitabella-arrow) :global(.arrow-path) {
-  fill: var(--e-global-color-lightgreen) !important;
-}
-
 /* Responsive adjustments */
 @media (max-width: 900px) {
   .noInsuranceSection {
