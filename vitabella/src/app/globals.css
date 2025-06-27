@@ -279,44 +279,18 @@ button:hover {
   font-weight: 700;
   font-size: 1rem;
   border-radius: 18px;
-  padding: 0.5rem 1.2rem;
+  padding: 0.4rem;
   transition: all 0.15s;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.vitabella-btn-getstarted:hover {
-  background: var(--e-global-color-lightgreen);
-  color: var(--e-global-color-dark-green);
-  border-color: var(--e-global-color-lightgreen);
-}
-
-.vitabella-btn-learnmore {
-  background: #fff;
-  color: var(--e-global-color-dark-green);
-  border: 1.5px solid #e6f5e0;
-  font-family: 'Switzer', Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 18px;
-  padding: 0.5rem 1.2rem;
-  transition: all 0.15s;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.vitabella-btn-learnmore:hover {
-  background: var(--e-global-color-lightgreen);
-  color: var(--e-global-color-dark-green);
-  border-color: var(--e-global-color-lightgreen);
 }
 
 .vitabella-productcard-btn {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.4rem var(--space-1x);
+  padding: 0.4rem;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -367,7 +341,7 @@ button:hover {
 .vitabella-productcard-btn-getstarted {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.4rem var(--space-1x);
+  padding: 0.4rem;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -391,54 +365,25 @@ button:hover {
 .vitabella-productcard-btn-learnmore {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.4rem var(--space-1x);
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem;
-  background: #fff !important;
-  color: var(--e-global-color-dark-green) !important;
-  border: none !important;
-  box-shadow: none !important;
-  font-family: 'Switzer', Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
+  padding: 0.4rem;
   border-radius: 2rem;
   text-decoration: none;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-  position: relative;
   cursor: pointer;
-}
-.vitabella-productcard-btn-learnmore:hover {
-  background: var(--e-global-color-lightgreen) !important;
-  color: var(--e-global-color-dark-green) !important;
-}
-.vitabella-productcard-btn-learnmore .vitabella-arrow .arrow-circle,
-.vitabella-productcard-btn-learnmore:hover .vitabella-arrow .arrow-circle {
-  fill: var(--e-global-color-dark-green) !important;
-}
-.vitabella-productcard-btn-learnmore .vitabella-arrow .arrow-path,
-.vitabella-productcard-btn-learnmore:hover .vitabella-arrow .arrow-path {
-  fill: var(--e-global-color-green) !important;
-}
-.vitabella-productcard-btn-learnmore span,
-.vitabella-productcard-btn-learnmore:hover span {
-  color: var(--e-global-color-dark-green) !important;
 }
 
 @media (max-width: 1200px) {
   .vitabella-btn-getstarted,
   .vitabella-btn-learnmore {
     font-size: 0.95rem;
-    padding: 0.45rem 0.8rem;
+    padding: 0.4;
   }
 }
 @media (max-width: 900px) {
   .vitabella-btn-getstarted,
   .vitabella-btn-learnmore {
     font-size: 0.9rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem;
   }
 }
 

@@ -41,7 +41,7 @@ const ProductCategorySlider: React.FC<ProductCategorySliderProps> = ({ category,
         <img
           src={getImageSrc(product.imageBG)}
           alt={product.Title}
-          style={{ width: "100%", height: 340, objectFit: "cover", borderRadius: 18, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
+          style={{ width: "100%", height: 360, objectFit: "cover", borderRadius: 18, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
         />
       </a>
       <div className={styles.cardContent}>
@@ -61,11 +61,10 @@ const ProductCategorySlider: React.FC<ProductCategorySliderProps> = ({ category,
             text="var(--e-global-color-dark-green)"
             textHover="var(--e-global-color-dark-green)"
             arrowCircleColor="var(--e-global-color-dark-green)"
-            arrowCircleColorHover="var(--e-global-color-lightgreen)"
-            arrowPathColor="var(--e-global-color-lightgreen)"
-            arrowPathColorHover="var(--e-global-color-dark-green)"
+            arrowCircleColorHover="var(--e-global-color-dark-green)"
+            arrowPathColor="var(--e-global-color-white)"
+            arrowPathColorHover="var(--e-global-color-lightgreen)"
             className="vitabella-productcard-btn-learnmore"
-            style={{ minWidth: 0, width: '100%', fontSize: 16, padding: '0.4rem 1.2rem' }}
           />
           <VitaBellaButton
             label="Get Started"
@@ -79,7 +78,6 @@ const ProductCategorySlider: React.FC<ProductCategorySliderProps> = ({ category,
             arrowPathColor="var(--e-global-color-dark-green)"
             arrowPathColorHover="var(--e-global-color-lightgreen)"
             className="vitabella-productcard-btn-getstarted"
-            style={{ minWidth: 0, width: '100%', fontSize: 16, padding: '0.4rem 1.2rem' }}
           />
         </div>
       </div>

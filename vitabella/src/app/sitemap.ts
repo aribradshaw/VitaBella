@@ -1,9 +1,12 @@
+
 import { MetadataRoute } from 'next'
 import { getAllFAQs } from '../lib/faq-server'
+import fs from 'fs/promises';
+import path from 'path';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vitabella.com'
-  
+
   // Get FAQ pages
   const faqs = await getAllFAQs()
   const faqPages = faqs.map((faq) => ({
@@ -12,7 +15,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }))
-  
+
+  // Blog posts
+  const postsPath = path.join(process.cwd(), 'src/app/blog/posts.json');
+  let blogPages: MetadataRoute.Sitemap = [];
+  try {
+    const postsRaw = await fs.readFile(postsPath, 'utf-8');
+    const posts = JSON.parse(postsRaw);
+    blogPages = posts.filter((p: any) => p.Slug).map((post: any) => ({
+      url: `${baseUrl}/blog/${post.Slug}`,
+      lastModified: post.Date ? new Date(post.Date) : new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }));
+  } catch (e) {
+    // ignore
+  }
+
+  // Product pages
+  const productsPath = path.join(process.cwd(), 'src/app/product/products.json');
+  let productPages: MetadataRoute.Sitemap = [];
+  try {
+    const productsRaw = await fs.readFile(productsPath, 'utf-8');
+    const products = JSON.parse(productsRaw);
+    productPages = products.filter((p: any) => p.Slug).map((product: any) => ({
+      url: `${baseUrl}/product/${product.Slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }));
+  } catch (e) {
+    // ignore
+  }
+
   // Static pages
   const staticPages = [
     {
@@ -117,5 +152,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return [...staticPages, ...treatmentPages, ...faqPages]
+  return [
+    ...staticPages,
+    ...treatmentPages,
+    ...faqPages,
+    ...blogPages,
+    ...productPages,
+  ];
 }

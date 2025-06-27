@@ -3,7 +3,7 @@ import { CONTACT_EMAIL } from '../../constants/contacts';
 
 const PrivacyPolicy: React.FC = () => {
     return (
-        <div className="privacy-policy-container" style={{ maxWidth: 650, margin: '0 auto', padding: '2rem 1rem', fontFamily: 'inherit', color: 'var(--e-global-color-text, #012B27)' }}>
+        <div className="privacy-policy-container" style={{ maxWidth: 650, margin: '0 auto', padding: '2rem 1rem', fontFamily: 'inherit', color: 'var(--e-global-color-text, #012B27)', textAlign: 'justify' }}>
             <h1>Privacy Policy</h1>
             <div style={{ fontSize: '0.95em', color: '#666', marginBottom: 24 }}>Last updated 17 March 2025</div>
 
@@ -188,7 +188,6 @@ const PrivacyPolicy: React.FC = () => {
                 7014 E Camelback Rd Suite B100A<br />
                 Scottsdale, AZ 85251
             </address>
-            <p>To review, update, or delete your data, please visit: <a href="https://www.vitabella.com/contact">https://www.vitabella.com/contact</a></p>
         </div>
     );
 };

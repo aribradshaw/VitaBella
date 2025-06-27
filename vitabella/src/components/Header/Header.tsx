@@ -128,13 +128,13 @@ const Header: React.FC = () => {
 										label="View All Products"
 										href="/product"
 										bg="var(--e-global-color-dark-green)"
-										bgHover="var(--e-global-color-lightgreen)"
-										text="var(--e-global-color-lightgreen)"
+										bgHover="var(--e-global-color-green)"
+										text="var(--e-global-color-white)"
 										textHover="var(--e-global-color-dark-green)"
 										arrowCircleColor="var(--e-global-color-lightgreen)"
 										arrowCircleColorHover="var(--e-global-color-dark-green)"
 										arrowPathColor="var(--e-global-color-dark-green)"
-										arrowPathColorHover="var(--e-global-color-lightgreen)"
+										arrowPathColorHover="var(--e-global-color-green)"
 										onClick={() => setTreatmentOpen(false)}
 									/>
 								</div>

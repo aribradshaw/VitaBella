@@ -136,9 +136,19 @@ const FAQPage: React.FC<FAQPageProps> = async ({ params }) => {
                 <p className="body-text">
                   Join thousands who have already started their wellness journey with Vita Bella. Take the first step toward optimal health today.
                 </p>
-                <VitaBellaButton href="/membership">
-                  Get Started
-                </VitaBellaButton>
+                <VitaBellaButton
+                  href="/membership"
+                  label="Get Started"
+                  bg="var(--e-global-color-green)"
+                  bgHover="var(--e-global-color-dark-green)"
+                  text="var(--e-global-color-dark-green)"
+                  textHover="var(--e-global-color-white)"
+                  arrowCircleColor="var(--e-global-color-dark-green)"
+                  arrowCircleColorHover="var(--e-global-color-green)"
+                  arrowPathColor="var(--e-global-color-green)"
+                  arrowPathColorHover="var(--e-global-color-dark-green)"
+                  style={{ margin: '0 auto', marginTop: 24, minWidth: 220, maxWidth: 300 }}
+                />
               </div>
             </footer>
           </article>
