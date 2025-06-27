@@ -3,13 +3,15 @@ import nodemailer from 'nodemailer';
 import fs from 'fs/promises';
 import path from 'path';
 
-const ACTIVE_CAMPAIGN_API_KEY = '76fc23c599c82bae14ec48c3351a42ed65944ea68bfcbf08452d9155627b2ec7f8c7c014';
-const ACTIVE_CAMPAIGN_API_URL = 'https://vitabella.api-us1.com/api/3/contacts';
-const DOE_LIST_ID = 'YOUR_LIST_ID'; // TODO: Replace with actual list ID
+// All secrets/keys are now loaded from environment variables for security.
+// Use a .env.local file for local development.
+const ACTIVE_CAMPAIGN_API_KEY = process.env.ACTIVE_CAMPAIGN_API_KEY;
+const ACTIVE_CAMPAIGN_API_URL = process.env.ACTIVE_CAMPAIGN_API_URL || 'https://vitabella.api-us1.com/api/3/contacts';
+const DOE_LIST_ID = process.env.DOE_LIST_ID;
 const CSV_PATH = path.resolve(process.cwd(), 'data/newsletter_signups.csv');
-const ADMIN_EMAIL = 'aribradshawaz@gmail.com'; // Change to info@vitabella.com when ready
-const FROM_EMAIL = 'no-reply@vitabella.com';
-const RECAPTCHA_SECRET = '6Lfy92IrAAAAACVH-HFaoOA-NzGvKVwlNxVKVsv8';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'aribradshawaz@gmail.com';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'no-reply@vitabella.com';
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
 
 async function verifyRecaptcha(token: string) {
   const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -72,12 +74,15 @@ async function saveToCSV(email: string) {
 }
 
 async function sendToActiveCampaign(email: string) {
+  // Check required env vars
+  if (!ACTIVE_CAMPAIGN_API_KEY) throw new Error('Missing ACTIVE_CAMPAIGN_API_KEY');
+  if (!ACTIVE_CAMPAIGN_API_URL) throw new Error('Missing ACTIVE_CAMPAIGN_API_URL');
   // Get the list ID for "2025 Prospect | DOE" if not set
   let listId = DOE_LIST_ID;
   if (!listId || listId === 'YOUR_LIST_ID') {
     // Fetch lists and find the correct one
     const res = await fetch('https://vitabella.api-us1.com/api/3/lists', {
-      headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY },
+      headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string },
     });
     const data = await res.json();
     const found = data.lists?.find((l: any) => l.name?.includes('2025 Prospect'));
@@ -87,7 +92,7 @@ async function sendToActiveCampaign(email: string) {
   const res = await fetch(ACTIVE_CAMPAIGN_API_URL, {
     method: 'POST',
     headers: {
-      'Api-Token': ACTIVE_CAMPAIGN_API_KEY,
+      'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

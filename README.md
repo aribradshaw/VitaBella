@@ -1,6 +1,6 @@
 # Vita Bella Website
 
-**Version 1.6**
+**Version 1.7**
 
 Last Major Edit: Blog Archive and Individual Posts with SSR
 
