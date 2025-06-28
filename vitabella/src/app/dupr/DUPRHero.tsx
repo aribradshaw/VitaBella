@@ -8,9 +8,11 @@ import styles from "./DUPRHero.module.css";
 
 interface DUPRHeroProps {
   onStartPlanClick?: () => void;
+  type?: 'dupr' | 'pickleball';
 }
 
-const DUPRHero: React.FC<DUPRHeroProps> = ({ onStartPlanClick }) => {
+const DUPRHero: React.FC<DUPRHeroProps> = ({ onStartPlanClick, type = 'dupr' }) => {
+  const isPickleball = type === 'pickleball';
   return (
     <section className={styles.heroSection}>
       <Image
@@ -22,10 +24,14 @@ const DUPRHero: React.FC<DUPRHeroProps> = ({ onStartPlanClick }) => {
         sizes="100vw"
       />
       <div className={styles.heroContent}>
-        <h1 className={styles.heroTitle}>WELCOME DUPR MEMBERS</h1>
+        <h1 className={styles.heroTitle}>
+          {isPickleball ? 'WELCOME PICKLEBALL PLAYERS!' : 'WELCOME DUPR MEMBERS'}
+        </h1>
         <div className={styles.heroDescBox}>
           <p className={styles.heroDesc}>
-            As The Official Wellness Partner of DUPR, Vita Bella offers physician-led programs designed to help athletes 25+ play harder, recover faster, and stay in the game.
+            {isPickleball
+              ? 'Vita Bella offers physician-led programs designed to help athletes 25+ play harder, recover faster, and stay in the game.'
+              : 'As The Official Wellness Partner of DUPR, Vita Bella offers physician-led programs designed to help athletes 25+ play harder, recover faster, and stay in the game.'}
           </p>
         </div>
         <div className={styles.buttonRow}>

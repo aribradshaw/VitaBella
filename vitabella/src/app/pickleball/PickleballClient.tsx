@@ -3,17 +3,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../globals.css';
 import CalendlyScheduler from '../../components/common/CalendlyScheduler';
-import DUPRHero from './DUPRHero';
-import DUPRWhyItMatters from './DUPRWhyItMatters';
-import SmarterEdge from './SmarterEdge';
-import DUPRGetStarted from './DUPRGetStarted';
+import DUPRHero from '../dupr/DUPRHero';
+import DUPRWhyItMatters from '../dupr/DUPRWhyItMatters';
+import SmarterEdge from '../dupr/SmarterEdge';
+import DUPRGetStarted from '../dupr/DUPRGetStarted';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
 import MembershipPlans from '../membership/MembershipPlans';
-import DUPRStats from './DUPRStats';
-import DUPRVideo from './DUPRVideo';
+import DUPRStats from '../dupr/DUPRStats';
+import DUPRVideo from '../dupr/DUPRVideo';
 
-const DUPRClient: React.FC = () => {
-    const pageTitle = "DUPR";
+const PickleballClient: React.FC = () => {
+    const pageTitle = "For Pickleball Players";
 
     // Smooth scroll handler for MembershipPlans
     const handleScrollToMembership = () => {
@@ -25,11 +25,11 @@ const DUPRClient: React.FC = () => {
 
     return (
         <div>
-            <DUPRHero onStartPlanClick={handleScrollToMembership} type="dupr" />
+            <DUPRHero onStartPlanClick={handleScrollToMembership} type="pickleball" />
             <DUPRWhyItMatters />
             <SmarterEdge />
             {/* DUPRGetStarted module below SmarterEdge */}
-            <DUPRGetStarted type="dupr" />
+            <DUPRGetStarted type="pickleball" />
             <SectionHeader
                 left={{
                 h2Alt: 'Explore Our.',
@@ -59,4 +59,4 @@ const DUPRClient: React.FC = () => {
     );
 };
 
-export default DUPRClient;
+export default PickleballClient;
