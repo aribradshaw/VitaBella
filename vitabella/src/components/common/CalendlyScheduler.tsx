@@ -1,10 +1,33 @@
 "use client";
 import React, { useState } from 'react';
-import employees from '../../constants/employees.json';
 
-const availableEmployees = employees.filter((e: any) => e.calendlystatus === 'Available');
+interface CalendlySchedulerProps {
+  type?: 'employees' | 'roundrobin';
+}
 
-const CalendlyScheduler: React.FC = () => {
+const ROUNDROBIN_LINK = 'https://calendly.com/vb-consultations/complimentary-consults';
+
+const CalendlyScheduler: React.FC<CalendlySchedulerProps> = ({ type = 'employees' }) => {
+  if (type === 'roundrobin') {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center' }}>
+        <iframe
+          src={ROUNDROBIN_LINK + '?hide_event_type_details=1&hide_gdpr_banner=1'}
+          width="100%"
+          height="700"
+          frameBorder="0"
+          title="Calendly Scheduler (Round Robin)"
+          style={{ minWidth: '320px', borderRadius: '12px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}
+          allow="camera; microphone; fullscreen"
+        ></iframe>
+      </div>
+    );
+  }
+
+  // Only import employees.json if not roundrobin
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const employees = require('../../constants/employees.json');
+  const availableEmployees = employees.filter((e: any) => e.calendlystatus === 'Available');
   const [selectedIdx, setSelectedIdx] = useState(0);
   const selected = availableEmployees[selectedIdx];
 

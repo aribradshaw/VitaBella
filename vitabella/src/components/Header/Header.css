@@ -84,7 +84,7 @@
 
 .dropdown-menu {
   position: absolute;
-  top: 3.5rem; /* Increased from 2.5rem to 3.5rem for more space below nav */
+  top: 100%; /* Directly below the parent li, no gap */
   left: 0;
   background: #fff;
   border-radius: 18px;

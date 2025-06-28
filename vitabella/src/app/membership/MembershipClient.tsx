@@ -157,7 +157,7 @@ const MembershipClient: React.FC = () => {
         right={
           <>Do you have any questions about our services? Schedule a call today.</>        }
       />   
-      <CalendlyScheduler />
+      <CalendlyScheduler type="roundrobin" />
       <SectionHeader
         left={{
           h2Alt: 'The membership that works as',
