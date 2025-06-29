@@ -72,9 +72,11 @@ const MembershipCategorySlider: React.FC = () => {
                   fill
                   style={{ objectFit: 'cover' }}
                 />
-                <div className={styles.overlayTitle}>{slide.title}</div>
-                <div className={styles.overlayArrow}>
-                  <img src="/brand/white-arrow.svg" alt="arrow" />
+                <div className={styles.slideOverlayRow}>
+                  <span className={styles.overlayTitle}>{slide.title}</span>
+                  <span className={styles.overlayArrow}>
+                    <img src="/brand/white-arrow.svg" alt="arrow" />
+                  </span>
                 </div>
               </div>
             </Link>

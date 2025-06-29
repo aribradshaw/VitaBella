@@ -94,44 +94,39 @@
   transform: scale(1.1);
 }
 
-.overlayTitle {
+
+.slideOverlayRow {
   position: absolute;
   left: var(--space-1x);
+  right: var(--space-1x);
   bottom: var(--space-1x);
+  z-index: 3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+}
+
+.overlayTitle {
   color: var(--e-global-color-white);
   font-family: 'Switzer', Arial, Helvetica, sans-serif;
   font-size: 1.15rem;
   font-weight: 600;
   padding: 0;
   border-radius: var(--border-radius, 1.2rem);
-  z-index: 3;
   letter-spacing: -0.5px;
   text-shadow: 0 2px 8px rgba(0,0,0,0.18);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .overlayArrow {
-  position: absolute;
-  right: var(--space-1x);
-  bottom: var(--space-1x);
-  z-index: 3;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.overlayArrow {
-  position: absolute;
-  right: var(--space-1x);
-  bottom: var(--space-1x);
-  z-index: 3;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: static;
 }
 
 .overlayArrow img {
@@ -194,9 +189,15 @@
   .sliderTrack {
     gap: 10px;
   }
+  .slideOverlayRow {
+    left: var(--space-1x);
+    right: var(--space-1x);
+    bottom: var(--space-1x);
+    padding: 0;
+  }
   .overlayTitle { 
     font-size: 0.9rem; 
-    padding: var(--space-1x) var(--space-1x); 
+    padding: 0;
   }
   .overlayArrow img { 
     width: 18px; 
