@@ -75,13 +75,15 @@ async function verifyRecaptcha(token: string) {
 // }
 
 // Accepts a second argument for list type: 'prospect' or 'waitlist'
+// Ensures contact is created/updated, then explicitly subscribes to the correct list
 async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitlist' = 'prospect') {
   if (!ACTIVE_CAMPAIGN_API_KEY) throw new Error('Missing ACTIVE_CAMPAIGN_API_KEY');
   if (!ACTIVE_CAMPAIGN_API_URL) throw new Error('Missing ACTIVE_CAMPAIGN_API_URL');
-  // Use hardcoded list IDs
   const listId = listType === 'prospect' ? 12 : 13;
   const tag = listType === 'prospect' ? '2025 Prospect | DOE' : '2025 Waitlist | DOE';
-  const res = await fetch(ACTIVE_CAMPAIGN_API_URL, {
+
+  // 1. Create or update the contact
+  const contactRes = await fetch('https://vitabella.api-us1.com/api/3/contact/sync', {
     method: 'POST',
     headers: {
       'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string,
@@ -90,13 +92,36 @@ async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitl
     body: JSON.stringify({
       contact: {
         email,
-        "listid": [listId],
-        "tags": [tag],
+        tags: [tag],
       },
     }),
   });
-  if (!res.ok) {
-    throw new Error('ActiveCampaign error');
+  const contactData = await contactRes.json();
+  if (!contactRes.ok || !contactData.contact || !contactData.contact.id) {
+    console.error('ActiveCampaign contact sync error:', contactData);
+    throw new Error('ActiveCampaign contact sync error');
+  }
+  const contactId = contactData.contact.id;
+
+  // 2. Subscribe the contact to the correct list
+  const listRes = await fetch('https://vitabella.api-us1.com/api/3/contactLists', {
+    method: 'POST',
+    headers: {
+      'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      contactList: {
+        list: String(listId),
+        contact: String(contactId),
+        status: 1,
+      },
+    }),
+  });
+  const listData = await listRes.json();
+  if (!listRes.ok) {
+    console.error('ActiveCampaign list subscribe error:', listData);
+    throw new Error('ActiveCampaign list subscribe error');
   }
 }
 
