@@ -70,10 +70,6 @@ button {
     margin: var(--space-1x) 0;
 }
 
-button:hover {
-    background-color: #D6FEA1; /* Button hover color */
-}
-
 .navbar {
     background-color: var(--e-global-color-off-white); /* Navbar background color */
     padding: var(--space-1x);
@@ -321,21 +317,6 @@ button:hover {
   background: var(--e-global-color-dark-green) !important;
   color: var(--e-global-color-lightgreen) !important;
   box-shadow: 0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4) !important;
-}
-.vitabella-productcard-btn:hover span {
-  color: var(--e-global-color-lightgreen) !important;
-}
-.vitabella-productcard-btn:hover .vitabella-arrow .arrow-circle {
-  fill: var(--e-global-color-lightgreen) !important;
-}
-.vitabella-productcard-btn:hover .vitabella-arrow .arrow-path {
-  fill: var(--e-global-color-dark-green) !important;
-}
-.vitabella-productcard-btn:hover .arrow-circle {
-  fill: var(--arrow-circle-hover-color, var(--e-global-color-lightgreen)) !important;
-}
-.vitabella-productcard-btn:hover .arrow-path {
-  fill: var(--arrow-path-hover-color, var(--e-global-color-dark-green)) !important;
 }
 
 .vitabella-productcard-btn-getstarted {

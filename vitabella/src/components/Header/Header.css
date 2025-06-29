@@ -1,3 +1,275 @@
+/* Strong mobile resource link hover for FAQ/Blog */
+@media (max-width: 900px) {
+  .mobile-resource-link:hover, .mobile-resource-link:focus {
+    color: var(--e-global-color-dark-green) !important;
+    border-radius: 12px;
+    transition: background 0.18s, color 0.18s;
+  }
+  /* Treatment category label hover: dark green text */
+  .mobile-dropdown-menu .treatment-item:hover .treatment-label,
+  .mobile-dropdown-menu .treatment-item:focus .treatment-label {
+    color: var(--e-global-color-dark-green) !important;
+    background: none !important;
+  }
+  /* Prevent overflow in treatment grid */
+  .mobile-dropdown-menu .treatment-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .mobile-dropdown-menu .treatment-item {
+    min-width: 110px;
+    max-width: 45vw;
+    flex: 1 1 40vw;
+    box-sizing: border-box;
+    word-break: break-word;
+  }
+  .mobile-dropdown-menu .treatment-label {
+    font-size: 1rem;
+    text-align: center;
+    word-break: break-word;
+    white-space: normal;
+    padding: 0 2px;
+  }
+}
+/* Mobile Resources Dropdown Links: underline on hover */
+@media (max-width: 900px) {
+  .mobile-dropdown-menu.resources-dropdown a {
+    color: inherit;
+    text-decoration: none;
+    transition: text-decoration 0.15s;
+  }
+  .mobile-dropdown-menu.resources-dropdown a:hover,
+  .mobile-dropdown-menu.resources-dropdown a:focus {
+    text-decoration: underline;
+    color: inherit;
+  }
+}
+.hamburger {
+  display: none;
+}
+.hamburger svg {
+  display: block;
+}
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 60px;
+    width: 56px;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    background: rgba(45,60,50,0.98);
+    border: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    overflow: visible;
+    border-radius: 0 0 0 18px;
+    transition: background 0.18s, box-shadow 0.18s;
+  }
+  .hamburger svg {
+    color: #fff;
+    transition: color 0.18s;
+  }
+  .hamburger:hover svg,
+  .hamburger:focus svg,
+  .hamburger:active svg {
+    color: var(--e-global-color-lightgreen);
+    background: none !important;
+  }
+  .navigation,
+  .header-actions {
+    display: none !important;
+  }
+}
+
+.mobile-menu {
+  display: none;
+}
+.mobile-menu.open {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(45, 60, 50, 0.98);
+  z-index: 1500;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  transition: opacity 0.2s;
+  padding: 0;
+}
+.mobile-menu-content {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+}
+.mobile-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-nav-list > li > a,
+.mobile-dropdown-toggle {
+  color: #fff;
+  font-family: 'Switzer', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.2rem;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-nav-list > li > a {
+  color: #fff;
+  font-family: 'Switzer', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.2rem;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-nav-list > li > a:hover {
+  color: var(--e-global-color-lightgreen);
+  background: none !important;
+}
+.mobile-dropdown-toggle .mobile-caret {
+  margin-left: 0.7em;
+  font-size: 1.1em;
+}
+.mobile-dropdown-parent {
+  width: 100%;
+}
+.mobile-dropdown-menu {
+  display: none;
+  width: 100%;
+  margin-top: 0.7rem;
+}
+.mobile-dropdown-parent.open > .mobile-dropdown-menu {
+  display: block;
+}
+  .mobile-dropdown-menu.treatment-dropdown {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+    min-width: 0;
+    max-width: 100vw;
+    width: 100vw;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+.mobile-dropdown-menu .dropdown-title {
+  color: #2d3c32;
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+  .mobile-dropdown-menu .treatment-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .mobile-dropdown-menu .treatment-item {
+    min-width: 90px;
+    max-width: 44vw;
+    flex: 1 1 44vw;
+    box-sizing: border-box;
+    word-break: break-word;
+    margin: 0;
+    padding: 0 0 0.6rem 0;
+  }
+.mobile-dropdown-menu .treatment-item:hover .treatment-label {
+  color: var(--e-global-color-lightgreen);
+  background: none !important;
+}
+.mobile-dropdown-menu .treatment-img {
+  width: 70px;
+  height: 70px;
+}
+.mobile-dropdown-menu.resources-dropdown {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  padding: 1rem 1.2rem;
+  min-width: unset;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.mobile-dropdown-menu.resources-dropdown a {
+  color: #2d3c32;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.mobile-dropdown-menu.resources-dropdown a:hover {
+  color: var(--e-global-color-lightgreen);
+  background: none !important;
+}
+.mobile-login {
+  width: 100%;
+  margin-top: 2.5rem;
+  text-align: center;
+}
+.mobile-login .login-btn {
+  color: #fff;
+  font-family: 'Switzer', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+
+  transition: color 0.18s;
+}
+.mobile-login .login-btn:hover {
+  color: #b6ffb0;
+}
 /* Header styles go here */
 
 .header {
@@ -18,7 +290,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  min-height: 7px;
+  min-height: 70px;
+  position: relative;
 }
 
 .logo {
@@ -29,6 +302,24 @@
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.04em;
+  height: 70px;
+  padding-left: 0;
+  transition: padding 0.2s;
+  z-index: 1202;
+}
+@media (max-width: 800px) {
+  .logo {
+    padding-left: 10px;
+    height: 60px;
+    flex: 0 0 auto;
+    max-width: 80vw;
+  }
+  .header-container {
+    min-height: 60px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* .hamburger positioning is handled above for all mobile */
 }
 .logo a {
   color: #fff;
@@ -241,6 +532,13 @@
   color: #b6ffb0;
 }
 
+/* Ensure close button hover never changes background, only icon color */
+.close-button:hover, .close-button:focus {
+  background: none !important;
+  background-color: transparent !important;
+  color: var(--e-global-color-lightgreen) !important;
+}
+
 @media (max-width: 1400px) {
   .header-container {
     max-width: 98vw;
@@ -298,9 +596,13 @@
     gap: 0.5rem;
   }
   .treatment-item {
-    min-width: 90px;
-    max-width: 110px;
-    padding: 0 0 0.6rem 0;
+  min-width: 90px;
+  max-width: 110px;
+  padding: 0 0 0.6rem 0;
+}
+.mobile-dropdown-menu .treatment-item:hover .treatment-label {
+  color: var(--e-global-color-lightgreen);
+  background: none !important;
   }
   .treatment-img {
     width: 70px;
