@@ -127,7 +127,7 @@ async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitl
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken } = await req.json();
+    const { email, recaptchaToken, listType } = await req.json();
     // For browser debugging, echo back what we got
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
@@ -143,8 +143,8 @@ export async function POST(req: NextRequest) {
     if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.5)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
-    // Always send newsletter signups to prospect list
-    await sendToActiveCampaign(email, 'prospect');
+    // Use listType if provided, default to 'prospect'
+    await sendToActiveCampaign(email, listType === 'waitlist' ? 'waitlist' : 'prospect');
     return NextResponse.json({ success: true });
   } catch (e) {
     let message = 'Unknown error';

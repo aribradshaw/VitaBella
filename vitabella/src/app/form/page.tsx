@@ -306,6 +306,7 @@ function VitaBellaMultiStepForm() {
     try {
       // Optionally add recaptcha here
       // Use the newsletter API route for all form submissions
+      console.log("Submitting form...", { email: form.email, listType });
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -315,8 +316,10 @@ function VitaBellaMultiStepForm() {
           listType,
         }),
       });
+      console.log("Newsletter API response status:", res.status);
       if (!res.ok) {
         const data = await res.json();
+        console.error("Newsletter API error: ", data);
         const errorMsg = (data as { error?: string })?.error;
         setError(errorMsg || "Submission failed");
         setLoading(false);
@@ -324,10 +327,13 @@ function VitaBellaMultiStepForm() {
       }
       // Redirect
       router.push(getRedirectUrl(isAccepted));
+      // Do not setLoading(false) here, as redirect will unmount the component
     } catch (err: any) {
       setError(err?.message || "Unknown error");
       setLoading(false);
     }
+    // In case redirect fails or is blocked, always clear loading after a delay
+    setTimeout(() => setLoading(false), 3000);
   };
 
   // Render step fields
