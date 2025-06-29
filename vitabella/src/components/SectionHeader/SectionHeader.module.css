@@ -8,22 +8,23 @@
   padding-bottom: var(--space-1x);
 }
 
+@media (max-width: 900px) {
+  .sectionHeader {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+  .left, .right {
+    max-width: 100%;
+    width: 100%;
+  }
+  .right {
+    margin-top: 0.5rem;
+  }
+}
+
 .left {
   flex: 1;
-}
-
-.h2-alt {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #333;
-  line-height: 1.1;
-}
-
-.h2 {
-  font-size: 3rem;
-  font-weight: 400;
-  color: #333;
-  line-height: 1.1;
 }
 
 .right {
@@ -44,22 +45,6 @@
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-
-.headingRow .h2-alt,
-.headingRow .h2 {
-  font-size: 3rem;
-  line-height: 1.1;
-  color: #333;
-}
-
-.headingRow .h2-alt {
-  font-weight: 700;
-}
-
-.headingRow .h2 {
-  font-weight: 400;
-}
-
 .stackedText {
   width: 100%;
   font-size: 1.1rem;
@@ -75,10 +60,7 @@
 
 /* Responsive adjustments for stacked variant */
 @media (max-width: 768px) {
-  .headingRow .h2-alt,
-  .headingRow .h2 {
-    font-size: 2rem;
-  }
+
   
   .stackedText {
     font-size: 1rem;
@@ -86,10 +68,7 @@
 }
 
 @media (max-width: 480px) {
-  .headingRow .h2-alt,
-  .headingRow .h2 {
-    font-size: 1.5rem;
-  }
+
   
   .stackedText {
     font-size: 0.9rem;
