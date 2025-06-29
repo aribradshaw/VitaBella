@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './MembershipPlans.module.css';
 
 interface PlanFeature {
@@ -23,6 +24,7 @@ const planFeatures: PlanFeature[] = [
 
 const MembershipPlans: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'monthly' | 'yearly'>('monthly');
+  const router = useRouter();
 
   const getPlanData = () => {
     if (activeTab === 'monthly') {
@@ -64,7 +66,18 @@ const MembershipPlans: React.FC = () => {
     } else {
       return <span className={styles.featureNo}>No</span>;
     }
-  };  return (
+  };
+
+  // Add these handlers
+  const handleFoundationClick = () => {
+    router.push(activeTab === 'monthly' ? '/form?fm' : '/form?fa');
+  };
+
+  const handlePerformanceClick = () => {
+    router.push(activeTab === 'monthly' ? '/form?pm' : '/form?pa');
+  };
+
+  return (
     <section id="membership-plans" className={styles.membershipPlans} data-section="membership-plans">
       <div className={styles.container}>
         {/* Tab Navigation */}
@@ -125,7 +138,11 @@ const MembershipPlans: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>            <button className={styles.selectPlanButton}>
+            </div>
+            <button
+              className={styles.selectPlanButton}
+              onClick={handleFoundationClick}
+            >
               <span>Pick This Plan</span>
               <div className={styles.buttonArrow}>
                 <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
@@ -173,7 +190,11 @@ const MembershipPlans: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>            <button className={`${styles.selectPlanButton} ${styles.performanceButton}`}>
+            </div>
+            <button
+              className={`${styles.selectPlanButton} ${styles.performanceButton}`}
+              onClick={handlePerformanceClick}
+            >
               <span>Pick This Plan</span>
               <div className={styles.buttonArrow}>
                 <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
