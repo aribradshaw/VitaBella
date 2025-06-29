@@ -52,7 +52,7 @@ const MembershipClient: React.FC = () => {
       }}>
         <section style={{
           textAlign: 'center',
-          padding: 'var(--space-4x) var(--space-1x) var(--space-2x) var(--space-1x)',
+          padding: 'var(--space-2x) var(--space-1x) var(--space-2x) var(--space-1x)',
           width: '100vw',
           maxWidth: '100vw',
           margin: 0,
@@ -81,30 +81,55 @@ const MembershipClient: React.FC = () => {
               </span>
             </h1>
           </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 'var(--space-2x)',
-            margin: '0 0 var(--space-2x) 0',
-            flexWrap: 'wrap',
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 'var(--space-1x)',
+              margin: '0 0 var(--space-1x) 0',
+              flexWrap: 'wrap',
+            }}
+          >
             {features.map((f, i) => (
-              <span key={f} style={{
-                background: '#1F2F28',
-                borderRadius: '2rem',
-                padding: '0.7rem 1.6rem',
-                color: COLORS.white,
-                fontWeight: 500,
-                fontSize: '1.08rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.7rem',
-                boxShadow: '0 2px 8px rgba(44,60,50,0.10)',
-                minWidth: 220,
-                justifyContent: 'center',
-                letterSpacing: '-0.2px',
-              }}>
-                <span style={{ color: COLORS.green, fontSize: '1.3em', fontWeight: 700, marginRight: 6 }}>✔</span> {f}
+              <span
+                key={f}
+                style={{
+                  background: '#1F2F28',
+                  borderRadius: '2rem',
+                  padding: '0.7rem 1.6rem',
+                  color: COLORS.white,
+                  fontWeight: 500,
+                  fontSize: '1.08rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.7rem',
+                  boxShadow: '0 2px 8px rgba(44,60,50,0.10)',
+                  minWidth: 220,
+                  justifyContent: 'center',
+                  letterSpacing: '-0.2px',
+                  marginBottom: '10px',
+                  ...(typeof window !== 'undefined' && window.innerWidth <= 480
+                    ? {
+                        minWidth: 120,
+                        fontSize: '0.92rem',
+                        padding: '0.5rem 0.7rem',
+                        gap: '0.4rem !important',
+                        marginBottom: '0px !important',
+                      }
+                    : {}),
+                }}
+              >
+                <span
+                  style={{
+                    color: COLORS.green,
+                    fontSize: typeof window !== 'undefined' && window.innerWidth <= 480 ? '1.05em' : '1.3em',
+                    fontWeight: 700,
+                    marginRight: 6,
+                  }}
+                >
+                  ✔
+                </span>{' '}
+                {f}
               </span>
             ))}
           </div>

@@ -31,12 +31,12 @@ const MembershipPlans: React.FC = () => {
       return {
         foundation: {
           price: '$99',
-          period: 'MONTH',
+          period: 'Month',
           originalPrice: '$120',
         },
         performance: {
           price: '$179',
-          period: 'MONTH',
+          period: 'Month',
           originalPrice: '$215',
         }
       };
@@ -57,6 +57,13 @@ const MembershipPlans: React.FC = () => {
   };
 
   const planData = getPlanData();
+
+  // Helper to get period label for mobile
+  const getPeriodLabel = (period: string) => {
+    if (mobile && period.toLowerCase() === 'month') return 'mo';
+    if (mobile && period.toLowerCase() === 'year') return 'yr';
+    return period;
+  };
 
   const renderFeatureValue = (value: boolean | 'limited') => {
     if (value === true) {
@@ -109,27 +116,35 @@ const MembershipPlans: React.FC = () => {
         {mobile ? (
           <div className={styles.comparativeTableWrap}>
             <div className={styles.comparativeTable}>
-              <div className={styles.comparativeTableHeader}>
+              {/* Section header row for plan names */}
+              <div className={styles.comparativeTableRow + ' ' + styles.sectionHeaderRow}>
                 <div className={styles.comparativeTableCell}></div>
-                <div className={styles.comparativeTableCell}><strong>Foundation</strong><br/>
-                  <span className={styles.planPrice}>{planData.foundation.price}/{planData.foundation.period}</span>
-                  <span className={styles.originalPrice}>{planData.foundation.originalPrice}</span>
+                <div className={styles.comparativeTableCell}><strong>Foundation</strong></div>
+                <div className={styles.comparativeTableCell}><strong>Performance</strong></div>
+              </div>
+              {/* Row for plan prices */}
+            <div className={styles.comparativeTableRow + ' ' + styles.priceRow}>
+                <div className={styles.comparativeTableCell}></div>
+                <div className={styles.comparativeTableCell}>
+                  <span className={styles.planPrice + ' ' + styles.mobilePlanPrice}>{planData.foundation.price}/{getPeriodLabel(planData.foundation.period)}</span><br />
+                  <span className={styles.originalPrice}>{planData.foundation.originalPrice}</span><br />
                   <span className={styles.costNote}>+ cost of medication</span>
                 </div>
-                <div className={styles.comparativeTableCell}><strong>Performance</strong><br/>
-                  <span className={styles.planPrice}>{planData.performance.price}/{planData.performance.period}</span>
-                  <span className={styles.originalPrice}>{planData.performance.originalPrice}</span>
+                <div className={styles.comparativeTableCell}>
+                  <span className={styles.planPrice + ' ' + styles.mobilePlanPrice}>{planData.performance.price}/{getPeriodLabel(planData.performance.period)}</span><br />
+                  <span className={styles.originalPrice}>{planData.performance.originalPrice}</span><br />
                   <span className={styles.costNote}>+ cost of medication</span>
                 </div>
               </div>
               {/* Features */}
-              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}><strong>Features</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
+              {/* Clinical Process section header */}
+              <div className={styles.comparativeTableRow + ' ' + styles.sectionHeaderRow}><div className={styles.comparativeTableCell}><strong>Clinical Process</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
               <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>1:1 quarterly telehealth visits with provider</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
               <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Custom-tailored treatment plan by a medical provider</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
               <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Direct provider messaging access</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
               <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Zero-cost injection supplies</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
-              {/* Access To */}
-              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}><strong>Access To</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
+              {/* Access To section header */}
+              <div className={styles.comparativeTableRow + ' ' + styles.sectionHeaderRow}><div className={styles.comparativeTableCell}><strong>Access To</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
               {planFeatures.map((feature, idx) => (
                 <div className={styles.comparativeTableRow} key={idx}>
                   <div className={styles.comparativeTableCell}>{feature.name}</div>
