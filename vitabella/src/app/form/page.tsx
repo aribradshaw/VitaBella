@@ -600,7 +600,7 @@ function VitaBellaMultiStepForm() {
     return activeSteps[step].fields.map(field => {
       if (field.conditional && !field.conditional(form)) return null;
       // Special case: Activity step, show textarea if 'Other' is selected
-      if field.name === "activityOther") {
+      if (field.name === "activityOther") {
         return (
           <div key="activityOther">
             <label className="vita-bella-form-label">{field.label}</label>
