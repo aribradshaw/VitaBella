@@ -74,22 +74,13 @@ async function verifyRecaptcha(token: string) {
 //   await fs.appendFile(CSV_PATH, row);
 // }
 
-async function sendToActiveCampaign(email: string) {
-  // Check required env vars
+// Accepts a second argument for list type: 'prospect' or 'waitlist'
+async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitlist' = 'prospect') {
   if (!ACTIVE_CAMPAIGN_API_KEY) throw new Error('Missing ACTIVE_CAMPAIGN_API_KEY');
   if (!ACTIVE_CAMPAIGN_API_URL) throw new Error('Missing ACTIVE_CAMPAIGN_API_URL');
-  // Get the list ID for "2025 Prospect | DOE" if not set
-  let listId = DOE_LIST_ID;
-  if (!listId || listId === 'YOUR_LIST_ID') {
-    // Fetch lists and find the correct one
-    const res = await fetch('https://vitabella.api-us1.com/api/3/lists', {
-      headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string },
-    });
-    const data = await res.json() as { lists?: Array<{ id: string; name?: string }> };
-    const found = data.lists?.find((l: { name?: string }) => l.name?.includes('2025 Prospect'));
-    if (found) listId = found.id;
-  }
-  // Add contact to list
+  // Use hardcoded list IDs
+  const listId = listType === 'prospect' ? 12 : 13;
+  const tag = listType === 'prospect' ? '2025 Prospect | DOE' : '2025 Waitlist | DOE';
   const res = await fetch(ACTIVE_CAMPAIGN_API_URL, {
     method: 'POST',
     headers: {
@@ -100,7 +91,7 @@ async function sendToActiveCampaign(email: string) {
       contact: {
         email,
         "listid": [listId],
-        "tags": ['2025 Prospect | DOE'],
+        "tags": [tag],
       },
     }),
   });
@@ -127,14 +118,8 @@ export async function POST(req: NextRequest) {
     if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.5)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
-    // 2. Save to CSV (disabled for serverless)
-    // await saveToCSV(email);
-    // 3. Send thank you email (disabled for serverless)
-    // await sendThankYouEmail(email);
-    // 4. Send admin notification (disabled for serverless)
-    // await sendAdminNotification(email);
-    // 5. Send to ActiveCampaign
-    await sendToActiveCampaign(email);
+    // Always send newsletter signups to prospect list
+    await sendToActiveCampaign(email, 'prospect');
     return NextResponse.json({ success: true });
   } catch (e) {
     let message = 'Unknown error';
