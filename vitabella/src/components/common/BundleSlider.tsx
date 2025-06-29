@@ -9,6 +9,24 @@ interface BundleSliderProps {
   visibleCount?: number;
 }
 
+
+const useResponsiveVisibleCount = (defaultCount: number) => {
+  const [count, setCount] = useState(defaultCount);
+
+  React.useEffect(() => {
+    const updateCount = () => {
+      if (typeof window !== 'undefined') {
+        setCount(window.innerWidth <= 900 ? 1 : defaultCount);
+      }
+    };
+    updateCount();
+    window.addEventListener('resize', updateCount);
+    return () => window.removeEventListener('resize', updateCount);
+  }, [defaultCount]);
+
+  return count;
+};
+
 const BundleSlider: React.FC<BundleSliderProps> = ({ gender, visibleCount = 4 }) => {
   // Prepare slides based on gender
   const slides = useMemo(() => {
@@ -22,6 +40,9 @@ const BundleSlider: React.FC<BundleSliderProps> = ({ gender, visibleCount = 4 })
       };
     });
   }, [gender]);
+
+  // Responsive visibleCount: 1 on mobile, default otherwise
+  const responsiveVisibleCount = useResponsiveVisibleCount(visibleCount);
 
   // Dots navigation
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -58,7 +79,7 @@ const BundleSlider: React.FC<BundleSliderProps> = ({ gender, visibleCount = 4 })
     <div className={styles.sliderSection}>
       <VitaBellaSlider
         items={slides}
-        visibleCount={visibleCount}
+        visibleCount={responsiveVisibleCount}
         renderSlide={renderSlide}
         className={styles.slider}
         style={{ margin: '0 auto', maxWidth: 1340 }}

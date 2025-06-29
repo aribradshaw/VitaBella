@@ -95,3 +95,20 @@
     height: 160px;
   }
 }
+
+@media (max-width: 600px) {
+  .slide {
+    min-width: 100px;
+    max-width: 160px;
+    padding: var(--space-1x); /* Remove extra space below image */
+  }
+  .photo {
+    width: 130px;
+    height: 200px; /* Make images taller on mobile */
+    margin-bottom: 0.1rem;
+  }
+  .caption {
+    margin-bottom: 0;
+    margin-top: 0.15rem;
+  }
+}

@@ -73,7 +73,23 @@ const reviews = [
 	},
 ];
 
-const VISIBLE_CARDS = 2;
+// Responsive visible cards
+const getVisibleCards = () => {
+  if (typeof window !== "undefined" && window.innerWidth <= 600) {
+	return 1;
+  }
+  return 2;
+};
+
+const useVisibleCards = () => {
+  const [visible, setVisible] = useState(getVisibleCards());
+  useEffect(() => {
+	const handleResize = () => setVisible(getVisibleCards());
+	window.addEventListener("resize", handleResize);
+	return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return visible;
+};
 
 // Individual review card component with responsive sizing
 const ReviewCard: React.FC<{ review: typeof reviews[0]; idx: number }> = ({ review, idx }) => {
@@ -186,67 +202,68 @@ interface CustomerReviewsProps {
 }
 
 const CustomerReviews: React.FC<CustomerReviewsProps> = ({ page = 'other', pageTitle }) => {
-	// Determine background image and color based on page
-	const backgroundImage = page === 'about' 
-		? "url('/modules/customerreviews.webp')" 
-		: "url('/modules/membershipmountain.webp')";
-	
-	const backgroundColor = page === 'about' ? '#4E604F' : '#032B27';
+  // Determine background image and color based on page
+  const backgroundImage = page === 'about' 
+	? "url('/modules/customerreviews.webp')" 
+	: "url('/modules/membershipmountain.webp)";
+  const backgroundColor = page === 'about' ? '#4E604F' : '#032B27';
+  const sectionStyle = {
+	background: `${backgroundImage} center top/cover no-repeat, ${backgroundColor}`,
+	backgroundSize: '100% auto'
+  };
+  const visibleCount = useVisibleCards();
 
-	const sectionStyle = {
-		background: `${backgroundImage} center top/cover no-repeat, ${backgroundColor}`,
-		backgroundSize: '100% auto'
-	};
-
-	return (
-		<section className={styles.customerReviewsSection} style={sectionStyle}>
-			<div className={styles.bgTop} />
-			<div className={styles.customerReviewsContent}>
-				<div className={styles.headerWrap}>
-					<div className={styles.headerText}>
-						<div className={styles.reviewsLabel}>Customer Reviews</div>
-						<h2 className={styles.reviewsTitle}>
-							{page === 'about' ? (
-								<>See why people love their <br /> Vita Bella transformation</>
-							) : (
-								<>
-									<span style={{ 
-										fontWeight: 600, 
-										color: 'var(--e-global-color-green)' 
-									}}>
-										10K+
-									</span>{' '}
-									<span style={{ 
-										fontWeight: 400, 
-										color: 'var(--e-global-color-white)' 
-									}}>
-										reached their <br /> {pageTitle} goals
-									</span>
-								</>
-							)}
-						</h2>
-					</div>
-					<div className={styles.starsWrap}>
-						<span className={styles.stars}>★★★★★</span>
-						<span className={styles.starsText}>
-							Close to perfect,
-							<br />4.9 star reviews
-						</span>
-					</div>
-				</div>
-				<div className={styles.sliderOuterContainer}>					<div className={styles.sliderWrap}>
-						<VitaBellaSlider
-							items={reviews}
-							visibleCount={VISIBLE_CARDS}
-							renderSlide={(review, idx) => (
-								<ReviewCard review={review} idx={idx} />
-							)}
-						/>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+  return (
+	<section className={styles.customerReviewsSection} style={sectionStyle}>
+	  <div className={styles.bgTop} />
+	  {/* Absolutely positioned stars badge for mobile */}
+	  <div className={styles.starsWrap}>
+		<span className={styles.stars}>★★★★★</span>
+		<span className={styles.starsText}>
+		  Close to perfect,
+		  <br />4.9 star reviews
+		</span>
+	  </div>
+	  <div className={styles.customerReviewsContent}>
+		<div className={styles.headerWrap}>
+		  <div className={styles.headerText}>
+			<div className={styles.reviewsLabel}>Customer Reviews</div>
+			<h2 className={styles.reviewsTitle}>
+			  {page === 'about' ? (
+				<>See why people love their <br /> Vita Bella transformation</>
+			  ) : (
+				<>
+				  <span style={{ 
+					fontWeight: 600, 
+					color: 'var(--e-global-color-green)' 
+				  }}>
+					10K+
+				  </span>{' '}
+				  <span style={{ 
+					fontWeight: 400, 
+					color: 'var(--e-global-color-white)' 
+				  }}>
+					reached their <br /> {pageTitle} goals
+				  </span>
+				</>
+			  )}
+			</h2>
+		  </div>
+		</div>
+		<div className={styles.sliderOuterContainer}>
+		  <div className={styles.sliderWrap}>
+			<VitaBellaSlider
+			  items={reviews}
+			  visibleCount={visibleCount}
+			  renderSlide={(review, idx) => (
+				<ReviewCard review={review} idx={idx} />
+			  )}
+			/>
+		  </div>
+		</div>
+	  </div>
+	</section>
+  );
 };
 
 export default CustomerReviews;

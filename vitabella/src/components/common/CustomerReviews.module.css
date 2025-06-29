@@ -74,8 +74,13 @@
   border-radius: 1rem;
   max-width: 320px;
   box-sizing: border-box;
-  margin-top: var(--space-1x);
   pointer-events: auto;
+  transition: all 0.2s;
+  z-index: 10;
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  margin-top: 0;
 }
 
 .stars {
@@ -212,22 +217,41 @@
     background-position: top center;
   }
   .headerWrap {
-    height: 140px;
-    padding: var(--space-2x) var(--space-1x);
+    height: auto;
+    padding: var(--space-2x) var(--space-1x) 0 var(--space-1x);
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    position: static;
+    transform: none;
+    justify-content: space-between;
   }
   .starsWrap {
     padding: 0.3rem 1rem;
     border-radius: 0.7rem;
+    margin-top: 0;
+    align-items: flex-end;
+    width: auto;
+    max-width: 180px;
+    font-size: 0.95em;
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
   .reviewsTitle {
     font-size: 1.5rem;
+    margin-bottom: var(--space-1x);
   }
   .sliderOuterContainer {
     margin-top: 16px;
-  }  .sliderWrap {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .sliderWrap {
     padding: var(--space-2x);
     min-height: 320px;
-  }  .reviewCard {
+  }
+  .reviewCard {
     min-width: 260px;
     max-width: 340px;
     padding: var(--space-1x);
@@ -236,7 +260,8 @@
   }
   .reviewTextWrap {
     min-width: 150px;
-  }  .reviewImageWrap {
+  }
+  .reviewImageWrap {
     min-width: 60px;
     max-width: 250px;
   }
@@ -256,30 +281,76 @@
     background-position: top center;
   }
   .headerWrap {
-    height: 80px;
-    padding: var(--space-1x);
+    height: auto;
+    padding: var(--space-1x) var(--space-1x) 0 var(--space-1x);
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    position: static;
+    transform: none;
+    justify-content: flex-start;
   }
   .starsWrap {
-    padding: 0.2rem 0.7rem;
-    border-radius: 0.4rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.08rem 0.35rem;
+    border-radius: 0.25rem;
+    margin-top: 0;
+    align-items: flex-end;
+    width: auto;
+    max-width: 90px;
+    font-size: 0.65em;
+    box-shadow: 0 2px 8px rgba(44,60,50,0.10);
+    z-index: 10;
+  }
+  .stars {
+    font-size: 0.75rem;
+  }
+  .starsText {
+    font-size: 0.5rem;
   }
   .sliderOuterContainer {
     margin-top: 8px;
-  }  .sliderWrap {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .sliderWrap {
     padding: var(--space-1x);
     min-height: 180px;
-  }  .reviewCard {
+  }
+  .reviewCard {
     min-width: 160px;
     max-width: 220px;
     padding: var(--space-1x);
     gap: var(--space-1x);
     margin: 0 3px;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Place image on top for mobile */
+  .reviewCard {
+    flex-direction: column;
+  }
+  .reviewImageWrap {
+    order: 0;
+    margin-bottom: var(--space-1x);
+  }
+  .reviewTextWrap {
+    order: 1;
+  }
+  .reviewImageWrap {
+    min-width: 40px;
+    max-width: 150px;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--space-1x);
   }
   .reviewTextWrap {
     min-width: 100px;
-  }  .reviewImageWrap {
-    min-width: 40px;
-    max-width: 150px;
+    width: 100%;
+    align-items: center;
+    text-align: center;
   }
   .reviewImage {
     border-radius: 0.4rem;

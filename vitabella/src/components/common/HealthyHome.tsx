@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import styles from "../../app/about/AboutStorySection.module.css";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
-import buttonStyles from "./NoInsuranceModule.module.css"; // Import the button styles
 
 const HealthyHome = () => (
   <section
@@ -44,16 +43,16 @@ const HealthyHome = () => (
         </ul>
       </div>
       {/* Clinically-Proven Solutions box */}
-      <div style={{ background: "var(--e-global-color-off-white)", borderRadius: 24, display: "flex", alignItems: "center", gap: 32, boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid #e0e0e0", width: "100%", marginTop: 'auto', minHeight: 140 }}>
+      <div className={styles["clinically-proven-box"]}>
         <Image
           src="/modules/doctorgirl.webp"
           alt="Clinically-Proven Solutions"
           width={220}
           height={140}
-          style={{ borderRadius: 16, objectFit: "cover", minWidth: 220, maxWidth: 220, height: 140, margin: 'var(--space-1x) 0 var(--space-1x) var(--space-1x)' }}
+          className={styles["clinically-proven-img"]}
           priority
         />
-        <div style={{ flex: 1, paddingRight: "var(--space-1x)", background: "var(--e-global-color-off-white)" }}>
+        <div className={styles["clinically-proven-content"]}>
           <div style={{ fontWeight: 700, fontSize: 19, color: "#012B27", marginBottom: 4 }}>
             Clinically-Proven Solutions <span style={{ fontWeight: 400 }}>Backed by Experts</span>
           </div>

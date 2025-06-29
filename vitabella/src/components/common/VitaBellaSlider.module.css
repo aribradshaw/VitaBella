@@ -76,6 +76,9 @@
   }
 }
 @media (max-width: 700px) {
+  .sliderContainer {
+  min-height: 100px;
+}
   .sliderTrack {
     gap: 0.7rem;
   }

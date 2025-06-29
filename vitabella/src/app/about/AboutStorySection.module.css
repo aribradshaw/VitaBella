@@ -1,3 +1,52 @@
+/* Clinically-Proven Solutions box responsive styles */
+.clinically-proven-box {
+  background: var(--e-global-color-off-white);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  margin-top: auto;
+  min-height: 140px;
+}
+
+.clinically-proven-img {
+  border-radius: 16px;
+  object-fit: cover;
+  min-width: 220px;
+  max-width: 220px;
+  height: 140px;
+  margin: var(--space-1x) 0 var(--space-1x) var(--space-1x);
+}
+
+.clinically-proven-content {
+  flex: 1;
+  padding-right: var(--space-1x);
+  background: var(--e-global-color-off-white);
+}
+
+@media (max-width: 700px) {
+  .clinically-proven-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: unset;
+    padding-bottom: 12px;
+  }
+  .clinically-proven-img {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 0 auto;
+    display: block;
+  }
+  .clinically-proven-content {
+    padding: 12px 16px 0 16px;
+  }
+}
 .about-story-section {
   display: flex;
   flex-wrap: nowrap;
