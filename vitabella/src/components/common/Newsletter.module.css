@@ -29,6 +29,7 @@
   filter: none;
 }
 
+/* Desktop gradient remains */
 .bgGradient {
   position: absolute;
   inset: 0;
@@ -36,6 +37,12 @@
   height: 100%;
   background: linear-gradient(90deg, rgba(231,208,193,0.0) 55%, rgba(231,208,193,0.7) 100%);
   z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .bgGradient {
+    background: rgba(44, 60, 50, 0.5) !important; /* 50% opacity dark green overlay */
+  }
 }
 
 .container {
@@ -49,6 +56,7 @@
   padding-left: 0;
 }
 
+/* Remove dark green background and box on mobile */
 .contentBox {
   width: 100%;
   max-width: 700px;
@@ -64,6 +72,16 @@
   border-radius: 2.2em;
   box-shadow: 0 6px 32px 0 rgba(44, 60, 50, 0.18);
   backdrop-filter: blur(2px);
+}
+
+@media (max-width: 600px) {
+  .contentBox {
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 0.5em !important;
+  }
+  
 }
 
 .newsletterTitle {
@@ -82,7 +100,7 @@
   font-weight: 600;
   color: #fff;
   font-size: 3.2rem;
-  line-height: 1.05;
+  line-height: 1.5;
   text-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 

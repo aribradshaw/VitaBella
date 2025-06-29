@@ -1,0 +1,83 @@
+/* Asterisks row full width and responsive */
+.asteriskRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-2x);
+  margin-top: 8px;
+}
+.asteriskText {
+  flex: 1 1 100%;
+  color: var(--e-global-color-white);
+  font-size: 13px;
+  margin-top: 0;
+}
+@media (max-width: 900px) {
+  .asteriskText {
+    font-size: 12px;
+    text-align: left;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .productMechanismRow .rightCol table,
+  .productMechanismRow .rightCol th,
+  .productMechanismRow .rightCol td {
+    font-size: 12px !important;
+  }
+}
+/* ProductMechanism.module.css */
+
+.productMechanismRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--space-2x);
+  width: 100%;
+  align-items: center;
+  min-width: 0;
+}
+
+.leftCol {
+  flex: 1 1 45%;
+  min-width: 0;
+  max-width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.rightCol {
+  flex: 1 1 55%;
+  min-width: 0;
+  max-width: 55%;
+  background: rgba(255,255,255,0.07);
+  border: 3px dotted var(--e-global-color-lightgreen);
+  border-radius: 18px;
+  padding: var(--space-2x);
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .productMechanismRow {
+    flex-direction: column;
+    gap: var(--space-2x);
+    align-items: stretch;
+  }
+  .leftCol, .rightCol {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .rightCol {
+    margin-top: 16px;
+    padding: 10px 8px 10px 8px !important;
+    border-radius: 12px !important;
+    gap: 6px !important;
+  }
+}
