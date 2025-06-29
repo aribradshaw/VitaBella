@@ -19,7 +19,8 @@ async function verifyRecaptcha(token: string) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
   });
-  const data = await res.json() as { success?: boolean; score?: number };
+  const data = await res.json();
+  console.log('Google reCAPTCHA response:', data); // <-- Add this line
   return data.success && data.score !== undefined && data.score >= 0.5;
 }
 
@@ -110,7 +111,8 @@ async function sendToActiveCampaign(email: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken } = await req.json() as { email: string; recaptchaToken: string };
+    const { email, recaptchaToken } = await req.json();
+    console.log('Received:', { email, recaptchaToken }); // <-- Add this line
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha' }, { status: 400 });
     }
