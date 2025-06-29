@@ -112,14 +112,20 @@ async function sendToActiveCampaign(email: string) {
 export async function POST(req: NextRequest) {
   try {
     const { email, recaptchaToken } = await req.json();
-    console.log('Received:', { email, recaptchaToken }); // <-- Add this line
+    // For browser debugging, echo back what we got
     if (!email || !recaptchaToken) {
-      return NextResponse.json({ error: 'Missing email or recaptcha' }, { status: 400 });
+      return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
     }
-    // 1. Verify recaptcha
-    const isHuman = await verifyRecaptcha(recaptchaToken);
-    if (!isHuman) {
-      return NextResponse.json({ error: 'Recaptcha failed' }, { status: 400 });
+    // 1. Verify recaptcha and capture the full response
+    const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${RECAPTCHA_SECRET}&response=${recaptchaToken}`,
+    });
+    const recaptchaData = await recaptchaRes.json();
+    // For browser debugging, always include the Google response if failed
+    if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.5)) {
+      return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
     // 2. Save to CSV
     await saveToCSV(email);
