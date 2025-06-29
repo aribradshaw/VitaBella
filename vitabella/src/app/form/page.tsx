@@ -288,11 +288,14 @@ function VitaBellaMultiStepForm() {
   // Determine redirect URL based on params and state
   const getRedirectUrl = (isAccepted: boolean) => {
     const l = links[0];
-    if (!isAccepted) return l.waitlist;
-    if (params && params.get && params.get("fm")) return l.foundation.monthly;
-    if (params && params.get && params.get("fa")) return l.foundation.annual;
-    if (params && params.get && params.get("pm")) return l.performance.monthly;
-    if (params && params.get && params.get("pa")) return l.performance.annual;
+    if (!isAccepted) return "/postform/";
+    // Get the search params as a string
+    const search = typeof window !== "undefined" ? window.location.search : "";
+    // Priority order: pa, pm, fa, fm (first match in URL)
+    if (search.includes("?pa") || search.includes("&pa")) return l.performance.annual;
+    if (search.includes("?pm") || search.includes("&pm")) return l.performance.monthly;
+    if (search.includes("?fa") || search.includes("&fa")) return l.foundation.annual;
+    if (search.includes("?fm") || search.includes("&fm")) return l.foundation.monthly;
     return l.acceptedfallback;
   };
 
@@ -379,6 +382,21 @@ function VitaBellaMultiStepForm() {
     }
     // In case redirect fails or is blocked, always clear loading after a delay
     setTimeout(() => setLoading(false), 3000);
+  };
+
+  // Handle Enter key for Next/Submit
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      // Prevent default form submit on Enter
+      e.preventDefault();
+      if (step < activeSteps.length - 1) {
+        nextStep();
+      } else {
+        // On last step, submit
+        (document.activeElement as HTMLElement)?.blur();
+        // Let the form's onSubmit handle it
+      }
+    }
   };
 
   // Render step fields
@@ -812,7 +830,7 @@ function VitaBellaMultiStepForm() {
 
   return (
     <div className="vita-bella-form-wrapper">
-      <form onSubmit={handleSubmit} className="vita-bella-form-container" autoComplete="off">
+      <form onSubmit={handleSubmit} className="vita-bella-form-container" autoComplete="off" onKeyDown={handleKeyDown}>
         <div className="vita-bella-form-logo" style={{textAlign: 'center', marginBottom: 16}}>
           <VitaBellaLogo style={{maxWidth: 180, margin: '0 auto'}} />
         </div>
