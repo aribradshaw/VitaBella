@@ -76,7 +76,7 @@ async function verifyRecaptcha(token: string) {
 
 // Accepts a second argument for list type: 'prospect' or 'waitlist'
 // Ensures contact is created/updated, then explicitly subscribes to the correct list
-async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitlist' = 'prospect') {
+async function sendToActiveCampaign(contact: { email: string, firstName?: string, lastName?: string, phone?: string }, listType: 'prospect' | 'waitlist' = 'prospect') {
   if (!ACTIVE_CAMPAIGN_API_KEY) throw new Error('Missing ACTIVE_CAMPAIGN_API_KEY');
   if (!ACTIVE_CAMPAIGN_API_URL) throw new Error('Missing ACTIVE_CAMPAIGN_API_URL');
   const listId = listType === 'prospect' ? 12 : 13;
@@ -91,7 +91,10 @@ async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitl
     },
     body: JSON.stringify({
       contact: {
-        email,
+        email: contact.email,
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phone: contact.phone,
         tags: [tag],
       },
     }),
@@ -127,7 +130,7 @@ async function sendToActiveCampaign(email: string, listType: 'prospect' | 'waitl
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken, listType } = await req.json();
+    const { email, recaptchaToken, listType, firstName, lastName, phone } = await req.json();
     // For browser debugging, echo back what we got
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
@@ -144,7 +147,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
     // Use listType if provided, default to 'prospect'
-    await sendToActiveCampaign(email, listType === 'waitlist' ? 'waitlist' : 'prospect');
+    // Pass all contact fields to ActiveCampaign
+    await sendToActiveCampaign(
+      {
+        email,
+        firstName,
+        lastName,
+        phone,
+      },
+      listType === 'waitlist' ? 'waitlist' : 'prospect'
+    );
     return NextResponse.json({ success: true });
   } catch (e) {
     let message = 'Unknown error';

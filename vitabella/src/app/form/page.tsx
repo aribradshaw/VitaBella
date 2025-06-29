@@ -336,6 +336,9 @@ function VitaBellaMultiStepForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: form.email,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          phone: form.phone,
           recaptchaToken,
           listType,
         }),
