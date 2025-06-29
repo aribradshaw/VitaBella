@@ -15,7 +15,13 @@ export default [
     rules: {
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
-      // ...other rules
+      'react/no-unescaped-entities': 'warn',
+      '@next/next/no-img-element': 'warn',
+      '@next/next/no-html-link-for-pages': 'warn',
+      '@next/next/no-sync-scripts': 'warn',
+      'prefer-const': 'warn',
+      'react-hooks/rules-of-hooks': 'warn',
+      // Add more rules as needed
     }
   }
 ];

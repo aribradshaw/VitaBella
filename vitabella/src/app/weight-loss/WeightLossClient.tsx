@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import '../globals.css';
 import BenefitsBar from '../../components/common/BenefitsBar';
 import StopWaitingModule from '../about/StopWaitingModule';
