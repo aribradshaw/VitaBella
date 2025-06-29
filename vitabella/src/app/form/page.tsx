@@ -328,9 +328,26 @@ function VitaBellaMultiStepForm() {
       return;
     }
 
+    // Debug: Log what will be sent
+    console.log("Submitting form...", {
+      email: form.email,
+      recaptchaToken,
+      listType,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      phone: form.phone,
+    });
+    // Debug: Log recaptcha token
+    console.log("reCAPTCHA token:", recaptchaToken);
+
+    // Guard: Prevent submission if missing email or recaptcha
+    if (!form.email || !recaptchaToken) {
+      setError("Missing email or reCAPTCHA. Please try again.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Use the newsletter API route for all form submissions
-      console.log("Submitting form...", { email: form.email, listType });
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
