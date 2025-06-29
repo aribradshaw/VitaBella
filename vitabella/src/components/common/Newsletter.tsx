@@ -27,7 +27,8 @@ const Newsletter = () => {
     setError("");
     setSuccess(false);
     try {
-      // Wait for grecaptcha to be available and ready
+      // Debug: Log grecaptcha presence
+      console.debug('grecaptcha present:', !!(window as any).grecaptcha);
       if (!(window as any).grecaptcha) {
         setError("reCAPTCHA not loaded. Please try again in a moment.");
         setLoading(false);
@@ -35,8 +36,12 @@ const Newsletter = () => {
       }
       (window as any).grecaptcha.ready(async () => {
         try {
+          // Debug: About to execute grecaptcha
+          console.debug('Executing grecaptcha with site key:', RECAPTCHA_SITE_KEY);
           const token = await (window as any).grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'newsletter' });
+          console.debug('reCAPTCHA token received:', token);
           const res = await newsletterSubmit(email, token);
+          console.debug('API response:', res);
           if (res.success) {
             setSuccess(true);
             setEmail("");
@@ -45,12 +50,14 @@ const Newsletter = () => {
             setError(res.error || "Something went wrong. Please try again.");
           }
         } catch (err: any) {
+          console.error('Newsletter form error:', err);
           setError("Submission failed. Please try again.");
         } finally {
           setLoading(false);
         }
       });
     } catch (err: any) {
+      console.error('Newsletter form outer error:', err);
       setError("Submission failed. Please try again.");
       setLoading(false);
     }
