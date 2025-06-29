@@ -203,13 +203,16 @@ interface CustomerReviewsProps {
 
 const CustomerReviews: React.FC<CustomerReviewsProps> = ({ page = 'other', pageTitle }) => {
   // Determine background image and color based on page
-  const backgroundImage = page === 'about' 
-	? "url('/modules/customerreviews.webp')" 
-	: "url('/modules/membershipmountain.webp)";
+  const backgroundImage = page === 'about'
+	? "url('/modules/customerreviews.webp')"
+	: "url('/modules/membershipmountain.webp')";
   const backgroundColor = page === 'about' ? '#4E604F' : '#032B27';
   const sectionStyle = {
-	background: `${backgroundImage} center top/cover no-repeat, ${backgroundColor}`,
-	backgroundSize: '100% auto'
+	backgroundImage: backgroundImage,
+	backgroundColor: backgroundColor,
+	backgroundPosition: 'center top',
+	backgroundRepeat: 'no-repeat',
+	backgroundSize: '100% auto',
   };
   const visibleCount = useVisibleCards();
 
