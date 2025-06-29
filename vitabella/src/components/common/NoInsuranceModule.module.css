@@ -164,8 +164,11 @@
 @media (max-width: 600px) {
   .noInsuranceSection {
     min-height: 350px;
-    background-position: center right;
+    background-image: url('/modules/noinsurancemobile.webp');
+    background-position: bottom center;
+    background-size: cover;
     border-radius: 1rem;
+    padding-bottom: 320px;
   }
   
   .innerContainer {
