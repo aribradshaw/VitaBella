@@ -25,9 +25,9 @@ async function verifyRecaptcha(token: string) {
 
 async function sendThankYouEmail(email: string) {
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', // Or your SMTP provider
-    port: 465,
-    secure: true,
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === 'true',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -44,9 +44,9 @@ async function sendThankYouEmail(email: string) {
 
 async function sendAdminNotification(email: string) {
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === 'true',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,

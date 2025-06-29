@@ -27,19 +27,31 @@ const Newsletter = () => {
     setError("");
     setSuccess(false);
     try {
-      // Get reCAPTCHA v3 token
-      const token = await (window as any).grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'newsletter' });
-      const res = await newsletterSubmit(email, token);
-      if (res.success) {
-        setSuccess(true);
-        setEmail("");
-        trackMetaLead();
-      } else {
-        setError(res.error || "Something went wrong. Please try again.");
+      // Wait for grecaptcha to be available and ready
+      if (!(window as any).grecaptcha) {
+        setError("reCAPTCHA not loaded. Please try again in a moment.");
+        setLoading(false);
+        return;
       }
+      (window as any).grecaptcha.ready(async () => {
+        try {
+          const token = await (window as any).grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'newsletter' });
+          const res = await newsletterSubmit(email, token);
+          if (res.success) {
+            setSuccess(true);
+            setEmail("");
+            trackMetaLead();
+          } else {
+            setError(res.error || "Something went wrong. Please try again.");
+          }
+        } catch (err: any) {
+          setError("Submission failed. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      });
     } catch (err: any) {
       setError("Submission failed. Please try again.");
-    } finally {
       setLoading(false);
     }
   };

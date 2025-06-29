@@ -1,7 +1,5 @@
 /* Vita Bella Form Styles */
-.vita-bella-form-wrapper {
-    /* Ensures plugin styles are isolated */
-}
+
 .vita-bella-form-wrapper .vita-bella-form-container {
     background: #F3EFEA; /* Primary Off-White */
     border-radius: 16px;
