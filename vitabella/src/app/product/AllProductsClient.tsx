@@ -291,6 +291,13 @@ const AllProductsClient: React.FC = () => {
               transition: 'all 0.15s',
               whiteSpace: 'nowrap',
               flex: '0 0 auto',
+              ...(typeof window !== 'undefined' && window.innerWidth <= 600
+                ? {
+                    fontSize: '0.8rem',
+                    padding: '0.16rem 0.48rem',
+                    borderRadius: 10,
+                  }
+                : {}),
             }}
           >
             {cat}

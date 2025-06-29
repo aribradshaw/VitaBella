@@ -27,14 +27,30 @@ export default function ProductHero({ product }: ProductHeroProps) {
     : primaryImage;
 
   return (
-    <section style={{ padding: '4rem 0' }}>
+    <section className="product-hero-section" style={{ padding: '4rem 0' }}>
       <div className="container" style={{ maxWidth: '1340px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', minHeight: '600px' }}>
-          
+        <div
+          className="product-hero-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '3rem',
+            alignItems: 'center'
+            // minHeight removed for mobile fix
+          }}
+        >
           {/* Left Side - Product Image(s) - 50% width */}
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '1.5rem' }}>
+          <div className="product-hero-image-col" style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '1.5rem' }}>
             {currentImage && (
-              <div style={{ position: 'relative', width: '100%', height: '500px', maxWidth: '500px' }}>
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '500px',
+                  maxWidth: '500px',
+                }}
+                className="product-hero-image-wrapper"
+              >
                 <Image
                   src={currentImage.replace('/public', '')}
                   alt={product.Title}
@@ -44,7 +60,6 @@ export default function ProductHero({ product }: ProductHeroProps) {
                 />
               </div>
             )}
-            
             {/* Gallery Controls - Positioned below the image */}
             {hasGallery && (
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
@@ -56,8 +71,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       height: '64px',
                       borderRadius: '8px',
                       border: '2px solid',
-                      borderColor: (selectedImage === 'male' || (!selectedImage && product.imageM)) 
-                        ? 'var(--e-global-color-green)' 
+                      borderColor: (selectedImage === 'male' || (!selectedImage && product.imageM))
+                        ? 'var(--e-global-color-green)'
                         : '#d1d5db',
                       backgroundColor: (selectedImage === 'male' || (!selectedImage && product.imageM))
                         ? 'var(--e-global-color-lightgreen)'
@@ -65,7 +80,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       overflow: 'hidden',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
-                      padding: '4px'
+                      padding: '4px',
                     }}
                   >
                     <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden' }}>
@@ -78,7 +93,6 @@ export default function ProductHero({ product }: ProductHeroProps) {
                     </div>
                   </button>
                 )}
-                
                 {product.imageF && (
                   <button
                     onClick={() => setSelectedImage('female')}
@@ -87,8 +101,8 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       height: '64px',
                       borderRadius: '8px',
                       border: '2px solid',
-                      borderColor: (selectedImage === 'female' || (!selectedImage && !product.imageM)) 
-                        ? 'var(--e-global-color-green)' 
+                      borderColor: (selectedImage === 'female' || (!selectedImage && !product.imageM))
+                        ? 'var(--e-global-color-green)'
                         : '#d1d5db',
                       backgroundColor: (selectedImage === 'female' || (!selectedImage && !product.imageM))
                         ? 'var(--e-global-color-lightgreen)'
@@ -96,7 +110,7 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       overflow: 'hidden',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
-                      padding: '4px'
+                      padding: '4px',
                     }}
                   >
                     <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden' }}>
@@ -112,50 +126,48 @@ export default function ProductHero({ product }: ProductHeroProps) {
               </div>
             )}
           </div>
-
           {/* Right Side - Product Information - 50% width */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
+          <div className="product-hero-info-col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
+            {/* ...existing code for info... */}
             {/* Transform With */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <p 
-                style={{ 
+              <p
+                style={{
                   color: 'var(--e-global-color-grey2)',
                   fontSize: '14px',
                   fontWeight: '500',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
-                  margin: 0
+                  margin: 0,
                 }}
               >
                 TRANSFORM WITH
               </p>
-              <h1 
+              <h1
                 className="h1"
                 style={{ color: 'var(--e-global-color-dark-green)', margin: 0 }}
               >
                 {product.Title}
               </h1>
             </div>
-
             {/* Short Description */}
-            <p 
+            <p
               className="body-text"
-              style={{ 
+              style={{
                 color: 'var(--e-global-color-grey2)',
                 fontSize: '18px',
                 lineHeight: '1.6',
-                margin: 0
+                margin: 0,
               }}
             >
               {cleanDescription}
             </p>
-
             {/* Benefits List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {product.introp1 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       backgroundColor: 'var(--e-global-color-green)',
                       width: '24px',
                       height: '24px',
@@ -163,21 +175,21 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexShrink: 0
+                      flexShrink: 0,
                     }}
                   >
-                    <span 
-                      style={{ 
+                    <span
+                      style={{
                         color: 'var(--e-global-color-dark-green)',
                         fontSize: '12px',
                         fontWeight: 'bold',
-                        lineHeight: '1'
+                        lineHeight: '1',
                       }}
                     >
                       ✓
                     </span>
                   </div>
-                  <span 
+                  <span
                     className="body-text"
                     style={{ color: 'var(--e-global-color-dark-green)' }}
                   >
@@ -185,11 +197,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   </span>
                 </div>
               )}
-              
               {product.introp2 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       backgroundColor: 'var(--e-global-color-green)',
                       width: '24px',
                       height: '24px',
@@ -197,21 +208,21 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexShrink: 0
+                      flexShrink: 0,
                     }}
                   >
-                    <span 
-                      style={{ 
+                    <span
+                      style={{
                         color: 'var(--e-global-color-dark-green)',
                         fontSize: '12px',
                         fontWeight: 'bold',
-                        lineHeight: '1'
+                        lineHeight: '1',
                       }}
                     >
                       ✓
                     </span>
                   </div>
-                  <span 
+                  <span
                     className="body-text"
                     style={{ color: 'var(--e-global-color-dark-green)' }}
                   >
@@ -219,11 +230,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   </span>
                 </div>
               )}
-              
               {product.introp3 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       backgroundColor: 'var(--e-global-color-green)',
                       width: '24px',
                       height: '24px',
@@ -231,21 +241,21 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexShrink: 0
+                      flexShrink: 0,
                     }}
                   >
-                    <span 
-                      style={{ 
+                    <span
+                      style={{
                         color: 'var(--e-global-color-dark-green)',
                         fontSize: '12px',
                         fontWeight: 'bold',
-                        lineHeight: '1'
+                        lineHeight: '1',
                       }}
                     >
                       ✓
                     </span>
                   </div>
-                  <span 
+                  <span
                     className="body-text"
                     style={{ color: 'var(--e-global-color-dark-green)' }}
                   >
@@ -253,11 +263,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
                   </span>
                 </div>
               )}
-              
               {product.introp4 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       backgroundColor: 'var(--e-global-color-green)',
                       width: '24px',
                       height: '24px',
@@ -265,21 +274,21 @@ export default function ProductHero({ product }: ProductHeroProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      flexShrink: 0
+                      flexShrink: 0,
                     }}
                   >
-                    <span 
-                      style={{ 
+                    <span
+                      style={{
                         color: 'var(--e-global-color-dark-green)',
                         fontSize: '12px',
                         fontWeight: 'bold',
-                        lineHeight: '1'
+                        lineHeight: '1',
                       }}
                     >
                       ✓
                     </span>
                   </div>
-                  <span 
+                  <span
                     className="body-text"
                     style={{ color: 'var(--e-global-color-dark-green)' }}
                   >
@@ -288,39 +297,36 @@ export default function ProductHero({ product }: ProductHeroProps) {
                 </div>
               )}
             </div>
-
             {/* Divider */}
-            <div 
-              style={{ 
+            <div
+              style={{
                 width: '100%',
                 height: '1px',
                 backgroundColor: 'var(--e-global-color-grey2)',
-                opacity: 0.2
+                opacity: 0.2,
               }}
             />
-
             {/* Pricing */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
-                <p style={{ 
+                <p style={{
                   color: 'var(--e-global-color-dark-green)',
                   fontSize: '24px',
                   fontWeight: 'bold',
-                  margin: 0
+                  margin: 0,
                 }}>
                   from <span style={{ fontSize: '32px' }}>${product.Price}</span>/mo.*
                 </p>
-                <p style={{ 
+                <p style={{
                   color: 'var(--e-global-color-grey2)',
                   fontSize: '14px',
-                  margin: '0.5rem 0 0 0'
+                  margin: '0.5rem 0 0 0',
                 }}>
                   *with Membership, consult, and provider approval
                 </p>
               </div>
-
               {/* CTA Button */}
-              <VitaBellaButton 
+              <VitaBellaButton
                 label="Get Started"
                 href="/membership"
                 bg="var(--e-global-color-green)"
@@ -336,13 +342,30 @@ export default function ProductHero({ product }: ProductHeroProps) {
             </div>
           </div>
         </div>
-
-        {/* Mobile Layout - Stack vertically on small screens */}
+        {/* Mobile Layout - Stack vertically on small screens and remove section padding */}
         <style jsx>{`
           @media (max-width: 1024px) {
-            div[style*="gridTemplateColumns"] {
+            .product-hero-grid {
               grid-template-columns: 1fr !important;
               gap: 2rem !important;
+            }
+            .product-hero-image-col {
+              order: 0 !important;
+              margin-bottom: 0 !important;
+            }
+            .product-hero-section {
+              padding: 0 !important;
+            }
+            .product-hero-info-col {
+              order: 1 !important;
+            }
+          }
+          @media (max-width: 700px) {
+            .product-hero-section {
+              padding: 0 !important;
+            }
+            .product-hero-image-wrapper {
+              height: 300px !important;
             }
           }
         `}</style>

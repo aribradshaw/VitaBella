@@ -86,6 +86,11 @@ export default function ProductScience({ product }: ProductScienceProps) {
             grid-template-columns: 1fr !important;
           }
         }
+        @media (max-width: 700px) {
+          .science-grid > div:last-child > div {
+            height: 400px !important;
+          }
+        }
       `}</style>
     </section>
   );

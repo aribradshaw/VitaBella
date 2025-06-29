@@ -449,6 +449,10 @@
     gap: var(--space-1x);
   }
 
+  .h1 {
+    font-size: 3rem !important;
+  }
+
   .faq-related-grid {
     grid-template-columns: 1fr;
     gap: var(--space-1x);
@@ -666,29 +670,31 @@
   .faq-category-card {
     flex: 0 0 250px;
     scroll-snap-align: start;
-    height: 160px;
+    height: 180px;
   }
   
   .faq-category-text-overlay {
     padding: var(--space-1x);
   }
   
-  .faq-category-name {
-    font-size: 14px;
-  }
-  
   .faq-categories-title {
     font-size: 28px;
+    line-height: 1.2 !important;
+    margin-bottom: 1.2rem !important;
   }
-  
-  /* Hide scrollbar but keep functionality */
+  /* Show scrollbar on mobile */
   .faq-categories-grid::-webkit-scrollbar {
-    display: none;
+    height: 7px;
+    background: #f3efea;
   }
-  
+  .faq-categories-grid::-webkit-scrollbar-thumb {
+    background: #bff009;
+    border-radius: 4px;
+  }
   .faq-categories-grid {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #bff009 #f3efea;
   }
 }
 
