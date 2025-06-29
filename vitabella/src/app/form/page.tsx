@@ -303,8 +303,32 @@ function VitaBellaMultiStepForm() {
     setLoading(true);
     const isAccepted = isStateAvailable(form.state);
     const listType = isAccepted ? "prospect" : "waitlist";
+
+    let recaptchaToken = "";
     try {
-      // Optionally add recaptcha here
+      // Only attempt reCAPTCHA if available and site key is defined
+      if (
+        typeof window !== "undefined" &&
+        (window as any).grecaptcha &&
+        typeof recaptchaSiteKey !== "undefined" &&
+        recaptchaSiteKey
+      ) {
+        recaptchaToken = await new Promise((resolve, reject) => {
+          (window as any).grecaptcha.ready(() => {
+            (window as any).grecaptcha
+              .execute(recaptchaSiteKey, { action: "newsletter" })
+              .then(resolve)
+              .catch(reject);
+          });
+        });
+      }
+    } catch (err) {
+      setError("reCAPTCHA failed to load. Please refresh and try again.");
+      setLoading(false);
+      return;
+    }
+
+    try {
       // Use the newsletter API route for all form submissions
       console.log("Submitting form...", { email: form.email, listType });
       const res = await fetch("/api/newsletter", {
@@ -312,7 +336,7 @@ function VitaBellaMultiStepForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: form.email,
-          recaptchaToken: (window as any).grecaptcha ? await new Promise(resolve => (window as any).grecaptcha.ready(() => (window as any).grecaptcha.execute(recaptchaSiteKey, { action: 'newsletter' }).then(resolve))) : '',
+          recaptchaToken,
           listType,
         }),
       });
