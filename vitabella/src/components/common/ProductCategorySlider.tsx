@@ -41,7 +41,7 @@ const ProductCategorySlider: React.FC<ProductCategorySliderProps> = ({ category,
         <img
           src={getImageSrc(product.imageBG)}
           alt={product.Title}
-          style={{ width: "100%", height: 360, objectFit: "cover", borderRadius: 18, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
+          className={styles.productImage}
         />
       </a>
       <div className={styles.cardContent}>

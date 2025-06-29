@@ -1,3 +1,52 @@
+@media (max-width: 767px) {
+  .category-hero-10k {
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    max-width: 220px !important;
+    height: auto !important;
+    gap: 8px !important;
+    width: 90% !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .category-hero-10k img {
+    height: 28px !important;
+    width: 60px !important;
+    min-width: 0 !important;
+    max-width: 60px !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    padding: 0 !important;
+  }
+  .category-hero-10k .testimonial-text {
+    width: auto !important;
+    text-align: left !important;
+    color: #fff !important;
+  }
+  .category-hero-10k .testimonial-text h4 {
+    font-size: 15px !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+  }
+  .category-hero-10k .testimonial-text p {
+    font-size: 11px !important;
+    margin: 0 !important;
+    color: #fff !important;
+  }
+  .category-hero-10k img {
+    height: 28px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 80px !important;
+    border-radius: 12px !important;
+    object-fit: contain !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+}
 /* Vita Bella Hero styles - extracted from oldheader.html */
 
 /* Removed @font-face rules, now in global.css */
@@ -94,7 +143,10 @@
     font-size: 24px;
     margin-bottom: 0;
     line-height: 1.1;
-    margin-top: 2em;
+    margin-top: 4em;
+  }
+  .treatments {
+    font-size: 48px !important;
   }
   .hero-heading + .hero-heading,
   h2.hero-heading {
@@ -121,7 +173,7 @@
 
 @media (max-width: 767px) {
   .subtext {
-    font-size: 16px;
+    font-size: 12px;
     max-width: 100%;
   }
 }
@@ -152,7 +204,7 @@
 @media (max-width: 767px) {
   .cta-button {
     width: 220px;
-    font-size: 14px;
+    font-size: 1rem;
   }
 }
 

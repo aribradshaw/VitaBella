@@ -3,7 +3,7 @@
 .benefitsModule {
   padding: var(--space-2x) 0; /* Changed from var(--space-4x) 0 */
   background: var(--e-global-color-white);
-}
+/* removed stray closing brace */
 
 .container {
   max-width: 1340px;
@@ -22,14 +22,45 @@
   flex-direction: column;
 }
 
+
+/* Make .imageContainer autosize to content for non-membership page */
+/* Only sticky and min-height for membership page, not for statistics */
 .imageContainer {
-  position: sticky;
-  top: var(--space-2x);
   width: 100%;
   height: auto;
-  min-height: 500px;
   overflow: hidden;
   border-radius: var(--border-radius);
+}
+
+/* Let statisticsContainer grow with content */
+.statisticsContainer {
+  position: relative;
+  width: 100%;
+  background: var(--e-global-color-dark-green);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .statisticsOverlay {
+    padding-left: var(--space-2x);
+    padding-right: var(--space-2x);
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2x);
+  }
+  .imageContainer {
+    position: relative !important;
+    min-height: unset;
+    height: auto !important;
+    margin-bottom: var(--space-2x);
+  }
+  .statisticsContainer {
+    height: auto;
+    min-height: unset;
+  }
 }
 
 .membershipImage {
@@ -190,16 +221,22 @@
   overflow: hidden;
 }
 
+/* Remove absolute positioning so overlay grows with content */
+/* Center statisticsOverlay content robustly */
 .statisticsOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-3x);
+  width: 100%;
+  min-height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: var(--space-3x) !important;
+  padding-bottom: var(--space-3x) !important;
+  padding-left: var(--space-3x) !important;
+  padding-right: var(--space-3x) !important;
+  box-sizing: border-box;
+  position: relative;
+}
 }
 
 .statisticsOverlay::before {
@@ -220,9 +257,15 @@
 .statisticsContent {
   position: relative;
   z-index: 2;
-  width: 100%;
   max-width: 500px;
+  margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .statisticsTitle {
@@ -281,25 +324,23 @@
     gap: var(--space-3x);
     align-items: stretch;
   }
-  
   .imageContainer {
     position: relative !important;
     height: 400px !important;
   }
-  
   .membershipImage {
     height: 100%;
     object-fit: cover;
   }
-  
   .statisticsOverlay {
-    padding: var(--space-2x);
+    padding: var(--space-2x) !important;
+    min-height: 300px !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
-  
   .statisticsTitle {
     font-size: 1.75rem;
   }
-  
   .statNumber {
     font-size: 2rem;
   }
@@ -309,50 +350,47 @@
   .benefitsModule {
     padding: var(--space-1x) 0; /* Changed from var(--space-3x) 0 */
   }
-  
   .container {
     gap: var(--space-2x);
-  }  .imageContainer {
+  }
+  .imageContainer {
     position: relative !important;
     height: 300px !important;
   }
-  
   .membershipImage {
     height: 100%;
     object-fit: cover;
   }
-  
+  .statisticsOverlay {
+    min-height: 220px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--space-1x) !important;
+  }
   .statisticsGrid {
     grid-template-columns: 1fr;
     gap: var(--space-1x);
   }
-  
   .statisticsTitle {
     font-size: 1.5rem;
     margin-bottom: var(--space-2x);
   }
-  
   .statCard {
     padding: var(--space-1x);
   }
-  
   .statNumber {
     font-size: 1.75rem;
   }
-  
   .statText {
     font-size: 0.85rem;
   }
-  
   .benefitTitle {
     font-size: 16px;
   }
-  
   .benefitContent {
     padding-left: var(--space-2x);
     padding-right: var(--space-2x);
   }
-  
   .actionSection {
     flex-direction: column;
     align-items: flex-start;
@@ -362,7 +400,10 @@
 
 @media (max-width: 480px) {
   .statisticsOverlay {
-    padding: var(--space-1x);
+    padding-left: var(--space-1x);
+    padding-right: var(--space-1x);
+    padding-top: var(--space-1x);
+    padding-bottom: var(--space-1x);
   }
   
   .statisticsTitle {

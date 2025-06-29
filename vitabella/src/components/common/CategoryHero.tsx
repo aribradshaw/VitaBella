@@ -23,6 +23,9 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
   testimonialText = "reached their weight loss goals",
 }) => {
   const data = heroData[category];
+  // Responsive: use mobile image and 10k box placement like Hero.tsx
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 767;
+  const heroContainerBg = isMobile ? data.mobileImage : data.mainImage;
   return (
     <div
       className="hero-body"
@@ -35,13 +38,13 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
       <div
         className="hero-container"
         style={{
-          backgroundImage: `url('${data.mainImage}')`,
-          gap: 'var(--space-1x)',
+          backgroundImage: `url('${heroContainerBg}')`,
+          gap: 'var(--space-1x)'
         }}
       >
         <div className="hero-heading" style={{ color: '#fff', marginBottom: 'var(--space-1x)' }}>{data.categoryName.toUpperCase()}</div>
         <div
-          className="hero-heading"
+          className="hero-heading treatments"
           style={{ color: data.mainColor, marginTop: '-8px', fontSize: 80, lineHeight: '80px', marginBottom: 'var(--space-1x)' }}
         >
           TREATMENTS
@@ -58,6 +61,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
           {[data.pointOne, data.pointTwo, data.pointThree].map((point, idx) => (
             <div
               key={idx}
+              className="category-hero-point"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -78,24 +82,44 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
             </div>
           ))}
         </div>
-        {/* 10k patients pill box, styled and positioned to the right */}
+        {/* 10k patients pill box, styled and placed below content on mobile, right on desktop */}
         <div
-          style={{
-            position: 'absolute',
-            right: '5vw',
-            bottom: 'var(--space-2x)',
-            zIndex: 2,
-            display: 'flex',
-            alignItems: 'center',
-            background: '#fff',
-            borderRadius: 40,
-            boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
-            padding: '12px 32px 12px 12px',
-            minWidth: 370,
-            maxWidth: 440,
-            height: '48px',
-            gap: 16,
-          }}
+          className="category-hero-10k"
+          style={
+            isMobile
+              ? {
+                  position: 'static',
+                  margin: 'var(--space-2x) auto 0 auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: '#fff',
+                  borderRadius: 40,
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                  padding: '12px 32px 12px 12px',
+                  minWidth: 0,
+                  maxWidth: 340,
+                  height: '48px',
+                  gap: 16,
+                  width: '90%',
+                  justifyContent: 'center',
+                }
+              : {
+                  position: 'absolute',
+                  right: '5vw',
+                  bottom: 'var(--space-2x)',
+                  zIndex: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: '#fff',
+                  borderRadius: 40,
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                  padding: '12px 32px 12px 12px',
+                  minWidth: 370,
+                  maxWidth: 440,
+                  height: '48px',
+                  gap: 16,
+                }
+          }
         >
           <div style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
             <Image
