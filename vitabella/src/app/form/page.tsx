@@ -305,10 +305,15 @@ function VitaBellaMultiStepForm() {
     const listType = isAccepted ? "prospect" : "waitlist";
     try {
       // Optionally add recaptcha here
-      const res = await fetch("/api/activecampaign", {
+      // Use the newsletter API route for all form submissions
+      const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, listType }),
+        body: JSON.stringify({
+          email: form.email,
+          recaptchaToken: (window as any).grecaptcha ? await new Promise(resolve => (window as any).grecaptcha.ready(() => (window as any).grecaptcha.execute(recaptchaSiteKey, { action: 'newsletter' }).then(resolve))) : '',
+          listType,
+        }),
       });
       if (!res.ok) {
         const data = await res.json();
