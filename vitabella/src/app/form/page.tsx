@@ -2,13 +2,14 @@
 
 import { Suspense, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Script from "next/script";
 
 import { isStateAvailable, getAvailableStates, getUnavailableStates, US_STATES } from "@/constants/states";
 import links from "@/constants/links.json";
 import "./form.css";
 import VitaBellaLogo from "@/components/common/VitaBellaLogo";
 
-const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+const recaptchaSiteKey = "6Lfy92IrAAAAADLslEBpVbu9fGpkzBdatjtcXw9C";
 
 type FormField = {
   name: keyof typeof initialForm;
@@ -599,7 +600,7 @@ function VitaBellaMultiStepForm() {
     return activeSteps[step].fields.map(field => {
       if (field.conditional && !field.conditional(form)) return null;
       // Special case: Activity step, show textarea if 'Other' is selected
-      if (field.name === "activityOther") {
+      if field.name === "activityOther") {
         return (
           <div key="activityOther">
             <label className="vita-bella-form-label">{field.label}</label>
@@ -842,6 +843,10 @@ function VitaBellaMultiStepForm() {
           </div>
         </div>
       </form>
+      <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+        strategy="afterInteractive"
+      />
     </div>
   );
 }
