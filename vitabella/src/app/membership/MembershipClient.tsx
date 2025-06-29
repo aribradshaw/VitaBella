@@ -160,8 +160,8 @@ const MembershipClient: React.FC = () => {
       <CalendlyScheduler type="roundrobin" />
       <SectionHeader
         left={{
-          h2Alt: 'The membership that works as',
-          h2: 'hard as you do.',
+          h2Alt: 'The membership that works',
+          h2: 'as hard as you do.',
         }}
         right={
           <><div><strong>THE FUTURE OF PERSONALIZED HEALTHCARE.</strong></div> More than just a medication. You get expert-led care, personalized treatment, and ongoing support.</>
