@@ -7,7 +7,7 @@ import './Footer.css';
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../../constants/contacts';
 import { FaFacebookF, FaInstagram, FaTiktok, FaYoutube, FaLinkedinIn, FaXTwitter, FaEnvelope, FaPhone, FaLocationDot, FaUserShield, FaFile, FaSitemap, FaUniversalAccess } from 'react-icons/fa6';
 import Script from "next/script";
-import { newsletterSubmit } from "@/lib/newsletterSubmit";
+import { newsletterSubmit } from '../../lib/newsletterSubmit';
 
 const SOCIAL_ICON_MAP: Record<string, any> = {
   facebook: FaFacebookF,

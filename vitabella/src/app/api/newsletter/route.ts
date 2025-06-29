@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
 // import fs from 'fs/promises';
 // import path from 'path';
 
@@ -24,43 +24,43 @@ async function verifyRecaptcha(token: string) {
   return data.success && data.score !== undefined && data.score >= 0.5;
 }
 
-async function sendThankYouEmail(email: string) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-  await transporter.sendMail({
-    from: `Vita Bella <${FROM_EMAIL}>`,
-    to: email,
-    subject: 'Thank you for signing up!',
-    text: 'Thank you for signing up for the Vita Bella newsletter! We appreciate your interest.',
-    html: '<p>Thank you for signing up for the <b>Vita Bella</b> newsletter! We appreciate your interest.</p>',
-  });
-}
+// async function sendThankYouEmail(email: string) {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: process.env.SMTP_SECURE === 'true',
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+//   await transporter.sendMail({
+//     from: `Vita Bella <${FROM_EMAIL}>`,
+//     to: email,
+//     subject: 'Thank you for signing up!',
+//     text: 'Thank you for signing up for the Vita Bella newsletter! We appreciate your interest.',
+//     html: '<p>Thank you for signing up for the <b>Vita Bella</b> newsletter! We appreciate your interest.</p>',
+//   });
+// }
 
-async function sendAdminNotification(email: string) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-  await transporter.sendMail({
-    from: `Vita Bella <${FROM_EMAIL}>`,
-    to: ADMIN_EMAIL,
-    subject: 'New Newsletter Signup',
-    text: `New newsletter signup: ${email}`,
-    html: `<p>New newsletter signup: <b>${email}</b></p>`,
-  });
-}
+// async function sendAdminNotification(email: string) {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: process.env.SMTP_SECURE === 'true',
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+//   await transporter.sendMail({
+//     from: `Vita Bella <${FROM_EMAIL}>`,
+//     to: ADMIN_EMAIL,
+//     subject: 'New Newsletter Signup',
+//     text: `New newsletter signup: ${email}`,
+//     html: `<p>New newsletter signup: <b>${email}</b></p>`,
+//   });
+// }
 
 // async function saveToCSV(email: string) {
 //   const header = 'email,signed_up_at\n';
@@ -129,10 +129,10 @@ export async function POST(req: NextRequest) {
     }
     // 2. Save to CSV (disabled for serverless)
     // await saveToCSV(email);
-    // 3. Send thank you email
-    await sendThankYouEmail(email);
-    // 4. Send admin notification
-    await sendAdminNotification(email);
+    // 3. Send thank you email (disabled for serverless)
+    // await sendThankYouEmail(email);
+    // 4. Send admin notification (disabled for serverless)
+    // await sendAdminNotification(email);
     // 5. Send to ActiveCampaign
     await sendToActiveCampaign(email);
     return NextResponse.json({ success: true });
