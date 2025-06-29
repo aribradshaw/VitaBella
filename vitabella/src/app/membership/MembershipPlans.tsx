@@ -85,8 +85,7 @@ const MembershipPlans: React.FC = () => {
   };
 
   // Responsive: show comparative table on mobile
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
-  const [mobile, setMobile] = React.useState(isMobile);
+  const [mobile, setMobile] = React.useState(false);
   React.useEffect(() => {
     const update = () => setMobile(window.innerWidth <= 768);
     update();
@@ -96,7 +95,8 @@ const MembershipPlans: React.FC = () => {
 
   return (
     <section id="membership-plans" className={styles.membershipPlans} data-section="membership-plans">
-      <div className={styles.container}>
+      <div className={styles.membershipPlansInner}>
+        <div className={styles.container}>
         {/* Tab Navigation */}
         <div className={styles.tabNavigation}>
           <button
@@ -275,6 +275,7 @@ const MembershipPlans: React.FC = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </section>
   );

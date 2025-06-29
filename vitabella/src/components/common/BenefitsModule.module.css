@@ -1,8 +1,11 @@
 /* BenefitsModule.module.css */
 
+
 .benefitsModule {
-  padding: var(--space-2x) 0; /* Changed from var(--space-4x) 0 */
+  padding: var(--space-2x) 0;
   background: var(--e-global-color-white);
+  margin-bottom: var(--space-2x);
+}
 /* removed stray closing brace */
 
 .container {
@@ -236,7 +239,6 @@
   padding-right: var(--space-3x) !important;
   box-sizing: border-box;
   position: relative;
-}
 }
 
 .statisticsOverlay::before {
