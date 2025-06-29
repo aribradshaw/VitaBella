@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import fs from 'fs/promises';
-import path from 'path';
+// import fs from 'fs/promises';
+// import path from 'path';
 
 // All secrets/keys are now loaded from environment variables for security.
 // Use a .env.local file for local development.
 const ACTIVE_CAMPAIGN_API_KEY = process.env.ACTIVE_CAMPAIGN_API_KEY;
 const ACTIVE_CAMPAIGN_API_URL = process.env.ACTIVE_CAMPAIGN_API_URL || 'https://vitabella.api-us1.com/api/3/contacts';
 const DOE_LIST_ID = process.env.DOE_LIST_ID;
-const CSV_PATH = path.resolve(process.cwd(), 'data/newsletter_signups.csv');
+// const CSV_PATH = path.resolve(process.cwd(), 'data/newsletter_signups.csv');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'aribradshawaz@gmail.com';
 const FROM_EMAIL = process.env.FROM_EMAIL || 'no-reply@vitabella.com';
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
@@ -62,17 +62,17 @@ async function sendAdminNotification(email: string) {
   });
 }
 
-async function saveToCSV(email: string) {
-  const header = 'email,signed_up_at\n';
-  const row = `${email},${new Date().toISOString()}\n`;
-  try {
-    await fs.access(CSV_PATH);
-  } catch {
-    await fs.mkdir(path.dirname(CSV_PATH), { recursive: true });
-    await fs.writeFile(CSV_PATH, header, { flag: 'wx' });
-  }
-  await fs.appendFile(CSV_PATH, row);
-}
+// async function saveToCSV(email: string) {
+//   const header = 'email,signed_up_at\n';
+//   const row = `${email},${new Date().toISOString()}\n`;
+//   try {
+//     await fs.access(CSV_PATH);
+//   } catch {
+//     await fs.mkdir(path.dirname(CSV_PATH), { recursive: true });
+//     await fs.writeFile(CSV_PATH, header, { flag: 'wx' });
+//   }
+//   await fs.appendFile(CSV_PATH, row);
+// }
 
 async function sendToActiveCampaign(email: string) {
   // Check required env vars
@@ -127,8 +127,8 @@ export async function POST(req: NextRequest) {
     if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.5)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
-    // 2. Save to CSV
-    await saveToCSV(email);
+    // 2. Save to CSV (disabled for serverless)
+    // await saveToCSV(email);
     // 3. Send thank you email
     await sendThankYouEmail(email);
     // 4. Send admin notification
