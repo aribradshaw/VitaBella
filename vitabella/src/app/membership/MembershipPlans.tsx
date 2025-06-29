@@ -77,6 +77,16 @@ const MembershipPlans: React.FC = () => {
     router.push(activeTab === 'monthly' ? '/form?pm' : '/form?pa');
   };
 
+  // Responsive: show comparative table on mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const [mobile, setMobile] = React.useState(isMobile);
+  React.useEffect(() => {
+    const update = () => setMobile(window.innerWidth <= 768);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   return (
     <section id="membership-plans" className={styles.membershipPlans} data-section="membership-plans">
       <div className={styles.container}>
@@ -96,112 +106,160 @@ const MembershipPlans: React.FC = () => {
           </button>
         </div>
 
-        {/* Plans Container */}
-        <div className={styles.plansContainer}>
-          {/* Foundation Plan */}
-          <div className={styles.planCard}>
-            <div className={styles.planHeader}>
-              <h3 className={styles.planTitle}>FOUNDATION</h3>
-              <div className={styles.planPricing}>
-                <span className={styles.planPrice}>
-                  {planData.foundation.price}/{planData.foundation.period}
-                </span>
-                <span className={styles.originalPrice}>
-                  {planData.foundation.originalPrice}
-                </span>
-                <span className={styles.costNote}>+ cost of medication</span>
+        {mobile ? (
+          <div className={styles.comparativeTableWrap}>
+            <div className={styles.comparativeTable}>
+              <div className={styles.comparativeTableHeader}>
+                <div className={styles.comparativeTableCell}></div>
+                <div className={styles.comparativeTableCell}><strong>Foundation</strong><br/>
+                  <span className={styles.planPrice}>{planData.foundation.price}/{planData.foundation.period}</span>
+                  <span className={styles.originalPrice}>{planData.foundation.originalPrice}</span>
+                  <span className={styles.costNote}>+ cost of medication</span>
+                </div>
+                <div className={styles.comparativeTableCell}><strong>Performance</strong><br/>
+                  <span className={styles.planPrice}>{planData.performance.price}/{planData.performance.period}</span>
+                  <span className={styles.originalPrice}>{planData.performance.originalPrice}</span>
+                  <span className={styles.costNote}>+ cost of medication</span>
+                </div>
               </div>
+              {/* Features */}
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}><strong>Features</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>1:1 quarterly telehealth visits with provider</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Custom-tailored treatment plan by a medical provider</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Direct provider messaging access</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}>Zero-cost injection supplies</div><div className={styles.comparativeTableCell}>✓</div><div className={styles.comparativeTableCell}>✓</div></div>
+              {/* Access To */}
+              <div className={styles.comparativeTableRow}><div className={styles.comparativeTableCell}><strong>Access To</strong></div><div className={styles.comparativeTableCell}></div><div className={styles.comparativeTableCell}></div></div>
+              {planFeatures.map((feature, idx) => (
+                <div className={styles.comparativeTableRow} key={idx}>
+                  <div className={styles.comparativeTableCell}>{feature.name}</div>
+                  <div className={styles.comparativeTableCell}>{renderFeatureValue(feature.foundation)}</div>
+                  <div className={styles.comparativeTableCell}>{renderFeatureValue(feature.performance)}</div>
+                </div>
+              ))}
             </div>
-
-            <div className={styles.planFeatures}>
-              <div className={styles.featureItem}>
-                <span>✓ 1:1 quarterly telehealth visits with provider</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span>✓ Custom-tailored treatment plan by a medical provider</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span>✓ Direct provider messaging access</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span>✓ Zero-cost injection supplies</span>
-              </div>
+            <div className={styles.comparativeTableButtons}>
+              <button className={styles.selectPlanButton} onClick={handleFoundationClick}>
+                <span>Pick Foundation</span>
+                <div className={styles.buttonArrow}>
+                  <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
+                </div>
+              </button>
+              <button className={`${styles.selectPlanButton} ${styles.performanceButton}`} onClick={handlePerformanceClick}>
+                <span>Pick Performance</span>
+                <div className={styles.buttonArrow}>
+                  <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
+                </div>
+              </button>
             </div>
-
-            <div className={styles.accessSection}>
-              <h4 className={styles.accessTitle}>ACCESS TO</h4>
-              <div className={styles.accessList}>
-                {planFeatures.map((feature, index) => (
-                  <div key={index} className={styles.accessItem}>
-                    <span className={styles.accessName}>{feature.name}</span>
-                    {renderFeatureValue(feature.foundation)}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button
-              className={styles.selectPlanButton}
-              onClick={handleFoundationClick}
-            >
-              <span>Pick This Plan</span>
-              <div className={styles.buttonArrow}>
-                <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
-              </div>
-            </button>
           </div>
-
-          {/* Performance Plan */}
-          <div className={`${styles.planCard} ${styles.performancePlan}`}>
-            <div className={styles.planHeader}>
-              <h3 className={styles.planTitle}>PERFORMANCE</h3>
-              <div className={styles.planPricing}>
-                <span className={styles.planPrice}>
-                  {planData.performance.price}/{planData.performance.period}
-                </span>
-                <span className={styles.originalPrice}>
-                  {planData.performance.originalPrice}
-                </span>
-                <span className={styles.costNote}>+ cost of medication</span>
+        ) : (
+          <div className={styles.plansContainer}>
+            {/* Foundation Plan */}
+            <div className={styles.planCard}>
+              <div className={styles.planHeader}>
+                <h3 className={styles.planTitle}>FOUNDATION</h3>
+                <div className={styles.planPricing}>
+                  <span className={styles.planPrice}>
+                    {planData.foundation.price}/{planData.foundation.period}
+                  </span>
+                  <span className={styles.originalPrice}>
+                    {planData.foundation.originalPrice}
+                  </span>
+                  <span className={styles.costNote}>+ cost of medication</span>
+                </div>
               </div>
+
+              <div className={styles.planFeatures}>
+                <div className={styles.featureItem}>
+                  <span>✓ 1:1 quarterly telehealth visits with provider</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Custom-tailored treatment plan by a medical provider</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Direct provider messaging access</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Zero-cost injection supplies</span>
+                </div>
+              </div>
+
+              <div className={styles.accessSection}>
+                <h4 className={styles.accessTitle}>ACCESS TO</h4>
+                <div className={styles.accessList}>
+                  {planFeatures.map((feature, index) => (
+                    <div key={index} className={styles.accessItem}>
+                      <span className={styles.accessName}>{feature.name}</span>
+                      {renderFeatureValue(feature.foundation)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                className={styles.selectPlanButton}
+                onClick={handleFoundationClick}
+              >
+                <span>Pick This Plan</span>
+                <div className={styles.buttonArrow}>
+                  <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
+                </div>
+              </button>
             </div>
 
-            <div className={styles.planFeatures}>
-              <div className={styles.featureItem}>
-                <span>✓ 1:1 quarterly telehealth visits with provider</span>
+            {/* Performance Plan */}
+            <div className={`${styles.planCard} ${styles.performancePlan}`}>
+              <div className={styles.planHeader}>
+                <h3 className={styles.planTitle}>PERFORMANCE</h3>
+                <div className={styles.planPricing}>
+                  <span className={styles.planPrice}>
+                    {planData.performance.price}/{planData.performance.period}
+                  </span>
+                  <span className={styles.originalPrice}>
+                    {planData.performance.originalPrice}
+                  </span>
+                  <span className={styles.costNote}>+ cost of medication</span>
+                </div>
               </div>
-              <div className={styles.featureItem}>
-                <span>✓ Custom-tailored treatment plan by a medical provider</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span>✓ Direct provider messaging access</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span>✓ Zero-cost injection supplies</span>
-              </div>
-            </div>
 
-            <div className={styles.accessSection}>
-              <h4 className={styles.accessTitle}>ACCESS TO</h4>
-              <div className={styles.accessList}>
-                {planFeatures.map((feature, index) => (
-                  <div key={index} className={styles.accessItem}>
-                    <span className={styles.accessName}>{feature.name}</span>
-                    {renderFeatureValue(feature.performance)}
-                  </div>
-                ))}
+              <div className={styles.planFeatures}>
+                <div className={styles.featureItem}>
+                  <span>✓ 1:1 quarterly telehealth visits with provider</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Custom-tailored treatment plan by a medical provider</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Direct provider messaging access</span>
+                </div>
+                <div className={styles.featureItem}>
+                  <span>✓ Zero-cost injection supplies</span>
+                </div>
               </div>
+
+              <div className={styles.accessSection}>
+                <h4 className={styles.accessTitle}>ACCESS TO</h4>
+                <div className={styles.accessList}>
+                  {planFeatures.map((feature, index) => (
+                    <div key={index} className={styles.accessItem}>
+                      <span className={styles.accessName}>{feature.name}</span>
+                      {renderFeatureValue(feature.performance)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                className={`${styles.selectPlanButton} ${styles.performanceButton}`}
+                onClick={handlePerformanceClick}
+              >
+                <span>Pick This Plan</span>
+                <div className={styles.buttonArrow}>
+                  <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
+                </div>
+              </button>
             </div>
-            <button
-              className={`${styles.selectPlanButton} ${styles.performanceButton}`}
-              onClick={handlePerformanceClick}
-            >
-              <span>Pick This Plan</span>
-              <div className={styles.buttonArrow}>
-                <img src="/brand/white-arrow.svg" alt="Arrow" width="24" height="24" />
-              </div>
-            </button>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

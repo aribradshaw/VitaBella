@@ -1,3 +1,67 @@
+/* Comparative Table for Mobile */
+.comparativeTableWrap {
+  width: 100%;
+  background: rgba(255,255,255,0.98);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  padding: 12px 4px 18px 4px;
+  margin: 0 auto 24px auto;
+  max-width: 500px;
+}
+.comparativeTable {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+.comparativeTableHeader {
+  display: table-row;
+  background: var(--e-global-color-lightgreen);
+}
+.comparativeTableRow {
+  display: table-row;
+}
+.comparativeTableCell {
+  display: table-cell;
+  padding: 8px 4px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+.comparativeTableCell:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--e-global-color-dark-green);
+}
+.comparativeTableHeader .comparativeTableCell {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--e-global-color-dark-green);
+  background: var(--e-global-color-lightgreen);
+  border-bottom: 2px solid var(--e-global-color-green);
+}
+.comparativeTableButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+}
+.comparativeTableButtons .selectPlanButton {
+  min-width: 120px;
+  font-size: 15px;
+  padding: 12px 10px;
+}
+@media (min-width: 769px) {
+  .comparativeTableWrap {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .plansContainer {
+    display: none;
+  }
+}
 /* MembershipPlans.module.css */
 
 .membershipPlans {

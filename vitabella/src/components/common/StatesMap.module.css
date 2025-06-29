@@ -112,18 +112,16 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .mapContainer {
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
   }
-  
   .legend {
     gap: var(--space-2x);
     margin-top: var(--space-1x);
   }
-  
   .legendText {
     font-size: 0.85rem;
   }
-  
   .legendColor {
     width: 16px;
     height: 16px;
