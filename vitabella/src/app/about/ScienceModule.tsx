@@ -59,6 +59,7 @@ const ScienceModule: React.FC = () => {
             </video>
             
             <div className={styles.clinicallyProvenBadge}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="/modules/clinically-proven.svg" 
                 alt="Microscope icon" 

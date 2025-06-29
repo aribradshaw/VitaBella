@@ -4,11 +4,7 @@ import React from "react";
 import CountUp from "react-countup";
 import styles from "./DUPRStats.module.css";
 
-const stats = [
-  { value: "10,000", label: "Members Served" },
-  { value: "15,000", label: "Provider Consultations" },
-  { value: "90%", label: "Report Improved Performance" },
-];
+// ...existing code...
 
 
 

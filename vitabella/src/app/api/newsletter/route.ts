@@ -85,7 +85,7 @@ async function sendToActiveCampaign(email: string) {
       headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string },
     });
     const data = await res.json();
-    const found = data.lists?.find((l: any) => l.name?.includes('2025 Prospect'));
+    const found = data.lists?.find((l: { name?: string }) => l.name?.includes('2025 Prospect'));
     if (found) listId = found.id;
   }
   // Add contact to list
@@ -128,7 +128,11 @@ export async function POST(req: NextRequest) {
     // 5. Send to ActiveCampaign
     await sendToActiveCampaign(email);
     return NextResponse.json({ success: true });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message || 'Unknown error' }, { status: 500 });
+  } catch (e) {
+    let message = 'Unknown error';
+    if (e && typeof e === 'object' && 'message' in e && typeof (e as any).message === 'string') {
+      message = (e as { message: string }).message;
+    }
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

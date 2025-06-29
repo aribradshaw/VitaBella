@@ -10,6 +10,7 @@ const TrustedAdvisorsModule: React.FC = () => {
       <div className={styles.moduleWrapper}>
         <div className={styles.imageSection}>
           <div className={styles.imageContainer}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/modules/trustedadvisors.webp" 
               alt="Trusted medical advisor" 

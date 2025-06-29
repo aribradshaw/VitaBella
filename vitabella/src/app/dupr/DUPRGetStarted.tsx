@@ -116,8 +116,8 @@ const DUPRGetStarted: React.FC<DUPRGetStartedProps> = ({ type = 'dupr' }) => {
                   <BrandmarkWireframeWhite className={styles.brandmark} />
                   <h3 className={styles.cardTitle}>{card.back.title}</h3>
                   <div className={styles.cardPromo}>{card.back.promo}</div>
-                  {typeof (card.back as any).extra === 'string' && (
-                    <div className={styles.cardPromo}>{(card.back as any).extra}</div>
+                  {typeof (card.back as { extra?: string }).extra === 'string' && (
+                    <div className={styles.cardPromo}>{(card.back as { extra?: string }).extra}</div>
                   )}
                   <div className={styles.cardCode}>{card.back.code}</div>
                   <span className={styles.cardLabel}>{card.back.label}</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import '../globals.css';
 import CalendlyScheduler from '../../components/common/CalendlyScheduler';
 import DUPRHero from './DUPRHero';
@@ -13,7 +13,7 @@ import DUPRStats from './DUPRStats';
 import DUPRVideo from './DUPRVideo';
 
 const DUPRClient: React.FC = () => {
-    const pageTitle = "DUPR";
+    // ...existing code...
 
     // Smooth scroll handler for MembershipPlans
     const handleScrollToMembership = () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import '../globals.css';
 import SectionHeader from '@/components/SectionHeader/SectionHeader';
 import ProductReviews from '@/components/common/ProductReviews';
@@ -34,19 +34,20 @@ const AWLCClient: React.FC = () => {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', margin: '2.5rem 0' }}>
                 <div style={{ flex: '0 0 25%', maxWidth: '25%' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={drRobert?.image}
                         alt={drRobert?.name}
                         style={{ width: '100%', borderRadius: 24, objectFit: 'cover', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}
                     />
                     <div style={{ marginTop: 16, textAlign: 'center' }}>
-                        <div style={{ fontWeight: 700, fontSize: 20, color: '#012B27' }}>{drRobert?.name}</div>
+                        <div style={{ fontWeight: 'bold', fontSize: 20, color: '#012B27' }}>{drRobert?.name}</div>
                         <div style={{ fontSize: 15, color: '#555', marginTop: 2 }}>{drRobert?.role}</div>
                     </div>
                 </div>
                 <div style={{ flex: '0 0 75%', maxWidth: '75%' }}>
-                    <div style={{ background: '#012B27', color: '#fff', borderRadius: 28, padding: '2rem 2.5rem', fontSize: 22, fontWeight: 400, fontFamily: 'Switzer, Arial, Helvetica, sans-serif', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 180 }}>
-                        <div>"Under proper supervision of a Vita Bella medical professional, our medicine can safely boost both mental and physical capabilities."</div>
+                    <div style={{ background: '#012B27', color: '#fff', borderRadius: 28, padding: '2rem 2.5rem', fontSize: 22, fontFamily: 'Switzer, Arial, Helvetica, sans-serif', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 180 }}>
+                        <div>&quot;Under proper supervision of a Vita Bella medical professional, our medicine can safely boost both mental and physical capabilities.&quot;</div>
                         <div style={{ marginTop: 18, fontStyle: 'italic', fontSize: 24, color: '#D6FEA1' }}>{drRobert?.name}</div>
                     </div>
                 </div>
@@ -54,7 +55,7 @@ const AWLCClient: React.FC = () => {
             <SectionHeader
                 left={{
                     h2Alt: 'Our Prescription',
-                    h2: 'Weight Loss Ooptions',
+                    h2: 'Weight Loss Options',
                 }}
                 right={
                     <></>

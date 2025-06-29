@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import VitaBellaArrow from "@/components/common/VitaBellaArrow";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
-import styles from "./AboutStats.module.css";
 
 const stats = [
 	{ value: "10k+", label: "Lives Transformed" },
@@ -33,7 +31,7 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 				margin: "var(--space-2x) 0",
 			}}
 		>
-			{stats.map((stat, i) => (
+			{stats.map((stat) => (
 				<div
 					key={stat.label}
 					style={{
@@ -52,7 +50,6 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 						style={{
 							fontFamily:
 								"Tusker Grotesk, Arial, Helvetica, sans-serif",
-							fontWeight: 600,
 							fontSize: 28,
 							textTransform: "uppercase",
 							color: "var(--e-global-color-grey1)",
@@ -66,7 +63,6 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 						style={{
 							fontFamily:
 								"Switzer, Arial, Helvetica, sans-serif",
-							fontWeight: 400,
 							fontSize: 16,
 							color: "var(--e-global-color-grey2)",
 							textAlign: "center",
@@ -92,6 +88,7 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 				}}
 			>
 				{/* Overlay image */}
+				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					src="/modules/armgreen.webp"
 					alt="Decorative arm"
@@ -145,7 +142,6 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 					<span
 						style={{
 							color: "var(--e-global-color-off-white)",
-							fontWeight: 600,
 							fontFamily: "Switzer, Arial, Helvetica, sans-serif",
 							fontSize: 16,
 							marginTop: 2,
@@ -171,7 +167,6 @@ const AboutStats: React.FC<AboutStatsProps> = ({ onMembershipPage }) => {
 					<div
 						style={{
 							color: "var(--e-global-color-off-white)",
-							fontWeight: 700,
 							fontFamily: "Tusker Grotesk, Arial, Helvetica, sans-serif",
 							fontSize: 20,
 							textTransform: "uppercase",

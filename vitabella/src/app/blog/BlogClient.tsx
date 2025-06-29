@@ -8,11 +8,20 @@ import './blog.css';
 import './blog-grid.css';
 import { postHasCategory } from './category-utils';
 
-export default function BlogArchiveClient({ posts, allCategories }: { posts: any[], allCategories: string[] }) {
+interface BlogPost {
+  Slug: string;
+  Title: string;
+  Date: string;
+  Excerpt: string;
+  Categories?: string;
+  [key: string]: any;
+}
+
+export default function BlogArchiveClient({ posts, allCategories }: { posts: BlogPost[], allCategories: string[] }) {
   const [selected, setSelected] = useState<string>('All');
   const filtered = selected === 'All'
     ? posts
-    : posts.filter((p) => postHasCategory(p, selected));
+    : posts.filter((p: BlogPost) => postHasCategory(p, selected));
 
   return (
     <main className="container py-12">
@@ -37,7 +46,7 @@ export default function BlogArchiveClient({ posts, allCategories }: { posts: any
         ))}
       </div>
       <div className="blog-grid" style={{ marginBottom: 'var(--space-4x)' }}>
-        {filtered.map((post: any) => {
+        {filtered.map((post: BlogPost) => {
           const categories = post.Categories ? post.Categories.split(/[>|]/).map((cat: string) => cat.trim()).filter(Boolean) : [];
           return (
             <div key={post.Slug} className="bg-white rounded-lg shadow-md p-6 md:p-8 hover:shadow-lg transition-shadow flex flex-col">

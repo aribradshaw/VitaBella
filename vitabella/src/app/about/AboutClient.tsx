@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
-import styles from './AboutHero.module.css';
+import React from 'react';
+// ...existing code...
 import '../globals.css';
 import AboutStorySection from "./AboutStorySection";
 import SectionHeader from '@/components/SectionHeader/SectionHeader';

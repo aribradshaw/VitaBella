@@ -14,7 +14,16 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const postsPath = path.join(process.cwd(), 'src/app/blog/posts.json');
   const postsRaw = await fs.readFile(postsPath, 'utf-8');
   const posts = JSON.parse(postsRaw);
-  const post = posts.find((p: any) => p.Slug === params.slug);
+  interface BlogPost {
+    Slug: string;
+    Title: string;
+    Date: string;
+    Content: string;
+    Categories?: string;
+    author?: string;
+    [key: string]: unknown;
+  }
+  const post = (posts as BlogPost[]).find((p) => p.Slug === params.slug);
 
   if (!post) return notFound();
 
@@ -34,11 +43,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         },
         React.createElement('h1', { className: 'h2-alt mb-2', style: { maxWidth: 670, width: '100%' } }, post.Title),
         React.createElement('div', { className: 'text-gray-500 text-base mb-6 font-medium', style: { maxWidth: 670, width: '100%' } }, new Date(post.Date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })),
-        post["Image Featured"] && React.createElement(
+        typeof post["Image Featured"] === "string" && post["Image Featured"].length > 0 && React.createElement(
           'div',
           { className: 'blog-image-wrapper mb-8', style: { maxWidth: 670, width: '100%' } },
           React.createElement(Image, {
-            src: post["Image Featured"],
+            src: post["Image Featured"] as string,
             alt: post.Title,
             width: 670,
             height: 340,

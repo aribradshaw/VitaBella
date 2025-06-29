@@ -9,6 +9,7 @@ const TelemedicineModule: React.FC = () => {
       <div className={styles.moduleWrapper}>
         <div className={styles.leftSection}>
           <div className={styles.telemedicineInterface}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/modules/staceysmith.webp" 
               alt="Telemedicine consultation interface" 
@@ -20,13 +21,14 @@ const TelemedicineModule: React.FC = () => {
         <div className={styles.rightSection}>
           <div className={styles.quoteSection}>
             <blockquote className={styles.quote}>
-              With proper supervision from a Vita Bella medical professional, our protocols can effectively optimize patients' mental and physical capabilities.
+              With proper supervision from a Vita Bella medical professional, our protocols can effectively optimize patients&apos; mental and physical capabilities.
             </blockquote>
             
             <div className={styles.divider}></div>
             
             <div className={styles.doctorInfo}>
               <div className={styles.doctorImageContainer}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
                   src="/brand/doctors/robertlieske.webp" 
                   alt="Dr. Robert Lieske" 

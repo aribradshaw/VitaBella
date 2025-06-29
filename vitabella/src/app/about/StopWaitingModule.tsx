@@ -1,5 +1,4 @@
 import React from "react";
-import VitaBellaArrow from "@/components/common/VitaBellaArrow";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
 
 const StopWaitingModule: React.FC = () => (
@@ -47,7 +46,7 @@ const StopWaitingModule: React.FC = () => (
         <div
           style={{
             fontFamily: "Tusker Grotesk, Arial, Helvetica, sans-serif",
-            fontWeight: 700,
+            fontWeight: "bold",
             fontSize: 44,
             color: "var(--e-global-color-off-white)",
             textTransform: "uppercase",
@@ -61,7 +60,7 @@ const StopWaitingModule: React.FC = () => (
         <div
           style={{
             fontFamily: "Tusker Grotesk, Arial, Helvetica, sans-serif",
-            fontWeight: 700,
+            fontWeight: "bold",
             fontSize: 44,
             color: "var(--e-global-color-lightgreen)",
             textTransform: "uppercase",
@@ -75,7 +74,6 @@ const StopWaitingModule: React.FC = () => (
         <div
           style={{
             fontFamily: "Switzer, Arial, Helvetica, sans-serif",
-            fontWeight: 400,
             fontSize: 15,
             color: "var(--e-global-color-off-white)",
             marginTop: 6, // reduced from 12
