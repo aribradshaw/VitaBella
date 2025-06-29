@@ -174,9 +174,14 @@ const AboutHeroVideo: React.FC = () => {
                     <span className={styles['about-hero-italic']}>REVOLUTION</span>
                 </h1>
                 <p className={styles['about-hero-subtitle']}>
-                    Vita Bella is changing healthcare. We are building a community<br />
-                    of like-minded individuals who have a focus and passion for<br />
-                    improving their health and well-being.
+                    <span className={styles['about-hero-subtitle-desktop']}>
+                        Vita Bella is changing healthcare. We are building a community<br />
+                        of like-minded individuals who have a focus and passion for<br />
+                        improving their health and well-being.
+                    </span>
+                    <span className={styles['about-hero-subtitle-mobile']}>
+                        Vita Bella is changing healthcare. We are building a community of like-minded individuals who have a focus and passion for improving their health and well-being.
+                    </span>
                 </p>
             </div>
         </section>

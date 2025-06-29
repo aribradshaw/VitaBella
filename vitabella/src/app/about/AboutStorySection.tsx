@@ -30,17 +30,21 @@ const AboutStorySection = () => (
         </p>
       </div>
       {/* Quote box */}
-      <div style={{ background: "#F3EFEA", borderRadius: 24, display: "flex", alignItems: "center", gap: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid #e0e0e0", width: "100%" }}>
-        <Image
-          src="/modules/PhilVella.webp"
-          alt="Phil Vella, Founder & CEO"
-          width={140}
-          height={110}
-          className={styles["about-story-quote-photo"]}
-          priority
-        />
-        <div style={{ flex: 1, paddingRight: "var(--space-1x)" }}>
-          <div style={{ fontSize: 21, fontStyle: "italic", marginBottom: 16, color: "#012B27", paddingRight: "var(--space-1x)" }}>
+      <div
+        className={styles["about-story-quote-box"]}
+      >
+        <div className={styles["about-story-quote-photo-wrapper"]}>
+          <Image
+            src="/modules/PhilVella.webp"
+            alt="Phil Vella, Founder & CEO"
+            width={140}
+            height={110}
+            className={styles["about-story-quote-photo"]}
+            priority
+          />
+        </div>
+        <div className={styles["about-story-quote-content"]}>
+          <div style={{ fontSize: 21, fontStyle: "italic", marginBottom: 16, color: "#012B27" }}>
             “Frustration turned into a mission to build a company that helps healthcare become accessible to all.”
           </div>
           <div style={{ fontWeight: 700, fontSize: 20, color: "#012B27" }}>Phil Vella</div>

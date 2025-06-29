@@ -1,3 +1,15 @@
+/* Slider override for HealthExpertsModule */
+.sliderOverride .sliderContainer {
+  min-height: 260px;
+}
+.sliderOverride .sliderTrack {
+  align-items: stretch;
+}
+.sliderOverride .expertCard {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
 /* HealthExpertsModule.module.css */
 
 .healthExpertsModule {

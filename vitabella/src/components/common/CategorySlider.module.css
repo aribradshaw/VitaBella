@@ -139,18 +139,20 @@
 }
 @media (max-width: 700px) {
   .slider {
-    min-width: 400px;
+    min-width: 320px;
     gap: 0.7rem;
+    justify-content: center;
   }
   .card {
-    min-width: 180px;
-    max-width: 220px;
+    min-width: 220px;
+    max-width: 320px;
+    margin: 0 auto;
     padding-bottom: 0.7rem;
-    min-height: 260px;
-    max-height: 260px;
+    min-height: 320px;
+    max-height: 380px;
   }
   .imageHolder {
-    height: 100px;
+    height: 180px;
   }
   .cardContent {
     padding: 0.7rem 0.7rem 0 0.7rem;

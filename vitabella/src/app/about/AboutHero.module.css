@@ -1,3 +1,19 @@
+/* Hide/show subtitle line breaks for desktop/mobile */
+.about-hero-subtitle-desktop {
+  display: inline;
+}
+.about-hero-subtitle-mobile {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .about-hero-subtitle-desktop {
+    display: none;
+  }
+  .about-hero-subtitle-mobile {
+    display: inline;
+  }
+}
 .about-hero-section {
   position: relative;
   width: 100vw;
