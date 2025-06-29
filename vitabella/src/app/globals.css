@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'Tusker Grotesk';
-  src: url('https://www.vitabella.com/wp-content/uploads/2025/03/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+  src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Switzer';
-  src: url('https://www.vitabella.com/wp-content/uploads/2025/03/Switzer-Variable.ttf') format('truetype');
+  src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }

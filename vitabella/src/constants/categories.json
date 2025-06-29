@@ -1,0 +1,66 @@
+[
+    {
+        "categoryName": "Weight Loss",
+        "womenImage": "/categories/bundles/weightlossf.webp",
+        "womenCaption": "Your Healthiest Body Starts Here.",
+        "menImage": "/categories/bundles/weightlossm.webp",
+        "menCaption": "Built for Performance. Engineered for Men.",
+        "slug": "weight-loss"
+    },
+    {
+        "categoryName": "Hormone Therapy",
+        "womenImage": "/categories/bundles/hormonetherapyf.webp",
+        "womenCaption": "Hormones in Sync, Life in Full Bloom.",
+        "menImage": "/categories/bundles/hormonetherapym.webp",
+        "menCaption": "Feel Stronger. Live Bolder. Backed by Science.",
+        "slug": "hormone-therapy"
+    },
+    {
+        "categoryName": "Anti-Aging",
+        "womenImage": "/categories/bundles/antiagingf.webp",
+        "womenCaption": "Your Best Years Are Just Beginning.",
+        "menImage": "/categories/bundles/antiagingm.webp",
+        "menCaption": "Redefine Your Prime.",
+        "slug": "anti-aging"
+    },
+    {
+        "categoryName": "Sexual Wellness",
+        "womenImage": "/categories/bundles/sexualwellnessf.webp",
+        "womenCaption": "Hormonal Harmony. Feminine Strength.",
+        "menImage": "/categories/bundles/sexualwellnessm.webp",
+        "menCaption": "Rebalance Your Hormones. Reclaim Your Drive.",
+        "slug": "sexual-wellness"
+    },
+    {
+        "categoryName": "Cognitive Health",
+        "womenImage": "/categories/bundles/cognitivehealthf.webp",
+        "womenCaption": "Think Faster. Focus Longer. Live Smarter.",
+        "menImage": "/categories/bundles/cognitivehealthm.webp",
+        "menCaption": "Power Your Brain. Dominate the Day.",
+        "slug": "cognitive-health"
+    },
+    {
+        "categoryName": "Hair Loss",
+        "womenImage": "/categories/bundles/hairlossf.webp",
+        "womenCaption": "From Sparse to Stunning - Clinically Proven.",
+        "menImage": "/categories/bundles/hairlossm.webp",
+        "menCaption": "Stronger Roots. Fuller Growth. Real Results.",
+        "slug": "hair-loss"
+    },
+    {
+        "categoryName": "Injury & Recovery",
+        "womenImage": "/categories/bundles/injuryrecoveryf.webp",
+        "womenCaption": "Rise, Rebuild, Repeat - On Your Terms.",
+        "menImage": "/categories/bundles/injuryrecoverym.webp",
+        "menCaption": "Performance-Driven Recovery Starts Here.",
+        "slug": "injury-and-recovery"
+    },
+    {
+        "categoryName": "Skin Care",
+        "womenImage": "/categories/bundles/skincaref.webp",
+        "womenCaption": "Skin You'll Love. Results You Can Trust.",
+        "menImage": "/categories/bundles/skincarem.webp",
+        "menCaption": "Skincare That Works as Hard as You Do.",
+        "slug": "skin-care"
+    }
+]

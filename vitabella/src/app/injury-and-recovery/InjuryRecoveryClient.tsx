@@ -10,12 +10,14 @@ import NoInsuranceModule from '@/components/common/NoInsuranceModule';
 import BenefitsModule from '@/components/common/BenefitsModule';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
 import ProductCategorySlider from '@/components/common/ProductCategorySlider';
+import CategoryHero from '@/components/common/CategoryHero';
 
 const InjuryRecoveryClient: React.FC = () => {
     const pageTitle = "Injury and Recovery";
     
     return (
         <>
+            <CategoryHero category="injury-recovery" />
             <BenefitsBar />
             <SectionHeader
               left={{

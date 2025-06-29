@@ -10,12 +10,14 @@ import NoInsuranceModule from '@/components/common/NoInsuranceModule';
 import BenefitsModule from '@/components/common/BenefitsModule';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
 import ProductCategorySlider from '@/components/common/ProductCategorySlider';
+import CategoryHero from '@/components/common/CategoryHero';
 
 const HormoneTherapyClient: React.FC = () => {
     const pageTitle = "Hormone Therapy";
     
     return (
         <>
+            <CategoryHero category="hormone-therapy" />
             <BenefitsBar />
             <SectionHeader
               left={{

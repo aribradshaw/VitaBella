@@ -10,12 +10,14 @@ import NoInsuranceModule from '@/components/common/NoInsuranceModule';
 import BenefitsModule from '@/components/common/BenefitsModule';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
 import ProductCategorySlider from '@/components/common/ProductCategorySlider';
+import CategoryHero from '@/components/common/CategoryHero';
 
 const SkinCareClient: React.FC = () => {
     const pageTitle = "Skin Care";
     
     return (
         <>
+            <CategoryHero category="skin-care" />
             <BenefitsBar />
             <SectionHeader
               left={{

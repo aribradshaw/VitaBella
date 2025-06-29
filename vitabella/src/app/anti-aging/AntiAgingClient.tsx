@@ -10,12 +10,14 @@ import NoInsuranceModule from '@/components/common/NoInsuranceModule';
 import BenefitsModule from '@/components/common/BenefitsModule';
 import HowItWorks from '@/components/HowItWorks/HowItWorks';
 import ProductCategorySlider from '@/components/common/ProductCategorySlider';
+import CategoryHero from '@/components/common/CategoryHero';
 
 const AntiAgingClient: React.FC = () => {
     const pageTitle = "Anti-Aging";
     
     return (
         <>
+            <CategoryHero category="anti-aging" />
             <BenefitsBar />
             <SectionHeader
               left={{

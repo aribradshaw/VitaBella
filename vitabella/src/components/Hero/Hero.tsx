@@ -68,7 +68,7 @@ const Hero: React.FC = () => {
         <div className="divider"></div>
         <div className="testimonial">
           <Image
-            src="https://www.vitabella.com/wp-content/uploads/2025/03/fourreviewpeople.webp"
+            src="/modules/fourreviewpeople.webp"
             alt="review people"
             width={142}
             height={49}
@@ -117,21 +117,21 @@ const Hero: React.FC = () => {
 function getNavIcon(key: HeroKey) {
   switch (key) {
     case 'weight-loss':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-3.svg';
+      return '/modules/weightloss.svg';
     case 'hormone-therapy':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-7.svg';
+      return '/modules/hormonetherapy.svg';
     case 'anti-aging':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-10.svg';
+      return '/modules/antiaging.svg';
     case 'sexual-wellness':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-9.svg';
+      return '/modules/sexualwellness.svg';
     case 'cognitive-health':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-8.svg';
+      return '/modules/cognitivehealth.svg';
     case 'hair-loss':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-6-1.svg';
+      return '/modules/hair-loss.svg';
     case 'injury-recovery':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-5-1.svg';
+      return '/modules/injuryrecovery.svg';
     case 'skin-care':
-      return 'https://www.vitabella.com/wp-content/uploads/2025/03/Asset-4.svg';
+      return '/modules/skincare.svg';
     default:
       return '';
   }

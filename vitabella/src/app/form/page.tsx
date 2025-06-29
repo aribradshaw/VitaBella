@@ -339,7 +339,7 @@ function VitaBellaMultiStepForm() {
       };
       return (
         <>
-          <label className="vita-bella-form-label" style={{ fontWeight: 700, color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+          <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
             What is your biological sex? <span style={{ color: 'red' }}>*</span>
           </label>
           <div style={{ display: 'flex', gap: 0, marginTop: 16, borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
@@ -382,7 +382,7 @@ function VitaBellaMultiStepForm() {
                     borderRadius,
                     padding: '32px 0',
                     fontSize: '1.35rem',
-                    fontWeight: 500,
+                    fontWeight: '500' as React.CSSProperties['fontWeight'],
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -458,7 +458,7 @@ function VitaBellaMultiStepForm() {
     ) {
       return (
         <div>
-          <label className="vita-bella-form-label" style={{ fontWeight: 700, color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+          <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
             What are your primary health goals for the next 90 days?
           </label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
@@ -501,7 +501,7 @@ function VitaBellaMultiStepForm() {
     ) {
       return (
         <div>
-          <label className="vita-bella-form-label" style={{ fontWeight: 700, color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+          <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
             What are your long-term (1+ year) health objectives?
           </label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
@@ -568,7 +568,7 @@ function VitaBellaMultiStepForm() {
         const colorOutline = 'var(--e-global-color-green)';
         return (
           <div key="eating" style={{ marginBottom: 24 }}>
-            <label className="vita-bella-form-label" style={{ display: 'block', marginBottom: 12, fontWeight: 700, color: 'var(--e-global-color-dark-green)', fontSize: '1.15rem' }}>{field.label}</label>
+            <label className="vita-bella-form-label" style={{ display: 'block', marginBottom: 12, fontWeight: "bold", color: 'var(--e-global-color-dark-green)', fontSize: '1.15rem' }}>{field.label}</label>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28 }}>
               {[0,1,2,3,4,5].map((val) => {
                 const isSelected = form.eating === val.toString();
@@ -612,7 +612,7 @@ function VitaBellaMultiStepForm() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: isSelected ? 'var(--e-global-color-dark-green)' : '#fff',
-                        fontWeight: 700,
+                        fontWeight: '700' as React.CSSProperties['fontWeight'],
                         fontSize: 14,
                         transition: 'background 0.2s, color 0.2s',
                         userSelect: 'none',
@@ -624,7 +624,7 @@ function VitaBellaMultiStepForm() {
                 );
               })}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: 13, color: '#888', fontWeight: 500 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: 13, color: '#888', fontWeight: '500' as React.CSSProperties['fontWeight'] }}>
               <span>0 - Poor / Mostly junk food</span>
               <span>5 - Excellent / Whole foods</span>
             </div>

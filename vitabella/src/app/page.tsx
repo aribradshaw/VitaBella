@@ -8,6 +8,7 @@ import AboutStats from '../app/about/AboutStats';
 import HealthyHome from '../components/common/HealthyHome';
 import ProductMechanismBottomRow from '../components/common/ProductMechanismBottomRow';
 import Newsletter from '../components/common/Newsletter';
+import BundleSlider from '../components/common/BundleSlider';
 
 export const metadata = {
     title: {
@@ -33,22 +34,28 @@ export default function Home() {
         <HowItWorks />
         <SectionHeader
           left={{
-        h2Alt: "Men's Treatments",
-        h2: 'Reignite, Strengthen, Dominate',
+            h2Alt: "Men's Treatments",
+            h2: 'Reignite, Strengthen, Dominate',
           }}
           right={
-        <>Targeted treatments to fuel your power, enhance your endurance, and maintain your competitive edge.</>
+            <>Targeted treatments to fuel your power, enhance your endurance, and maintain your competitive edge.</>
           }
         />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: 48 }}>
+          <BundleSlider gender="Male" />
+        </div>
         <SectionHeader
           left={{
-        h2Alt: "Women’s Treatments",
-        h2: 'Revive & Radiate',
+            h2Alt: "Women’s Treatments",
+            h2: 'Revive & Radiate',
           }}
           right={
-        <>Find your balance, feel energized, and radiate with treatments tailored to you—because self-care is a daily essential.</>
+            <>Find your balance, feel energized, and radiate with treatments tailored to you—because self-care is a daily essential.</>
           }
         />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: 48 }}>
+          <BundleSlider gender="Female" />
+        </div>
         <HealthyHome />
         <CustomerReviews page="about" />
         <SectionHeader

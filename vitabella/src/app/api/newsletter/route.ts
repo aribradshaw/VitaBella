@@ -19,8 +19,8 @@ async function verifyRecaptcha(token: string) {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
   });
-  const data = await res.json();
-  return data.success && data.score >= 0.5;
+  const data = await res.json() as { success?: boolean; score?: number };
+  return data.success && data.score !== undefined && data.score >= 0.5;
 }
 
 async function sendThankYouEmail(email: string) {
@@ -84,7 +84,7 @@ async function sendToActiveCampaign(email: string) {
     const res = await fetch('https://vitabella.api-us1.com/api/3/lists', {
       headers: { 'Api-Token': ACTIVE_CAMPAIGN_API_KEY as string },
     });
-    const data = await res.json();
+    const data = await res.json() as { lists?: Array<{ id: string; name?: string }> };
     const found = data.lists?.find((l: { name?: string }) => l.name?.includes('2025 Prospect'));
     if (found) listId = found.id;
   }
@@ -110,7 +110,7 @@ async function sendToActiveCampaign(email: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken } = await req.json();
+    const { email, recaptchaToken } = await req.json() as { email: string; recaptchaToken: string };
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha' }, { status: 400 });
     }
