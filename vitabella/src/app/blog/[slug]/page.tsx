@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           className: 'bg-white rounded-lg shadow-md p-6 md:p-10 mx-auto',
           style: { maxWidth: 1340, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }
         },
-        React.createElement('h1', { className: 'h2-alt mb-2', style: { maxWidth: 670, width: '100%' } }, post.Title),
+        React.createElement('h1', { className: 'h2-alt mb-2 archivetitle', style: { maxWidth: 670, width: '100%' } }, post.Title),
         React.createElement('div', { className: 'text-gray-500 text-base mb-6 font-medium', style: { maxWidth: 670, width: '100%' } }, new Date(post.Date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })),
         typeof post["Image Featured"] === "string" && post["Image Featured"].length > 0 && React.createElement(
           'div',
