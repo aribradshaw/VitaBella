@@ -3,6 +3,7 @@ import { getAllFAQs } from '../../lib/faq-server';
 import FAQSearch from '../../components/FAQ/FAQSearch';
 import FAQSchema from '../../components/FAQ/FAQSchema';
 import { Metadata } from 'next';
+import './FAQ.css';
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions | Vita Bella Health',

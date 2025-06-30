@@ -45,7 +45,12 @@
 }
 
 .archivetitle {
-  margin-top: var(--space-4x);
+  margin-top: calc(var(--space-4x) * 2);
+}
+@media (max-width: 900px) {
+  .archivetitle {
+    margin-top: var(--space-4x)
+  }
 }
 
 @media (max-width: 600px) {

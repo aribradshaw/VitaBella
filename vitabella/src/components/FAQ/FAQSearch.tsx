@@ -116,7 +116,7 @@ const FAQSearch: React.FC<FAQSearchProps> = ({ initialFAQs }) => {
     <div>
       <div className="faq-hero">
         <div className="container">
-          <h1 className="h1">Frequently Asked Questions</h1>
+          <h1 className="h1 faqheader">Frequently Asked Questions</h1>
           <p className="body-text">
             Find answers to common questions about Vita Bella's services, treatments, and membership options.
           </p>

@@ -8,6 +8,7 @@ import VitaBellaArrow from '../common/VitaBellaArrow';
 import VitaBellaButton from '../common/VitaBellaButton';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import MobileHamburger from './MobileHamburger';
+import { Analytics } from "@vercel/analytics/next"
 
 // Treatment categories and images (replace src with your actual images)
 const treatmentCategories = [
@@ -114,6 +115,7 @@ const Header: React.FC = () => {
 
 	return (
 	  <header className="header">
+		<Analytics />
 		<div className="header-bg"></div>
 		<div className="header-container">
 		  {/* ...existing header content... */}
