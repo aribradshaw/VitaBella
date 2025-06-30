@@ -42,7 +42,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
           gap: 'var(--space-1x)'
         }}
       >
-        <div className="hero-heading" style={{ color: '#fff', marginBottom: 'var(--space-1x)' }}>{data.categoryName.toUpperCase()}</div>
+        <div className="hero-heading-test" style={{ color: '#fff', marginBottom: 'var(--space-1x)' }}>{data.categoryName.toUpperCase()}</div>
         <div
           className="highlight"
           style={{ color: data.mainColor, marginTop: '-8px', marginBottom: 'var(--space-1x)' }}

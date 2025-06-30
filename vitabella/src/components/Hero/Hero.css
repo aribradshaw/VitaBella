@@ -121,7 +121,7 @@
   opacity: 1;
 }
 
-.hero-heading, .highlight {
+.hero-heading-test, .highlight {
   font-family: 'Tusker Grotesk', sans-serif;
   font-size: 80px;
   line-height: 80px;
@@ -135,11 +135,11 @@
     font-size: 48px !important;
     line-height: 48px !important
   }
-  .hero-heading {
+  .hero-heading-test {
     margin-bottom: 0 !important;
-    font-size: 36 !important;
+    font-size: 36px !important;
     margin-top: 0em !important;
-    line-height: 0.5 !important;
+    line-height: 36px !important;
   }
 }
 }
