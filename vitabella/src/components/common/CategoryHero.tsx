@@ -41,7 +41,6 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
       style={{
         backgroundImage: `url('${data.backgroundImage}')`,
         backgroundColor: data.backgroundColor,
-        paddingBottom: 'var(--space-2x)',
       }}
     >
       <div
