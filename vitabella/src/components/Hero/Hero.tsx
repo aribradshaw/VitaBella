@@ -1,9 +1,11 @@
 "use client";
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 import { heroData } from './heroData';
 import Image from 'next/image';
+import VitaBellaButton from '../common/VitaBellaButton';
 
 // Type for category keys
 const categoryKeys = Object.keys(heroData) as Array<keyof typeof heroData>;
@@ -97,9 +99,57 @@ const Hero: React.FC = () => {
         <p className="subtext">
           Clinically-proven, doctor-backed solutions to help {data.solutionsText}.
         </p>
-        <a href="/membership/" className="cta-button" style={{ backgroundColor: data.mainColor, color: data.backgroundColor, backgroundImage: `url('${data.buttonIcon}')` }}>
-          Start Your Treatment
-        </a>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? 12 : 20,
+            alignItems: isMobile ? 'stretch' : 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+            width: isMobile ? '100%' : 'auto',
+            marginBottom: isMobile ? 8 : 0,
+          }}
+        >
+          <VitaBellaButton
+            label="Start Your Treatment"
+            href="/membership/"
+            bg={data.mainColor}
+            bgHover={data.backgroundColor}
+            text={data.backgroundColor}
+            textHover="var(--e-global-color-white)"
+            arrowCircleColor={data.backgroundColor}
+            arrowCircleColorHover={data.mainColor}
+            arrowPathColor={data.mainColor}
+            arrowPathColorHover={data.backgroundColor}
+            style={{
+              minWidth: 200,
+              width: isMobile ? '70%' : 250,
+              alignSelf: isMobile ? 'center' : 'flex-start',
+              fontSize: '1.1rem',
+              boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
+            }}
+          />
+          <VitaBellaButton
+            label="Learn More"
+            href={`/${data.slug}`}
+            bg="#fff"
+            bgHover="0% transparent"
+            text={data.backgroundColor}
+            textHover="var(--e-global-color-white)"
+            arrowCircleColor={data.backgroundColor}
+            arrowCircleColorHover={data.mainColor}
+            arrowPathColor={data.mainColor}
+            arrowPathColorHover={data.backgroundColor}
+            style={{
+              minWidth: 150,
+              width: isMobile ? '50%' : 175,
+              alignSelf: isMobile ? 'center' : 'flex-start',
+              fontSize: '1.1rem',
+              marginBottom: isMobile ? 8 : 0,
+              boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
+            }}
+          />
+        </div>
         <div className="divider"></div>
         <div className="testimonial">
           <Image

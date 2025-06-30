@@ -2,6 +2,7 @@
 export const heroData = {
   "weight-loss": {
     categoryName: "Weight Loss",
+    slug: "weight-loss",
     solutionsText: "you lose weight effectively and safely",
     goalsText: "weight loss",
     mainColor: "#D6FEA1",
@@ -16,6 +17,7 @@ export const heroData = {
   },
   "hormone-therapy": {
     categoryName: "Hormone Therapy",
+    slug: "hormone-therapy",
     solutionsText: "optimize hormones and fertility",
     goalsText: "hormone therapy",
     mainColor: "#CEE9FF",
@@ -30,6 +32,7 @@ export const heroData = {
   },
   "anti-aging": {
     categoryName: "Anti-Aging",
+    slug: "anti-aging",
     solutionsText: "you improve healthspan and lifespan",
     goalsText: "longevity",
     mainColor: "#FAEDCD",
@@ -44,6 +47,7 @@ export const heroData = {
   },
   "sexual-wellness": {
     categoryName: "Sexual Wellness",
+    slug: "sexual-wellness",
     solutionsText: "improve sexual function and intimacy",
     goalsText: "sexual wellness",
     mainColor: "#FFBBB7",
@@ -58,6 +62,7 @@ export const heroData = {
   },
   "cognitive-health": {
     categoryName: "Cognitive Health",
+    slug: "cognitive-health",
     solutionsText: "improve brain function and cognition",
     goalsText: "cognitive health",
     mainColor: "#CEE9FF",
@@ -72,6 +77,7 @@ export const heroData = {
   },
   "hair-loss": {
     categoryName: "Hair Loss",
+    slug: "hair-loss",
     solutionsText: "sustain and improve hair growth",
     goalsText: "hair growth",
     mainColor: "#FFD19F",
@@ -86,6 +92,7 @@ export const heroData = {
   },
   "injury-recovery": {
     categoryName: "Injury & Recovery",
+    slug: "injury-and-recovery",
     solutionsText: "turn your injury setback into a comeback",
     goalsText: "recovery",
     mainColor: "#DBFFEE",
@@ -100,6 +107,7 @@ export const heroData = {
   },
   "skin-care": {
     categoryName: "Skin Care",
+    slug: "skin-care",
     solutionsText: "boost confidence with healthy, glowing skin",
     goalsText: "skin care",
     mainColor: "#FAEDCD",
