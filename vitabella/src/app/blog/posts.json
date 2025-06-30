@@ -5,7 +5,7 @@
     "Excerpt": "Sticking to these general guidelines and working with your healthcare team can help you optimize your nutrition while taking GLP-1 medication.",
     "Date": "2024-05-02",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/NUTRITIONALGUIDANCE.jpg",
-    "Categories": "Hair loss",
+    "Categories": "Weight Loss",
     "author": "Dr. Robert Lieske",
     "Slug": "nutritional-guidance"
   },
@@ -15,7 +15,7 @@
     "Excerpt": "GHK-CU is a naturally occurring peptide, which resonates with individuals seeking more natural and biocompatible skincare options.",
     "Date": "2024-05-03",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/GHKCU-scaled-1.jpg",
-    "Categories": "Cognitive Health",
+    "Categories": "Skin Care",
     "author": "Dr. Robert Lieske",
     "Slug": "ghk-cu"
   },
@@ -25,7 +25,7 @@
     "Excerpt": "NAD+ therapy is a trending wellness treatment that may boost energy, support cellular repair, and improve cognitive function. Learn how it works and what the studies show.",
     "Date": "2024-06-06",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/NAD-scaled-1.jpg",
-    "Categories": "Hormone Therapy",
+    "Categories": "Anti-Aging|Cognitive Health",
     "author": "Dr. Robert Lieske",
     "Slug": "nad-treatment"
   },
@@ -35,7 +35,7 @@
     "Excerpt": "This antioxidant superhero is the Beyoncé of cellular health, slaying free radicals, boosting immunity, and keeping your glow game on point.",
     "Date": "2024-06-07",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/GLUTATHIONE-scaled-1.jpg",
-    "Categories": "Sexual Wellness",
+    "Categories": "Anti-Aging",
     "author": "Dr. Robert Lieske",
     "Slug": "glutathione"
   },
@@ -45,7 +45,7 @@
     "Excerpt": "Testosterone therapy (TRT) can restore healthy hormone levels, boosting muscle, energy, mood, and libido. Learn how it works, benefits, and what studies show.",
     "Date": "2024-06-10",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/TESTOSTERONE-scaled-1.jpg",
-    "Categories": "Anti-Aging",
+    "Categories": "Hormone Therapy",
     "author": "Dr. Robert Lieske",
     "Slug": "testosterone"
   },
@@ -55,7 +55,7 @@
     "Excerpt": "Sermorelin is a therapy that stimulates your body's own growth hormone production, supporting fat loss, muscle gain, better sleep, and cognitive function. Learn how it works and what the studies show.",
     "Date": "2024-06-13",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/SEMORALIN-scaled-1.jpg",
-    "Categories": "Weight Loss",
+    "Categories": "Weight Loss|Injury and Recovery|Cognitive Health",
     "author": "Dr. Robert Lieske",
     "Slug": "sermorelin"
   },
@@ -75,7 +75,7 @@
     "Excerpt": "Semaglutide and Tirzepatide are once-weekly injectables revolutionizing weight loss. Learn their differences, benefits, and which may be right for you.",
     "Date": "2024-06-20",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/SEMAGLUTIDEV.TIRZEPITIDE-scaled-1.jpg",
-    "Categories": "Injury and Recovery",
+    "Categories": "Weight Loss",
     "author": "Dr. Robert Lieske",
     "Slug": "semaglutide-vs-tirzepatide"
   },
@@ -85,7 +85,7 @@
     "Excerpt": "Both Enclomiphene and Clomiphene are SERMs used to boost testosterone and fertility in men. Learn their differences, benefits, and side effects.",
     "Date": "2024-06-24",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/ENCLOMIPHENE-_-CLOMIPHENE-scaled-1.jpg",
-    "Categories": "Hair Loss",
+    "Categories": "Hormone Therapy",
     "author": "Dr. Robert Lieske",
     "Slug": "enclomiphene-_-clomiphene"
   },
@@ -95,7 +95,7 @@
     "Excerpt": "HCG is used to boost natural hormone production, support fertility, and maintain testosterone. Learn how it works and who benefits.",
     "Date": "2024-06-27",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/HCG-scaled-1.jpg",
-    "Categories": "Cognitive Health",
+    "Categories": "Hormone Therapy",
     "author": "Dr. Robert Lieske",
     "Slug": "hcg"
   },
@@ -105,7 +105,7 @@
     "Excerpt": "Sildenafil and Tadalafil are two leading ED medications. Learn their differences, benefits, and which may be right for you.",
     "Date": "2024-07-01",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/SILDENAFIL-V-TADAFIL-scaled-1.jpg",
-    "Categories": "Anti-Aging|Hormone Therapy",
+    "Categories": "Sexual Wellness",
     "author": "Dr. Robert Lieske",
     "Slug": "sildenafil-vs-tadalafil"
   },
@@ -115,7 +115,7 @@
     "Excerpt": "B12 is a powerhouse nutrient for energy, brain health, and red blood cell production. Learn who needs it, why it matters, and what B12 therapy can do for you.",
     "Date": "2024-07-08",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/09/B12BLOG-scaled-1-1.jpg",
-    "Categories": "Sexual Wellness",
+    "Categories": "Anti-Aging|Cognitive Health",
     "author": "Dr. Robert Lieske",
     "Slug": "b12"
   },
@@ -125,7 +125,7 @@
     "Excerpt": "Metformin’s potential as an anti-aging tool is exciting, but it’s still evolving. This article dives deeper into benefits and side effects.",
     "Date": "2024-07-15",
     "Image Featured": "https://www.vitabella.com/wp-content/uploads/2024/07/METFORMIN_result.webp",
-    "Categories": "Anti-Aging",
+    "Categories": "Anti-Aging|Weight Loss|Cognitive Health",
     "author": "Dr. Robert Lieske",
     "Slug": "metformin"
   },
