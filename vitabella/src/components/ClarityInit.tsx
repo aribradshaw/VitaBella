@@ -3,21 +3,16 @@ import { useEffect } from "react";
 
 export default function ClarityInit() {
   useEffect(() => {
+    // Use the official Clarity NPM package for initialization
+    // Only run on client
     if (typeof window !== "undefined") {
-      // Microsoft Clarity tracking code with type-safe DOM manipulation
-      const clarityKey = "clarity";
-      if (!(clarityKey in window)) {
-        (window as any)[clarityKey] = function() {
-          ((window as any)[clarityKey].q = (window as any)[clarityKey].q || []).push(arguments);
-        };
-        const t = document.createElement("script");
-        t.async = true;
-        t.src = "https://www.clarity.ms/tag/s7s6am6m9w";
-        const y = document.getElementsByTagName("script")[0];
-        if (y && y.parentNode) {
-          y.parentNode.insertBefore(t, y);
+      // Dynamically import to avoid SSR issues
+      import("@microsoft/clarity").then((Clarity) => {
+        const clarityAny = Clarity as any;
+        if (clarityAny && typeof clarityAny.init === "function") {
+          clarityAny.init("s7s6am6m9w");
         }
-      }
+      });
     }
   }, []);
   return null;
