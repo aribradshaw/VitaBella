@@ -25,7 +25,7 @@ export default function BlogArchiveClient({ posts, allCategories }: { posts: Blo
 
   return (
     <main className="container py-12">
-      <h1 className="h2-alt mb-8" style={{ textAlign: 'center' }}>Blog Archive</h1>
+      <h1 className="h2-alt mb-8 archivetitle" style={{ textAlign: 'center' }}>Blog Archive</h1>
       <div className="blog-category-list" style={{ justifyContent: 'center', marginBottom: '2.5rem' }}>
         <button
           type="button"
