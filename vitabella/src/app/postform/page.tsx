@@ -9,18 +9,8 @@ export default function Page() {
       <h1 style={{ fontWeight: 600, fontSize: "2rem", marginBottom: 16 }}>
         Shoot! We’re not in your state just yet, but working on it!
       </h1>
-      <div style={{ margin: "0 auto 24px", maxWidth: 480 }}>
-        <StatesMap />
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: 32, marginBottom: 16, fontSize: 18 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ display: "inline-block", width: 18, height: 18, background: "var(--e-global-color-lightgreen)", borderRadius: 4 }} />
-          <span>Service Offered</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ display: "inline-block", width: 18, height: 18, background: "var(--e-global-color-dark-green)", borderRadius: 4 }} />
-          <span>Service Not Yet Offered</span>
-        </div>
+      <div style={{ width: "100%", margin: "0 auto 24px", maxWidth: 480 }}>
+        <StatesMap style={{ width: "100%", height: "auto" }} />
       </div>
       <div style={{ margin: "32px 0 24px", fontSize: 18, color: "#1a3b2a", textAlign: "left" }}>
         <p style={{ marginBottom: 16 }}>
@@ -31,7 +21,7 @@ export default function Page() {
         </p>
         <p style={{ marginBottom: 16 }}>
           If you have any questions in the meantime, feel free to browse our{' '}
-          <Link href="/faq" style={{ color: "var(--e-global-color-lightgreen)", textDecoration: "underline" }}>Frequently Asked Questions</Link>.
+          <Link href="/faq" style={{ color: "var(--e-global-color-dark-green)", textDecoration: "underline" }}>Frequently Asked Questions</Link>.
           Thank you for your patience, and we look forward to connecting with you soon!
         </p>
       </div>
@@ -39,6 +29,14 @@ export default function Page() {
         <VitaBellaButton
           label="Return Home"
           href="/"
+          bg="var(--e-global-color-lightgreen)"
+              bgHover="var(--e-global-color-green)"
+              text="var(--e-global-color-dark-green)"
+              textHover="var(--e-global-color-dark-green)"
+              arrowCircleColor="var(--e-global-color-dark-green)"
+              arrowCircleColorHover="var(--e-global-color-dark-green)"
+              arrowPathColor="var(--e-global-color-lightgreen)"
+              arrowPathColorHover="var(--e-global-color-green)"
           style={{ minWidth: 160, fontSize: 18 }}
         />
       </div>
