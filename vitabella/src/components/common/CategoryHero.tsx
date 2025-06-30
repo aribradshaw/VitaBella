@@ -44,7 +44,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
       >
         <div className="hero-heading" style={{ color: '#fff', marginBottom: 'var(--space-1x)' }}>{data.categoryName.toUpperCase()}</div>
         <div
-          className="hero-heading highlight"
+          className="highlight"
           style={{ color: data.mainColor, marginTop: '-8px', marginBottom: 'var(--space-1x)' }}
         >
           TREATMENTS
