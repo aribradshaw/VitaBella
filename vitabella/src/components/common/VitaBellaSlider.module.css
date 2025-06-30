@@ -2,7 +2,7 @@
 .sliderWrapper {
   width: 100%;
   overflow-x: auto;
-  padding: 0.5rem 0;
+  padding: 0rem 0;
   display: flex;
   justify-content: center;
 }
@@ -75,16 +75,16 @@
     gap: 1.2rem;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   .sliderContainer {
-  min-height: 100px;
-}
+    min-height: 100px;
+  }
   .sliderTrack {
     gap: 0.7rem;
   }
   .arrowBtn {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     font-size: 1.5rem;
   }
 }

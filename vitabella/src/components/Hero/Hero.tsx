@@ -107,7 +107,7 @@ const Hero: React.FC = () => {
             alignItems: isMobile ? 'stretch' : 'center',
             justifyContent: isMobile ? 'center' : 'flex-start',
             width: isMobile ? '100%' : 'auto',
-            marginBottom: isMobile ? 8 : 0,
+            marginBottom: isMobile ? '-var(--space-1x)' : 0,
           }}
         >
           <VitaBellaButton
@@ -205,7 +205,7 @@ const Hero: React.FC = () => {
                       border: 'none',
                       opacity: isCurrent ? 1 : 0.7,
                       fontWeight: isCurrent ? 600 : 400,
-                      fontSize: isCurrent ? 14 : 12,
+                      fontSize: isCurrent ? 14 : 14,
                       zIndex: isCurrent ? 2 : 1,
                       boxShadow: isCurrent ? '0 2px 8px rgba(0,0,0,0.04)' : 'none',
                       cursor: isCurrent ? 'default' : 'pointer',
@@ -220,7 +220,7 @@ const Hero: React.FC = () => {
                         alt={`${navData.categoryName} Icon`}
                         width={isCurrent ? 28 : 22}
                         height={isCurrent ? 28 : 22}
-                        style={{ width: isCurrent ? '28px' : '22px', height: isCurrent ? '28px' : '22px', marginBottom: 4, opacity: isCurrent ? 1 : 0.7 }}
+                        style={{ width: isCurrent ? '28px' : '22px', height: isCurrent ? '28px' : '22px', marginBottom: 10, opacity: isCurrent ? 1 : 0.7 }}
                       />
                       <span style={{ fontSize: isCurrent ? 14 : 12, fontWeight: isCurrent ? 600 : 400 }}>{navData.categoryName}</span>
                     </div>
@@ -239,14 +239,16 @@ const Hero: React.FC = () => {
                   style={idx === currentIndex ? { backgroundColor: data.backgroundColor, color: '#fff' } : {}}
                   onClick={() => handleNavClick(idx)}
                 >
-                  <Image
-                    src={getNavIcon(key)}
-                    alt={`${navData.categoryName} Icon`}
-                    width={40}
-                    height={40}
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                  {navData.categoryName}
+                  <span style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+                    <Image
+                      src={getNavIcon(key)}
+                      alt={`${navData.categoryName} Icon`}
+                      width={40}
+                      height={40}
+                      style={{ width: '40px', height: '40px' }}
+                    />
+                    <span style={{ fontSize: 14, fontWeight: 600 }}>{navData.categoryName}</span>
+                  </span>
                 </button>
               );
             })

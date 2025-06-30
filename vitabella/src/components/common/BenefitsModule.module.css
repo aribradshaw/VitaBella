@@ -61,8 +61,8 @@
     margin-bottom: var(--space-2x);
   }
   .statisticsContainer {
-    height: auto;
-    min-height: unset;
+    height: auto !important;
+    min-height: 0 !important;
   }
 }
 
@@ -328,7 +328,6 @@
   }
   .imageContainer {
     position: relative !important;
-    height: 400px !important;
   }
   .membershipImage {
     height: 100%;
@@ -357,7 +356,6 @@
   }
   .imageContainer {
     position: relative !important;
-    height: 300px !important;
   }
   .membershipImage {
     height: 100%;

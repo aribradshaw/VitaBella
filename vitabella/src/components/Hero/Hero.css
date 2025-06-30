@@ -306,9 +306,9 @@
   min-width: 0;
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 20px 0; /* Equal padding above and below */
+  padding: var(--space-2x) 0; /* Equal padding above and below */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -359,9 +359,9 @@
     flex-wrap: wrap;
   }
   .navbar button {
-    font-size: 13px;
-    padding: 10px 0; /* Equal padding for mobile */
-    height: 80px;
+    font-size: 16px !important;
+    padding: var(--space-1x) 0; /* Equal padding for mobile */
+    height: 80px !important;
     border-radius: 0; /* Remove rounding on mobile */
   }
   .navbar button img {
@@ -376,8 +376,8 @@
     max-width: 100vw;
   }
   .navbar button {
-    font-size: 12px;
-    padding: 16px 0; /* Increased padding for mobile */
+    font-size: 16px;
+    padding: var(--space-1x) 0; /* Increased padding for mobile */
     height: 68px;
     border-radius: 0; /* Remove rounding on mobile */
     transition: background 0.2s, color 0.2s, opacity 0.3s;

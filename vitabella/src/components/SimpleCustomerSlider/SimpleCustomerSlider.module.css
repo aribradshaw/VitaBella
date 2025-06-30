@@ -103,8 +103,8 @@
     padding: var(--space-1x); /* Remove extra space below image */
   }
   .photo {
-    width: 130px;
-    height: 200px; /* Make images taller on mobile */
+    width: 50vw;
+    height: 300px; /* Make images taller on mobile */
     margin-bottom: 0.1rem;
   }
   .caption {

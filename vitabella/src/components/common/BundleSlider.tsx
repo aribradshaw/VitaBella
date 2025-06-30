@@ -53,7 +53,13 @@ const BundleSlider: React.FC<BundleSliderProps> = ({ gender, visibleCount = 4 })
         <img
           src={cat.image}
           alt={cat.categoryName}
-          style={{ width: "100%", height: 360, objectFit: "cover", borderRadius: 18, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
+          style={{
+            width: "100%",
+            height: typeof window !== 'undefined' && window.innerWidth <= 900 ? 300 : 360,
+            objectFit: "cover",
+            borderRadius: 18,
+            boxShadow: "0 2px 12px rgba(0,0,0,0.07)"
+          }}
         />
       </a>
       <div className={styles.cardContent}>
