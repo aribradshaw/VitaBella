@@ -31,7 +31,6 @@
 }
 
 .faq-article-header h1 {
-  margin: 0;
   color: var(--e-global-color-dark-green);
 }
 
@@ -174,7 +173,6 @@
 }
 
 .faq-hero h1 {
-  margin: 0 0 var(--space-2x);
   color: var(--e-global-color-dark-green);
 }
 
@@ -718,5 +716,14 @@
   .faq-clear-filters {
     display: block;
     margin: var(--space-1x) auto 0;
+  }
+}
+
+.faqheader {
+  margin-top: calc(var(--space-4x) * 2);
+}
+@media (max-width: 900px) {
+  .faqheader {
+    margin-top: var(--space-4x)
   }
 }
