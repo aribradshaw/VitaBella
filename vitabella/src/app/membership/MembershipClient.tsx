@@ -73,7 +73,7 @@ const MembershipClient: React.FC = () => {
               color: COLORS.white,
               letterSpacing: '-1.5px',
             }}>
-              <span style={{ display: 'block', color: COLORS.white }}>
+                <span className="MembershipTitle" style={{ display: 'block', color: COLORS.white }}>
                 THE MOST <span style={{ color: COLORS.green }}>COMPREHENSIVE</span>
               </span>
               <span style={{ display: 'block', color: COLORS.green, marginTop: '0.1em' }}>
