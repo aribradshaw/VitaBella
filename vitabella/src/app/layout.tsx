@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 // import PageTransition from "../components/PageTransition/PageTransition";
+import ClarityInit from "../components/ClarityInit";
 
 export const metadata: Metadata = {
   title: {
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ClarityInit />
         <Header />
         <div className="container">
           {/* PageTransition temporarily disabled for development. To re-enable, uncomment the next line and comment out the one after. */}
