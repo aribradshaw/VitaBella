@@ -301,11 +301,24 @@
   background: rgba(24, 44, 24, 0.85);
   backdrop-filter: blur(12px);
   pointer-events: none;
-  /* Hide header-bg when .is-hero is on body (for Hero or CategoryHero) */
+  display: block;
+}
+@media (max-width: 900px) {
+  .header-bg {
+    height: 40px; /* match mobile header height */
+  }
+}
+
+
+/* Hide header-bg only when header is immediately followed by hero-body or category-hero */
+
+/* Hide header-bg when header is immediately before hero-body or category-hero */
+.header-bg {
   display: block;
 }
 
-body.is-hero .header-bg {
+.header:has(+ .hero-body) .header-bg,
+.header:has(+ .category-hero) .header-bg {
   display: none !important;
 }
 
