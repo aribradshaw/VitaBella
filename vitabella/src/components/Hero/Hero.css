@@ -125,6 +125,7 @@
   font-family: 'Tusker Grotesk', sans-serif;
   font-size: 80px;
   line-height: 80px;
+  letter-spacing: 1px;;
   text-transform: uppercase;
   color: white;
   margin: 0;
@@ -137,9 +138,9 @@
   }
   .hero-heading-test {
     margin-bottom: 0 !important;
-    font-size: 36px !important;
+    font-size: 30px !important;
     margin-top: 0em !important;
-    line-height: 36px !important;
+    line-height: 30px !important;
   }
 }
 }
