@@ -409,3 +409,21 @@ button {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.APTitle {
+  margin-top: calc(var(--space-4x) * 2);
+}
+@media (max-width: 900px) {
+  .APTitle {
+    margin-top: var(--space-4x);
+  }
+}
+
+.product-hero-section {
+  margin-top: var(--space-4x);
+}
+@media (max-width: 900px) {
+  .product-hero-section {
+    margin-top: 0px;
+  }
+}

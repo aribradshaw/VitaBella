@@ -245,7 +245,7 @@ const AllProductsClient: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem 1rem' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: 24 }}>All Products</h1>
+      <h1 className="APTitle" style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: 24 }}>All Products</h1>
       <div style={{ width: '100%', marginBottom: 18 }}>
         <input
           type="text"
