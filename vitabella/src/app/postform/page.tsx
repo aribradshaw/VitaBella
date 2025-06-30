@@ -10,7 +10,9 @@ export default function Page() {
         Shoot! We’re not in your state just yet, but working on it!
       </h1>
       <div style={{ width: "100%", margin: "0 auto 24px", maxWidth: 480 }}>
-        <StatesMap style={{ width: "100%", height: "auto" }} />
+        <div style={{ width: "100%", height: "auto" }}>
+          <StatesMap />
+        </div>
       </div>
       <div style={{ margin: "32px 0 24px", fontSize: 18, color: "#1a3b2a", textAlign: "left" }}>
         <p style={{ marginBottom: 16 }}>

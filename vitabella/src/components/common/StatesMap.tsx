@@ -246,17 +246,7 @@ const StatesMap: React.FC<StatesMapProps> = ({
     <div className={`${styles.statesMapContainer} ${className}`}>
       <div className={styles.mapContainer} style={{ width }}>
         <div ref={svgRef} className={styles.statesMap} />
-        {tooltip.visible && (
-          <div 
-            className={styles.tooltip}
-            style={{
-              left: tooltip.x,
-              top: tooltip.y,
-            }}
-          >
-            {tooltip.content}
-          </div>
-        )}
+        {/* Tooltip is disabled for now */}
         {showLegend && (
           <div className={styles.legend}>
             <div className={styles.legendItem}>
@@ -280,6 +270,6 @@ const StatesMap: React.FC<StatesMapProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default StatesMap;
