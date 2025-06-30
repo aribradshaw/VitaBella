@@ -201,7 +201,14 @@ interface CustomerReviewsProps {
 	pageTitle?: string;
 }
 
+
 const CustomerReviews: React.FC<CustomerReviewsProps> = ({ page = 'other', pageTitle }) => {
+  // Prevent hydration mismatch by only rendering slider after mount
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+	setHasMounted(true);
+  }, []);
+
   // Determine background image and color based on page
   const backgroundImage = page === 'about'
 	? "url('/modules/customerreviews.webp')"
@@ -215,6 +222,8 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ page = 'other', pageT
 	backgroundSize: '100% auto',
   };
   const visibleCount = useVisibleCards();
+
+  if (!hasMounted) return null;
 
   return (
 	<section className={styles.customerReviewsSection} style={sectionStyle}>
