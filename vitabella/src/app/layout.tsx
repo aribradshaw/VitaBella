@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 // import PageTransition from "../components/PageTransition/PageTransition";
 import ClarityInit from "../components/ClarityInit";
+import { SpeedInsights } from "@vercel/speed-insights/next"; // <-- Added import
 
 export const metadata: Metadata = {
   title: {
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClarityInit />
+        <SpeedInsights /> {/* <-- Add this line to enable Vercel Speed Insights */}
         <Header />
         <div className="container">
           {/* PageTransition temporarily disabled for development. To re-enable, uncomment the next line and comment out the one after. */}
