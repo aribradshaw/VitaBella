@@ -26,6 +26,15 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
   // Responsive: use mobile image and 10k box placement like Hero.tsx
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 767;
   const heroContainerBg = isMobile ? data.mobileImage : data.mainImage;
+
+  // Add/remove .is-hero class to body for header transparency
+  React.useEffect(() => {
+    document.body.classList.add('is-hero');
+    return () => {
+      document.body.classList.remove('is-hero');
+    };
+  }, []);
+
   return (
     <div
       className="hero-body"

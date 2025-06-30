@@ -50,8 +50,7 @@
 /* Vita Bella Hero styles - extracted from oldheader.html */
 
 /* Removed @font-face rules, now in global.css */
-
-.hero-body {
+ .hero-body {
   margin: 0;
   padding: 0;
   font-family: 'Switzer', sans-serif;
@@ -68,9 +67,10 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  overflow:hidden;
+  overflow: hidden;
+  z-index: 1;
 
-.hero-container {
+ .hero-container {
   max-width: 1340px;
   width: 100%;
   margin: 0 auto;
@@ -85,6 +85,8 @@
   transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
   overflow: visible;
   min-height: calc(var(--base) * 33);
+  z-index: 2;
+  position: relative;
 }
 
 @media (max-width: 1340px) {
@@ -92,6 +94,7 @@
     max-width: 100vw;
     padding-left: var(--space-1x);
     padding-right: var(--space-1x);
+      z-index: 17 !important;
   }
 }
 
@@ -99,8 +102,8 @@
   .hero-container {
     padding-left: var(--space-1x) !important;
     padding-right: var(--space-1x) !important;
-    padding-top: calc(var(--space-4x)) !important;
-    padding-bottom: 250px !important;
+    padding-top: calc(var(--space-4x)*1.25) !important;
+    padding-bottom: 200px !important;
     align-items: center;
     justify-content: flex-start;
     text-align: center;

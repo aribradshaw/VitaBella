@@ -45,7 +45,7 @@ const VitaBellaButton: React.FC<VitaBellaButtonProps> = ({
     color: hover ? textHover : text,
     fontFamily: "Switzer, Arial, Helvetica, sans-serif",
     fontWeight: 700,
-    fontSize: "1.1rem",
+    fontSize: "16px",
     border: "none",
     borderRadius: "2rem",
     padding: "0.4rem 0.4rem 0.4rem 1.4rem",

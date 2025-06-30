@@ -291,15 +291,49 @@
 }
 /* Header styles go here */
 
-.header {
-  background: linear-gradient(90deg, #2d3c32 0%, #3b4d3b 100%);
-  width: 100%;
-  min-height: 70px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  z-index: 100;
+/* Header background layer for conditional z-index stacking */
+ .header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 70px; /* match header height */
+  background: rgba(24, 44, 24, 0.85);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  /* Hide header-bg when .is-hero is on body (for Hero or CategoryHero) */
+  display: block;
 }
+
+body.is-hero .header-bg {
+  display: none !important;
+}
+
+
+/* Header content container (not the background) */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 20; /* header content always on top */
+  background: none;
+  transition: none;
+  backdrop-filter: none;
+  pointer-events: auto; /* allow pointer events on header and children */
+  display: flex;
+  flex-direction: column;
+}
+
+
+ .header-container {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Remove z-index and pointer-events from all .header * to avoid stacking context issues */
+
 
 .header-container {
   max-width: 1340px;
@@ -326,15 +360,26 @@
   transition: padding 0.2s;
   z-index: 1202;
 }
+/* Responsive Vita Bella logo size */
+.logo svg {
+  height: 2.2rem;
+  width: auto;
+  display: block;
+  transition: height 0.2s;
+}
 @media (max-width: 800px) {
   .logo {
     padding-left: 10px;
-    height: 60px;
+    height: 40px;
     flex: 0 0 auto;
-    max-width: 80vw;
+    max-width: 40vw;
+
+  }
+  .logo svg {
+    height: 1.25rem;
   }
   .header-container {
-    min-height: 60px;
+    min-height: 40px;
     padding-left: 0;
     padding-right: 0;
   }
@@ -345,6 +390,17 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+}
+
+.logo-svg {
+  height: 2.2rem;
+  transition: height 0.2s;
+}
+
+@media (max-width: 800px) {
+  .logo-svg {
+    height: 1.1rem;
+  }
 }
 
 .navigation {

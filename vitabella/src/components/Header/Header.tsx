@@ -112,170 +112,51 @@ const Header: React.FC = () => {
   }, [mobileMenuOpen]);
 
 
-  return (
-	<header className="header">
-	  <div className="header-container">
-		<div className="logo">
-		  <Link href="/">
-			<VitaBellaLogo style={{ height: '2.2rem', display: 'block' }} />
-		  </Link>
-		</div>
-		{/* Mobile Hamburger Button (modular, always top right, only on mobile) */}
-	<MobileHamburger isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
-		{/* Desktop navigation */}
-		<nav className="navigation">
-		  <ul className="nav-list">
-			<li className={pathname === '/about' ? 'active' : ''}>
-			  <Link href="/about">About</Link>
-			</li>
-			<li className={pathname === '/membership' ? 'active' : ''}>
-			  <Link href="/membership">Membership</Link>
-			</li>
-			<li
-			  className={`dropdown-parent${treatmentOpen ? ' open' : ''}`}
-			  ref={treatmentRef}
-			  onMouseEnter={() => setTreatmentOpen(true)}
-			  onMouseLeave={() => setTreatmentOpen(false)}
-			>
-			  <button
-				className="dropdown-toggle"
-				aria-haspopup="true"
-				aria-expanded={treatmentOpen}
-			  >
-				Treatment
-			  </button>
-			  <div className={`dropdown-menu treatment-dropdown${treatmentOpen ? ' open' : ''}`}
-				style={{ pointerEvents: treatmentOpen ? 'auto' : 'none' }}
-			  >
-				<div className="dropdown-title">Explore Treatments</div>
-				<div className="treatment-grid">
-				  {treatmentCategories.map((cat) => (
-					<Link
-					  href={cat.slug}
-					  className="treatment-item"
-					  key={cat.slug}
-					  onClick={() => setTreatmentOpen(false)}
-					>
-					  <div className="treatment-img">
-						<img src={cat.img} alt={cat.name} />
-					  </div>
-					  <div className="treatment-label">{cat.name}</div>
-					</Link>
-				  ))}
-				</div>
-				<div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-				  <VitaBellaButton
-					label="View All Products"
-					href="/product"
-					bg="var(--e-global-color-dark-green)"
-					bgHover="var(--e-global-color-green)"
-					text="var(--e-global-color-white)"
-					textHover="var(--e-global-color-dark-green)"
-					arrowCircleColor="var(--e-global-color-lightgreen)"
-					arrowCircleColorHover="var(--e-global-color-dark-green)"
-					arrowPathColor="var(--e-global-color-dark-green)"
-					arrowPathColorHover="var(--e-global-color-green)"
-					onClick={() => setTreatmentOpen(false)}
-				  />
-				</div>
-			  </div>
-			</li>
-			{/* Desktop Resources Dropdown (only when not mobile menu) */}
-			{!mobileMenuOpen && (
+	return (
+	  <header className="header">
+		<div className="header-bg"></div>
+		<div className="header-container">
+		  {/* ...existing header content... */}
+		  <div className="logo">
+			<Link href="/">
+			  <VitaBellaLogo className="logo-svg" style={{ display: 'block' }} />
+			</Link>
+		  </div>
+		  {/* Mobile Hamburger Button (modular, always top right, only on mobile) */}
+		  <MobileHamburger isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
+		  {/* Desktop navigation */}
+		  <nav className="navigation">
+			<ul className="nav-list">
+			  <li className={pathname === '/about' ? 'active' : ''}>
+				<Link href="/about">About</Link>
+			  </li>
+			  <li className={pathname === '/membership' ? 'active' : ''}>
+				<Link href="/membership">Membership</Link>
+			  </li>
 			  <li
-				className={`dropdown-parent${resourcesOpen ? ' open' : ''}`}
-				ref={resourcesRef}
-				onMouseEnter={() => {
-				  if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
-				  setResourcesOpen(true);
-				}}
-				onMouseLeave={() => {
-				  if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
-				  resourcesTimeout.current = setTimeout(() => setResourcesOpen(false), 120);
-				}}
+				className={`dropdown-parent${treatmentOpen ? ' open' : ''}`}
+				ref={treatmentRef}
+				onMouseEnter={() => setTreatmentOpen(true)}
+				onMouseLeave={() => setTreatmentOpen(false)}
 			  >
 				<button
 				  className="dropdown-toggle"
 				  aria-haspopup="true"
-				  aria-expanded={resourcesOpen}
-				  onClick={() => setResourcesOpen((open) => !open)}
-				  tabIndex={0}
-				  onBlur={(e) => {
-					// If focus moves outside the menu, close it
-					if (!e.currentTarget.parentElement?.contains(e.relatedTarget)) {
-					  setResourcesOpen(false);
-					}
-				  }}
-				>
-				  Resources
-				</button>
-				<div
-				  className={`dropdown-menu resources-dropdown${resourcesOpen ? ' open' : ''}`}
-				  style={{ pointerEvents: resourcesOpen ? 'auto' : 'none' }}
-				  onMouseEnter={() => {
-					if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
-					setResourcesOpen(true);
-				  }}
-				  onMouseLeave={() => {
-					if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
-					resourcesTimeout.current = setTimeout(() => setResourcesOpen(false), 120);
-				  }}
-				>
-				  <Link href="/faq" onClick={() => setResourcesOpen(false)}>FAQ</Link>
-				  <Link href="/blog" onClick={() => setResourcesOpen(false)}>Blog</Link>
-				</div>
-			  </li>
-			)}
-		  </ul>
-		</nav>
-		<div className="header-actions">
-		  <Link href="/membership" className="get-started-btn">
-			<span>Get Started</span>
-			<VitaBellaArrow />
-		  </Link>
-		  <a
-			href="https://vitabella.md-hq.com/"
-			className="login-btn"
-			target="_blank"
-			rel="noopener noreferrer"
-		  >
-			Login
-		  </a>
-		</div>
-		{/* Mobile menu overlay */}
-		<div className={`mobile-menu${mobileMenuOpen ? ' open' : ''}`}>
-		  <div className="mobile-menu-content" style={{ minHeight: '100vh', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
-			<ul className="mobile-nav-list" style={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-			  <li style={{ width: '100%', textAlign: 'center' }}>
-				<Link href="/about" onClick={() => setMobileMenuOpen(false)} style={{ width: '100%', display: 'block', textAlign: 'center' }}>About</Link>
-			  </li>
-			  <li style={{ width: '100%', textAlign: 'center' }}>
-				<Link href="/membership" onClick={() => setMobileMenuOpen(false)} style={{ width: '100%', display: 'block', textAlign: 'center' }}>Membership</Link>
-			  </li>
-			  <li className={`mobile-dropdown-parent${mobileTreatmentOpen ? ' open' : ''}`} style={{ width: '100%', textAlign: 'center' }}>
-				<button
-				  className="mobile-dropdown-toggle"
-				  aria-haspopup="true"
-				  aria-expanded={mobileTreatmentOpen}
-				  onClick={() => setMobileTreatmentOpen((open) => !open)}
-				  style={{ width: '100%', justifyContent: 'center', textAlign: 'center', display: 'flex' }}
+				  aria-expanded={treatmentOpen}
 				>
 				  Treatment
-				  {mobileTreatmentOpen ? (
-					<FiChevronUp className="mobile-caret" />
-				  ) : (
-					<FiChevronDown className="mobile-caret" />
-				  )}
 				</button>
-				<div className={`mobile-dropdown-menu treatment-dropdown${mobileTreatmentOpen ? ' open' : ''}`} style={{ margin: '0 auto', paddingLeft: 18, paddingRight: 18 }}>
+				<div className={`dropdown-menu treatment-dropdown${treatmentOpen ? ' open' : ''}`}
+				  style={{ pointerEvents: treatmentOpen ? 'auto' : 'none' }}
+				>
 				  <div className="dropdown-title">Explore Treatments</div>
-				  <div className="treatment-grid" style={{ justifyContent: 'center' }}>
+				  <div className="treatment-grid">
 					{treatmentCategories.map((cat) => (
 					  <Link
 						href={cat.slug}
 						className="treatment-item"
 						key={cat.slug}
-						onClick={() => setMobileMenuOpen(false)}
+						onClick={() => setTreatmentOpen(false)}
 					  >
 						<div className="treatment-img">
 						  <img src={cat.img} alt={cat.name} />
@@ -296,69 +177,190 @@ const Header: React.FC = () => {
 					  arrowCircleColorHover="var(--e-global-color-dark-green)"
 					  arrowPathColor="var(--e-global-color-dark-green)"
 					  arrowPathColorHover="var(--e-global-color-green)"
-					  onClick={() => setMobileMenuOpen(false)}
+					  onClick={() => setTreatmentOpen(false)}
 					/>
 				  </div>
 				</div>
 			  </li>
-			{/* Mobile Resources Dropdown (only when mobile menu is open) */}
-			{mobileMenuOpen && (
-			  <li className={`mobile-dropdown-parent${mobileResourcesOpen ? ' open' : ''}`} style={{ width: '100%', textAlign: 'center' }}>
-				<button
-				  className="mobile-dropdown-toggle"
-				  aria-haspopup="true"
-				  aria-expanded={mobileResourcesOpen}
-				  onClick={() => setMobileResourcesOpen((open) => !open)}
-				  style={{ width: '100%', justifyContent: 'center', textAlign: 'center', display: 'flex' }}
+			  {/* Desktop Resources Dropdown (only when not mobile menu) */}
+			  {!mobileMenuOpen && (
+				<li
+				  className={`dropdown-parent${resourcesOpen ? ' open' : ''}`}
+				  ref={resourcesRef}
+				  onMouseEnter={() => {
+					if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
+					setResourcesOpen(true);
+				  }}
+				  onMouseLeave={() => {
+					if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
+					resourcesTimeout.current = setTimeout(() => setResourcesOpen(false), 120);
+				  }}
 				>
-				  Resources
-				  {mobileResourcesOpen ? (
-					<FiChevronUp className="mobile-caret" />
-				  ) : (
-					<FiChevronDown className="mobile-caret" />
-				  )}
-				</button>
-				{mobileResourcesOpen && (
-				  <div
-					className={`mobile-dropdown-menu resources-dropdown open`}
-					style={{ margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}
+				  <button
+					className="dropdown-toggle"
+					aria-haspopup="true"
+					aria-expanded={resourcesOpen}
+					onClick={() => setResourcesOpen((open) => !open)}
+					tabIndex={0}
+					onBlur={(e) => {
+					  // If focus moves outside the menu, close it
+					  if (!e.currentTarget.parentElement?.contains(e.relatedTarget)) {
+						setResourcesOpen(false);
+					  }
+					}}
 				  >
-					<Link
-					  href="/faq"
-					  onClick={() => setMobileMenuOpen(false)}
-					  className="mobile-resource-link"
-					  style={{ display: 'block', width: '100%', textAlign: 'center', marginBottom: 8 }}
-					>
-					  FAQ
-					</Link>
-					<Link
-					  href="/blog"
-					  onClick={() => setMobileMenuOpen(false)}
-					  className="mobile-resource-link"
-					  style={{ display: 'block', width: '100%', textAlign: 'center' }}
-					>
-					  Blog
-					</Link>
+					Resources
+				  </button>
+				  <div
+					className={`dropdown-menu resources-dropdown${resourcesOpen ? ' open' : ''}`}
+					style={{ pointerEvents: resourcesOpen ? 'auto' : 'none' }}
+					onMouseEnter={() => {
+					  if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
+					  setResourcesOpen(true);
+					}}
+					onMouseLeave={() => {
+					  if (resourcesTimeout.current) clearTimeout(resourcesTimeout.current);
+					  resourcesTimeout.current = setTimeout(() => setResourcesOpen(false), 120);
+					}}
+				  >
+					<Link href="/faq" onClick={() => setResourcesOpen(false)}>FAQ</Link>
+					<Link href="/blog" onClick={() => setResourcesOpen(false)}>Blog</Link>
 				  </div>
-				)}
-			  </li>
-			)}
-			  <li className="mobile-login" style={{ width: '100%', textAlign: 'center' }}>
-				<a
-				  href="https://vitabella.md-hq.com/"
-				  className="login-btn"
-				  target="_blank"
-				  rel="noopener noreferrer"
-				  onClick={() => setMobileMenuOpen(false)}
-				>
-				  Member Login / Patient Portal
-				</a>
-			  </li>
+				</li>
+			  )}
 			</ul>
+		  </nav>
+		  <div className="header-actions">
+			<Link href="/membership" className="get-started-btn">
+			  <span>Get Started</span>
+			  <VitaBellaArrow />
+			</Link>
+			<a
+			  href="https://vitabella.md-hq.com/"
+			  className="login-btn"
+			  target="_blank"
+			  rel="noopener noreferrer"
+			>
+			  Login
+			</a>
+		  </div>
+		  {/* Mobile menu overlay */}
+		  <div className={`mobile-menu${mobileMenuOpen ? ' open' : ''}`}>
+			<div className="mobile-menu-content" style={{ minHeight: '100vh', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
+			  <ul className="mobile-nav-list" style={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+				<li style={{ width: '100%', textAlign: 'center' }}>
+				  <Link href="/about" onClick={() => setMobileMenuOpen(false)} style={{ width: '100%', display: 'block', textAlign: 'center' }}>About</Link>
+				</li>
+				<li style={{ width: '100%', textAlign: 'center' }}>
+				  <Link href="/membership" onClick={() => setMobileMenuOpen(false)} style={{ width: '100%', display: 'block', textAlign: 'center' }}>Membership</Link>
+				</li>
+				<li className={`mobile-dropdown-parent${mobileTreatmentOpen ? ' open' : ''}`} style={{ width: '100%', textAlign: 'center' }}>
+				  <button
+					className="mobile-dropdown-toggle"
+					aria-haspopup="true"
+					aria-expanded={mobileTreatmentOpen}
+					onClick={() => setMobileTreatmentOpen((open) => !open)}
+					style={{ width: '100%', justifyContent: 'center', textAlign: 'center', display: 'flex' }}
+				  >
+					Treatment
+					{mobileTreatmentOpen ? (
+					  <FiChevronUp className="mobile-caret" />
+					) : (
+					  <FiChevronDown className="mobile-caret" />
+					)}
+				  </button>
+				  <div className={`mobile-dropdown-menu treatment-dropdown${mobileTreatmentOpen ? ' open' : ''}`} style={{ margin: '0 auto', paddingLeft: 18, paddingRight: 18 }}>
+					<div className="dropdown-title">Explore Treatments</div>
+					<div className="treatment-grid" style={{ justifyContent: 'center' }}>
+					  {treatmentCategories.map((cat) => (
+						<Link
+						  href={cat.slug}
+						  className="treatment-item"
+						  key={cat.slug}
+						  onClick={() => setMobileMenuOpen(false)}
+						>
+						  <div className="treatment-img">
+							<img src={cat.img} alt={cat.name} />
+						  </div>
+						  <div className="treatment-label">{cat.name}</div>
+						</Link>
+					  ))}
+					</div>
+					<div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+					  <VitaBellaButton
+						label="View All Products"
+						href="/product"
+						bg="var(--e-global-color-dark-green)"
+						bgHover="var(--e-global-color-green)"
+						text="var(--e-global-color-white)"
+						textHover="var(--e-global-color-dark-green)"
+						arrowCircleColor="var(--e-global-color-lightgreen)"
+						arrowCircleColorHover="var(--e-global-color-dark-green)"
+						arrowPathColor="var(--e-global-color-dark-green)"
+						arrowPathColorHover="var(--e-global-color-green)"
+						onClick={() => setMobileMenuOpen(false)}
+					  />
+					</div>
+				  </div>
+				</li>
+				{/* Mobile Resources Dropdown (only when mobile menu is open) */}
+				{mobileMenuOpen && (
+				  <li className={`mobile-dropdown-parent${mobileResourcesOpen ? ' open' : ''}`} style={{ width: '100%', textAlign: 'center' }}>
+					<button
+					  className="mobile-dropdown-toggle"
+					  aria-haspopup="true"
+					  aria-expanded={mobileResourcesOpen}
+					  onClick={() => setMobileResourcesOpen((open) => !open)}
+					  style={{ width: '100%', justifyContent: 'center', textAlign: 'center', display: 'flex' }}
+					>
+					  Resources
+					  {mobileResourcesOpen ? (
+						<FiChevronUp className="mobile-caret" />
+					  ) : (
+						<FiChevronDown className="mobile-caret" />
+					  )}
+					</button>
+					{mobileResourcesOpen && (
+					  <div
+						className={`mobile-dropdown-menu resources-dropdown open`}
+						style={{ margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}
+					  >
+						<Link
+						  href="/faq"
+						  onClick={() => setMobileMenuOpen(false)}
+						  className="mobile-resource-link"
+						  style={{ display: 'block', width: '100%', textAlign: 'center', marginBottom: 8 }}
+						>
+						  FAQ
+						</Link>
+						<Link
+						  href="/blog"
+						  onClick={() => setMobileMenuOpen(false)}
+						  className="mobile-resource-link"
+						  style={{ display: 'block', width: '100%', textAlign: 'center' }}
+						>
+						  Blog
+						</Link>
+					  </div>
+					)}
+				  </li>
+				)}
+				<li className="mobile-login" style={{ width: '100%', textAlign: 'center' }}>
+				  <a
+					href="https://vitabella.md-hq.com/"
+					className="login-btn"
+					target="_blank"
+					rel="noopener noreferrer"
+					onClick={() => setMobileMenuOpen(false)}
+				  >
+					Member Login / Patient Portal
+				  </a>
+				</li>
+			  </ul>
+			</div>
 		  </div>
 		</div>
-	  </div>
-	</header>
+	  </header>
   );
 };
 
