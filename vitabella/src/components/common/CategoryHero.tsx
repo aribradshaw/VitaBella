@@ -44,8 +44,8 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
       >
         <div className="hero-heading" style={{ color: '#fff', marginBottom: 'var(--space-1x)' }}>{data.categoryName.toUpperCase()}</div>
         <div
-          className="hero-heading treatments"
-          style={{ color: data.mainColor, marginTop: '-8px', fontSize: 80, lineHeight: '80px', marginBottom: 'var(--space-1x)' }}
+          className="hero-heading highlight"
+          style={{ color: data.mainColor, marginTop: '-8px', marginBottom: 'var(--space-1x)' }}
         >
           TREATMENTS
         </div>
@@ -56,7 +56,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
         >
           {buttonText}
         </a>
-        <div className="divider" style={{ margin: 'var(--space-1x) 0 0 0', borderColor: data.mainColor }} />
+        <div className="divider" style={{ margin: '0 0 0 0', borderColor: data.mainColor }} />
         <div style={{ marginTop: 'var(--space-1x)' }}>
           {[data.pointOne, data.pointTwo, data.pointThree].map((point, idx) => (
             <div
@@ -71,7 +71,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
                 padding: '10px 18px',
                 marginBottom: 'var(--space-1x)',
                 color: '#fff',
-                fontSize: 18,
+                fontSize: '1rem',
                 fontFamily: 'Switzer, Arial, Helvetica, sans-serif',
                 fontWeight: 400,
                 maxWidth: 540,
@@ -89,7 +89,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
             isMobile
               ? {
                   position: 'static',
-                  margin: 'var(--space-2x) auto 0 auto',
+                  margin: '0 auto 0 auto',
                   display: 'flex',
                   alignItems: 'center',
                   background: '#fff',
