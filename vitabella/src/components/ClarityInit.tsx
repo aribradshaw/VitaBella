@@ -3,16 +3,16 @@ import { useEffect } from "react";
 
 export default function ClarityInit() {
   useEffect(() => {
-    // Use the official Clarity NPM package for initialization
-    // Only run on client
     if (typeof window !== "undefined") {
-      // Dynamically import to avoid SSR issues
-      import("@microsoft/clarity").then((Clarity) => {
-        const clarityAny = Clarity as any;
-        if (clarityAny && typeof clarityAny.init === "function") {
-          clarityAny.init("s7s6am6m9w");
-        }
-      });
+      // @ts-ignore: Clarity script injection uses dynamic properties and DOM
+      (function(c,l,a,r,i,t,y){
+        // @ts-ignore: Dynamic property assignment
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        // @ts-ignore: DOM manipulation
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        // @ts-ignore: DOM manipulation
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "s7s6am6m9w");
     }
   }, []);
   return null;
