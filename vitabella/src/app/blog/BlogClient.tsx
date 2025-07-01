@@ -62,7 +62,16 @@ export default function BlogArchiveClient({ posts, allCategories }: { posts: Blo
                       style={{ height: 320, objectFit: 'cover', borderRadius: '18px' }}
                     />
                     {categories.length > 0 && (
-                      <div className="blog-card-category-list">
+                      <div
+                        className="blog-card-category-list"
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: 8,
+                          marginTop: 8,
+                          maxWidth: '100%'
+                        }}
+                      >
                         {categories.map((cat: string) => (
                           <span key={cat} className="blog-card-category">
                             {cat}
