@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
     });
     const recaptchaData = await recaptchaRes.json();
     // For browser debugging, always include the Google response if failed
-    if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.5)) {
+    if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.2)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
     // Use listType if provided, default to 'prospect'
