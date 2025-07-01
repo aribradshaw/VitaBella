@@ -67,6 +67,17 @@ const Header: React.FC = () => {
   const resourcesRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
 
+  // Scroll to membership plans if on /membership and Get Started is clicked
+  const handleGetStartedClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+	if (pathname === '/membership') {
+	  e.preventDefault();
+	  const el = document.querySelector('#membership-plans');
+	  if (el) {
+		el.scrollIntoView({ behavior: 'smooth' });
+	  }
+	}
+  };
+
   // Always start mobile dropdowns collapsed when menu opens
   useEffect(() => {
 	if (mobileMenuOpen) {
@@ -233,10 +244,10 @@ const Header: React.FC = () => {
 			</ul>
 		  </nav>
 		  <div className="header-actions">
-			<Link href="/membership" className="get-started-btn">
-			  <span>Get Started</span>
-			  <VitaBellaArrow />
-			</Link>
+		  <Link href="/membership" className="get-started-btn" onClick={handleGetStartedClick}>
+			<span>Get Started</span>
+			<VitaBellaArrow />
+		  </Link>
 			<a
 			  href="https://vitabella.md-hq.com/"
 			  className="login-btn"
