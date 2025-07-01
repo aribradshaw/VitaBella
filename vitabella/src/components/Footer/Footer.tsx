@@ -212,6 +212,8 @@ const Footer: React.FC = () => {
             Copyright 2025 © Vita Bella Health LLC<br />
             Vita Bella® is a registered trademark of Vita Bella Health LLC
           </div>
+          {/* LegitScript Seal */}
+          <script defer src="https://static.legitscript.com/seals/4395819.js"></script>
           <nav className="footer-bottom-links">
             <Link href="/privacy-policy"><span style={{ display: 'flex', alignItems: 'center' }}><FaUserShield style={{ marginRight: 4 }} aria-label="privacy" /> Privacy Policy</span></Link>
             <Link href="/terms"><span style={{ display: 'flex', alignItems: 'center' }}><FaFile style={{ marginRight: 4 }} aria-label="terms" /> Terms of Service</span></Link>
