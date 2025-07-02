@@ -65,8 +65,15 @@ export default function InstructionsClient() {
         {filtered.map((t, i) => (
           <button
             key={t.name}
-            className={i === selected ? "vitabella-btn-getstarted" : "vitabella-btn-learnmore"}
-            style={{ minWidth: 180, border: i === selected ? "2px solid var(--e-global-color-dark-green)" : undefined }}
+            className="vitabella-btn-learnmore"
+            style={{
+              minWidth: 180,
+              border: i === selected ? "2px solid var(--e-global-color-dark-green)" : undefined,
+              color: i === selected ? "#E6FFB2" : undefined,
+              background: i === selected ? "var(--e-global-color-dark-green)" : undefined,
+              fontWeight: 600,
+              borderRadius: 16
+            }}
             onClick={() => setSelected(i)}
           >
             {t.name}
