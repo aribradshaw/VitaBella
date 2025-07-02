@@ -13,7 +13,7 @@ const AWLCClient: React.FC = () => {
     const drRobert = employees.find(e => e.name === 'Dr. Robert Lieske');
 
     return (
-        <div>
+        <div style={{ paddingTop: 64 }}>
             <div>
                 <h1>Arizona Weight Loss Clinic</h1>
                 <p>
