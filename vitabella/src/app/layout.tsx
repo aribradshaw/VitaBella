@@ -39,6 +39,7 @@ export default function RootLayout({
           gtag('config', 'G-YN2NTS67LL');
         `}} />
       </head>
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/48837321.js"></script>
       <body>
         {/* Google Tag Manager (noscript) */}
         <noscript>

@@ -76,13 +76,32 @@ async function verifyRecaptcha(token: string) {
 
 // Accepts a second argument for list type: 'prospect' or 'waitlist'
 // Ensures contact is created/updated, then explicitly subscribes to the correct list
-async function sendToActiveCampaign(contact: { email: string, firstName?: string, lastName?: string, phone?: string }, listType: 'prospect' | 'waitlist' = 'prospect') {
+interface ActiveCampaignContact {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  STATE?: string;
+  PLATFORM_NAME?: string;
+}
+
+async function sendToActiveCampaign(contact: ActiveCampaignContact, listType: 'prospect' | 'waitlist' = 'prospect') {
   if (!ACTIVE_CAMPAIGN_API_KEY) throw new Error('Missing ACTIVE_CAMPAIGN_API_KEY');
   if (!ACTIVE_CAMPAIGN_API_URL) throw new Error('Missing ACTIVE_CAMPAIGN_API_URL');
   const listId = listType === 'prospect' ? 12 : 13;
   const tag = listType === 'prospect' ? '2025 Prospect | DOE' : '2025 Waitlist | DOE';
 
-  // 1. Create or update the contact
+  // 1. Create or update the contact, including custom fields for STATE (ID: 18) and PLATFORM_NAME
+  // Only allow valid state values for field 18
+  const validStates = [
+    "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia"
+  ];
+  let stateValue = undefined;
+  if (contact.STATE && typeof contact.STATE === 'string') {
+    // Accept only exact match (case-insensitive)
+    const found = validStates.find(s => s.toLowerCase() === contact.STATE!.toLowerCase());
+    if (found) stateValue = found;
+  }
   const contactRes = await fetch('https://vitabella.api-us1.com/api/3/contact/sync', {
     method: 'POST',
     headers: {
@@ -96,6 +115,10 @@ async function sendToActiveCampaign(contact: { email: string, firstName?: string
         lastName: contact.lastName,
         phone: contact.phone,
         tags: [tag],
+        fieldValues: [
+          stateValue ? { field: '18', value: stateValue } : undefined, // Use field ID for State, only if valid
+          contact.PLATFORM_NAME ? { field: 'PLATFORM_NAME', value: contact.PLATFORM_NAME } : undefined,
+        ].filter(Boolean) as { field: string, value: string }[],
       },
     }),
   });
@@ -130,7 +153,7 @@ async function sendToActiveCampaign(contact: { email: string, firstName?: string
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken, listType, firstName, lastName, phone } = await req.json();
+    const { email, recaptchaToken, listType, firstName, lastName, phone, STATE, PLATFORM_NAME } = await req.json();
     // For browser debugging, echo back what we got
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
@@ -154,6 +177,8 @@ export async function POST(req: NextRequest) {
         firstName,
         lastName,
         phone,
+        STATE,
+        PLATFORM_NAME,
       },
       listType === 'waitlist' ? 'waitlist' : 'prospect'
     );

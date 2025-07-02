@@ -187,6 +187,7 @@ const initialForm = {
   stress: "",
   eating: "",
   comms_accept: false,
+  recordSourceDetail1: "website", // hidden tracking field
 };
 
 function VitaBellaMultiStepForm() {
@@ -352,6 +353,13 @@ function VitaBellaMultiStepForm() {
     }
 
     try {
+      // Map state code to full name for legacy compatibility (do not change anything else)
+      const stateFullName = (() => {
+        if (!form.state) return "";
+        // US_STATES is imported from constants, format: [{ code: 'CA', name: 'California' }, ...]
+        const found = US_STATES.find(s => s.code === form.state);
+        return found ? found.name : form.state;
+      })();
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -360,8 +368,11 @@ function VitaBellaMultiStepForm() {
           firstName: form.firstName,
           lastName: form.lastName,
           phone: form.phone,
+          STATE: stateFullName, // send full state name as 'STATE' for ActiveCampaign
+          PLATFORM_NAME: "Vita Bella Website", // always send Vita Bella Website for %PLATFORM_NAME%
           recaptchaToken,
           listType,
+          recordSourceDetail1: form.recordSourceDetail1, // send hidden tracking field
         }),
       });
       console.log("Newsletter API response status:", res.status);
@@ -831,6 +842,8 @@ function VitaBellaMultiStepForm() {
   return (
     <div className="vita-bella-form-wrapper">
       <form onSubmit={handleSubmit} className="vita-bella-form-container" autoComplete="off" onKeyDown={handleKeyDown}>
+        {/* Hidden tracking field for analytics/source attribution */}
+        <input type="hidden" name="recordSourceDetail1" value={form.recordSourceDetail1} />
         <div className="vita-bella-form-logo" style={{textAlign: 'center', marginBottom: 16}}>
           <VitaBellaLogo style={{maxWidth: 180, margin: '0 auto'}} />
         </div>
