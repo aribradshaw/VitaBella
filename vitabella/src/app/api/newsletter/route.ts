@@ -1,81 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-// import nodemailer from 'nodemailer';
-// import fs from 'fs/promises';
-// import path from 'path';
-
-// All secrets/keys are now loaded from environment variables for security.
-// Use a .env.local file for local development.
+// --- ActiveCampaign integration (restored) ---
 const ACTIVE_CAMPAIGN_API_KEY = process.env.ACTIVE_CAMPAIGN_API_KEY;
 const ACTIVE_CAMPAIGN_API_URL = process.env.ACTIVE_CAMPAIGN_API_URL || 'https://vitabella.api-us1.com/api/3/contacts';
-const DOE_LIST_ID = process.env.DOE_LIST_ID;
-// const CSV_PATH = path.resolve(process.cwd(), 'data/newsletter_signups.csv');
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'aribradshawaz@gmail.com';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'no-reply@vitabella.com';
-const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
 
-async function verifyRecaptcha(token: string) {
-  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
-  });
-  const data = await res.json();
-  console.log('Google reCAPTCHA response:', data); // <-- Add this line
-  return data.success && data.score !== undefined && data.score >= 0.5;
-}
-
-// async function sendThankYouEmail(email: string) {
-//   const transporter = nodemailer.createTransport({
-//     host: process.env.SMTP_HOST,
-//     port: Number(process.env.SMTP_PORT),
-//     secure: process.env.SMTP_SECURE === 'true',
-//     auth: {
-//       user: process.env.SMTP_USER,
-//       pass: process.env.SMTP_PASS,
-//     },
-//   });
-//   await transporter.sendMail({
-//     from: `Vita Bella <${FROM_EMAIL}>`,
-//     to: email,
-//     subject: 'Thank you for signing up!',
-//     text: 'Thank you for signing up for the Vita Bella newsletter! We appreciate your interest.',
-//     html: '<p>Thank you for signing up for the <b>Vita Bella</b> newsletter! We appreciate your interest.</p>',
-//   });
-// }
-
-// async function sendAdminNotification(email: string) {
-//   const transporter = nodemailer.createTransport({
-//     host: process.env.SMTP_HOST,
-//     port: Number(process.env.SMTP_PORT),
-//     secure: process.env.SMTP_SECURE === 'true',
-//     auth: {
-//       user: process.env.SMTP_USER,
-//       pass: process.env.SMTP_PASS,
-//     },
-//   });
-//   await transporter.sendMail({
-//     from: `Vita Bella <${FROM_EMAIL}>`,
-//     to: ADMIN_EMAIL,
-//     subject: 'New Newsletter Signup',
-//     text: `New newsletter signup: ${email}`,
-//     html: `<p>New newsletter signup: <b>${email}</b></p>`,
-//   });
-// }
-
-// async function saveToCSV(email: string) {
-//   const header = 'email,signed_up_at\n';
-//   const row = `${email},${new Date().toISOString()}\n`;
-//   try {
-//     await fs.access(CSV_PATH);
-//   } catch {
-//     await fs.mkdir(path.dirname(CSV_PATH), { recursive: true });
-//     await fs.writeFile(CSV_PATH, header, { flag: 'wx' });
-//   }
-//   await fs.appendFile(CSV_PATH, row);
-// }
-
-// Accepts a second argument for list type: 'prospect' or 'waitlist'
-// Ensures contact is created/updated, then explicitly subscribes to the correct list
 interface ActiveCampaignContact {
   email: string;
   firstName?: string;
@@ -151,33 +77,134 @@ async function sendToActiveCampaign(contact: ActiveCampaignContact, listType: 'p
   }
 }
 
+import { NextRequest, NextResponse } from 'next/server';
+
+const HUBSPOT_PORTAL_ID = process.env.HUBSPOT_PORTAL_ID || '48837321';
+const HUBSPOT_FORM_ID = process.env.HUBSPOT_FORM_ID || 'b32eadfd-bfa3-4b17-b36e-95e66b3b7317';
+const HUBSPOT_REGION = process.env.HUBSPOT_REGION || 'na1';
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
+
+async function verifyRecaptcha(token: string) {
+  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
+  });
+  const data = await res.json();
+  console.log('Google reCAPTCHA response:', data); // <-- Add this line
+  return data.success && data.score !== undefined && data.score >= 0.5;
+}
+
+// async function sendThankYouEmail(email: string) {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: process.env.SMTP_SECURE === 'true',
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+//   await transporter.sendMail({
+//     from: `Vita Bella <${FROM_EMAIL}>`,
+//     to: email,
+//     subject: 'Thank you for signing up!',
+//     text: 'Thank you for signing up for the Vita Bella newsletter! We appreciate your interest.',
+//     html: '<p>Thank you for signing up for the <b>Vita Bella</b> newsletter! We appreciate your interest.</p>',
+//   });
+// }
+
+// async function sendAdminNotification(email: string) {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.SMTP_HOST,
+//     port: Number(process.env.SMTP_PORT),
+//     secure: process.env.SMTP_SECURE === 'true',
+//     auth: {
+//       user: process.env.SMTP_USER,
+//       pass: process.env.SMTP_PASS,
+//     },
+//   });
+//   await transporter.sendMail({
+//     from: `Vita Bella <${FROM_EMAIL}>`,
+//     to: ADMIN_EMAIL,
+//     subject: 'New Newsletter Signup',
+//     text: `New newsletter signup: ${email}`,
+//     html: `<p>New newsletter signup: <b>${email}</b></p>`,
+//   });
+// }
+
+// async function saveToCSV(email: string) {
+//   const header = 'email,signed_up_at\n';
+//   const row = `${email},${new Date().toISOString()}\n`;
+//   try {
+//     await fs.access(CSV_PATH);
+//   } catch {
+//     await fs.mkdir(path.dirname(CSV_PATH), { recursive: true });
+//     await fs.writeFile(CSV_PATH, header, { flag: 'wx' });
+//   }
+//   await fs.appendFile(CSV_PATH, row);
+// }
+
+
+// Send data to HubSpot Forms API
+async function sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral }: {
+  gender: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  state: string;
+  referral: string;
+}) {
+  const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
+  const fields = [
+    { name: 'gender', value: gender },
+    { name: 'firstname', value: firstname },
+    { name: 'lastname', value: lastname },
+    { name: 'email', value: email },
+    { name: 'phone', value: phone },
+    { name: 'state', value: state },
+    { name: 'referral', value: referral },
+  ];
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fields }),
+  });
+  if (!res.ok) {
+    const data = await res.json();
+    console.error('HubSpot form error:', data);
+    throw new Error('HubSpot form error');
+  }
+  return await res.json();
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken, listType, firstName, lastName, phone, STATE, PLATFORM_NAME } = await req.json();
-    // For browser debugging, echo back what we got
+    const { email, recaptchaToken, gender, firstname, lastname, phone, state, referral, listType, STATE, PLATFORM_NAME } = await req.json();
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
     }
-    // 1. Verify recaptcha and capture the full response
+    // 1. Verify recaptcha
     const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `secret=${RECAPTCHA_SECRET}&response=${recaptchaToken}`,
     });
     const recaptchaData = await recaptchaRes.json();
-    // For browser debugging, always include the Google response if failed
     if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.2)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
-    // Use listType if provided, default to 'prospect'
-    // Pass all contact fields to ActiveCampaign
+    // 2. Send to HubSpot
+    await sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral });
+    // 3. Send to ActiveCampaign (optional: only if you want both)
     await sendToActiveCampaign(
       {
         email,
-        firstName,
-        lastName,
+        firstName: firstname,
+        lastName: lastname,
         phone,
-        STATE,
+        STATE: STATE || state,
         PLATFORM_NAME,
       },
       listType === 'waitlist' ? 'waitlist' : 'prospect'

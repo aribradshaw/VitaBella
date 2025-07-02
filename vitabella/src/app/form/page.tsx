@@ -365,13 +365,16 @@ function VitaBellaMultiStepForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: form.email,
-          firstName: form.firstName,
-          lastName: form.lastName,
+          firstname: form.firstName,
+          lastname: form.lastName,
+          gender: form.sex,
           phone: form.phone,
-          STATE: stateFullName, // send full state name as 'STATE' for ActiveCampaign
-          PLATFORM_NAME: "Vita Bella Website", // always send Vita Bella Website for %PLATFORM_NAME%
+          state: form.state,
+          referral: form.referral,
           recaptchaToken,
           listType,
+          STATE: stateFullName, // send full state name as 'STATE' for ActiveCampaign
+          PLATFORM_NAME: "Vita Bella Website", // always send Vita Bella Website for %PLATFORM_NAME%
           recordSourceDetail1: form.recordSourceDetail1, // send hidden tracking field
         }),
       });
@@ -841,7 +844,7 @@ function VitaBellaMultiStepForm() {
 
   return (
     <div className="vita-bella-form-wrapper" id="vita-bella-form">
-      <form onSubmit={handleSubmit} className="vita-bella-form-container" autoComplete="off" onKeyDown={handleKeyDown}>
+      <form onSubmit={handleSubmit} id="vita-bella-form" className="vita-bella-form-container" autoComplete="off" onKeyDown={handleKeyDown}>
         {/* Hidden tracking field for analytics/source attribution */}
         <input type="hidden" name="recordSourceDetail1" value={form.recordSourceDetail1} />
         <div className="vita-bella-form-logo" style={{textAlign: 'center', marginBottom: 16}}>
