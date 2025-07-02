@@ -109,12 +109,11 @@ export default function InstructionsClient() {
                 <VitaBellaButton
                   key={link.name}
                   href={link.link}
+                  label={link.name}
                   style={{ width: "100%", maxWidth: 540 }}
                   target={openInNewTab ? "_blank" : undefined}
                   rel={openInNewTab ? "noopener noreferrer" : undefined}
-                >
-                  {link.name}
-                </VitaBellaButton>
+                />
               );
             })}
           </div>
@@ -136,9 +135,13 @@ export default function InstructionsClient() {
               />
             </div>
             <div style={{ marginTop: 10 }}>
-              <VitaBellaButton href={INTRAMUSCULAR_PDF} style={{ minWidth: 220, maxWidth: 600, width: "auto", display: "inline-block" }} target="_blank" rel="noopener noreferrer">
-                Intramuscular Injection PDF Instructions
-              </VitaBellaButton>
+              <VitaBellaButton 
+                href={INTRAMUSCULAR_PDF} 
+                label="Intramuscular Injection PDF Instructions"
+                style={{ minWidth: 220, maxWidth: 600, width: "auto", display: "inline-block" }} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+              />
             </div>
           </div>
           <div id="subcutaneous" style={{ flex: 1, minWidth: 260, maxWidth: 1340/2 }}>
@@ -153,9 +156,13 @@ export default function InstructionsClient() {
               />
             </div>
             <div style={{ marginTop: 10 }}>
-              <VitaBellaButton href={SUBCUTANEOUS_PDF} style={{ minWidth: 220, maxWidth: 600, width: "auto", display: "inline-block" }} target="_blank" rel="noopener noreferrer">
-                Subcutaneous Injection PDF Instructions
-              </VitaBellaButton>
+              <VitaBellaButton 
+                href={SUBCUTANEOUS_PDF} 
+                label="Subcutaneous Injection PDF Instructions"
+                style={{ minWidth: 220, maxWidth: 600, width: "auto", display: "inline-block" }} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+              />
             </div>
           </div>
         </div>
