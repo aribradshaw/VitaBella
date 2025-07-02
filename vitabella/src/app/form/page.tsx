@@ -840,7 +840,7 @@ function VitaBellaMultiStepForm() {
   };
 
   return (
-    <div className="vita-bella-form-wrapper">
+    <div className="vita-bella-form-wrapper" id="vita-bella-form">
       <form onSubmit={handleSubmit} className="vita-bella-form-container" autoComplete="off" onKeyDown={handleKeyDown}>
         {/* Hidden tracking field for analytics/source attribution */}
         <input type="hidden" name="recordSourceDetail1" value={form.recordSourceDetail1} />
