@@ -15,21 +15,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  async redirects() {
-    return [
-      {
-        source: '/DUPR',
-        destination: '/dupr',
-        permanent: true,
-      },
-      {
-        source: '/DUPR/',
-        destination: '/dupr',
-        permanent: true,
-      },
-      // ...other redirects
-    ];
-  },
 };
 
 module.exports = nextConfig;
