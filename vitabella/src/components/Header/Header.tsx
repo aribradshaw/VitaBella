@@ -178,7 +178,7 @@ const Header: React.FC = () => {
 					  </Link>
 					))}
 				  </div>
-				  <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+				  <div style={{ marginTop: '1.5rem', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
 					<VitaBellaButton
 					  label="View All Products"
 					  href="/product"
@@ -191,6 +191,7 @@ const Header: React.FC = () => {
 					  arrowPathColor="var(--e-global-color-dark-green)"
 					  arrowPathColorHover="var(--e-global-color-green)"
 					  onClick={() => setTreatmentOpen(false)}
+					  style={{ minWidth: 180, maxWidth: 260, width: 'auto', margin: '0 auto' }}
 					/>
 				  </div>
 				</div>
