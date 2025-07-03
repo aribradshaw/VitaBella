@@ -76,11 +76,9 @@ const DUPRGetStarted: React.FC<DUPRGetStartedProps> = ({ type = 'dupr' }) => {
       <h2 className={styles.title}>Unlock Your Member Advantage</h2>
       <div className={styles.cardsContainer}>
         {cards.map((card, idx) => (
-          <a
-            href="#membershipplans"
+          <div
             className={styles.cardWrapper}
             key={idx}
-            onClick={scrollToMembership}
             tabIndex={0}
             aria-label={card.front.title + ' - ' + card.front.label}
             style={{ textDecoration: 'none', cursor: 'pointer' }}
@@ -103,7 +101,17 @@ const DUPRGetStarted: React.FC<DUPRGetStartedProps> = ({ type = 'dupr' }) => {
                 </div>
               </div>
               {/* Card Back */}
-              <div className={styles.cardBack}>
+              <div
+                className={styles.cardBack}
+                role="button"
+                tabIndex={0}
+                aria-label={card.back.title + ' - ' + card.back.label}
+                onClick={scrollToMembership}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') scrollToMembership(e as any);
+                }}
+                style={{ cursor: 'pointer' }}
+              >
                 <Image
                   src={card.hoverImage}
                   alt={card.back.title + " back"}
@@ -124,7 +132,7 @@ const DUPRGetStarted: React.FC<DUPRGetStartedProps> = ({ type = 'dupr' }) => {
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
       <div className={styles.bottomText}>
