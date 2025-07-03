@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import VitaBellaSlider from "@/components/common/VitaBellaSlider";
 import styles from "./CustomerReviews.module.css";

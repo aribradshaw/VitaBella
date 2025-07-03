@@ -1,3 +1,4 @@
+"use client";
 import React, { useMemo, useState } from "react";
 import VitaBellaSlider from "./VitaBellaSlider";
 import VitaBellaButton from "./VitaBellaButton";
