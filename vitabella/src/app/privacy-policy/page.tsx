@@ -3,7 +3,7 @@ import { CONTACT_EMAIL } from '../../constants/contacts';
 
 const PrivacyPolicy: React.FC = () => {
     return (
-        <div className="privacy-policy-container" style={{ maxWidth: 650, margin: '0 auto', padding: '2rem 1rem', fontFamily: 'inherit', color: 'var(--e-global-color-text, #012B27)', textAlign: 'justify' }}>
+        <div className="privacy-policy-container" style={{ maxWidth: 650, margin: 'var(--space-3x) auto', padding: '2rem 1rem', fontFamily: 'inherit', color: 'var(--e-global-color-text, #012B27)', textAlign: 'justify' }}>
             <h1>Privacy Policy</h1>
             <div style={{ fontSize: '0.95em', color: '#666', marginBottom: 24 }}>Last updated 17 March 2025</div>
 

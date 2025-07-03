@@ -7,7 +7,7 @@ const TermsOfService: React.FC = () => {
             className="terms-of-service"
             style={{
             maxWidth: 1340 / 2,
-            margin: '0 auto',
+            margin: 'var(--space-3x) auto',
             padding: 'var(--space-2x)',
             textAlign: 'justify',
             }}
