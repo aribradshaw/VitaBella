@@ -5,11 +5,12 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Strict case-sensitive check for /DUPR and /DUPR/ only
-  if (pathname === '/DUPR' || pathname === '/DUPR/') {
+  // Normalize: redirect any case-variant of /dupr or /dupr/ to /dupr
+  const lower = pathname.toLowerCase();
+  if ((lower === '/dupr' || lower === '/dupr/') && pathname !== '/dupr') {
     const url = request.nextUrl.clone();
     url.pathname = '/dupr';
-    return NextResponse.redirect(url, 308); // 308 preserves method and body
+    return NextResponse.redirect(url, 308);
   }
 
   // Otherwise, continue as normal
