@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only redirect if the path is exactly /DUPR or /DUPR/
+  // Strict case-sensitive check for /DUPR and /DUPR/ only
   if (pathname === '/DUPR' || pathname === '/DUPR/') {
     const url = request.nextUrl.clone();
     url.pathname = '/dupr';
@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Limit the middleware to only paths that could match /DUPR (case-sensitive)
+// Use a broad matcher so we can do strict checks in code (Vercel matchers are case-insensitive)
 export const config = {
-  matcher: ['/DUPR', '/DUPR/'],
+  matcher: '/:path*',
 };
