@@ -134,7 +134,7 @@ const Footer: React.FC = () => {
             <li><Link href="/sexual-wellness">Sexual Wellness</Link></li>
             <li><Link href="/cognitive-health">Cognitive Health</Link></li>
             <li><Link href="/hair-loss">Hair Loss Treatment</Link></li>
-            <li><Link href="/injury-recovery">Injury & Recovery</Link></li>
+            <li><Link href="/injury-and-recovery">Injury & Recovery</Link></li>
             <li><Link href="/skin-care">Skin Care</Link></li>
           </ul>
         </div>
