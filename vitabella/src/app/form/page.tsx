@@ -214,9 +214,6 @@ function VitaBellaMultiStepForm() {
     setHubspotUtk(getCookie("hubspotutk"));
     setPageUrl(window.location.href);
     setHydrated(true);
-
-    // Scroll to top on mount
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   if (!hydrated) return null; // or a loading spinner
 
