@@ -146,8 +146,8 @@ async function verifyRecaptcha(token: string) {
 // }
 
 
-// Send data to HubSpot Forms API
-async function sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral }: {
+// Send data to HubSpot Forms API with tracking context
+async function sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral, hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content }: {
   gender: string;
   firstname: string;
   lastname: string;
@@ -155,6 +155,13 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
   phone: string;
   state: string;
   referral: string;
+  hubspotutk?: string;
+  pageUrl?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
 }) {
   const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
   const fields = [
@@ -165,11 +172,26 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
     { name: 'phone', value: phone },
     { name: 'state', value: state },
     { name: 'referral', value: referral },
-  ];
+    utm_source ? { name: 'utm_source', value: utm_source } : undefined,
+    utm_medium ? { name: 'utm_medium', value: utm_medium } : undefined,
+    utm_campaign ? { name: 'utm_campaign', value: utm_campaign } : undefined,
+    utm_term ? { name: 'utm_term', value: utm_term } : undefined,
+    utm_content ? { name: 'utm_content', value: utm_content } : undefined,
+  ].filter(Boolean) as { name: string, value: string }[];
+  const context: any = {
+    hutk: hubspotutk || undefined,
+    pageUri: pageUrl || undefined,
+    pageName: 'Membership Form',
+  };
+  if (utm_source) context.utm_source = utm_source;
+  if (utm_medium) context.utm_medium = utm_medium;
+  if (utm_campaign) context.utm_campaign = utm_campaign;
+  if (utm_term) context.utm_term = utm_term;
+  if (utm_content) context.utm_content = utm_content;
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fields }),
+    body: JSON.stringify({ fields, context }),
   });
   if (!res.ok) {
     const data = await res.json();
@@ -181,7 +203,10 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, recaptchaToken, gender, firstname, lastname, phone, state, referral, listType, STATE, PLATFORM_NAME } = await req.json();
+    const {
+      email, recaptchaToken, gender, firstname, lastname, phone, state, referral, listType, STATE, PLATFORM_NAME,
+      hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content
+    } = await req.json();
     if (!email || !recaptchaToken) {
       return NextResponse.json({ error: 'Missing email or recaptcha', received: { email, recaptchaToken } }, { status: 400 });
     }
@@ -195,8 +220,11 @@ export async function POST(req: NextRequest) {
     if (!(recaptchaData.success && recaptchaData.score !== undefined && recaptchaData.score >= 0.2)) {
       return NextResponse.json({ error: 'Recaptcha failed', google: recaptchaData, received: { email, recaptchaToken } }, { status: 400 });
     }
-    // 2. Send to HubSpot
-    await sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral });
+    // 2. Send to HubSpot (with tracking context)
+    await sendToHubSpot({
+      gender, firstname, lastname, email, phone, state, referral,
+      hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content
+    });
     // 3. Send to ActiveCampaign (optional: only if you want both)
     await sendToActiveCampaign(
       {

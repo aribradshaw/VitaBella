@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useRef } from "react";
+import React, { Suspense, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
@@ -198,6 +198,24 @@ function VitaBellaMultiStepForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
+  // --- HubSpot tracking additions ---
+  const [hubspotUtk, setHubspotUtk] = useState("");
+  const [pageUrl, setPageUrl] = useState("");
+  const [hydrated, setHydrated] = useState(false);
+  React.useEffect(() => {
+    // Get hubspotutk cookie
+    const getCookie = (name: string) => {
+      if (typeof document === "undefined") return "";
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(';').shift() || "";
+      return "";
+    };
+    setHubspotUtk(getCookie("hubspotutk"));
+    setPageUrl(window.location.href);
+    setHydrated(true);
+  }, []);
+  if (!hydrated) return null; // or a loading spinner
 
   // Phone formatting
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -376,6 +394,14 @@ function VitaBellaMultiStepForm() {
           STATE: stateFullName, // send full state name as 'STATE' for ActiveCampaign
           PLATFORM_NAME: "Vita Bella Website", // always send Vita Bella Website for %PLATFORM_NAME%
           recordSourceDetail1: form.recordSourceDetail1, // send hidden tracking field
+          // --- HubSpot tracking additions ---
+          hubspotutk: hubspotUtk,
+          pageUrl: pageUrl,
+          utm_source: params?.get("utm_source") || "",
+          utm_medium: params?.get("utm_medium") || "",
+          utm_campaign: params?.get("utm_campaign") || "",
+          utm_term: params?.get("utm_term") || "",
+          utm_content: params?.get("utm_content") || "",
         }),
       });
       console.log("Newsletter API response status:", res.status);
