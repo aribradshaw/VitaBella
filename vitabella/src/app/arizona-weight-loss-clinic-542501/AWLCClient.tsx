@@ -71,7 +71,7 @@ const AWLCClient: React.FC = () => {
                     <>Vita Bella Arizona weight loss clinic sets itself apart by offering cutting-edge medical treatments under the guidance of experienced professionals. Each plan is developed by licensed physicians who ensure the highest standards of safety and efficacy. From FDA-approved medications to advanced therapeutic techniques, every solution is curated with the patient’s unique needs in mind.</>
                 }            
             />
-            <ProductReviews />
+            <ProductReviews subheader="Real Stories, Real Transformations" />
             <div className="awlc-columns">
                 <div className="space-y-8">
                     <div>

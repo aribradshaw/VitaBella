@@ -68,7 +68,7 @@ const BOHCClient: React.FC = () => {
                     <>Vita Bella’s online HRT clinic stands out for its commitment to safety, science, and patient-centered care. Our board-certified providers use the latest research to guide every treatment, ensuring you achieve optimal results with minimal risk. From testosterone and estrogen to thyroid support, we offer comprehensive solutions for lasting wellness.</>
                 }
             />
-            <ProductReviews />
+            <ProductReviews subheader="Real Stories, Real Transformations" />
             <div className="bohc-columns">
                 <div className="space-y-8">
                     <div>
