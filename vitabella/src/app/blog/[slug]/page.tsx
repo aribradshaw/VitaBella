@@ -1,3 +1,36 @@
+// --- Dynamic metadata for SEO and social sharing ---
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const postsPath = path.join(process.cwd(), 'src/app/blog/posts.json');
+  const postsRaw = await fs.readFile(postsPath, 'utf-8');
+  const posts = JSON.parse(postsRaw);
+  const post = posts.find((p: any) => p.Slug === params.slug);
+  if (!post) return {};
+  const siteUrl = "https://www.vitabella.com"; // Change to your actual site URL
+  const defaultImage = siteUrl + "/brand/VitaBellaMetaShare.webp";
+  let imageUrl = defaultImage;
+  if (post["Image Featured"] && typeof post["Image Featured"] === "string" && post["Image Featured"].length > 0) {
+    imageUrl = post["Image Featured"].startsWith("http")
+      ? post["Image Featured"]
+      : siteUrl + post["Image Featured"];
+  }
+  return {
+    title: post.Title,
+    description: post.Excerpt || '',
+    openGraph: {
+      title: post.Title,
+      description: post.Excerpt || '',
+      type: 'article',
+      url: `${siteUrl}/blog/${post.Slug}`,
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: post.Title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.Title,
+      description: post.Excerpt || '',
+      images: [imageUrl],
+    },
+  };
+}
 
 
 

@@ -14,6 +14,20 @@ export const metadata: Metadata = {
     template: '%s | Vita Bella Health',
   },
   description: 'Complete Wellness Plans, 100% Online Providers.',
+  openGraph: {
+    images: [
+      {
+        url: '/brand/VitaBellaMetaShare.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Vita Bella Health',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/brand/VitaBellaMetaShare.webp'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
