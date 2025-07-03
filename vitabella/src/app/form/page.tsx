@@ -215,6 +215,13 @@ function VitaBellaMultiStepForm() {
     setPageUrl(window.location.href);
     setHydrated(true);
   }, []);
+
+  React.useEffect(() => {
+    if (hydrated) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, [hydrated]);
+
   if (!hydrated) return null; // or a loading spinner
 
   // Phone formatting
