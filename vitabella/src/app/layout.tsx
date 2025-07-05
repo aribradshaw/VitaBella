@@ -7,6 +7,7 @@ import Footer from "../components/Footer/Footer";
 // import PageTransition from "../components/PageTransition/PageTransition";
 import ClarityInit from "../components/ClarityInit";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import CanonicalTag from "../components/CanonicalTag";
 
 export const metadata: Metadata = {
   title: {
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        <CanonicalTag />
         {/* Google Tag Manager */}
         <Script id="gtm-init" strategy="afterInteractive" dangerouslySetInnerHTML={{
           __html: `
