@@ -13,9 +13,9 @@ import BundleSlider from '../components/common/BundleSlider';
 
 export const metadata = {
     title: {
-        default: 'Vita Bella Health | Complete Wellness Plans, 100% Online Providers',
+        default: 'Vita Bella | Complete Wellness Plans, 100% Online Providers',
     },
-    description: 'Unlock your body’s full potential with Vita Bella Health. Our comprehensive wellness plans are designed to elevate your fitness, reclaim your confidence, and support your journey to optimal health.',
+    description: 'Unlock your full potential with Vita Bella. Wellness plans designed to elevate your fitness, reclaim your confidence, and support your journey to better health.',
 }
 
 export default function Home() {
