@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Hero from '../components/Hero/Hero';
 import SectionHeader from '../components/SectionHeader/SectionHeader';
 import HowItWorks from '../components/HowItWorks/HowItWorks';
@@ -20,6 +21,28 @@ export const metadata = {
 export default function Home() {
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalBusiness",
+              "name": "Vita Bella Health",
+              "url": "https://vitabellahealth.com",
+              "logo": "https://vitabellahealth.com/brand/Brandmark.svg",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "US"
+              },
+              "sameAs": [
+                "https://www.facebook.com/vitabellahealth",
+                "https://www.instagram.com/vitabellahealth"
+              ]
+            })
+          }}
+        />
+      </Head>
       <Hero />
       <div className="home">
         <SectionHeader
