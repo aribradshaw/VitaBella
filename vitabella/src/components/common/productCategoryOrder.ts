@@ -6,7 +6,7 @@ const productCategoryOrder: Record<string, string[]> = {
     "semaglutide",
     "tirzepatide",
     "bio-boost-plus",
-    "nad",
+    "nad-vial",
     "5-amino-1mq",
     "sermorelin",
     "metformin",
@@ -14,16 +14,31 @@ const productCategoryOrder: Record<string, string[]> = {
   ],
   "hormone therapy": [
     "testosterone-cypionate",
+    "testosterone-blend-cyp-enanthate-propionate",
+    "testosterone-cream",
     "enclomiphene",
+    "clomiphene",
+    "hcg",
     "tesamorelin",
     "sermorelin",
     "igf-1-lr3",
-    "hcg",
     "testosterone-cyp-w-anastrozole",
     "hexarelin"
   ],
+
+  // Add a dedicated category for TRT/Online TRT/"Testosterone Therapy" for ProductCategorySlider
+  "testosterone therapy": [
+    "testosterone-cypionate",
+    "testosterone-blend-cyp-enanthate-propionate",
+    "testosterone-cyp-w-anastrozole",
+    "testosterone-cream",
+    "enclomiphene",
+    "clomiphene",
+    "hcg"
+    // Only include slugs that exist in products.json and are "Active". Remove any that do not exist.
+  ],
   "anti-aging": [
-    "nad",
+    "nad-vial",
     "metformin",
     "rapamycin",
     "glutathione",
