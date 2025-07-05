@@ -95,7 +95,7 @@ const Hero: React.FC = () => {
     <div className="hero-body" style={heroBodyStyle}>
       <div className="hero-container" style={heroContainerStyle}>
         <div className="hero-heading-test">CLINICALLY PROVEN</div>
-        <h2 className="highlight" style={{ color: data.mainColor }}>{data.categoryName}</h2>
+        <h1 className="highlight" style={{ color: data.mainColor }}>{data.categoryName}</h1>
         <p className="subtext">
           Clinically-proven, doctor-backed solutions to help {data.solutionsText}.
         </p>
