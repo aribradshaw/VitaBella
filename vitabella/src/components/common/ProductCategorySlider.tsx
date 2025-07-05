@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import VitaBellaSlider from "./VitaBellaSlider";
 import VitaBellaButton from "./VitaBellaButton";
 import productsData from "@/app/product/products.json";
+import productCategoryOrder from "./productCategoryOrder";
 import styles from "./ProductCategorySlider.module.css";
 
 interface ProductCategorySliderProps {
@@ -14,16 +15,29 @@ const ProductCategorySlider: React.FC<ProductCategorySliderProps> = ({ category,
   // Normalize category for matching
   const normalizedCategory = category.trim().toLowerCase();
 
-  // Filter products by category
-  const filteredProducts = useMemo(() =>
-    productsData.filter(
+
+  // Filter and order products by category, using custom order if defined
+  const filteredProducts = useMemo(() => {
+    const products = productsData.filter(
       (p: any) =>
         p["Status"] === "Active" &&
         typeof p["Product categories"] === "string" &&
         p["Product categories"].toLowerCase().split("|").map((c: string) => c.trim()).includes(normalizedCategory)
-    ),
-    [normalizedCategory]
-  );
+    );
+
+    const order = productCategoryOrder[normalizedCategory];
+    if (order && order.length) {
+      // Sort products by the order array, then append any not listed
+      const slugToProduct = Object.fromEntries(products.map((p: any) => [p.Slug, p]));
+      const ordered = order
+        .map(slug => slugToProduct[slug])
+        .filter(Boolean);
+      // Add any products not in the order list (preserve their original order)
+      const remaining = products.filter((p: any) => !order.includes(p.Slug));
+      return [...ordered, ...remaining];
+    }
+    return products;
+  }, [normalizedCategory]);
 
   // Slider dot navigation
   const [currentIndex, setCurrentIndex] = useState(0);
