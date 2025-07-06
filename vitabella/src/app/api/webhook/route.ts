@@ -1,4 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+
+// Webhook temporarily disabled for maintenance/deployment
+export async function POST(req: NextRequest) {
+  return new NextResponse("Webhook temporarily disabled", { status: 503 });
+}
+
+// --- Original code below (commented out for easy re-enable) ---
+/*
 import Stripe from "stripe";
 
 // Replace with your Stripe secret key (use env variable in production)
@@ -37,3 +45,4 @@ export async function POST(req: NextRequest) {
   // Return a 200 response to acknowledge receipt of the event
   return NextResponse.json({ received: true });
 }
+*/
