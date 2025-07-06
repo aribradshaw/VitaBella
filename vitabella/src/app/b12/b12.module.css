@@ -1,14 +1,16 @@
 /* --- Bottom Section: 2-column CTA + Product styles --- */
+
 .b12BottomSection {
   max-width: 1200px;
   margin: 4rem auto 0 auto;
-  padding: var(--space-4x) var(--space-2x);
+  padding: 1.5rem 0.5rem;
 }
+
 
 .b12BottomRow {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
   align-items: stretch;
 }
 
@@ -17,6 +19,7 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 2.5rem;
   }
   .b12BottomCta {
     flex: 1.2;
@@ -25,6 +28,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 0;
   }
   .b12BottomProductBox {
     flex: 1;
@@ -32,6 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin: 0;
   }
 }
 
@@ -39,8 +44,8 @@
   background: var(--e-global-color-off-white);
   border-radius: 1.5rem;
   box-shadow: 0 4px 24px 0 rgba(1, 43, 39, 0.06);
-  padding: var(--space-4x) var(--space-3x);
-  margin-bottom: 1.5rem;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1.2rem;
 }
 .b12BottomCta h2 {
   font-size: 2rem;
@@ -58,31 +63,40 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 /* --- New styles for intro two-column and product section at bottom --- */
 .b12ArticleSection {
   max-width: 1100px;
   margin: 0 auto;
-  padding: var(--space-4x) var(--space-2x);
+  padding: 1.5rem 0.5rem;
 }
 
 .b12IntroRow {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
   align-items: flex-start;
   background: var(--e-global-color-off-white);
   border-radius: 1.5rem;
   box-shadow: 0 4px 24px 0 rgba(1, 43, 39, 0.06);
-  padding: var(--space-4x) var(--space-3x);
-  margin-bottom: var(--space-4x);
+  padding: 1.5rem 1rem;
+  margin-bottom: 2rem;
 }
 
 @media (min-width: 900px) {
+  .b12ArticleSection {
+    padding: var(--space-4x) var(--space-2x);
+  }
   .b12IntroRow {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 2.5rem;
+    padding: var(--space-4x) var(--space-3x);
+    margin-bottom: var(--space-4x);
   }
   .b12IntroText {
     flex: 1.2;
@@ -102,11 +116,18 @@
   flex: 1 1 0;
 }
 .b12SeoTitle {
-  font-size: 2.2rem;
+  font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 1.2rem;
   color: var(--e-global-color-dark-green);
 }
+
+@media (min-width: 600px) {
+  .b12SeoTitle {
+    font-size: 2.2rem;
+  }
+}
+
 .b12IntroImageWrap {
   flex: 1 1 0;
   display: flex;
@@ -114,13 +135,30 @@
   justify-content: center;
 }
 .b12IntroImage {
-  width: 180px;
-  max-width: 100%;
-  max-height: 220px;
+  width: 100%;
+  max-width: 220px;
+  max-height: 110px;
+  min-height: 60px;
   background: #fff;
   border-radius: 1rem;
   box-shadow: 0 2px 12px 0 rgba(44,60,50,0.07);
   object-fit: contain;
+  display: block;
+}
+
+@media (min-width: 900px) {
+  .b12IntroImage {
+    max-width: 320px;
+    max-height: 220px;
+    min-height: 120px;
+  }
+}
+
+/* Ensure product bg image is 100% width of container on mobile */
+.b12IntroImageWrap img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 .b12ProductSection {
@@ -175,19 +213,19 @@
   border: 2.5px solid var(--e-global-color-green);
   border-radius: 2rem;
   box-shadow: 0 8px 32px 0 rgba(1, 43, 39, 0.10);
-  padding: var(--space-4x) var(--space-3x);
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 480px;
+  min-height: 320px;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .b12ProductImage {
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   background: var(--e-global-color-white);
   border-radius: 1.25rem;
   border: 2.5px solid var(--e-global-color-green);
@@ -195,7 +233,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: var(--space-2x);
+  margin-bottom: 1rem;
 }
 
 .b12ProductTitle {

@@ -138,7 +138,7 @@ export default function B12Client() {
                 arrowPathColor="var(--e-global-color-dark-green)"
                 arrowPathColorHover="var(--e-global-color-green)"
                 className={styles.b12ProductBtn}
-                style={{ marginTop: '1.2rem', width: '100%' }}
+                style={{ marginTop: '1.2rem', width: '90%' }}
               />
             </div>
             {/* Right: Product Box */}
@@ -178,7 +178,7 @@ export default function B12Client() {
                     arrowPathColor="var(--e-global-color-dark-green)"
                     arrowPathColorHover="var(--e-global-color-green)"
                     className={styles.b12ProductBtn}
-                    style={{ marginTop: '1.2rem', width: '100%' }}
+                    style={{ marginTop: '1.2rem', width: '90%' }}
                     itemProp="url"
                   />
                 </div>
