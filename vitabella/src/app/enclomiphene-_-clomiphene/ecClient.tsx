@@ -23,7 +23,7 @@ export default function EcClient() {
             </p>
           </div>
           {/* Both product images side by side, centered, taller and object-fit: contain */}
-          <div className={styles.b12IntroImageWrap} style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', alignItems: 'center', width: '60%', margin: '0 auto' }}>
+          <div className={styles.b12IntroImageWrap} style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', alignItems: 'center', margin: '0 auto' }}>
             {/* Only product images, not full modules */}
             <ProductPhoto product="enclomiphene" />
             <ProductPhoto product="clomiphene" />

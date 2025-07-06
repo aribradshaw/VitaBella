@@ -79,7 +79,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  align-items: flex-start;
+  align-items: center;
   background: var(--e-global-color-off-white);
   border-radius: 1.5rem;
   box-shadow: 0 4px 24px 0 rgba(1, 43, 39, 0.06);
@@ -132,34 +132,48 @@
 .b12IntroImageWrap {
   flex: 1 1 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1.5rem;
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .b12IntroImageWrap {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    /* width removed for flexibility */
+  }
 }
 .b12IntroImage {
+  display: block;
   width: 100%;
-  max-width: 220px;
+  min-width: 0;
   max-height: 110px;
   min-height: 60px;
   background: #fff;
   border-radius: 1rem;
   box-shadow: 0 2px 12px 0 rgba(44,60,50,0.07);
   object-fit: contain;
-  display: block;
 }
 
 @media (min-width: 900px) {
   .b12IntroImage {
-    max-width: 320px;
     max-height: 320px;
     min-height: 120px;
   }
 }
 
-/* Ensure product bg image is 100% width of container on mobile */
+/* Ensure product image sizing is controlled by .b12IntroImage only */
 .b12IntroImageWrap img {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: auto !important;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .b12ProductSection {
