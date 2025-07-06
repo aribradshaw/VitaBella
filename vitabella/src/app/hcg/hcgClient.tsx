@@ -15,7 +15,7 @@ export default function HcgClient() {
           </div>
           <div className={styles.b12IntroImageWrap}>
             <img
-              src="/products/BG/hcgBG.webp"
+              src="/products/BG/HCGBG.webp"
               alt="HCG Injection Product"
               className={styles.b12IntroImage}
               style={{ objectFit: 'cover', width: '100%', minHeight: '450px', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(44,60,50,0.07)' }}
