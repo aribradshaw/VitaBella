@@ -1,9 +1,11 @@
 
 
+
 import productsRaw from "../product/products.json";
 import styles from "./b12.module.css";
 import Link from "next/link";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
+import ProductCard from "@/components/common/ProductCard";
 
 
 type Product = {
@@ -142,47 +144,8 @@ export default function B12Client() {
               />
             </div>
             {/* Right: Product Box */}
-            <div className={styles.b12BottomProductBox} itemScope itemType="https://schema.org/Product">
-              <meta itemProp="name" content={b12.Title || "Vitamin B12 Injection"} />
-              <meta itemProp="description" content={b12["Short Description"] || "Vitamin B12 injection benefits and product details."} />
-              <meta itemProp="image" content={b12.imageF?.replace('/public', '') || "/products/Female/methylcobalamin-b-12.webp"} />
-              <div className={styles.b12ProductBox}>
-                <div className={styles.b12ProductImage}>
-                  <img
-                    src={b12.imageF?.replace('/public', '') || "/products/Female/methylcobalamin-b-12.webp"}
-                    alt={b12.Title}
-                    className={styles.b12HeroImage}
-                    style={{ objectFit: 'contain', width: '100%', maxHeight: 320, background: '#fff', borderRadius: 16, boxShadow: '0 2px 16px rgba(44,60,50,0.07)' }}
-                    loading="lazy"
-                    itemProp="image"
-                  />
-                </div>
-                <div className={styles.b12ProductDetails}>
-                  <h2 className={styles.b12ProductTitle} itemProp="name">{b12.Title}</h2>
-                  <p className={styles.b12ProductDesc} itemProp="description">{b12["Short Description"]}</p>
-                  <ul className={styles.b12ProductList}>
-                    <li><strong>Price:</strong> <span itemProp="offers" itemScope itemType="https://schema.org/Offer"><span itemProp="priceCurrency" content="USD">$</span><span itemProp="price">{b12.Price}</span></span></li>
-                    <li><strong>Application:</strong> {b12.application}</li>
-                    <li><strong>Dosage:</strong> {b12.dosage}</li>
-                    <li><strong>Frequency:</strong> {b12.frequency}</li>
-                  </ul>
-                  <VitaBellaButton
-                    href={`/product/${b12.Slug}`}
-                    label="View Product Details"
-                    bg="var(--e-global-color-dark-green)"
-                    bgHover="var(--e-global-color-green)"
-                    text="var(--e-global-color-white)"
-                    textHover="var(--e-global-color-dark-green)"
-                    arrowCircleColor="var(--e-global-color-lightgreen)"
-                    arrowCircleColorHover="var(--e-global-color-dark-green)"
-                    arrowPathColor="var(--e-global-color-dark-green)"
-                    arrowPathColorHover="var(--e-global-color-green)"
-                    className={styles.b12ProductBtn}
-                    style={{ marginTop: '1.2rem', width: '90%' }}
-                    itemProp="url"
-                  />
-                </div>
-              </div>
+            <div className={styles.b12BottomProductBox}>
+              <ProductCard product="methylcobalamin-b-12" />
             </div>
           </div>
         </section>

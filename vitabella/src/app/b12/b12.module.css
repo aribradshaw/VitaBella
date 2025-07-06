@@ -150,7 +150,7 @@
 @media (min-width: 900px) {
   .b12IntroImage {
     max-width: 320px;
-    max-height: 220px;
+    max-height: 320px;
     min-height: 120px;
   }
 }
@@ -164,7 +164,7 @@
 
 .b12ProductSection {
   max-width: 600px;
-  margin: 3rem auto 0 auto;
+  margin: 2rem auto 0 auto;
   padding: var(--space-4x) var(--space-2x);
 }
 .b12ProductDetails {
@@ -178,7 +178,7 @@
   color: var(--e-global-color-dark-green);
   font-family: 'Switzer', Arial, Helvetica, sans-serif;
   line-height: 1.7;
-  padding-top: calc(var(--space-4x) * 1.5);
+  padding-top: calc(var(--space-4x));
 }
 
 .b12Section {
@@ -211,7 +211,6 @@
 
 .b12ProductBox {
   background: var(--e-global-color-off-white);
-  border: 2.5px solid var(--e-global-color-green);
   border-radius: 2rem;
   box-shadow: 0 8px 32px 0 rgba(1, 43, 39, 0.10);
   padding: 1.5rem 1rem;
@@ -222,14 +221,15 @@
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .b12ProductImage {
-  width: 140px;
-  height: 140px;
+  width: 100%;
+  height: 300px;
   background: var(--e-global-color-white);
   border-radius: 1.25rem;
-  border: 2.5px solid var(--e-global-color-green);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,14 +238,14 @@
 }
 
 .b12ProductTitle {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: var(--space-1x);
   color: var(--e-global-color-dark-green);
 }
 
 .b12ProductDesc {
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: var(--space-1x);
   color: var(--e-global-color-dark-green);
 }
@@ -262,8 +262,11 @@
   margin-bottom: 0.5em;
 }
 
+/* Center button and prevent overflow */
 .b12ProductBtn {
-  display: inline-block;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   background: var(--e-global-color-dark-green);
   color: var(--e-global-color-white);
   padding: 0.7em 1.7em;
@@ -275,7 +278,6 @@
   text-decoration: none;
   width: 100%;
   min-width: 0;
-  max-width: 100%;
 }
 @media (min-width: 900px) {
   .b12ProductBtn {
@@ -286,4 +288,21 @@
 }
 .b12ProductBtn:hover {
   background: #01443d;
+}
+
+/* Responsive product row for enclomiphene vs clomiphene page */
+.ec-product-row-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  justify-content: center;
+}
+@media (min-width: 900px) {
+  .ec-product-row-responsive {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 }
