@@ -79,11 +79,6 @@ export default function SemaglutideVsTirzepatideClient() {
                 <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Nausea, diarrhea, vomiting, constipation</td>
               </tr>
               <tr>
-                <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Approved uses</td>
-                <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Type 2 diabetes, weight loss</td>
-                <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Type 2 diabetes, weight loss</td>
-              </tr>
-              <tr>
                 <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Efficacy</td>
                 <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Blood glucose improvement, hunger reduction</td>
                 <td style={{ padding: '0.5rem', border: '1px solid #e0e0e0' }}>Superior blood glucose control, greater hunger reduction</td>
