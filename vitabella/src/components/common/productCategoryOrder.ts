@@ -14,14 +14,11 @@ const productCategoryOrder: Record<string, string[]> = {
   ],
   "hormone therapy": [
     "testosterone-cypionate",
-    "testosterone-blend-cyp-enanthate-propionate",
-    "testosterone-cream",
     "enclomiphene",
-    "clomiphene",
-    "hcg",
     "tesamorelin",
     "sermorelin",
     "igf-1-lr3",
+    "hcg",
     "testosterone-cyp-w-anastrozole",
     "hexarelin"
   ],
