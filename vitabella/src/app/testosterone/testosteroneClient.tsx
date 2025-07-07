@@ -93,23 +93,6 @@ export default function TestosteroneClient() {
         </article>
       </section>
 
-      {/* Testosterone Products Section: Multicolumn professional layout */}
-      <section className={styles.b12BottomSection} style={{ marginTop: 48 }}>
-        <h2 className={styles.b12SeoTitle} style={{ textAlign: 'center', marginBottom: 32 }}>Testosterone & Hormone Therapy Products</h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '2rem',
-          alignItems: 'stretch',
-        }}>
-          {testosteroneProducts.map((product) => (
-            <div key={product.Sku || product.Slug} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <ProductCard product={product.Slug} />
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className={styles.b12BottomSection}>
         <div className={styles.b12BottomRow}>
@@ -137,7 +120,7 @@ export default function TestosteroneClient() {
           {/* Right: Product Box (show main testosterone product if available) */}
           <div className={styles.b12BottomProductBox}>
             {testosteroneProducts.length > 0 && (
-              <ProductCard product={testosteroneProducts[0].Slug} />
+              <ProductCard product="testosterone-cypionate" />
             )}
           </div>
         </div>
