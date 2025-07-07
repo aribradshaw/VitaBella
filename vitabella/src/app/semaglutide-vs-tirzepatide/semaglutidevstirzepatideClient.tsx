@@ -32,7 +32,7 @@ export default function SemaglutideVsTirzepatideClient() {
           <h2>Semaglutide vs Tirzepatide for Weight Loss: Comparing the Science</h2>
           <h3>How They Work</h3>
           <ul>
-            <li><strong>Semaglutide:</strong> GLP-1 receptor agonist. Widely used for type 2 diabetes and now FDA-approved for chronic weight management.</li>
+            <li><strong>Semaglutide:</strong> GLP-1 receptor agonist. Widely used for type 2 diabetes and for chronic weight management.</li>
             <li><strong>Tirzepatide:</strong> Targets both GLP-1 and GIP receptors, offering a double effect for appetite suppression and metabolic support.</li>
           </ul>
           <h3>Weight Loss Results</h3>
