@@ -61,7 +61,9 @@ const steps: Step[] = [
   {
     label: "How did you hear about us?",
     fields: [
-      { name: "referral", type: "select", label: "Referral", required: true, options: ["Friend", "Doctor", "Online", "Other"] },
+      { name: "referral", type: "select", label: "Referral", required: true, options: ["Friend", "Facebook", "Google", "Other"] }, // Removed "Doctor"
+      // Show a text box for Friend, with appropriate label
+      { name: "referralFriend", type: "text", label: "Who referred you? (Friend)", required: false, conditional: (form) => form.referral === "Friend" },
       { name: "referralOther", type: "text", label: "Please specify", required: false, conditional: (form) => form.referral === "Other" },
     ],
   },
@@ -166,6 +168,8 @@ const initialForm = {
   phone: "",
   state: "",
   referral: "",
+  referralFriend: "",
+  referralDoctor: "",
   referralOther: "",
   goal_energy: false,
   goal_mental: false,
@@ -396,12 +400,13 @@ function VitaBellaMultiStepForm() {
           phone: form.phone,
           state: form.state,
           referral: form.referral,
+          referral___doctor_name: form.referralDoctor,   // <-- Add this
+          referral___friend_name: form.referralFriend,   // <-- Add this
           recaptchaToken,
           listType,
-          STATE: stateFullName, // send full state name as 'STATE' for ActiveCampaign
-          PLATFORM_NAME: "Vita Bella Website", // always send Vita Bella Website for %PLATFORM_NAME%
-          recordSourceDetail1: form.recordSourceDetail1, // send hidden tracking field
-          // --- HubSpot tracking additions ---
+          STATE: stateFullName,
+          PLATFORM_NAME: "Vita Bella Website",
+          recordSourceDetail1: form.recordSourceDetail1,
           hubspotutk: hubspotUtk,
           pageUrl: pageUrl,
           utm_source: params?.get("utm_source") || "",

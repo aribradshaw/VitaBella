@@ -1,0 +1,6 @@
+.order-summary-details {
+  background: var(--e-global-color-off-white, #f6f8fa);
+  border-radius: 10px;
+  padding: 18px 18px 10px 18px;
+  margin-bottom: 18px;
+}

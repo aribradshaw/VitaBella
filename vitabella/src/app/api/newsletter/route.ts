@@ -147,7 +147,7 @@ async function verifyRecaptcha(token: string) {
 
 
 // Send data to HubSpot Forms API with tracking context
-async function sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral, hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content }: {
+async function sendToHubSpot({ gender, firstname, lastname, email, phone, state, referral, referral___doctor_name, referral___friend_name, hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content }: {
   gender: string;
   firstname: string;
   lastname: string;
@@ -155,6 +155,8 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
   phone: string;
   state: string;
   referral: string;
+  referral___doctor_name?: string;      // <-- Add this
+  referral___friend_name?: string;      // <-- Add this
   hubspotutk?: string;
   pageUrl?: string;
   utm_source?: string;
@@ -172,6 +174,8 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
     { name: 'phone', value: phone },
     { name: 'state', value: state },
     { name: 'referral', value: referral },
+    referral___doctor_name ? { name: 'referral___doctor_name', value: referral___doctor_name } : undefined, // <-- Add this
+    referral___friend_name ? { name: 'referral___friend_name', value: referral___friend_name } : undefined, // <-- Add this
     utm_source ? { name: 'utm_source', value: utm_source } : undefined,
     utm_medium ? { name: 'utm_medium', value: utm_medium } : undefined,
     utm_campaign ? { name: 'utm_campaign', value: utm_campaign } : undefined,
@@ -204,7 +208,7 @@ async function sendToHubSpot({ gender, firstname, lastname, email, phone, state,
 export async function POST(req: NextRequest) {
   try {
     const {
-      email, recaptchaToken, gender, firstname, lastname, phone, state, referral, listType, STATE, PLATFORM_NAME,
+      email, recaptchaToken, gender, firstname, lastname, phone, state, referral, referral___doctor_name, referral___friend_name, listType, STATE, PLATFORM_NAME,
       hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content
     } = await req.json();
     if (!email || !recaptchaToken) {
@@ -223,6 +227,8 @@ export async function POST(req: NextRequest) {
     // 2. Send to HubSpot (with tracking context)
     await sendToHubSpot({
       gender, firstname, lastname, email, phone, state, referral,
+      referral___doctor_name,      // <-- Add this
+      referral___friend_name,      // <-- Add this
       hubspotutk, pageUrl, utm_source, utm_medium, utm_campaign, utm_term, utm_content
     });
     // 3. Send to ActiveCampaign (optional: only if you want both)
