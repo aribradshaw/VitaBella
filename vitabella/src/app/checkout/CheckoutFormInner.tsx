@@ -5,6 +5,11 @@ import { useLabPanels } from './checkoutData';
 import Tooltip from './Tooltip';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
 
+interface AccessToFeature {
+  name: string;
+  available: boolean;
+}
+
 interface CheckoutFormProps {
   selectedPlan: any;
   setSelectedPlan: React.Dispatch<any>;
@@ -20,6 +25,36 @@ interface CheckoutFormProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   clientSecret: string | null;
   createPaymentIntent: (coupon?: any) => Promise<string | null>;
+}
+
+// Plan features data - matches the data from MembershipPlans.tsx
+const planFeatures = [
+  { name: 'TRT-Testosterone', foundation: true, performance: true },
+  { name: 'Anti-Aging', foundation: true, performance: true },
+  { name: 'Cognitive Health', foundation: true, performance: true },
+  { name: 'Skin Care', foundation: true, performance: true },
+  { name: 'Hair Loss Therapy', foundation: true, performance: true },
+  { name: 'Sexual Wellness', foundation: true, performance: true },
+  { name: 'Weight loss', foundation: 'limited', performance: true },
+  { name: 'Peptide therapy', foundation: 'limited', performance: true },
+  { name: 'Injury and Recovery', foundation: 'limited', performance: true },
+];
+
+// Function to get access features based on selected plan
+function getAccessToFeatures(planKey?: string): AccessToFeature[] {
+  if (!planKey) return [];
+  
+  const isFoundationPlan = planKey === 'fm' || planKey === 'fa';
+  const isPerformancePlan = planKey === 'pm' || planKey === 'pa';
+  
+  return planFeatures.map(feature => ({
+    name: feature.name,
+    available: isFoundationPlan 
+      ? feature.foundation === true 
+      : isPerformancePlan 
+        ? feature.performance === true 
+        : false
+  }));
 }
 
 export default function CheckoutFormInner(props: CheckoutFormProps) {
@@ -239,6 +274,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       background: 'var(--e-global-color-off-white)',
       zIndex: 0,
       overflowX: 'hidden',
+      overflowY: 'auto',
       margin: 0,
       padding: 0
     }}>
@@ -246,27 +282,52 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         position: 'relative',
         zIndex: 1,
         minHeight: '100vh',
-        width: '100vw',
+        width: '100%',
+        maxWidth: '100vw',
         display: 'flex',
         flexDirection: 'column',
         paddingTop: 'var(--space-4x)',
         paddingBottom: 'var(--space-4x)',
         boxSizing: 'border-box',
+        overflowX: 'hidden'
       }}>
       <style>{`
+        /* Global mobile overflow fix */
         @media (max-width: 768px) {
+          body {
+            overflow-x: hidden !important;
+          }
+          
           .checkout-container {
-            padding: 0 1.5rem !important;
+            padding: 0 1rem !important;
             gap: 1rem !important;
+            max-width: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
           }
           
           .checkout-form {
             padding: 1rem !important;
             margin-bottom: 1rem !important;
+            width: 100% !important;
+            max-width: none !important;
+            flex: none !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+          }
+          
+          .checkout-form input, .checkout-form select {
+            width: 100% !important;
+            max-width: none !important;
+            box-sizing: border-box !important;
+            min-width: 0 !important;
           }
           
           .checkout-form .vita-bella-button {
             width: 100% !important;
+            box-sizing: border-box !important;
           }
           
           .checkout-form .vita-bella-button:hover:not(:disabled) {
@@ -281,6 +342,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           
           .order-summary {
             padding: 1rem !important;
+            width: 100% !important;
+            max-width: none !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
           }
           
           .order-summary-header {
@@ -304,6 +369,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             padding: 10px !important;
             border-radius: 12px !important;
             margin-bottom: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
           }
           
           .lab-button {
@@ -312,20 +380,24 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             height: 32px !important;
             min-width: 60px !important;
             border-radius: 8px !important;
+            box-sizing: border-box !important;
           }
         }
         
         @media (max-width: 480px) {
           .checkout-container {
-            padding: 0 1rem !important;
+            padding: 0 0.75rem !important;
           }
           
           .checkout-form {
             padding: 0.75rem !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
           }
           
           .checkout-form .vita-bella-button {
             width: 100% !important;
+            box-sizing: border-box !important;
           }
           
           .checkout-form .vita-bella-button:hover:not(:disabled) {
@@ -340,6 +412,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           
           .order-summary {
             padding: 0.75rem !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
           }
           
           .plan-image {
@@ -370,22 +444,26 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         <div className="checkout-container" style={{ 
           display: 'flex', 
           flexDirection: isMobile ? 'column' : 'row',
-          gap: '2rem', 
+          gap: isMobile ? '1rem' : '2rem', 
           maxWidth: '1200px', 
           margin: '0 auto', 
-          padding: '0 1rem',
+          padding: isMobile ? '0 1rem' : '0 1rem',
           width: '100%',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}>
         {/* Left: Form */}
         <form className="checkout-form" style={{ 
           flex: isMobile ? 'none' : '0 0 450px', 
           width: isMobile ? '100%' : '450px',
+          maxWidth: isMobile ? '100%' : '450px',
           background: '#fff', 
           borderRadius: '12px', 
           padding: isMobile ? '1.5rem' : '2rem', 
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          marginBottom: isMobile ? '1rem' : '0'
+          marginBottom: isMobile ? '1rem' : '0',
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}
           onSubmit={e => { e.preventDefault(); handleCheckout(); }}
         >
@@ -458,7 +536,12 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           {/* Coupon Code Section */}
           <div style={{ margin: '18px 0 8px 0' }}>
             <label style={{ fontWeight: 500, marginBottom: 6, display: 'block' }}>Coupon Code (Optional)</label>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              alignItems: 'flex-start',
+              flexDirection: isMobile ? 'column' : 'row'
+            }}>
               <input 
                 name="couponCode" 
                 id="couponCode" 
@@ -468,7 +551,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 onChange={handleFormChange} 
                 disabled={couponStatus === 'validating'}
                 style={{ 
-                  flex: 1,
+                  flex: isMobile ? 'none' : 1,
+                  width: isMobile ? '100%' : 'auto',
                   padding: 10, 
                   borderRadius: 6, 
                   border: `1px solid ${
@@ -499,11 +583,13 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                     !form.couponCode || !form.couponCode.trim() || loading || couponStatus === 'validating' || couponStatus === 'valid'
                   ) ? 'not-allowed' : 'pointer',
                   whiteSpace: 'nowrap',
-                  minWidth: '80px',
+                  minWidth: isMobile ? '100%' : '80px',
+                  width: isMobile ? '100%' : 'auto',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '4px'
+                  gap: '4px',
+                  boxSizing: 'border-box'
                 }}
               >
                 {couponStatus === 'validating' && (
@@ -621,7 +707,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         <div style={{ 
           flex: isMobile ? 'none' : '1',
           width: isMobile ? '100%' : 'auto',
-          minWidth: isMobile ? 'auto' : '500px'
+          maxWidth: isMobile ? '100%' : 'auto',
+          minWidth: isMobile ? 'auto' : '500px',
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}>
           {/* Order Summary */}
           <div className="order-summary" style={{ 
@@ -630,7 +719,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             padding: isMobile ? '1.5rem' : '2rem', 
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            width: '100%',
+            maxWidth: '100%'
           }}>
             {/* Header section with image positioned to the right */}
             <div className="order-summary-header" style={{ 
@@ -699,6 +791,131 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                   {selectedPlan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
                 </ul>
                 <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '10px 0 14px 0' }} />
+              </div>
+
+              {/* Access To Features Section */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ 
+                  fontWeight: 600, 
+                  fontSize: isMobile ? '16px' : '18px', 
+                  color: 'var(--e-global-color-dark-green)', 
+                  marginBottom: '12px' 
+                }}>
+                  Access To:
+                </div>
+                <div style={{ 
+                  display: 'flex', 
+                  flexWrap: 'wrap', 
+                  gap: isMobile ? '4px' : '6px',
+                  marginBottom: '12px'
+                }}>
+                  {getAccessToFeatures(selectedPlan?.key).map((feature: AccessToFeature, index: number) => (
+                    <div
+                      key={index}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        padding: isMobile ? '3px 6px' : '4px 8px',
+                        borderRadius: '16px',
+                        fontSize: isMobile ? '10px' : '11px',
+                        fontWeight: 500,
+                        background: feature.available 
+                          ? 'var(--e-global-color-lightgreen, #e8f5e8)' 
+                          : '#f5f5f5',
+                        color: feature.available 
+                          ? 'var(--e-global-color-dark-green, #113c1c)' 
+                          : '#999',
+                        opacity: feature.available ? 1 : 0.6,
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {feature.available && (
+                        <span style={{ 
+                          marginRight: '3px', 
+                          fontSize: isMobile ? '9px' : '10px',
+                          color: 'var(--e-global-color-dark-green, #113c1c)'
+                        }}>
+                          ✓
+                        </span>
+                      )}
+                      {feature.name}
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Upgrade prompt for Foundation plans */}
+                {(selectedPlan?.key === 'fm' || selectedPlan?.key === 'fa') && (
+                  <div style={{
+                    background: 'linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%)',
+                    borderRadius: '8px',
+                    padding: isMobile ? '12px' : '16px',
+                    marginBottom: '12px',
+                    border: '1px solid #f39c12',
+                    boxShadow: '0 2px 8px rgba(243, 156, 18, 0.1)'
+                  }}>
+                    <div style={{
+                      fontSize: isMobile ? '13px' : '14px',
+                      fontWeight: 600,
+                      color: '#d68910',
+                      marginBottom: '8px',
+                      lineHeight: 1.4
+                    }}>
+                      Want access to Weight Loss, Peptide Therapy, and Injury and Recovery Treatments?
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // Map Foundation plans to Performance plans with same interval
+                        const upgradePlanMapping = {
+                          'fm': 'pm', // Foundation Monthly -> Performance Monthly
+                          'fa': 'pa'  // Foundation Annual -> Performance Annual
+                        };
+                        
+                        const targetPlanKey = upgradePlanMapping[selectedPlan?.key as keyof typeof upgradePlanMapping];
+                        
+                        if (targetPlanKey) {
+                          console.log('Upgrading from', selectedPlan?.key, 'to', targetPlanKey);
+                          
+                          // Navigate to checkout with the correct plan parameter format
+                          const currentUrl = new URL(window.location.href);
+                          currentUrl.searchParams.delete('fm');
+                          currentUrl.searchParams.delete('fa');
+                          currentUrl.searchParams.delete('pm');
+                          currentUrl.searchParams.delete('pa');
+                          currentUrl.searchParams.set(targetPlanKey, '');
+                          
+                          // Navigate to the new URL
+                          window.location.href = currentUrl.toString();
+                        }
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: isMobile ? '8px 16px' : '10px 20px',
+                        fontSize: isMobile ? '12px' : '13px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 8px rgba(243, 156, 18, 0.3)',
+                        transition: 'all 0.2s ease',
+                        whiteSpace: 'nowrap'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)';
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(243, 156, 18, 0.4)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #f39c12 0%, #e67e22 100%)';
+                        e.currentTarget.style.transform = 'translateY(0px)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(243, 156, 18, 0.3)';
+                      }}
+                    >
+                      Upgrade Now
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Add-On Bloodwork Section - Moved from bottom bar */}
@@ -857,6 +1074,57 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 10, marginBottom: 2 }}>
               Membership may be cancelled without penalty before or during the Initial Consultation with the provider. After that, the Terms of Service will apply.
             </div>
+            
+            {/* Mobile-only Finish Checkout button */}
+            {isMobile && (
+              <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // Scroll to the checkout form
+                    const checkoutForm = document.querySelector('.checkout-form');
+                    if (checkoutForm) {
+                      checkoutForm.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                      });
+                    }
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '12px 20px',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    borderRadius: '8px',
+                    border: 'none',
+                    background: 'var(--e-global-color-primary, #4263AE)',
+                    color: 'white',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 8px rgba(66, 99, 174, 0.2)',
+                    transition: 'all 0.2s ease',
+                    boxSizing: 'border-box'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = 'var(--e-global-color-primary-hover, #365a9e)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(66, 99, 174, 0.3)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = 'var(--e-global-color-primary, #4263AE)';
+                    e.currentTarget.style.transform = 'translateY(0px)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(66, 99, 174, 0.2)';
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0px)';
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                >
+                  Finish Checkout ↑
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
