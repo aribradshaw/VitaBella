@@ -33,7 +33,7 @@ interface CheckoutFormInnerProps {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   clientSecret: string | null;
-  createPaymentIntent: () => Promise<string | null>;
+  createPaymentIntent: (coupon?: any) => Promise<string | null>;
 }
 
 export default function CheckoutForm() {
@@ -89,8 +89,16 @@ export default function CheckoutForm() {
   }, [prices]);
 
   // Function to create payment intent when user is ready to pay
-  const createPaymentIntent = React.useCallback(async () => {
+  const createPaymentIntent = React.useCallback(async (coupon?: any) => {
+    console.log('=== CREATE PAYMENT INTENT DEBUG START ===');
+    console.log('Coupon parameter received:', JSON.stringify(coupon, null, 2));
+    console.log('Selected plan:', JSON.stringify(selectedPlan, null, 2));
+    console.log('Lab cart:', JSON.stringify(labCart, null, 2));
+    console.log('Form data:', JSON.stringify(form, null, 2));
+    console.log('Prices loading:', pricesLoading, 'Labs loading:', labsLoading);
+    
     if (!selectedPlan || !selectedPlan.priceId || !labPanels || pricesLoading || labsLoading) {
+      console.log('Early return: Missing required data');
       setError('Please select a plan first.');
       return null;
     }
@@ -99,12 +107,18 @@ export default function CheckoutForm() {
     const labs = labPanels.filter((l: any) => labCart.includes(l.key));
     const consultFeeValid = !consultFeePriceId || typeof consultFeePriceId === 'string';
     
+    console.log('Consult fee price ID:', consultFeePriceId);
+    console.log('Selected labs:', JSON.stringify(labs, null, 2));
+    console.log('Consult fee valid:', consultFeeValid);
+    
     if (!consultFeeValid) {
+      console.log('Error: Consult fee is invalid');
       setError('Consult fee is invalid.');
       return null;
     }
     
     if (labs.some((l: any) => !l || !l.priceId)) {
+      console.log('Error: Missing priceId for labs');
       setError('Missing priceId for one or more selected labs.');
       return null;
     }
@@ -115,7 +129,10 @@ export default function CheckoutForm() {
       ...labs.map((l: any) => (l && l.priceId ? { price: l.priceId, quantity: 1 } : null)),
     ].filter((item) => !!item && !!item.price);
     
+    console.log('Built line items:', JSON.stringify(lineItems, null, 2));
+    
     if (!lineItems.length || !lineItems[0] || !lineItems[0].price) {
+      console.log('Error: Missing priceId in line items');
       setError('Missing priceId in one or more line items.');
       return null;
     }
@@ -123,27 +140,38 @@ export default function CheckoutForm() {
     setError(null);
     setLoading(true);
     
+    const requestBody = { lineItems, customer: form, coupon };
+    console.log('Request body for /api/stripe:', JSON.stringify(requestBody, null, 2));
+    
     try {
       const res = await fetch("/api/stripe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lineItems, customer: form }),
+        body: JSON.stringify(requestBody),
       });
       
+      console.log('Response status:', res.status);
+      console.log('Response ok:', res.ok);
+      
       if (!res.ok) {
+        console.log('API error: Response not ok');
         throw new Error(`API returned ${res.status}`);
       }
       
       const data = await res.json();
+      console.log('Response data:', JSON.stringify(data, null, 2));
       
       if (data.clientSecret) {
+        console.log('Payment intent created successfully with client secret:', data.clientSecret);
         setClientSecret(data.clientSecret);
         return data.clientSecret;
       } else {
+        console.log('Error: No client secret in response');
         setError(data.error || 'Failed to initiate payment.');
         return null;
       }
     } catch (err) {
+      console.error('Network error in createPaymentIntent:', err);
       setError('Network error. Please try again.');
       return null;
     } finally {

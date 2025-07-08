@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log('Request body:', body);
     
-    const { lineItems, customer } = body;
+    const { lineItems, customer, coupon } = body;
     
     if (!lineItems || !Array.isArray(lineItems) || lineItems.some(item => !item.price)) {
       console.log('Invalid lineItems:', lineItems);
@@ -49,14 +49,62 @@ export async function POST(req: NextRequest) {
 
     try {
       console.log('Creating PaymentIntent with amount:', amount);
-      const paymentIntent = await stripe.paymentIntents.create({
+      
+      const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
         amount,
         currency: "usd",
         automatic_payment_methods: { enabled: true },
         metadata: {
           customerEmail: customer?.email || "",
         },
-      });
+      };
+
+      // Add coupon if provided
+      if (coupon && coupon.id) {
+        console.log('=== COUPON PROCESSING IN PAYMENT INTENT ===');
+        console.log('Coupon object received:', JSON.stringify(coupon, null, 2));
+        console.log('Original amount before discount:', amount);
+        
+        // Note: Stripe Payment Intents don't directly support coupons.
+        // Coupons are typically applied at the Invoice/Subscription level.
+        // For one-time payments, you'll need to calculate the discount manually
+        // and adjust the amount, then store the coupon info in metadata.
+        
+        let discountAmount = 0;
+        if (coupon.type === 'percent') {
+          discountAmount = Math.round(amount * (coupon.value / 100));
+          console.log(`Calculating percent discount: ${amount} * (${coupon.value} / 100) = ${discountAmount}`);
+        } else if (coupon.type === 'fixed') {
+          discountAmount = Math.min(coupon.value, amount);
+          console.log(`Calculating fixed discount: min(${coupon.value}, ${amount}) = ${discountAmount}`);
+        } else {
+          console.log('Unknown coupon type:', coupon.type);
+        }
+        
+        if (discountAmount > 0) {
+          const newAmount = amount - discountAmount;
+          console.log(`Applying discount: ${amount} - ${discountAmount} = ${newAmount}`);
+          
+          paymentIntentParams.amount = newAmount;
+          paymentIntentParams.metadata = {
+            ...paymentIntentParams.metadata,
+            couponId: coupon.id,
+            couponDiscount: discountAmount.toString(),
+            originalAmount: amount.toString(),
+          };
+          console.log('Updated PaymentIntent metadata:', JSON.stringify(paymentIntentParams.metadata, null, 2));
+          console.log('Final PaymentIntent amount:', paymentIntentParams.amount);
+        } else {
+          console.log('No discount amount calculated, proceeding with original amount');
+        }
+      } else {
+        console.log('No coupon provided or coupon missing ID');
+        if (coupon) {
+          console.log('Coupon object without ID:', JSON.stringify(coupon, null, 2));
+        }
+      }
+      
+      const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams);
       
       const endTime = Date.now();
       console.log(`=== STRIPE API SUCCESS (${endTime - startTime}ms) ===`);

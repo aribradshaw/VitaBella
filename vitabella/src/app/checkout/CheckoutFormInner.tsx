@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useLabPanels } from './checkoutData';
 import Tooltip from './Tooltip';
+import VitaBellaButton from '@/components/common/VitaBellaButton';
 
 interface CheckoutFormProps {
   selectedPlan: any;
@@ -18,7 +19,7 @@ interface CheckoutFormProps {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   clientSecret: string | null;
-  createPaymentIntent: () => Promise<string | null>;
+  createPaymentIntent: (coupon?: any) => Promise<string | null>;
 }
 
 export default function CheckoutFormInner(props: CheckoutFormProps) {
@@ -29,6 +30,11 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   
   // Mobile detection hook
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Coupon state
+  const [couponStatus, setCouponStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
+  const [couponMessage, setCouponMessage] = useState<string>('');
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   
   useEffect(() => {
     const checkIsMobile = () => {
@@ -83,6 +89,64 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    
+    // Reset coupon status if coupon code changes
+    if (e.target.name === 'couponCode') {
+      setCouponStatus('idle');
+      setCouponMessage('');
+      setAppliedCoupon(null);
+    }
+  };
+
+  const validateCoupon = async () => {
+    if (!form.couponCode || !form.couponCode.trim()) return;
+    
+    console.log('=== FRONTEND COUPON VALIDATION START ===');
+    console.log('Original coupon code:', JSON.stringify(form.couponCode));
+    console.log('Trimmed coupon code:', JSON.stringify(form.couponCode.trim()));
+    
+    setCouponStatus('validating');
+    setCouponMessage('');
+    
+    try {
+      const requestBody = {
+        couponCode: form.couponCode.trim(),
+      };
+      
+      console.log('Sending request to /api/validate-coupon with body:', JSON.stringify(requestBody));
+      
+      // Call your API endpoint to validate with Stripe
+      const response = await fetch('/api/validate-coupon', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+      
+      const result = await response.json();
+      console.log('Response data:', JSON.stringify(result, null, 2));
+      
+      if (response.ok && result.valid) {
+        console.log('Coupon validation successful!');
+        setCouponStatus('valid');
+        setCouponMessage(`Coupon applied! ${result.discount}`);
+        setAppliedCoupon(result.coupon);
+      } else {
+        console.log('Coupon validation failed:', result.message);
+        setCouponStatus('invalid');
+        setCouponMessage(result.message || 'Invalid coupon code');
+        setAppliedCoupon(null);
+      }
+    } catch (error) {
+      console.error('Frontend coupon validation error:', error);
+      setCouponStatus('invalid');
+      setCouponMessage('Failed to validate coupon. Please try again.');
+      setAppliedCoupon(null);
+    }
   };
 
   // Calculate totals
@@ -91,7 +155,19 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   const consultFeePriceId = selectedPlan ? selectedPlan.consultFeePriceId : null;
   const labs = labPanels.filter((l) => labCart.includes(l.key));
   const labsTotal = labs.reduce((sum, l) => sum + l.price, 0);
-  const total = planPrice + consultFee + labsTotal;
+  const subtotal = planPrice + consultFee + labsTotal;
+  
+  // Calculate coupon discount
+  const couponDiscount = appliedCoupon ? (() => {
+    if (appliedCoupon.type === 'percent') {
+      return Math.round(subtotal * (appliedCoupon.value / 100));
+    } else if (appliedCoupon.type === 'fixed') {
+      return Math.min(appliedCoupon.value, subtotal); // Don't exceed subtotal
+    }
+    return 0;
+  })() : 0;
+  
+  const total = subtotal - couponDiscount;
 
   const handleCheckout = async () => {
     setError(null);
@@ -105,7 +181,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       // If no client secret exists, create payment intent first
       let currentClientSecret = clientSecret;
       if (!currentClientSecret) {
-        currentClientSecret = await createPaymentIntent();
+        // Pass coupon information to createPaymentIntent
+        currentClientSecret = await createPaymentIntent(appliedCoupon);
         if (!currentClientSecret) {
           throw new Error('Failed to create payment intent. Please try again.');
         }
@@ -302,7 +379,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         }}>
         {/* Left: Form */}
         <form className="checkout-form" style={{ 
-          flex: isMobile ? 'none' : '1', 
+          flex: isMobile ? 'none' : '0 0 450px', 
+          width: isMobile ? '100%' : '450px',
           background: '#fff', 
           borderRadius: '12px', 
           padding: isMobile ? '1.5rem' : '2rem', 
@@ -376,10 +454,94 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               />
             </div>
           </div>
+          
+          {/* Coupon Code Section */}
+          <div style={{ margin: '18px 0 8px 0' }}>
+            <label style={{ fontWeight: 500, marginBottom: 6, display: 'block' }}>Coupon Code (Optional)</label>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+              <input 
+                name="couponCode" 
+                id="couponCode" 
+                type="text" 
+                placeholder="Enter coupon code"
+                value={form.couponCode || ''} 
+                onChange={handleFormChange} 
+                disabled={couponStatus === 'validating'}
+                style={{ 
+                  flex: 1,
+                  padding: 10, 
+                  borderRadius: 6, 
+                  border: `1px solid ${
+                    couponStatus === 'valid' ? '#28a745' : 
+                    couponStatus === 'invalid' ? '#dc3545' : '#ccc'
+                  }`, 
+                  fontSize: 16, 
+                  boxSizing: 'border-box',
+                  background: couponStatus === 'valid' ? '#f8fff9' : 
+                             couponStatus === 'invalid' ? '#fff5f5' : 'white'
+                }} 
+              />
+              <button
+                type="button"
+                onClick={validateCoupon}
+                disabled={!form.couponCode || !form.couponCode.trim() || loading || couponStatus === 'validating' || couponStatus === 'valid'}
+                style={{
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: (
+                    !form.couponCode || !form.couponCode.trim() || loading || couponStatus === 'validating' || couponStatus === 'valid'
+                  ) ? '#cccccc' : 'var(--e-global-color-primary, #4263AE)',
+                  color: 'white',
+                  cursor: (
+                    !form.couponCode || !form.couponCode.trim() || loading || couponStatus === 'validating' || couponStatus === 'valid'
+                  ) ? 'not-allowed' : 'pointer',
+                  whiteSpace: 'nowrap',
+                  minWidth: '80px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px'
+                }}
+              >
+                {couponStatus === 'validating' && (
+                  <div style={{
+                    width: '12px',
+                    height: '12px',
+                    border: '2px solid #ffffff40',
+                    borderTop: '2px solid #ffffff',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                )}
+                {couponStatus === 'validating' ? 'Checking...' : 
+                 couponStatus === 'valid' ? 'Applied' : 'Apply'}
+              </button>
+            </div>
+            {/* Coupon status messages */}
+            {couponMessage && (
+              <div style={{ 
+                marginTop: 6, 
+                fontSize: 14,
+                color: couponStatus === 'valid' ? '#28a745' : 
+                       couponStatus === 'invalid' ? '#dc3545' : '#666',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                {couponStatus === 'valid' && <span>✓</span>}
+                {couponStatus === 'invalid' && <span>✗</span>}
+                {couponMessage}
+              </div>
+            )}
+          </div>
+          
           {error && <div style={{ color: 'red', marginBottom: 10 }}>{error}</div>}
           
           {/* Checkout Button */}
-          <button
+          <VitaBellaButton
             type="button"
             onClick={() => {
               if (selectedPlan && isFormComplete() && !error && !loading) {
@@ -387,28 +549,54 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               }
             }}
             disabled={!selectedPlan || !isFormComplete() || !!error || loading}
+            label={loading ? 'Processing...' : `Sign Up Now`}
+            href="#"
+            bg={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#cccccc' 
+              : 'var(--e-global-color-lightgreen)'}
+            bgHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#cccccc' 
+              : 'var(--e-global-color-dark-green)'}
+            text={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#666666' 
+              : 'var(--e-global-color-dark-green)'}
+            textHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#666666' 
+              : 'var(--e-global-color-lightgreen)'}
+            arrowCircleColor={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#999999' 
+              : 'var(--e-global-color-dark-green)'}
+            arrowCircleColorHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#999999' 
+              : 'var(--e-global-color-lightgreen)'}
+            arrowPathColor={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#cccccc' 
+              : 'var(--e-global-color-lightgreen)'}
+            arrowPathColorHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+              ? '#cccccc' 
+              : 'var(--e-global-color-dark-green)'}
             style={{
               width: '100%',
-              padding: '16px',
-              fontSize: '16px',
-              fontWeight: 600,
-              borderRadius: '8px',
-              border: 'none',
-              background: (!selectedPlan || !isFormComplete() || !!error || loading) 
-                ? '#cccccc' 
-                : '#113c1c',
-              color: 'white',
+              minHeight: '52px',
               cursor: (!selectedPlan || !isFormComplete() || !!error || loading) 
                 ? 'not-allowed' 
                 : 'pointer',
-              minHeight: '52px',
+              opacity: (!selectedPlan || !isFormComplete() || !!error || loading) ? 0.6 : 1,
+              pointerEvents: (!selectedPlan || !isFormComplete() || !!error || loading) ? 'none' : 'auto'
+            }}
+          />
+          
+          {loading && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px'
-            }}
-          >
-            {loading && (
+              gap: '8px',
+              pointerEvents: 'none'
+            }}>
               <div style={{
                 width: '16px',
                 height: '16px',
@@ -417,9 +605,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 borderRadius: '50%',
                 animation: 'spin 1s linear infinite'
               }} />
-            )}
-            {loading ? 'Processing...' : `Sign Up Now - $${(total / 100).toFixed(2)}`}
-          </button>
+            </div>
+          )}
           
           <style jsx>{`
             @keyframes spin {
@@ -432,8 +619,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
 
         {/* Right: Order Summary + Image Container */}
         <div style={{ 
-          flex: isMobile ? 'none' : '0 0 400px',
-          width: isMobile ? '100%' : '400px'
+          flex: isMobile ? 'none' : '1',
+          width: isMobile ? '100%' : 'auto',
+          minWidth: isMobile ? 'auto' : '500px'
         }}>
           {/* Order Summary */}
           <div className="order-summary" style={{ 
@@ -496,135 +684,142 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           
           {selectedPlan && (
             <>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)', marginBottom: 6 }}>
-                {selectedPlan.label} {selectedPlan.interval === "monthly" ? "(Monthly Membership)" : "(Annual Membership)"}
+            {/* Plan Details Container */}
+            <div style={{
+              background: 'var(--e-global-color-off-white, #f8f9fa)',
+              borderRadius: '8px',
+              padding: isMobile ? '1rem' : '1.5rem',
+              marginBottom: '20px'
+            }}>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)', marginBottom: 6 }}>
+                  {selectedPlan.label} {selectedPlan.interval === "monthly" ? "(Monthly Membership)" : "(Annual Membership)"}
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? '14px' : '15px', color: '#222', marginBottom: 10 }}>
+                  {selectedPlan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
+                </ul>
+                <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '10px 0 14px 0' }} />
               </div>
-              <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? '14px' : '15px', color: '#222', marginBottom: 10 }}>
-                {selectedPlan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
-              </ul>
-              <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '10px 0 14px 0' }} />
-            </div>
 
-            {/* Add-On Bloodwork Section - Moved from bottom bar */}
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ 
-                fontWeight: 600, 
-                fontSize: isMobile ? '16px' : '18px', 
-                color: 'var(--e-global-color-dark-green)', 
-                marginBottom: '12px' 
-              }}>
-                Add-On Bloodwork:
-              </div>
-              <div className="labs-items" style={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                gap: isMobile ? '8px' : '10px', 
-                width: '100%'
-              }}>
-                {labPanels.map((lab) => (
-                  <div key={lab.key} className="lab-item" style={{ 
-                    display: 'flex', 
-                    alignItems: 'stretch', 
-                    background: labCart.includes(lab.key) ? '#eaf7ed' : '#f6f8fa', 
-                    borderRadius: '12px',
-                    border: labCart.includes(lab.key) ? '2px solid #113c1c' : '1px solid #d0d0d0', 
-                    padding: '12px', 
-                    boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.07)' : 'none', 
-                    transition: 'all 0.18s', 
-                    width: '100%',
-                    boxSizing: 'border-box'
-                  }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, marginRight: '12px' }}>
-                      <Tooltip content={
-                        <div style={{ 
-                          width: '260px',
-                          maxHeight: '320px',
-                          overflowY: 'auto'
-                        }}>
-                          <div style={{ fontWeight: 600, marginBottom: 8, fontSize: isMobile ? 14 : 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
-                          <ul style={{ 
-                            margin: 0, 
-                            paddingLeft: 16, 
-                            fontSize: isMobile ? 11 : 12,
-                            lineHeight: 1.4
-                          }}>
-                            {lab.biomarkers.map((biomarker, idx) => (
-                              <li key={idx} style={{ marginBottom: 2 }}>{biomarker}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      }>
-                        <div style={{ cursor: 'help' }}>
+              {/* Add-On Bloodwork Section - Moved from bottom bar */}
+              <div style={{ marginBottom: '0' }}>
+                <div style={{ 
+                  fontWeight: 600, 
+                  fontSize: isMobile ? '16px' : '18px', 
+                  color: 'var(--e-global-color-dark-green)', 
+                  marginBottom: '12px' 
+                }}>
+                  Add-On Bloodwork:
+                </div>
+                <div className="labs-items" style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  gap: isMobile ? '8px' : '10px', 
+                  width: '100%'
+                }}>
+                  {labPanels.map((lab) => (
+                    <div key={lab.key} className="lab-item" style={{ 
+                      display: 'flex', 
+                      alignItems: 'stretch', 
+                      background: labCart.includes(lab.key) ? '#eaf7ed' : '#ffffff', 
+                      borderRadius: '12px',
+                      border: labCart.includes(lab.key) ? '2px solid #113c1c' : '1px solid #d0d0d0', 
+                      padding: '12px', 
+                      boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.07)' : 'none', 
+                      transition: 'all 0.18s', 
+                      width: '100%',
+                      boxSizing: 'border-box'
+                    }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, marginRight: '12px' }}>
+                        <Tooltip content={
                           <div style={{ 
-                            fontWeight: 600, 
-                            fontSize: isMobile ? '14px' : '15px', 
-                            color: '#113c1c', 
-                            marginBottom: '4px',
-                            lineHeight: '1.3'
+                            width: '260px',
+                            maxHeight: '320px',
+                            overflowY: 'auto'
                           }}>
-                            {lab.label}
+                            <div style={{ fontWeight: 600, marginBottom: 8, fontSize: isMobile ? 14 : 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
+                            <ul style={{ 
+                              margin: 0, 
+                              paddingLeft: 16, 
+                              fontSize: isMobile ? 11 : 12,
+                              lineHeight: 1.4
+                            }}>
+                              {lab.biomarkers.map((biomarker, idx) => (
+                                <li key={idx} style={{ marginBottom: 2 }}>{biomarker}</li>
+                              ))}
+                            </ul>
                           </div>
-                          <div style={{ 
-                            fontSize: isMobile ? '11px' : '12px', 
-                            color: '#666', 
-                            marginBottom: '6px',
-                            lineHeight: '1.4'
-                          }}>
-                            {lab.description}
+                        }>
+                          <div style={{ cursor: 'help' }}>
+                            <div style={{ 
+                              fontWeight: 600, 
+                              fontSize: isMobile ? '14px' : '15px', 
+                              color: '#113c1c', 
+                              marginBottom: '4px',
+                              lineHeight: '1.3'
+                            }}>
+                              {lab.label}
+                            </div>
+                            <div style={{ 
+                              fontSize: isMobile ? '11px' : '12px', 
+                              color: '#666', 
+                              marginBottom: '6px',
+                              lineHeight: '1.4'
+                            }}>
+                              {lab.description}
+                            </div>
+                            <div style={{ 
+                              fontWeight: 700, 
+                              fontSize: isMobile ? '16px' : '18px', 
+                              color: '#113c1c'
+                            }}>
+                              ${(lab.price / 100).toFixed(0)}
+                            </div>
                           </div>
-                          <div style={{ 
-                            fontWeight: 700, 
-                            fontSize: isMobile ? '16px' : '18px', 
-                            color: '#113c1c'
-                          }}>
-                            ${(lab.price / 100).toFixed(0)}
-                          </div>
-                        </div>
-                      </Tooltip>
+                        </Tooltip>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                        <button
+                          type="button"
+                          className="lab-button"
+                          onClick={() => handleLabToggle(lab.key)}
+                          style={{
+                            padding: isMobile ? '8px 16px' : '10px 20px',
+                            fontSize: isMobile ? '12px' : '14px',
+                            fontWeight: 600,
+                            borderRadius: '8px',
+                            background: labCart.includes(lab.key) ? 'var(--e-global-color-dark-green)' : 'var(--e-global-color-primary, #4263AE)',
+                            color: '#fff',
+                            border: 'none',
+                            minWidth: isMobile ? '70px' : '80px',
+                            boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.10)' : '0 2px 4px rgba(0,0,0,0.1)',
+                            transition: 'all 0.18s',
+                            whiteSpace: 'nowrap',
+                            height: isMobile ? '36px' : '40px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            flexShrink: 0
+                          }}
+                          onMouseOver={(e) => {
+                            if (!labCart.includes(lab.key)) {
+                              e.currentTarget.style.background = 'var(--e-global-color-primary-hover, #365a9e)';
+                            }
+                          }}
+                          onMouseOut={(e) => {
+                            if (!labCart.includes(lab.key)) {
+                              e.currentTarget.style.background = 'var(--e-global-color-primary, #4263AE)';
+                            }
+                          }}
+                        >
+                          {labCart.includes(lab.key) ? 'Remove' : 'Add'}
+                        </button>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                      <button
-                        type="button"
-                        className="lab-button"
-                        onClick={() => handleLabToggle(lab.key)}
-                        style={{
-                          padding: isMobile ? '8px 16px' : '10px 20px',
-                          fontSize: isMobile ? '12px' : '14px',
-                          fontWeight: 600,
-                          borderRadius: '8px',
-                          background: labCart.includes(lab.key) ? 'var(--e-global-color-dark-green)' : 'var(--e-global-color-primary, #4263AE)',
-                          color: '#fff',
-                          border: 'none',
-                          minWidth: isMobile ? '70px' : '80px',
-                          boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.10)' : '0 2px 4px rgba(0,0,0,0.1)',
-                          transition: 'all 0.18s',
-                          whiteSpace: 'nowrap',
-                          height: isMobile ? '36px' : '40px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          cursor: 'pointer',
-                          flexShrink: 0
-                        }}
-                        onMouseOver={(e) => {
-                          if (!labCart.includes(lab.key)) {
-                            e.currentTarget.style.background = 'var(--e-global-color-primary-hover, #365a9e)';
-                          }
-                        }}
-                        onMouseOut={(e) => {
-                          if (!labCart.includes(lab.key)) {
-                            e.currentTarget.style.background = 'var(--e-global-color-primary, #4263AE)';
-                          }
-                        }}
-                      >
-                        {labCart.includes(lab.key) ? 'Remove' : 'Add'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-              <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '16px 0 10px 0' }} />
             </div>
             <div style={{ marginTop: 8 }}>
               <span style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)' }}>{selectedPlan.displayPrice || 'Loading...'}/{selectedPlan.interval === "monthly" ? "Month" : "Year"}</span>
@@ -642,25 +837,32 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 <span style={{ float: "right", color: '#333' }}>${(labsTotal / 100).toFixed(2)}</span>
               </div>
             )}
+            {appliedCoupon && couponDiscount > 0 && (
+              <div style={{ fontWeight: 600, fontSize: isMobile ? '15px' : '17px', marginTop: 8, color: '#28a745' }}>
+                Coupon Discount ({appliedCoupon.description})
+                <span style={{ float: "right", color: '#28a745' }}>-${(couponDiscount / 100).toFixed(2)}</span>
+              </div>
+            )}
             <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '14px 0 10px 0' }} />
             <div style={{ fontWeight: 700, fontSize: isMobile ? '20px' : '22px', marginTop: 8, color: 'var(--e-global-color-dark-green)' }}>
-              Total 
+              Today's Total
               <span style={{ float: "right", color: '#113c1c' }}>${(total / 100).toFixed(2)}</span>
+            </div>
+            <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 2 }}>
+              {selectedPlan.interval === "monthly"
+                ? "Monthly Recurring Membership"
+                : "Annual Recurring Membership"}
+              <span style={{ float: "right", color: '#333' }}>${(planPrice / 100).toFixed(2)}</span>
             </div>
             <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 10, marginBottom: 2 }}>
               Membership may be cancelled without penalty before or during the Initial Consultation with the provider. After that, the Terms of Service will apply.
             </div>
-            <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 2 }}>
-              {selectedPlan.interval === "monthly"
-                ? "Monthly Recurring Total"
-                : "Annual Recurring Total"}
-              <span style={{ float: "right", color: '#333' }}>${(planPrice / 100).toFixed(2)}</span>
-            </div>
-          </>          )}
-          </div>
-        </div>
-        </div>
+          </>
+        )}
       </div>
+    </div>
+  </div>
+</div>
     </div>
   );
 }
