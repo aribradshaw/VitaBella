@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import VitaBellaButton from "@/components/common/VitaBellaButton";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useLabPanels } from './checkoutData';
 import Tooltip from './Tooltip';
@@ -19,10 +18,11 @@ interface CheckoutFormProps {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   clientSecret: string | null;
+  createPaymentIntent: () => Promise<string | null>;
 }
 
 export default function CheckoutFormInner(props: CheckoutFormProps) {
-  const { selectedPlan, setSelectedPlan, planGroup, setPlanGroup, labCart, setLabCart, form, setForm, error, setError, loading, setLoading, clientSecret } = props;
+  const { selectedPlan, setSelectedPlan, planGroup, setPlanGroup, labCart, setLabCart, form, setForm, error, setError, loading, setLoading, clientSecret, createPaymentIntent } = props;
   const stripe = useStripe();
   const elements = useElements();
   const { labPanels } = useLabPanels();
@@ -45,11 +45,27 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
   
+  // Auto-reset loading state if it's stuck
+  useEffect(() => {
+    if (loading) {
+      const formComplete = form.email && form.firstName && form.lastName && form.address && form.city && form.state && form.zip;
+      
+      if (!formComplete || !selectedPlan) {
+        setLoading(false);
+      }
+    }
+  }, [loading]);
+  
   // Helper: check if all required form fields are filled
   const isFormComplete = () => {
-    return (
-      form.email && form.firstName && form.lastName && form.address && form.city && form.state && form.zip
-    );
+    const required = form.email && form.firstName && form.lastName && form.address && form.city && form.state && form.zip;
+    
+    // Force reset loading if form is incomplete but loading is true
+    if (!required && loading) {
+      setLoading(false);
+    }
+    
+    return !!required;
   };
 
   const handleLabToggle = (key: string) => {
@@ -80,41 +96,59 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   const handleCheckout = async () => {
     setError(null);
     setLoading(true);
-    if (!stripe || !elements) {
-      setError('Stripe is not loaded.');
-      setLoading(false);
-      return;
-    }
-    if (!clientSecret) {
-      setError('Payment not ready. Please check your details.');
-      setLoading(false);
-      return;
-    }
-    const cardElement = elements.getElement(CardElement);
-    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement!,
-        billing_details: {
-          name: form.firstName + " " + form.lastName,
-          email: form.email,
-          address: {
-            line1: form.address,
-            line2: form.address2,
-            city: form.city,
-            state: form.state,
-            postal_code: form.zip,
+    
+    try {
+      if (!stripe || !elements) {
+        throw new Error('Stripe is not loaded.');
+      }
+      
+      // If no client secret exists, create payment intent first
+      let currentClientSecret = clientSecret;
+      if (!currentClientSecret) {
+        currentClientSecret = await createPaymentIntent();
+        if (!currentClientSecret) {
+          throw new Error('Failed to create payment intent. Please try again.');
+        }
+      }
+      
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        throw new Error('Card element not found.');
+      }
+      
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(currentClientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: `${form.firstName} ${form.lastName}`,
+            email: form.email,
+            address: {
+              line1: form.address,
+              line2: form.address2 || undefined,
+              city: form.city,
+              state: form.state,
+              postal_code: form.zip,
+            },
           },
         },
-      },
-      return_url: window.location.origin + '/thank-you',
-    });
-    if (confirmError) {
-      setError(confirmError.message || 'Payment failed.');
+      });
+      
+      if (confirmError) {
+        throw new Error(confirmError.message || 'Payment failed.');
+      }
+      
+      if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Don't set loading to false here - let the redirect happen
+        window.location.href = '/thank-you';
+      } else {
+        throw new Error('Payment was not completed successfully.');
+      }
+      
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Payment failed. Please try again.';
+      setError(errorMessage);
       setLoading(false);
-      return;
     }
-    setLoading(false);
-    // Stripe will redirect on success
   };
 
 
@@ -325,50 +359,74 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               background: '#fafbfc',
               marginBottom: 8
             }}>
-              {error && !clientSecret ? (
-                <div style={{ color: 'red', fontSize: 15 }}>{error}</div>
-              ) : null}
-              {clientSecret && (
-                <CardElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#113c1c',
-                        '::placeholder': { color: '#888' },
-                      },
-                      invalid: { color: '#b71c1c' },
-                    },
-                  }}
-                />
+              {error && (
+                <div style={{ color: 'red', fontSize: 15, marginBottom: 8 }}>{error}</div>
               )}
+              <CardElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      color: '#113c1c',
+                      '::placeholder': { color: '#888' },
+                    },
+                    invalid: { color: '#b71c1c' },
+                  },
+                }}
+              />
             </div>
           </div>
           {error && <div style={{ color: 'red', marginBottom: 10 }}>{error}</div>}
-          <VitaBellaButton
-            type="submit"
-            label={loading ? "Processing..." : "Sign Up Now"}
-            bg="var(--e-global-color-dark-green)"
-            bgHover="var(--e-global-color-green)"
-            text="var(--e-global-color-white)"
-            textHover="var(--e-global-color-dark-green)"
-            arrowCircleColor="var(--e-global-color-lightgreen)"
-            arrowCircleColorHover="var(--e-global-color-dark-green)"
-            arrowPathColor="var(--e-global-color-dark-green)"
-            arrowPathColorHover="var(--e-global-color-green)"
-            disabled={!selectedPlan || !clientSecret || loading || !isFormComplete() || !!error}
-            href="#"
-            className="vita-bella-button"
-            style={{ 
-              width: '100%',
-              maxWidth: '100%',
-              opacity: (!selectedPlan || !clientSecret || loading || !isFormComplete() || !!error) ? 0.6 : 1,
-              cursor: (!selectedPlan || !clientSecret || loading || !isFormComplete() || !!error) ? 'not-allowed' : 'pointer',
-              transition: 'all 0.3s ease-in-out',
-              transform: 'scale(1)',
-              boxShadow: '0 4px 12px rgba(17, 60, 28, 0.15)'
+          
+          {/* Checkout Button */}
+          <button
+            type="button"
+            onClick={() => {
+              if (selectedPlan && isFormComplete() && !error && !loading) {
+                handleCheckout();
+              }
             }}
-          />
+            disabled={!selectedPlan || !isFormComplete() || !!error || loading}
+            style={{
+              width: '100%',
+              padding: '16px',
+              fontSize: '16px',
+              fontWeight: 600,
+              borderRadius: '8px',
+              border: 'none',
+              background: (!selectedPlan || !isFormComplete() || !!error || loading) 
+                ? '#cccccc' 
+                : '#113c1c',
+              color: 'white',
+              cursor: (!selectedPlan || !isFormComplete() || !!error || loading) 
+                ? 'not-allowed' 
+                : 'pointer',
+              minHeight: '52px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            {loading && (
+              <div style={{
+                width: '16px',
+                height: '16px',
+                border: '2px solid #ffffff40',
+                borderTop: '2px solid #ffffff',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }} />
+            )}
+            {loading ? 'Processing...' : `Sign Up Now - $${(total / 100).toFixed(2)}`}
+          </button>
+          
+          <style jsx>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
 
         </form>
 
@@ -569,7 +627,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '16px 0 10px 0' }} />
             </div>
             <div style={{ marginTop: 8 }}>
-              <span style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)' }}>{selectedPlan.displayPrice}/{selectedPlan.interval === "monthly" ? "Month" : "Year"}</span>
+              <span style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)' }}>{selectedPlan.displayPrice || 'Loading...'}/{selectedPlan.interval === "monthly" ? "Month" : "Year"}</span>
               <span style={{ marginLeft: 8, textDecoration: "line-through", color: "#888", fontSize: isMobile ? '14px' : '16px' }}>{selectedPlan.originalPrice}</span>
               <div style={{ color: "#666", fontSize: isMobile ? '13px' : '15px', marginTop: 4 }}>{selectedPlan.costNote}</div>
               <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '14px 0 10px 0' }} />

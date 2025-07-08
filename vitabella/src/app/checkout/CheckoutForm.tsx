@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from '@stripe/react-stripe-js';
 import { plans } from './PlanSelector';
 import { useLabPanels, getSelectedPlan, getPlanGroup } from './checkoutData';
-import { usePricing, getPrice } from '@/app/checkout/hooks/usePricing';
+import { usePricing, getPrice, formatPrice } from '@/app/checkout/hooks/usePricing';
 import PlanSelector from './PlanSelector';
 import CheckoutFormInner from './CheckoutFormInner';
 
@@ -33,6 +33,7 @@ interface CheckoutFormInnerProps {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   clientSecret: string | null;
+  createPaymentIntent: () => Promise<string | null>;
 }
 
 export default function CheckoutForm() {
@@ -57,6 +58,25 @@ export default function CheckoutForm() {
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
 
+  // Manual reset function for debugging
+  const resetPaymentState = () => {
+    setLoading(false);
+    setClientSecret(null);
+    setError(null);
+  };
+
+  // Emergency reset if loading is stuck for too long
+  React.useEffect(() => {
+    if (loading) {
+      const emergencyTimeout = setTimeout(() => {
+        setLoading(false);
+        setError('Payment system timeout. Please try refreshing the page.');
+      }, 15000); // 15 second emergency timeout
+      
+      return () => clearTimeout(emergencyTimeout);
+    }
+  }, [loading]);
+
   // Build plans with real pricing data
   const plansWithPricing = React.useMemo(() => {
     if (!prices) return [];
@@ -64,32 +84,29 @@ export default function CheckoutForm() {
       ...plan,
       price: getPrice(prices, plan.priceId),
       consultFee: getPrice(prices, plan.consultFeePriceId),
+      displayPrice: formatPrice(getPrice(prices, plan.priceId)),
     }));
   }, [prices]);
 
-  // Fetch PaymentIntent clientSecret as soon as a plan is selected (do not require full form)
-  React.useEffect(() => {
+  // Function to create payment intent when user is ready to pay
+  const createPaymentIntent = React.useCallback(async () => {
     if (!selectedPlan || !selectedPlan.priceId || !labPanels || pricesLoading || labsLoading) {
-      setClientSecret(null);
-      return;
+      setError('Please select a plan first.');
+      return null;
     }
     
-    let didCancel = false;
-    let timeoutId: NodeJS.Timeout;
     const consultFeePriceId = selectedPlan ? selectedPlan.consultFeePriceId : null;
     const labs = labPanels.filter((l: any) => labCart.includes(l.key));
     const consultFeeValid = !consultFeePriceId || typeof consultFeePriceId === 'string';
     
     if (!consultFeeValid) {
-      setClientSecret(null);
       setError('Consult fee is invalid.');
-      return;
+      return null;
     }
     
     if (labs.some((l: any) => !l || !l.priceId)) {
-      setClientSecret(null);
       setError('Missing priceId for one or more selected labs.');
-      return;
+      return null;
     }
     
     const lineItems = [
@@ -99,54 +116,40 @@ export default function CheckoutForm() {
     ].filter((item) => !!item && !!item.price);
     
     if (!lineItems.length || !lineItems[0] || !lineItems[0].price) {
-      setClientSecret(null);
       setError('Missing priceId in one or more line items.');
-      return;
+      return null;
     }
     
     setError(null);
     setLoading(true);
     
-    timeoutId = setTimeout(() => {
-      if (!didCancel) {
-        setLoading(false);
-        setError('Payment system timeout. Please try again or contact support.');
-      }
-    }, 12000);
-    
-    (async () => {
-      try {
-        const res = await fetch("/api/stripe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lineItems, customer: form }),
-        });
-        
-        if (didCancel) return;
-        
-        const data = await res.json();
-        if (data.clientSecret) {
-          setClientSecret(data.clientSecret);
-        } else {
-          setClientSecret(null);
-          setError(data.error || 'Failed to initiate payment.');
-        }
-      } catch (err) {
-        if (!didCancel) {
-          setClientSecret(null);
-          setError('Network error. Please try again.');
-        }
+    try {
+      const res = await fetch("/api/stripe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineItems, customer: form }),
+      });
+      
+      if (!res.ok) {
+        throw new Error(`API returned ${res.status}`);
       }
       
-      if (!didCancel) setLoading(false);
-      clearTimeout(timeoutId);
-    })();
-    
-    return () => {
-      didCancel = true;
-      clearTimeout(timeoutId);
-    };
-  }, [selectedPlan?.priceId, selectedPlan?.consultFeePriceId, labCart, labPanels, pricesLoading, labsLoading]);
+      const data = await res.json();
+      
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+        return data.clientSecret;
+      } else {
+        setError(data.error || 'Failed to initiate payment.');
+        return null;
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedPlan, labCart, labPanels, pricesLoading, labsLoading, form]);
 
   // Plan selection from URL on mount
   React.useEffect(() => {
@@ -184,8 +187,8 @@ export default function CheckoutForm() {
   }
 
   return (
-    clientSecret ? (
-      <Elements stripe={stripePromise} options={{ clientSecret }}>
+    <div>
+      <Elements stripe={stripePromise} options={clientSecret ? { clientSecret } : {}}>
         <CheckoutFormInner
           selectedPlan={selectedPlan}
           setSelectedPlan={setSelectedPlan}
@@ -200,13 +203,9 @@ export default function CheckoutForm() {
           loading={loading}
           setLoading={setLoading}
           clientSecret={clientSecret}
+          createPaymentIntent={createPaymentIntent}
         />
       </Elements>
-    ) : (
-      <div style={{ minHeight: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#888' }}>
-        Loading payment options…
-        {error && <div style={{ color: 'red', marginTop: 12 }}>{error}</div>}
-      </div>
-    )
+    </div>
   );
 }

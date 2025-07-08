@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 
 export interface StripePriceData {
   id: string;
-  amount: number;
+  unit_amount: number;
   currency: string;
-  interval: string | null;
-  interval_count: number | null;
+  product: string;
+  nickname: string | null;
 }
 
 export interface UsePricingReturn {
@@ -53,5 +53,5 @@ export function formatPrice(amountInCents: number): string {
 
 // Helper function to get price data safely
 export function getPrice(prices: Record<string, StripePriceData> | null, priceId: string): number {
-  return prices?.[priceId]?.amount || 0;
+  return prices?.[priceId]?.unit_amount || 0;
 }

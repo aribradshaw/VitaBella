@@ -6,55 +6,40 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest) {
+  const { lineItems, customer } = await req.json();
+  if (!lineItems || !Array.isArray(lineItems) || lineItems.some(item => !item.price)) {
+    return NextResponse.json({ error: "Missing or invalid line items" }, { status: 400 });
+  }
+
+  let amount = 0;
   try {
-    const { lineItems, customer } = await req.json();
-    
-    if (!lineItems || !Array.isArray(lineItems) || lineItems.length === 0) {
-      return NextResponse.json({ error: "Missing line items" }, { status: 400 });
+    for (const item of lineItems) {
+      // Fetch the price from Stripe for each priceId
+      const price = await stripe.prices.retrieve(item.price);
+      if (!price || typeof price.unit_amount !== "number") {
+        return NextResponse.json({ error: `Invalid priceId: ${item.price}` }, { status: 400 });
+      }
+      amount += price.unit_amount * (item.quantity || 1);
     }
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || "Error fetching Stripe prices." }, { status: 500 });
+  }
 
-    // For simplicity, let's use a fixed amount for now
-    // You can modify this to calculate based on your actual price IDs
-    const item = lineItems[0];
-    let amount = 0;
+  if (!amount || amount < 50) {
+    return NextResponse.json({ error: "Calculated amount is too low or invalid." }, { status: 400 });
+  }
 
-    // Map your price IDs to amounts (in cents)
-    const priceMap: { [key: string]: number } = {
-      'price_basic': 9900,    // $99.00
-      'price_premium': 19900, // $199.00
-    };
-
-    if (item.price && priceMap[item.price]) {
-      amount = priceMap[item.price] * (item.quantity || 1);
-    } else {
-      // Fallback: try to fetch from Stripe (but this was causing issues before)
-      return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
-    }
-
-    if (amount < 50) {
-      return NextResponse.json({ error: "Amount too low" }, { status: 400 });
-    }
-
-    // Create payment intent
+  try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
         customerEmail: customer?.email || "",
-        customerName: `${customer?.firstName || ''} ${customer?.lastName || ''}`.trim(),
       },
     });
-
-    return NextResponse.json({ 
-      clientSecret: paymentIntent.client_secret 
-    });
-
-  } catch (error: any) {
-    console.error('Checkout API error:', error);
-    return NextResponse.json(
-      { error: error.message || "Internal server error" }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
