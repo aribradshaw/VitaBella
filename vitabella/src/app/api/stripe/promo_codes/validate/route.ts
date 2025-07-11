@@ -58,14 +58,36 @@ export async function POST(req: NextRequest) {
     }
 
     const valid = promoCode.coupon.applies_to?.products.includes(product);
-    const description = promoCode.coupon.percent_off 
+    
+    // Create a more detailed description that includes duration if applicable
+    let baseDescription = promoCode.coupon.percent_off 
         ? `${promoCode.coupon.percent_off}% off`
-        : `$${((promoCode.coupon.amount_off || 0) / 100).toFixed(2)} off`
+        : `$${((promoCode.coupon.amount_off || 0) / 100).toFixed(2)} off`;
+    
+    // Add duration information if the coupon has a duration_in_months
+    let description = baseDescription;
+    if (promoCode.coupon.duration === 'repeating' && promoCode.coupon.duration_in_months) {
+      const months = promoCode.coupon.duration_in_months;
+      description = `${baseDescription} for ${months} month${months > 1 ? 's' : ''}`;
+    } else if (promoCode.coupon.duration === 'once') {
+      description = `${baseDescription} for first payment`;
+    }
+    
+    // Create a structured coupon object for the frontend
+    const couponData = {
+      id: promoCode.coupon.id,
+      type: promoCode.coupon.percent_off ? 'percent' : 'fixed',
+      value: promoCode.coupon.percent_off || (promoCode.coupon.amount_off || 0), // Keep cents for fixed amounts to match frontend expectation
+      duration: promoCode.coupon.duration,
+      duration_in_months: promoCode.coupon.duration_in_months,
+      description: description,
+      baseDescription: baseDescription
+    };
 
     return NextResponse.json({ 
       valid,
       description,
-      ...promoCode,
+      coupon: couponData,
       message: !valid ? "This promotion code is not valid for the selected product" : ""
     });
   } catch (err: any) {

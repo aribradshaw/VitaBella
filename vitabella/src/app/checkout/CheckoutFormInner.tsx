@@ -176,7 +176,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       if (response.ok && result.valid) {
         console.log('Coupon validation successful!');
         setCouponStatus('valid');
-        setCouponMessage(`Coupon applied! ${result.description}`);
+        setCouponMessage(`Coupon Applied! ${result.description}`);
         setAppliedCoupon(result.coupon);
       } else {
         console.log('Coupon validation failed:', result.message);
@@ -205,7 +205,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     if (appliedCoupon.type === 'percent') {
       return Math.round(subtotal * (appliedCoupon.value / 100));
     } else if (appliedCoupon.type === 'fixed') {
-      return Math.min(appliedCoupon.value, subtotal); // Don't exceed subtotal
+      return Math.min(appliedCoupon.value, subtotal); // appliedCoupon.value is already in cents
     }
     return 0;
   })() : 0;
@@ -1077,10 +1077,25 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 <span style={{ float: "right", color: '#333' }}>${(labsTotal / 100).toFixed(2)}</span>
               </div>
             )}
-            {appliedCoupon && couponDiscount > 0 && (
-              <div style={{ fontWeight: 600, fontSize: isMobile ? '15px' : '17px', marginTop: 8, color: '#28a745' }}>
-                Coupon Discount ({appliedCoupon.description})
-                <span style={{ float: "right", color: '#28a745' }}>-${(couponDiscount / 100).toFixed(2)}</span>
+            {appliedCoupon && (
+              <div style={{ 
+                fontWeight: 600, 
+                fontSize: isMobile ? '16px' : '17px', 
+                marginTop: 8, 
+                color: couponDiscount > 0 ? '#28a745' : '#666',
+                padding: '6px 0',
+                borderTop: couponDiscount > 0 ? '1px solid #28a74520' : 'none',
+                borderBottom: couponDiscount > 0 ? '1px solid #28a74520' : 'none',
+                background: couponDiscount > 0 ? '#f8fff9' : 'transparent'
+              }}>
+                Coupon Applied: {appliedCoupon.description}
+                <span style={{ 
+                  float: "right", 
+                  color: couponDiscount > 0 ? '#28a745' : '#666',
+                  fontWeight: 700
+                }}>
+                  {couponDiscount > 0 ? `-$${(couponDiscount / 100).toFixed(2)}` : 'Applied'}
+                </span>
               </div>
             )}
             <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '14px 0 10px 0' }} />
