@@ -1144,11 +1144,20 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 
                 return (
                   <>
-                    <div style={{ marginBottom: '4px' }}>
-                      <strong>Charged on {billingFrequency}</strong> with 6 Month Commitment.
+                    <div style={{ 
+                      fontSize: isMobile ? '16px' : '18px',
+                      fontWeight: 700,
+                      color: 'var(--e-global-color-dark-green)',
+                      marginBottom: '8px'
+                    }}>
+                      6 Month Commitment
                     </div>
-                    <div>
-                      Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
+                    <div style={{ 
+                      fontSize: isMobile ? '13px' : '14px',
+                      color: '#666',
+                      lineHeight: 1.4
+                    }}>
+                      Charged on {billingFrequency}. Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
                     </div>
                   </>
                 );
