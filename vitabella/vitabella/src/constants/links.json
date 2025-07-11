@@ -1,0 +1,14 @@
+[
+    { 
+        "acceptedfallback": "https://pay.vitabella.com/b/cN2cOL7Ge3obdA4cMW",
+        "foundation":{
+            "monthly": "https://pay.vitabella.com/b/cN2cOL7Ge3obdA4cMW",
+            "annual": "https://pay.vitabella.com/b/dR67ur5y66An53ydR1"
+            },
+        "performance":{
+            "monthly": "https://pay.vitabella.com/b/7sI3ebbWu3obgMg14d",
+            "annual": "https://pay.vitabella.com/b/cN2eWT2lU4sfcw05kw"
+            },
+        "waitlist":"https://www.vitabella.com/postform/"
+    }
+]

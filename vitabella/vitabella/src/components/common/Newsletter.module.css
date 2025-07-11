@@ -1,0 +1,204 @@
+.newsletterSection {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* align left */
+  overflow: hidden;
+  background: #e7d0c1;
+}
+
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: left center;
+  z-index: 1;
+  filter: none;
+}
+
+/* Desktop gradient remains */
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(231,208,193,0.0) 55%, rgba(231,208,193,0.7) 100%);
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .bgGradient {
+    background: rgba(44, 60, 50, 0.5) !important; /* 50% opacity dark green overlay */
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 3;
+  display: block;
+  max-width: 1340px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 520px;
+  padding-left: 0;
+}
+
+/* Remove dark green background and box on mobile */
+.contentBox {
+  width: 100%;
+  max-width: 700px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  z-index: 3;
+  background: rgba(44, 60, 50, 0.92); /* dark green, nearly opaque */
+  padding: 2.5em 2em 2em 2em;
+  border-radius: 2.2em;
+  box-shadow: 0 6px 32px 0 rgba(44, 60, 50, 0.18);
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 600px) {
+  .contentBox {
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding-left: var(--space-1x) !important;
+    padding-right: var(--space-1x) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    max-width: 100vw;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+}
+
+.newsletterTitle {
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 3.2rem;
+  line-height: 1.05;
+  margin-bottom: 0.2em;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.newsletterTitleMain {
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: #fff;
+  font-size: 3.2rem;
+  line-height: 1.5;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.newsletterTitleSub {
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: var(--e-global-color-lightgreen);
+  font-size: 3.2rem;
+  line-height: 1.05;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  letter-spacing: 0.01em;
+}
+
+.newsletterDesc {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 1.08rem;
+  color: #fff;
+  margin-bottom: 2.2em;
+  margin-top: 0.7em;
+  font-weight: 400;
+  line-height: 1.5;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  background: #fff;
+  border-radius: 2em;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07);
+  padding: 0.25em 0.25em 0.25em 1em;
+  /* left padding more for input, right less for button */
+}
+
+.input {
+  flex: 1 1 0%;
+  min-width: 0;
+  border-radius: 2em 0 0 2em;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+  font-size: 1.1rem;
+  padding: 0.9em 0.5em 0.9em 0;
+  box-shadow: none;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .newsletterTitle, .newsletterTitleMain, .newsletterTitleSub {
+    font-size: 2.1rem;
+    white-space: normal;
+  }
+  .contentBox {
+    max-width: 98vw;
+    
+  }
+}
+
+@media (max-width: 600px) {
+  .newsletterTitle, .newsletterTitleMain, .newsletterTitleSub {
+    font-size: 1.3rem;
+    white-space: normal;
+  }
+  .contentBox {
+    max-width: 100vw;
+    padding: 0 0.5em;
+  }
+  .form {
+    flex-direction: column;
+    gap: 0.7em;
+    padding: 0.25em;
+    border-radius: 1.5em;
+  }
+  .input {
+    border-radius: 1.5em !important;
+    width: 100%;
+    margin-left: 0 !important;
+    left: 0;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+  .signupBtn {
+    border-radius: 1.5em !important;
+    width: 100%;
+    margin-left: 0 !important;
+    left: 0;
+  }
+}

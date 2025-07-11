@@ -1,0 +1,439 @@
+/* BenefitsModule.module.css */
+
+
+.benefitsModule {
+  padding: var(--space-2x) 0;
+  background: var(--e-global-color-white);
+  margin-bottom: var(--space-2x);
+}
+/* removed stray closing brace */
+
+.container {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 var(--space-1x);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4x);
+  align-items: start;
+}
+
+/* Left Section */
+.leftSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Make .imageContainer autosize to content for non-membership page */
+/* Only sticky and min-height for membership page, not for statistics */
+.imageContainer {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+}
+
+/* Let statisticsContainer grow with content */
+.statisticsContainer {
+  position: relative;
+  width: 100%;
+  background: var(--e-global-color-dark-green);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .statisticsOverlay {
+    padding-left: var(--space-2x);
+    padding-right: var(--space-2x);
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2x);
+  }
+  .imageContainer {
+    position: relative !important;
+    min-height: unset;
+    height: auto !important;
+    margin-bottom: var(--space-2x);
+  }
+  .statisticsContainer {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+.membershipImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right bottom;
+  border-radius: var(--border-radius);
+}
+
+/* Right Section */
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3x);
+}
+
+.benefitsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.benefitItem {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.benefitItem:last-child {
+  border-bottom: none;
+}
+
+.benefitHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1x);
+  padding: var(--space-1x) var(--space-2x);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.benefitHeader:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.benefitHeader.active {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.benefitIcon {
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--e-global-color-off-white);
+  border-radius: 8px;
+  flex-shrink: 0;
+  color: var(--e-global-color-dark-green);
+}
+
+.benefitTitle {
+  flex: 1;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--e-global-color-dark-green);
+  line-height: 1.3;
+}
+
+.expandIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--e-global-color-dark-green);
+  transition: transform 0.3s ease;
+  background: var(--e-global-color-off-white);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.expandIcon.expanded {
+  transform: rotate(45deg);
+}
+
+.benefitContent {
+  padding: 0 var(--space-2x) var(--space-1x) calc(32px + var(--space-3x));
+  animation: slideDown 0.3s ease-out;
+}
+
+.benefitContent p {
+  margin: 0;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--e-global-color-grey2);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 150px;
+    padding-bottom: var(--space-1x);
+  }
+}
+
+/* Action Section */
+.actionSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3x);
+  justify-content: flex-start;
+}
+
+.reviewsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-half);
+}
+
+.stars {
+  font-size: 20px;
+  color: var(--e-global-color-green);
+  display: flex;
+  gap: 2px;
+}
+
+.reviewText {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--e-global-color-dark-green);
+}
+
+/* Statistics Container for non-membership pages */
+.statisticsContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--e-global-color-dark-green);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+/* Remove absolute positioning so overlay grows with content */
+/* Center statisticsOverlay content robustly */
+.statisticsOverlay {
+  width: 100%;
+  min-height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: var(--space-3x) !important;
+  padding-bottom: var(--space-3x) !important;
+  padding-left: var(--space-3x) !important;
+  padding-right: var(--space-3x) !important;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.statisticsOverlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/modules/logotile.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  z-index: 1;
+}
+
+.statisticsContent {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.statisticsTitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 2.75rem;
+  color: var(--e-global-color-white);
+  margin: 0 0 var(--space-3x) 0;
+  line-height: 1.2;
+}
+
+.brandName {
+  color: var(--e-global-color-lightgreen);
+}
+
+.statisticsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2x);
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: var(--space-2x);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statNumber {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: var(--e-global-color-white);
+  margin-bottom: var(--space-1x);
+  line-height: 1;
+}
+
+.statText {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--e-global-color-white);
+  line-height: 1.4;
+}
+
+.highlight {
+  color: var(--e-global-color-lightgreen);
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-3x);
+    align-items: stretch;
+  }
+  .imageContainer {
+    position: relative !important;
+  }
+  .membershipImage {
+    height: 100%;
+    object-fit: cover;
+  }
+  .statisticsOverlay {
+    padding: var(--space-2x) !important;
+    min-height: 300px !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .statisticsTitle {
+    font-size: 1.75rem;
+  }
+  .statNumber {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .benefitsModule {
+    padding: var(--space-1x) 0; /* Changed from var(--space-3x) 0 */
+  }
+  .container {
+    gap: var(--space-2x);
+  }
+  .imageContainer {
+    position: relative !important;
+  }
+  .membershipImage {
+    height: 100%;
+    object-fit: cover;
+  }
+  .statisticsOverlay {
+    min-height: 220px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--space-1x) !important;
+  }
+  .statisticsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-1x);
+  }
+  .statisticsTitle {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2x);
+  }
+  .statCard {
+    padding: var(--space-1x);
+  }
+  .statNumber {
+    font-size: 1.75rem;
+  }
+  .statText {
+    font-size: 0.85rem;
+  }
+  .benefitTitle {
+    font-size: 16px;
+  }
+  .benefitContent {
+    padding-left: var(--space-2x);
+    padding-right: var(--space-2x);
+  }
+  .actionSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2x);
+  }
+}
+
+@media (max-width: 480px) {
+  .statisticsOverlay {
+    padding-left: var(--space-1x);
+    padding-right: var(--space-1x);
+    padding-top: var(--space-1x);
+    padding-bottom: var(--space-1x);
+  }
+  
+  .statisticsTitle {
+    font-size: 1.25rem;
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+  }
+  
+  .statText {
+    font-size: 0.8rem;
+  }
+  
+  .benefitIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
+  
+  .benefitTitle {
+    font-size: 15px;
+  }
+  
+  .benefitContent p {
+    font-size: 14px;
+  }
+  
+  .actionSection {
+    align-items: center;
+    text-align: center;
+  }
+}

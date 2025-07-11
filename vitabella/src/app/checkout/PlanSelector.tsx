@@ -7,9 +7,10 @@ const planConfigs = [
   {
     key: "pm",
     label: "Performance",
-    productId: "prod_Seovw1AZkquxD7",
+    productId: "prod_OIDRrElrLen7nX",
     type: "performance",
     interval: "monthly",
+    priceId: "price_1NVd0PBvA5MJ1guPw1S9W0l7", // Performance Monthly
     description: [
       "Quarterly Telehealth Visits with Your Provider.",
       "Personalized Protocols & Care Plans by Provider",
@@ -26,9 +27,10 @@ const planConfigs = [
   {
     key: "pa",
     label: "Performance",
-    productId: "prod_Seovw1AZkquxD7",
+    productId: "prod_OIDRrElrLen7nX",
     type: "performance",
     interval: "annual",
+    priceId: "price_1NVd0PBvA5MJ1guPfSpSCuNV", // Performance Annual
     description: [
       "Quarterly Telehealth Visits with Your Provider.",
       "Personalized Protocols & Care Plans by Provider",
@@ -45,9 +47,10 @@ const planConfigs = [
   {
     key: "fm",
     label: "Foundation",
-    productId: "prod_Seovw1AZkquxD7",
+    productId: "prod_OIDPSWrTDlW8WL",
     type: "foundation",
     interval: "monthly",
+    priceId: "price_1NVcyrBvA5MJ1guP5ywam4pb", // Foundation Monthly
     description: [
       "Quarterly Telehealth Visits with Your Provider.",
       "Personalized Protocols & Care Plans by Provider",
@@ -61,9 +64,10 @@ const planConfigs = [
   {
     key: "fa",
     label: "Foundation",
-    productId: "prod_Seovw1AZkquxD7",
+    productId: "prod_OIDPSWrTDlW8WL",
     type: "foundation",
     interval: "annual",
+    priceId: "price_1NVcyrBvA5MJ1guPHxRiZbYe", // Foundation Annual
     description: [
       "Quarterly Telehealth Visits with Your Provider.",
       "Personalized Protocols & Care Plans by Provider",

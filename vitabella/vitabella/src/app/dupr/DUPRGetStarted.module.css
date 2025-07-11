@@ -1,0 +1,177 @@
+.wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0 0 var(--space-4x) 0;
+  margin-left: calc(-1 * (100vw - 100%) / 2);
+  margin-right: calc(-1 * (100vw - 100%) / 2);
+}
+.benefits {
+  color: #b6ff7a;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: var(--space-4x);
+  margin-bottom: var(--space-1x);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.title {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: var(--space-2x);
+  text-align: center;
+}
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2x);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: center;
+}
+.cardWrapper {
+  width: 80vw;
+  max-width: 900px;
+  height: 220px;
+  perspective: 1200px;
+}
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+}
+.cardWrapper:hover .card {
+  transform: rotateX(180deg);
+}
+.cardFront, .cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+.cardFront {
+  z-index: 2;
+}
+.cardBack {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+.cardImage {
+  object-fit: cover;
+  z-index: 0;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  gap: 0 !important;
+}
+.brandmark {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-1x);
+  padding-bottom: 0 !important;
+  fill: #fff;
+  display: block;
+}
+.cardTitle {
+  color: #fff;
+  font-size: 2.1rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 !important;
+  letter-spacing: 0.02em;
+}
+.cardLabel {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0.2rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cardPromo {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.cardCode {
+  color: #b6ff7a;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+.bottomText {
+  color: #fff;
+  font-size: 1.25rem;
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.ctaButton {
+  background: #b6ff7a;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 2.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.ctaButton:hover {
+  background: #d2ffb6;
+}
+@media (max-width: 900px) {
+  .cardWrapper {
+    height: 160px;
+    max-width: 98vw;
+  }
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .bottomText {
+    font-size: 1rem;
+  }
+  .cardsContainer {
+    max-width: 98vw;
+  }
+}

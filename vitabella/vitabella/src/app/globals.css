@@ -1,0 +1,438 @@
+@media (max-width: 900px) {
+  .h2,
+  .h2-alt {
+    font-size: 3rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .h2,
+  .h2-alt {
+    font-size: 1.7rem !important;
+  }
+}
+@font-face {
+  font-family: 'Tusker Grotesk';
+  src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --base: 15px;
+  --space-1x: var(--base);
+  --space-2x: calc(var(--base) * 2);
+  --space-3x: calc(var(--base) * 3);
+  --space-4x: calc(var(--base) * 4);
+  --border-radius: 10px;
+
+  --e-global-color-lightgreen: #D6FEA1;
+  --e-global-color-off-white: #F3EFEA;
+  --e-global-color-dark-green: #012B27;
+  --e-global-color-green: #BFF009;
+  --e-global-color-white: #FFFFFF;
+  --e-global-color-grey1: #333333;
+  --e-global-color-grey2: #555555;
+
+  --contact-email: "info@vitabella.com";
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+}
+
+body {
+    /* Removed padding to eliminate unwanted space around header */
+    font-family: 'Switzer', Arial, Helvetica, sans-serif;
+    background-color: #fff; /* Set background to white */
+    color: #333333; /* Primary text color */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--e-global-color-dark-green); /* Heading color */
+}
+
+a {
+    color: #4263AE; /* Link color */
+    text-decoration: none; /* Remove underline from links */
+    font-family: 'Switzer', Arial, Helvetica, sans-serif;
+}
+
+a:hover {
+    text-decoration: underline; /* Underline links on hover */
+}
+
+button {
+    background-color: var(--e-global-color-dark-green); /* Button background color */
+    color: var(--e-global-color-off-white); /* Button text color */
+    border: none;
+    border-radius: 5px;
+    padding: var(--space-1x) var(--space-2x);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: var(--space-1x) 0;
+}
+
+.navbar {
+    background-color: var(--e-global-color-off-white); /* Navbar background color */
+    padding: var(--space-1x);
+}
+
+.navbar button.active {
+    background-color: #4263AE; /* Active button background */
+    color: white; /* Active button text color */
+}
+
+.divider {
+  margin: var(--space-1x) 0;
+  max-width: calc(var(--base) * 26.67);
+  height: 2px;
+  background: var(--e-global-color-white);
+  opacity: 0.25;
+  border-radius: 1px;
+}
+
+.vitabella-arrow {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  margin-right: -4px; /* Adjusted for tighter fit */
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  box-sizing: content-box;
+  /* Removed background since SVG has its own circle */
+  border-radius: 50%;
+  /* If you want the arrow to be centered in the circle, use flex */
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1340px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+}
+
+@media (max-width: 1340px) {
+  .container {
+    max-width: 100vw;
+    padding-left: var(--space-1x);
+    padding-right: var(--space-1x);
+  }
+}
+
+/* Font utility classes for easy use */
+.font-switzer {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+}
+.font-tusker {
+  font-family: 'Tusker Grotesk', Arial, Helvetica, sans-serif;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-regular {
+  font-weight: 400;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/* Headings based on design system */
+.h1 {
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 80px;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+@media (max-width: 1200px) {
+  .h1 {
+    font-size: 60px;
+  }
+}
+@media (max-width: 900px) {
+  .h1 {
+    font-size: 50px;
+  }
+}
+@media (max-width: 480px) {
+  .h1 {
+    font-size: 36px;
+  }
+}
+.h2 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 300;
+  font-size: 50px;
+  line-height: 1.1;
+}
+.h2-alt {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 600;
+  font-size: 50px;
+  line-height: 1.1;
+}
+.h3 {
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 50px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.h4 {
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 30px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.h5 {
+  font-family: 'Tusker Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.h6 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.1;
+}
+.body,
+.body-text {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--e-global-color-grey2);
+  line-height: 1.5;
+}
+
+.img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.caption {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 1.08rem;
+  color: var(--e-global-color-dark-green);
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.vitabella-button {
+  background: var(--e-global-color-lightgreen);
+  color: var(--e-global-color-dark-green);
+  font-family: Switzer, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.4rem 1.4rem 0.4rem 1.4rem; /* Make left and right padding equal */
+  min-width: 0; /* Remove min-width to allow full shrink */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price {
+  color: var(--e-global-color-dark-green);
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.product-card-text {
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+}
+
+.vitabella-btn-getstarted {
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-lightgreen);
+  border: 1.5px solid var(--e-global-color-dark-green);
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 18px;
+  padding: 0.4rem;
+  transition: all 0.15s;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vitabella-productcard-btn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.2rem;
+  background: var(--e-global-color-lightgreen);
+  color: var(--e-global-color-dark-green);
+  font-family: Switzer, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 2rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+.vitabella-productcard-btn span {
+  flex: 1 1 auto;
+  text-align: left;
+  min-width: 0;
+}
+.vitabella-productcard-btn .vitabella-arrow {
+  flex-shrink: 0;
+}
+.vitabella-productcard-btn:hover {
+  background: var(--e-global-color-dark-green) !important;
+  color: var(--e-global-color-lightgreen) !important;
+  box-shadow: 0 4px 12px rgba(44, 60, 50, 0.15), 0 0 20px rgba(214, 254, 161, 0.4) !important;
+}
+
+.vitabella-productcard-btn-getstarted {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.2rem;
+  font-family: Switzer, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(44, 60, 50, 0.07);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  position: relative;
+  cursor: pointer;
+}
+.vitabella-productcard-btn-getstarted span {
+  flex: 1 1 auto;
+  text-align: left;
+  min-width: 0;
+}
+.vitabella-productcard-btn-learnmore {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .vitabella-btn-getstarted,
+  .vitabella-btn-learnmore {
+    font-size: 0.95rem;
+    padding: 0.4;
+  }
+}
+@media (max-width: 900px) {
+  .vitabella-btn-getstarted,
+  .vitabella-btn-learnmore {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+}
+
+.awlc-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  margin-top: 3rem;
+  align-items: start;
+  text-align: justify;
+}
+@media (min-width: 900px) {
+  .awlc-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.APTitle {
+  margin-top: calc(var(--space-4x) * 2);
+}
+@media (max-width: 900px) {
+  .APTitle {
+    margin-top: var(--space-4x);
+  }
+}
+
+.product-hero-section {
+  margin-top: var(--space-4x);
+}
+@media (max-width: 900px) {
+  .product-hero-section {
+    margin-top: 0px;
+  }
+}
+
+.MembershipTitle {
+  margin-top: var(--space-2x);
+}
+@media (max-width: 900px) {
+  .MembershipTitle {
+    margin-top: var(--space-1x);
+  }
+}

@@ -1,0 +1,76 @@
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 0 1.5rem 0;
+  gap: 2rem;
+  padding-top: var(--space-4x);
+  padding-bottom: var(--space-1x);
+}
+
+@media (max-width: 900px) {
+  .sectionHeader {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+  .left, .right {
+    max-width: 100%;
+    width: 100%;
+  }
+  .right {
+    margin-top: 0.5rem;
+  }
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  max-width: 500px;
+}
+
+/* Stacked variant styles */
+.stackedContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2x);
+}
+
+.headingRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.stackedText {
+  width: 100%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.stackedDivider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--e-global-color-off-white);
+  margin-top: var(--space-2x);
+}
+
+/* Responsive adjustments for stacked variant */
+@media (max-width: 768px) {
+
+  
+  .stackedText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  
+  .stackedText {
+    font-size: 0.9rem;
+  }
+}

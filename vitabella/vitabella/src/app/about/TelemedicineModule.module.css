@@ -1,0 +1,181 @@
+.moduleWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2x);
+  padding: var(--space-2x);
+  margin: 3rem 0;
+  border-radius: var(--border-radius);
+  background-color: var(--e-global-color-dark-green);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.leftSection {
+  flex: 0 0 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.telemedicineInterface {
+  width: 100%;
+}
+
+.interfaceImage {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.rightSection {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quoteSection {
+  color: var(--e-global-color-white);
+}
+
+.quote {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--e-global-color-white);
+  margin: 0 0 2rem 0;
+  quotes: '"' '"';
+}
+
+.quote::before {
+  content: open-quote;
+}
+
+.quote::after {
+  content: close-quote;
+}
+
+.divider {
+  width: calc(100% - var(--space-2x));
+  height: 1px;
+  background-color: var(--e-global-color-lightgreen);
+  margin: 2rem 0;
+  border-radius: 1px;
+}
+
+.doctorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.doctorImageContainer {
+  flex-shrink: 0;
+}
+
+.doctorImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--e-global-color-lightgreen);
+}
+
+.doctorDetails {
+  flex: 1;
+}
+
+.doctorName {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--e-global-color-white);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+}
+
+.doctorTitle {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--e-global-color-lightgreen);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .moduleWrapper {
+    flex-direction: column;
+    gap: var(--space-2x);
+    padding: var(--space-2x);
+    text-align: center;
+  }
+  
+  .leftSection,
+  .rightSection {
+    width: 100%;
+    flex: none;
+  }
+  
+  .quote {
+    font-size: 1.3rem;
+  }
+  
+  .divider {
+    margin: 1.5rem auto;
+  }
+  
+  .doctorInfo {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .moduleWrapper {
+    padding: var(--space-2x);
+    gap: var(--space-2x);
+  }
+  
+  .quote {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .doctorInfo {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+  
+  .doctorImage {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .doctorName {
+    font-size: 1.1rem;
+  }
+  
+  .doctorTitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .moduleWrapper {
+    padding: var(--space-2x);
+    gap: var(--space-2x);
+  }
+  
+  .quote {
+    font-size: 1.1rem;
+  }
+  
+  .divider {
+    margin: 1rem auto;
+  }
+}

@@ -1,0 +1,322 @@
+/* --- Bottom Section: 2-column CTA + Product styles --- */
+
+.b12BottomSection {
+  max-width: 1200px;
+  margin: 4rem auto 0 auto;
+  padding: 1.5rem 0.5rem;
+}
+
+
+.b12BottomRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (min-width: 900px) {
+  .b12BottomRow {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2.5rem;
+  }
+  .b12BottomCta {
+    flex: 1.2;
+    min-width: 0;
+    padding-right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  .b12BottomProductBox {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+  }
+}
+
+.b12BottomCta {
+  background: var(--e-global-color-off-white);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(1, 43, 39, 0.06);
+  padding: 1rem 1rem 1.5rem 1rem;
+  margin-bottom: 1.2rem;
+}
+.b12BottomCta h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  margin-top: 0.2rem;
+  color: var(--e-global-color-dark-green);
+}
+.b12BottomCta p {
+  font-size: 1.1rem;
+  color: var(--e-global-color-dark-green);
+}
+
+.b12BottomProductBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+/* --- New styles for intro two-column and product section at bottom --- */
+.b12ArticleSection {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 0.5rem;
+}
+
+.b12IntroRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  background: var(--e-global-color-off-white);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(1, 43, 39, 0.06);
+  padding: 1.5rem 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 900px) {
+  .b12ArticleSection {
+    padding: var(--space-4x) var(--space-2x);
+  }
+  .b12IntroRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding: var(--space-4x) var(--space-3x);
+    margin-bottom: var(--space-4x);
+  }
+  .b12IntroText {
+    flex: 1.2;
+    min-width: 0;
+    padding-right: 2.5rem;
+  }
+  .b12IntroImageWrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+}
+
+.b12IntroText {
+  flex: 1 1 0;
+}
+.b12SeoTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--e-global-color-dark-green);
+}
+
+@media (min-width: 600px) {
+  .b12SeoTitle {
+    font-size: 2.2rem;
+  }
+}
+
+.b12IntroImageWrap {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-left: var(--space-1x);
+  padding-right: var(--space-1x);
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .b12IntroImageWrap {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    /* width removed for flexibility */
+  }
+}
+.b12IntroImage {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-height: 110px;
+  min-height: 60px;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(44,60,50,0.07);
+  object-fit: contain;
+}
+
+@media (min-width: 900px) {
+  .b12IntroImage {
+    max-height: 320px;
+    min-height: 120px;
+  }
+}
+
+/* Ensure product image sizing is controlled by .b12IntroImage only */
+.b12IntroImageWrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.b12ProductSection {
+  max-width: 600px;
+  margin: 2rem auto 0 auto;
+  padding: var(--space-4x) var(--space-2x);
+}
+.b12ProductDetails {
+  width: 100%;
+  text-align: center;
+}
+/* b12.module.css - Custom styles for B12 page and product module */
+
+.b12Main {
+  background: var(--e-global-color-white);
+  color: var(--e-global-color-dark-green);
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+  line-height: 1.7;
+  padding-top: calc(var(--space-4x));
+}
+
+.b12Section {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--space-4x) var(--space-2x);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 900px) {
+  .b12Section {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+  }
+}
+
+.b12ArticleCard {
+  background: var(--e-global-color-off-white);
+  border: 2px solid var(--e-global-color-lightgreen);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(191, 240, 9, 0.08);
+  padding: var(--space-4x);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.b12ProductBox {
+  background: var(--e-global-color-off-white);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(1, 43, 39, 0.10);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 320px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.b12ProductImage {
+  width: 100%;
+  height: 300px;
+  background: var(--e-global-color-white);
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.b12ProductTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-1x);
+  color: var(--e-global-color-dark-green);
+}
+
+.b12ProductDesc {
+  font-size: 1rem;
+  margin-bottom: var(--space-1x);
+  color: var(--e-global-color-dark-green);
+}
+
+.b12ProductList {
+  list-style: none;
+  margin-bottom: var(--space-2x);
+  color: var(--e-global-color-dark-green);
+  text-align: left;
+  padding-left: 0;
+}
+
+.b12ProductList li {
+  margin-bottom: 0.5em;
+}
+
+/* Center button and prevent overflow */
+.b12ProductBtn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--e-global-color-dark-green);
+  color: var(--e-global-color-white);
+  padding: 0.7em 1.7em;
+  border-radius: 1em;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px 0 rgba(1, 43, 39, 0.10);
+  transition: background 0.2s;
+  text-decoration: none;
+  width: 100%;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .b12ProductBtn {
+    width: auto;
+    min-width: 180px;
+    max-width: 320px;
+  }
+}
+.b12ProductBtn:hover {
+  background: #01443d;
+}
+
+/* Responsive product row for enclomiphene vs clomiphene page */
+.ec-product-row-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  justify-content: center;
+}
+@media (min-width: 900px) {
+  .ec-product-row-responsive {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
