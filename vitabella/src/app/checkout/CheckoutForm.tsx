@@ -77,7 +77,7 @@ export default function CheckoutForm() {
     }
   }, [loading]);
 
-  // Build plans with real pricing data
+  // Build plans with real pricing data!
   const plansWithPricing = React.useMemo(() => {
     if (!prices) return [];
     return plans.map(plan => ({
