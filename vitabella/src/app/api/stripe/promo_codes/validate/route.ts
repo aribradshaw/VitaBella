@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       const months = promoCode.coupon.duration_in_months;
       description = `${baseDescription} for ${months} month${months > 1 ? 's' : ''}`;
     } else if (promoCode.coupon.duration === 'once') {
-      description = `${baseDescription} for first payment`;
+      description = `${baseDescription}`;
     }
     
     // Create a structured coupon object for the frontend

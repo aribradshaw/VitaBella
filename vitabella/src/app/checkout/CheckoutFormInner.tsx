@@ -264,7 +264,29 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   
   const total = subtotal - couponDiscount;
 
+  // Calculate the discounted recurring price for display
+  const getDiscountedRecurringPrice = () => {
+    if (!appliedCoupon) return planPrice;
+    
+    // Check if coupon applies to the plan
+    const planProductId = selectedPlan?.productId;
+    if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
+      if (appliedCoupon.type === 'percent') {
+        const discountAmount = Math.round(planPrice * (appliedCoupon.value / 100));
+        return planPrice - discountAmount;
+      } else if (appliedCoupon.type === 'fixed') {
+        return Math.max(0, planPrice - appliedCoupon.value);
+      }
+    }
+    
+    return planPrice;
+  };
+
+  const discountedRecurringPrice = getDiscountedRecurringPrice();
+
   const handleCheckout = async () => {
+    console.log('=== HANDLE CHECKOUT CALLED ===');
+    console.log('Timestamp:', new Date().toISOString());
     setError(null);
     setLoading(true);
     
@@ -275,9 +297,12 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       
       // If no client secret exists, create payment intent first
       let currentClientSecret = clientSecret;
+      console.log('Current client secret:', currentClientSecret);
       if (!currentClientSecret) {
+        console.log('No client secret, calling createPaymentIntent...');
         // Pass coupon information to createPaymentIntent
         currentClientSecret = await createPaymentIntent(appliedCoupon);
+        console.log('Received client secret:', currentClientSecret);
         if (!currentClientSecret) {
           throw new Error('Failed to create payment intent. Please try again.');
         }
@@ -288,6 +313,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         throw new Error('Card element not found.');
       }
       
+      console.log('About to confirm payment with client secret:', currentClientSecret);
       const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(currentClientSecret, {
         payment_method: {
           card: cardNumberElement,
@@ -304,6 +330,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           },
         },
       });
+      
+      console.log('Payment confirmation result:');
+      console.log('Error:', confirmError);
+      console.log('PaymentIntent:', paymentIntent);
       
       if (confirmError) {
         // Provide more specific error messages and make them recoverable
@@ -1263,7 +1293,18 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               {selectedPlan.interval === "monthly"
                 ? "Monthly Recurring Membership"
                 : "Annual Recurring Membership"}
-              <span style={{ float: "right", color: '#333' }}>${(planPrice / 100).toFixed(2)}</span>
+              <span style={{ float: "right", color: '#333' }}>
+                {discountedRecurringPrice !== planPrice ? (
+                  <>
+                    <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '8px' }}>
+                      ${(planPrice / 100).toFixed(2)}
+                    </span>
+                    ${(discountedRecurringPrice / 100).toFixed(2)}
+                  </>
+                ) : (
+                  `$${(planPrice / 100).toFixed(2)}`
+                )}
+              </span>
             </div>
             
             {/* Billing Cycle Information */}

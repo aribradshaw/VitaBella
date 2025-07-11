@@ -8,6 +8,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 // Handle POST requests for creating subscriptions
 export async function POST(req: NextRequest) {
   console.log('=== STRIPE SUBSCRIPTION API ROUTE CALLED ===');
+  console.log('Timestamp:', new Date().toISOString());
+  console.log('URL:', req.url);
   const startTime = Date.now();
   
   try {
