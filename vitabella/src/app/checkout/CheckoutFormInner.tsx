@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import { useLabPanels } from './checkoutData';
 import Tooltip from './Tooltip';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
@@ -115,6 +115,13 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     
     return !!required;
   };
+
+  // Clear errors when form fields change and become valid
+  useEffect(() => {
+    if (error && isFormComplete()) {
+      setError(null);
+    }
+  }, [form, error]);
 
   const handleLabToggle = (key: string) => {
     setLabCart((prev) => {
@@ -255,14 +262,14 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         }
       }
       
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) {
+      const cardNumberElement = elements.getElement(CardNumberElement);
+      if (!cardNumberElement) {
         throw new Error('Card element not found.');
       }
       
       const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(currentClientSecret, {
         payment_method: {
-          card: cardElement,
+          card: cardNumberElement,
           billing_details: {
             name: `${form.firstName} ${form.lastName}`,
             email: form.email,
@@ -271,14 +278,29 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               line2: form.address2 || undefined,
               city: form.city,
               state: form.state,
-              postal_code: form.zip,
+              postal_code: form.cardZip || form.zip, // Use card ZIP if provided, otherwise billing ZIP
             },
           },
         },
       });
       
       if (confirmError) {
-        throw new Error(confirmError.message || 'Payment failed.');
+        // Provide more specific error messages and make them recoverable
+        let errorMessage = confirmError.message || 'Payment failed.';
+        
+        if (confirmError.code === 'incomplete_zip') {
+          errorMessage = 'Please enter a valid ZIP/postal code.';
+        } else if (confirmError.code === 'card_declined') {
+          errorMessage = 'Your card was declined. Please try a different payment method.';
+        } else if (confirmError.code === 'expired_card') {
+          errorMessage = 'Your card has expired. Please use a different card.';
+        } else if (confirmError.code === 'incorrect_cvc') {
+          errorMessage = 'The security code (CVC) is incorrect. Please check and try again.';
+        } else if (confirmError.code === 'processing_error') {
+          errorMessage = 'An error occurred while processing your payment. Please try again.';
+        }
+        
+        throw new Error(errorMessage);
       }
       
       if (paymentIntent && paymentIntent.status === 'succeeded') {
@@ -552,29 +574,118 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           </div>
           <div style={{ margin: '18px 0 8px 0' }}>
             <label style={{ fontWeight: 500, marginBottom: 6, display: 'block' }}>Card Information *</label>
+            
+            {/* Card Number */}
             <div style={{
               border: '1px solid #ccc',
-              borderRadius: 6,
+              borderRadius: '6px 6px 0 0',
               padding: 12,
               background: '#fafbfc',
-              marginBottom: 8
+              borderBottom: '1px solid #e0e0e0'
             }}>
-              {error && (
-                <div style={{ color: 'red', fontSize: 15, marginBottom: 8 }}>{error}</div>
-              )}
-              <CardElement
+              <CardNumberElement
                 options={{
                   style: {
                     base: {
                       fontSize: '16px',
                       color: '#113c1c',
                       '::placeholder': { color: '#888' },
+                      lineHeight: '24px',
                     },
                     invalid: { color: '#b71c1c' },
                   },
+                  placeholder: 'Card number',
                 }}
               />
             </div>
+            
+            {/* Expiry, CVC, and ZIP in a row */}
+            <div style={{ 
+              display: 'flex', 
+              gap: 0,
+              flexDirection: isMobile ? 'column' : 'row'
+            }}>
+              <div style={{
+                flex: 1,
+                border: '1px solid #ccc',
+                borderTop: 'none',
+                borderRight: isMobile ? '1px solid #ccc' : '1px solid #e0e0e0',
+                borderBottom: '1px solid #ccc',
+                borderRadius: isMobile ? '0' : '0 0 0 6px', // Bottom-left rounded on desktop only
+                padding: 12,
+                background: '#fafbfc',
+              }}>
+                <CardExpiryElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#113c1c',
+                        '::placeholder': { color: '#888' },
+                        lineHeight: '24px',
+                      },
+                      invalid: { color: '#b71c1c' },
+                    },
+                    placeholder: 'MM / YY',
+                  }}
+                />
+              </div>
+              
+              <div style={{
+                flex: 1,
+                border: '1px solid #ccc',
+                borderTop: 'none',
+                borderRight: isMobile ? '1px solid #ccc' : '1px solid #e0e0e0',
+                borderBottom: '1px solid #ccc',
+                borderRadius: '0', // No rounding on middle element
+                padding: 12,
+                background: '#fafbfc',
+              }}>
+                <CardCvcElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#113c1c',
+                        '::placeholder': { color: '#888' },
+                        lineHeight: '24px',
+                      },
+                      invalid: { color: '#b71c1c' },
+                    },
+                    placeholder: 'CVC',
+                  }}
+                />
+              </div>
+              
+              <div style={{
+                flex: 1,
+                border: '1px solid #ccc',
+                borderTop: 'none',
+                borderRadius: isMobile ? '0 0 6px 6px' : '0 0 6px 0', // Bottom-right rounded on desktop, both corners on mobile
+                padding: 12,
+                background: '#fafbfc',
+              }}>
+                <input
+                  type="text"
+                  placeholder="ZIP Code"
+                  value={form.cardZip || ''}
+                  onChange={(e) => setForm({ ...form, cardZip: e.target.value })}
+                  style={{
+                    border: 'none',
+                    background: 'transparent',
+                    fontSize: '16px',
+                    color: '#113c1c',
+                    width: '100%',
+                    outline: 'none',
+                    lineHeight: '24px'
+                  }}
+                />
+              </div>
+            </div>
+            
+            {error && (
+              <div style={{ color: 'red', fontSize: 14, marginTop: 8 }}>{error}</div>
+            )}
           </div>
           
           {/* Coupon Code Section */}
