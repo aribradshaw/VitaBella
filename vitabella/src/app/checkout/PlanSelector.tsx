@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
-import { usePricing, formatPrice, getPrice } from "@/app/checkout/hooks/usePricing";
+import { formatPrice, usePricing } from "@/app/checkout/hooks/usePricing";
 
 const planConfigs = [
   {
@@ -120,10 +120,11 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
   // Build plans with real Stripe pricing data
   const plans = planConfigs.map(config => ({
     ...config,
-    price: getPrice(prices, config.priceId),
-    consultFee: getPrice(prices, config.consultFeePriceId),
-    displayPrice: formatPrice(getPrice(prices, config.priceId)),
+    price: prices?.get(config.priceId)?.unit_amount || 0,
+    consultFee: prices?.get(config.consultFeePriceId)?.unit_amount || 0,
+    displayPrice: formatPrice(prices?.get(config.priceId)?.unit_amount || 0) ,
   }));
+  
   return (
     <div style={{ 
       minHeight: "100vh", 

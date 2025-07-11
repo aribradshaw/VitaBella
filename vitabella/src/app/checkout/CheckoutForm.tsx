@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from '@stripe/react-stripe-js';
 import { plans } from './PlanSelector';
 import { useLabPanels, getSelectedPlan, getPlanGroup } from './checkoutData';
-import { usePricing, getPrice, formatPrice } from '@/app/checkout/hooks/usePricing';
+import { formatPrice, usePricing } from '@/app/checkout/hooks/usePricing';
 import PlanSelector from './PlanSelector';
 import CheckoutFormInner from './CheckoutFormInner';
 
@@ -82,9 +82,9 @@ export default function CheckoutForm() {
     if (!prices) return [];
     return plans.map(plan => ({
       ...plan,
-      price: getPrice(prices, plan.priceId),
-      consultFee: getPrice(prices, plan.consultFeePriceId),
-      displayPrice: formatPrice(getPrice(prices, plan.priceId)),
+      price: prices?.get(plan.priceId)?.unit_amount || 0 ,
+      consultFee:prices?.get(plan.consultFeePriceId)?.unit_amount || 0 ,
+      displayPrice: formatPrice(prices?.get(plan.priceId)?.unit_amount || 0) ,
     }));
   }, [prices]);
 

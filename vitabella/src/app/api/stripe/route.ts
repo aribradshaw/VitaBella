@@ -132,13 +132,7 @@ export async function GET() {
 
     // Transform prices into a more usable format
     const pricesMap = prices.data.reduce((acc: any, price: any) => {
-      acc[price.id] = {
-        id: price.id,
-        unit_amount: price.unit_amount,
-        currency: price.currency,
-        product: price.product,
-        nickname: price.nickname,
-      };
+      acc[price.id] = price;
       return acc;
     }, {});
 
