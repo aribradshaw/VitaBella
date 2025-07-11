@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
-import { usePricing, formatPrice, getPrice } from "@/app/checkout/hooks/usePricing";
+import { formatPrice, usePricing } from "@/app/checkout/hooks/usePricing";
 
 const planConfigs = [
   {
     key: "pm",
     label: "Performance",
-    priceId: "price_1NVd0PBvA5MJ1guPw1S9W0l7",
+    productId: "prod_Seovw1AZkquxD7",
     type: "performance",
     interval: "monthly",
     description: [
@@ -26,7 +26,7 @@ const planConfigs = [
   {
     key: "pa",
     label: "Performance",
-    priceId: "price_1NVd0PBvA5MJ1guPfSpSCuNV",
+    productId: "prod_Seovw1AZkquxD7",
     type: "performance",
     interval: "annual",
     description: [
@@ -45,7 +45,7 @@ const planConfigs = [
   {
     key: "fm",
     label: "Foundation",
-    priceId: "price_1NVcyrBvA5MJ1guP5ywam4pb",
+    productId: "prod_Seovw1AZkquxD7",
     type: "foundation",
     interval: "monthly",
     description: [
@@ -61,7 +61,7 @@ const planConfigs = [
   {
     key: "fa",
     label: "Foundation",
-    priceId: "price_1NVcyrBvA5MJ1guPHxRiZbYe",
+    productId: "prod_Seovw1AZkquxD7",
     type: "foundation",
     interval: "annual",
     description: [
@@ -120,10 +120,11 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
   // Build plans with real Stripe pricing data
   const plans = planConfigs.map(config => ({
     ...config,
-    price: getPrice(prices, config.priceId),
-    consultFee: getPrice(prices, config.consultFeePriceId),
-    displayPrice: formatPrice(getPrice(prices, config.priceId)),
+    price: prices?.get(config.priceId)?.unit_amount || 0,
+    consultFee: prices?.get(config.consultFeePriceId)?.unit_amount || 0,
+    displayPrice: formatPrice(prices?.get(config.priceId)?.unit_amount || 0) ,
   }));
+  
   return (
     <div style={{ 
       minHeight: "100vh", 

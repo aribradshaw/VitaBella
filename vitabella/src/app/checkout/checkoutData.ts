@@ -1,4 +1,4 @@
-import { usePricing, getPrice, StripePriceData } from "@/app/checkout/hooks/usePricing";
+import { usePricing } from "@/app/checkout/hooks/usePricing";
 
 export interface LabPanelConfig {
   key: string;
@@ -63,7 +63,7 @@ export function useLabPanels(): { labPanels: LabPanel[]; loading: boolean; error
   
   const labPanels: LabPanel[] = labPanelConfigs.map(config => ({
     ...config,
-    price: getPrice(prices, config.priceId),
+    price: prices?.get(config.priceId)?.unit_amount || 0 ,
   }));
 
   return { labPanels, loading, error };

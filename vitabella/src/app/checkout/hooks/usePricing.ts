@@ -9,13 +9,13 @@ export interface StripePriceData {
 }
 
 export interface UsePricingReturn {
-  prices: Record<string, StripePriceData> | null;
+  prices: Map<string, StripePriceData> | null;
   loading: boolean;
   error: string | null;
 }
 
 export function usePricing(): UsePricingReturn {
-  const [prices, setPrices] = useState<Record<string, StripePriceData> | null>(null);
+  const [prices, setPrices] = useState<Map<string, StripePriceData> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,8 +30,8 @@ export function usePricing(): UsePricingReturn {
           throw new Error('Failed to fetch pricing data');
         }
         
-        const priceData = await response.json();
-        setPrices(priceData.prices);
+        const { prices } = await response.json();
+        setPrices(new Map(Object.entries(prices)));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch pricing data');
         console.error('Error fetching prices:', err);
@@ -49,9 +49,4 @@ export function usePricing(): UsePricingReturn {
 // Helper function to format price from cents to dollars
 export function formatPrice(amountInCents: number): string {
   return `$${(amountInCents / 100).toLocaleString()}`;
-}
-
-// Helper function to get price data safely
-export function getPrice(prices: Record<string, StripePriceData> | null, priceId: string): number {
-  return prices?.[priceId]?.unit_amount || 0;
 }
