@@ -21,6 +21,7 @@ const planConfigs = [
       "Ongoing Coaching & Education"
     ],
     consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
     originalPrice: "$215",
     costNote: "+ cost of medication"
   },
@@ -41,6 +42,7 @@ const planConfigs = [
       "Ongoing Coaching & Education"
     ],
     consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
     originalPrice: "$2,148",
     costNote: "+ cost of medication"
   },
@@ -58,6 +60,7 @@ const planConfigs = [
       "24/7 Access to Patient Portal"
     ],
     consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
     originalPrice: "$120",
     costNote: "+ cost of medication"
   },
@@ -75,6 +78,7 @@ const planConfigs = [
       "24/7 Access to Patient Portal"
     ],
     consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
     originalPrice: "$1,188",
     costNote: "+ cost of medication"
   },

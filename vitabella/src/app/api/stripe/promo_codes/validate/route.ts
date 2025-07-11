@@ -8,14 +8,17 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 // Handle POST requests for validating a promo code from request body
 export async function POST(req: NextRequest) {
   try {
-    const { code, product } = await req.json();
+    const { code, product, products } = await req.json();
 
     if (!code) {
       return NextResponse.json({ error: "Promo code is required" }, { status: 400 });
     }
    
-    if (!product) {
-      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
+    // Accept either single product or multiple products
+    const productIds = products || (product ? [product] : []);
+    
+    if (!productIds.length) {
+      return NextResponse.json({ error: "At least one product ID is required" }, { status: 400 });
     }
 
     // Fetch promo code by code
@@ -57,7 +60,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const valid = promoCode.coupon.applies_to?.products.includes(product);
+    const valid = promoCode.coupon.applies_to?.products.some(p => productIds.includes(p)) || false;
     
     // Create a more detailed description that includes duration if applicable
     let baseDescription = promoCode.coupon.percent_off 

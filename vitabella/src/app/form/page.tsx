@@ -61,9 +61,9 @@ const steps: Step[] = [
   {
     label: "How did you hear about us?",
     fields: [
-      { name: "referral", type: "select", label: "Referral", required: true, options: ["Friend", "Facebook", "Google", "Other"] }, // Removed "Doctor"
+      { name: "referral", type: "radio", label: "Referral", required: true, options: ["Google", "Instagram", "Facebook", "LinkedIn", "TikTok", "Friend / Referral", "Other"] },
       // Show a text box for Friend, with appropriate label
-      { name: "referralFriend", type: "text", label: "Who referred you? (Friend)", required: false, conditional: (form) => form.referral === "Friend" },
+      { name: "referralFriend", type: "text", label: "Who referred you? (Friend)", required: false, conditional: (form) => form.referral === "Friend / Referral" },
       { name: "referralOther", type: "text", label: "Please specify", required: false, conditional: (form) => form.referral === "Other" },
     ],
   },
@@ -313,6 +313,26 @@ function VitaBellaMultiStepForm() {
       checked = (e.target as HTMLInputElement).checked;
     }
     setForm(f => ({ ...f, [name]: type === "checkbox" ? checked : value }));
+  };
+
+  // Handle radio button changes with auto-advance for single-choice steps
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm(f => ({ ...f, [name]: value }));
+    
+    // Auto-advance for single-choice radio steps
+    const currentStepFields = activeSteps[step].fields;
+    const radioFields = currentStepFields.filter(field => field.type === "radio");
+    
+    // If this step has only one radio field and it's required, auto-advance
+    if (radioFields.length === 1 && radioFields[0].required && radioFields[0].name === name) {
+      // Add a small delay for better UX
+      setTimeout(() => {
+        if (step < activeSteps.length - 1) {
+          setStep(s => s + 1);
+        }
+      }, 300);
+    }
   };
 
   // Determine redirect URL based on params and state
@@ -762,6 +782,35 @@ function VitaBellaMultiStepForm() {
       }
       switch (field.type) {
         case "radio":
+          // Special button-style rendering for referral step
+          if (field.name === "referral") {
+            return (
+              <div key={field.name}>
+                <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+                  {activeSteps[step].label}
+                </label>
+                <div className="vita-bella-form-button-group">
+                  {field.options?.map((opt: string) => (
+                    <label key={opt} className="vita-bella-form-button-label">
+                      <input
+                        type="radio"
+                        name={field.name}
+                        value={opt}
+                        checked={form[field.name as keyof typeof initialForm] === opt}
+                        onChange={handleRadioChange}
+                        required={field.required}
+                        className="vita-bella-form-button-radio"
+                      />
+                      <span className="vita-bella-form-button-display">
+                        {opt}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+          // Regular radio button rendering for other fields
           return (
             <div key={field.name} className="vita-bella-form-radio-group">
               {field.options?.map((opt: string) => (
@@ -771,7 +820,7 @@ function VitaBellaMultiStepForm() {
                     name={field.name}
                     value={opt}
                     checked={form[field.name as keyof typeof initialForm] === opt}
-                    onChange={handleChange}
+                    onChange={handleRadioChange}
                     required={field.required}
                     className="vita-bella-form-radio"
                   />

@@ -4,6 +4,7 @@ export interface LabPanelConfig {
   key: string;
   label: string;
   priceId: string;
+  productId: string;
   description: string;
   biomarkers: string[];
 }
@@ -17,6 +18,7 @@ const labPanelConfigs: LabPanelConfig[] = [
     key: "comprehensive",
     label: "Comprehensive Lab Panel",
     priceId: "price_1RJeXBBvA5MJ1guPhCQ085BJ",
+    productId: "prod_SE6kLiJPvBdwM3", // Comprehensive Lab Panel product ID
     description: "Includes 50 Blood Biomarkers for Advanced Health Review",
     biomarkers: [
       "Complete Blood Count (CBC) w/ Platelet",
@@ -41,6 +43,7 @@ const labPanelConfigs: LabPanelConfig[] = [
     key: "essential",
     label: "Essential Lab Panel",
     priceId: "price_1RiL5IBvA5MJ1guPstuqR3K6",
+    productId: "prod_SE6pUSuL6SlyTO", // Essential Lab Panel product ID
     description: "Includes 34+ Blood Biomarkers for Basic Health Review",
     biomarkers: [
       "Complete Blood Count (CBC) w/ Platelet",

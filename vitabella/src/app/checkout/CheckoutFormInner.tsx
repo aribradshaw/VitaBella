@@ -158,12 +158,33 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     setCouponMessage('');
     
     try {
+      // Get all product IDs from the cart
+      const productIds = [];
+      
+      // Add plan product ID
+      if (selectedPlan?.productId) {
+        productIds.push(selectedPlan.productId);
+      }
+      
+      // Add consultation fee product ID if different from plan
+      if (selectedPlan?.consultFeeProductId && selectedPlan.consultFeeProductId !== selectedPlan.productId) {
+        productIds.push(selectedPlan.consultFeeProductId);
+      }
+      
+      // Add lab panel product IDs
+      const selectedLabs = labPanels.filter((l: any) => labCart.includes(l.key));
+      for (const lab of selectedLabs) {
+        if (lab.productId && !productIds.includes(lab.productId)) {
+          productIds.push(lab.productId);
+        }
+      }
+      
       const requestBody = {
         code: form.couponCode.trim(),
-        product: selectedPlan?.productId
+        products: productIds // Send all product IDs
       };
       
-      console.log('Sending request to /api/stripe/promo_codes/validate with body:', JSON.stringify(requestBody));
+      console.log('Sending request to /api/stripe/promo_codes/validate with body:', JSON.stringify(requestBody, null, 2));
       
       // Call your API endpoint to validate with Stripe
       const response = await fetch('/api/stripe/promo_codes/validate', {
@@ -317,7 +338,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         }
         
         // Don't set loading to false here - let the redirect happen
-        window.location.href = '/thank-you';
+        window.location.href = '/checkout/success';
       } else {
         throw new Error('Payment was not completed successfully.');
       }

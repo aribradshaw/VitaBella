@@ -144,7 +144,7 @@ export default function CheckoutForm() {
     console.log('Request body for /api/stripe:', JSON.stringify(requestBody, null, 2));
     
     try {
-      const res = await fetch("/api/stripe", {
+      const res = await fetch("/api/stripe/subscriptions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
