@@ -200,13 +200,37 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   const labsTotal = labs.reduce((sum, l) => sum + l.price, 0);
   const subtotal = planPrice + consultFee + labsTotal;
   
-  // Calculate coupon discount
+  // Calculate coupon discount with selective application
   const couponDiscount = appliedCoupon ? (() => {
-    if (appliedCoupon.type === 'percent') {
-      return Math.round(subtotal * (appliedCoupon.value / 100));
-    } else if (appliedCoupon.type === 'fixed') {
-      return Math.min(appliedCoupon.value, subtotal); // appliedCoupon.value is already in cents
+    // Calculate what items the coupon applies to
+    let applicableAmount = 0;
+    
+    // Check if coupon applies to the current plan's product
+    const planProductId = selectedPlan?.productId;
+    if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
+      applicableAmount += planPrice;
     }
+    
+    // For consultation fee, we'll assume it's part of the plan offering
+    // so if the coupon applies to the plan, it also applies to consultation
+    if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
+      applicableAmount += consultFee;
+    }
+    
+    // Labs are typically separate products and wouldn't be included 
+    // unless specifically configured in the coupon
+    // Note: Since labs don't have productIds in the current structure,
+    // they won't be discounted unless the coupon is configured differently
+    
+    // Calculate discount only on applicable amount
+    if (applicableAmount > 0) {
+      if (appliedCoupon.type === 'percent') {
+        return Math.round(applicableAmount * (appliedCoupon.value / 100));
+      } else if (appliedCoupon.type === 'fixed') {
+        return Math.min(appliedCoupon.value, applicableAmount); // Don't exceed applicable amount
+      }
+    }
+    
     return 0;
   })() : 0;
   

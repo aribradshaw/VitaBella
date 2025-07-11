@@ -81,7 +81,9 @@ export async function POST(req: NextRequest) {
       duration: promoCode.coupon.duration,
       duration_in_months: promoCode.coupon.duration_in_months,
       description: description,
-      baseDescription: baseDescription
+      baseDescription: baseDescription,
+      // Include the list of applicable products so frontend can calculate selective discounts
+      applicableProducts: promoCode.coupon.applies_to?.products || []
     };
 
     return NextResponse.json({ 

@@ -64,21 +64,51 @@ export async function POST(req: NextRequest) {
         console.log('=== COUPON PROCESSING IN PAYMENT INTENT ===');
         console.log('Coupon object received:', JSON.stringify(coupon, null, 2));
         console.log('Original amount before discount:', amount);
+        console.log('Line items for discount calculation:', lineItems);
         
-        // Note: Stripe Payment Intents don't directly support coupons.
-        // Coupons are typically applied at the Invoice/Subscription level.
-        // For one-time payments, you'll need to calculate the discount manually
-        // and adjust the amount, then store the coupon info in metadata.
+        // Calculate discount only on eligible line items
+        let applicableAmount = 0;
         
+        // Go through each line item and check if it's eligible for the coupon
+        for (const item of lineItems) {
+          try {
+            const price = await stripe.prices.retrieve(item.price, {
+              expand: ['product']
+            });
+            
+            const productId = typeof price.product === 'string' ? price.product : price.product?.id;
+            console.log(`Line item ${item.price}: product ${productId}`);
+            
+            // Check if this product is in the coupon's applicable products list
+            if (productId && coupon.applicableProducts?.includes(productId)) {
+              const unitAmount = price.unit_amount || 0;
+              const itemAmount = unitAmount * (item.quantity || 1);
+              applicableAmount += itemAmount;
+              console.log(`Product ${productId} is eligible for coupon, adding ${itemAmount} cents to applicable amount`);
+            } else {
+              console.log(`Product ${productId} is NOT eligible for coupon`);
+            }
+          } catch (err) {
+            console.error(`Error checking product for line item ${item.price}:`, err);
+          }
+        }
+        
+        console.log('Total applicable amount for coupon:', applicableAmount);
+        
+        // Calculate discount only on applicable amount
         let discountAmount = 0;
-        if (coupon.type === 'percent') {
-          discountAmount = Math.round(amount * (coupon.value / 100));
-          console.log(`Calculating percent discount: ${amount} * (${coupon.value} / 100) = ${discountAmount}`);
-        } else if (coupon.type === 'fixed') {
-          discountAmount = Math.min(coupon.value, amount);
-          console.log(`Calculating fixed discount: min(${coupon.value}, ${amount}) = ${discountAmount}`);
+        if (applicableAmount > 0) {
+          if (coupon.type === 'percent') {
+            discountAmount = Math.round(applicableAmount * (coupon.value / 100));
+            console.log(`Calculating percent discount: ${applicableAmount} * (${coupon.value} / 100) = ${discountAmount}`);
+          } else if (coupon.type === 'fixed') {
+            discountAmount = Math.min(coupon.value, applicableAmount);
+            console.log(`Calculating fixed discount: min(${coupon.value}, ${applicableAmount}) = ${discountAmount}`);
+          } else {
+            console.log('Unknown coupon type:', coupon.type);
+          }
         } else {
-          console.log('Unknown coupon type:', coupon.type);
+          console.log('No applicable amount found for coupon - discount will be 0');
         }
         
         if (discountAmount > 0) {
@@ -91,6 +121,7 @@ export async function POST(req: NextRequest) {
             couponId: coupon.id,
             couponDiscount: discountAmount.toString(),
             originalAmount: amount.toString(),
+            applicableAmount: applicableAmount.toString(),
           };
           console.log('Updated PaymentIntent metadata:', JSON.stringify(paymentIntentParams.metadata, null, 2));
           console.log('Final PaymentIntent amount:', paymentIntentParams.amount);
