@@ -5,6 +5,13 @@ import { useLabPanels } from './checkoutData';
 import Tooltip from './Tooltip';
 import VitaBellaButton from '@/components/common/VitaBellaButton';
 
+// Extend window type for Meta Pixel
+declare global {
+  interface Window {
+    fbq?: (...args: any[]) => void;
+  }
+}
+
 interface AccessToFeature {
   name: string;
   available: boolean;
@@ -251,6 +258,18 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       }
       
       if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Fire Meta Pixel purchase event
+        if (typeof window !== 'undefined' && window.fbq) {
+          window.fbq('track', 'Purchase', {
+            value: total / 100, // Convert cents to dollars
+            currency: 'USD',
+            content_type: 'product',
+            content_ids: [selectedPlan?.priceId],
+            content_name: selectedPlan?.label,
+            num_items: 1 + labCart.length
+          });
+        }
+        
         // Don't set loading to false here - let the redirect happen
         window.location.href = '/thank-you';
       } else {
