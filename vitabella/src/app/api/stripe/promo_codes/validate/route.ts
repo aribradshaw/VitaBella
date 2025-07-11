@@ -57,15 +57,16 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const validProduct = promoCode.coupon.applies_to?.products.includes(product);
-    
-    return NextResponse.json({ 
-      ...promoCode,
-      valid: validProduct,
-      description: promoCode.coupon.percent_off 
+    const valid = promoCode.coupon.applies_to?.products.includes(product);
+    const description = promoCode.coupon.percent_off 
         ? `${promoCode.coupon.percent_off}% off`
-        : `$${((promoCode.coupon.amount_off || 0) / 100).toFixed(2)} off`,
-      message: validProduct ? "" : "This promotion code is not valid for the selected product"
+        : `$${((promoCode.coupon.amount_off || 0) / 100).toFixed(2)} off`
+
+    return NextResponse.json({ 
+      valid,
+      description,
+      ...promoCode,
+      message: !valid ? "This promotion code is not valid for the selected product" : ""
     });
   } catch (err: any) {
     console.error('Error validating promo code:', err);
