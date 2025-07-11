@@ -78,6 +78,16 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   const [couponMessage, setCouponMessage] = useState<string>('');
   const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   
+  // Validation error state
+  const [validationError, setValidationError] = useState<string | null>(null);
+  
+  // Card element state
+  const [cardComplete, setCardComplete] = useState({
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false
+  });
+  
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -116,12 +126,47 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     return !!required;
   };
 
+  // Helper: get specific validation error message
+  const getValidationError = () => {
+    if (!selectedPlan) return "Please select a membership plan.";
+    if (!form.email) return "Please enter your email address.";
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) return "Please enter a valid email address.";
+    
+    if (!form.firstName) return "Please enter your first name.";
+    if (!form.lastName) return "Please enter your last name.";
+    if (!form.address) return "Please enter your street address.";
+    if (!form.city) return "Please enter your city.";
+    if (!form.state) return "Please enter your state.";
+    if (!form.zip) return "Please enter your ZIP code.";
+    
+    // ZIP code validation (basic)
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+    if (!zipRegex.test(form.zip)) return "Please enter a valid ZIP code (e.g., 12345 or 12345-6789).";
+    
+    // Card validation
+    if (!cardComplete.cardNumber) return "Please enter a valid card number.";
+    if (!cardComplete.cardExpiry) return "Please enter a valid expiry date.";
+    if (!cardComplete.cardCvc) return "Please enter a valid security code (CVC).";
+    
+    return null;
+  };
+
   // Clear errors when form fields change and become valid
   useEffect(() => {
     if (error && isFormComplete()) {
       setError(null);
     }
-  }, [form, error]);
+    // Clear validation error when form becomes complete or when relevant fields change
+    if (validationError) {
+      const currentValidationError = getValidationError();
+      if (!currentValidationError) {
+        setValidationError(null);
+      }
+    }
+  }, [form, error, validationError, selectedPlan, cardComplete]);
 
   const handleLabToggle = (key: string) => {
     setLabCart((prev) => {
@@ -138,6 +183,11 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    
+    // Clear validation error when user starts typing in a field that was causing an error
+    if (validationError) {
+      setValidationError(null);
+    }
     
     // Reset coupon status if coupon code changes
     if (e.target.name === 'couponCode') {
@@ -288,6 +338,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     console.log('=== HANDLE CHECKOUT CALLED ===');
     console.log('Timestamp:', new Date().toISOString());
     setError(null);
+    setValidationError(null); // Clear validation errors when starting checkout
     setLoading(true);
     
     try {
@@ -647,6 +698,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                   },
                   placeholder: 'Card number',
                 }}
+                onChange={(event) => {
+                  setCardComplete(prev => ({ ...prev, cardNumber: event.complete }));
+                }}
               />
             </div>
             
@@ -679,6 +733,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                     },
                     placeholder: 'MM / YY',
                   }}
+                  onChange={(event) => {
+                    setCardComplete(prev => ({ ...prev, cardExpiry: event.complete }));
+                  }}
                 />
               </div>
               
@@ -704,6 +761,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                       invalid: { color: '#b71c1c' },
                     },
                     placeholder: 'CVC',
+                  }}
+                  onChange={(event) => {
+                    setCardComplete(prev => ({ ...prev, cardCvc: event.complete }));
                   }}
                 />
               </div>
@@ -733,10 +793,6 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 />
               </div>
             </div>
-            
-            {error && (
-              <div style={{ color: 'red', fontSize: 14, marginTop: 8 }}>{error}</div>
-            )}
           </div>
           
           {/* Coupon Code Section */}
@@ -830,53 +886,99 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             )}
           </div>
           
-          {error && <div style={{ color: 'red', marginBottom: 10 }}>{error}</div>}
-          
           {/* Checkout Button */}
           <VitaBellaButton
             type="button"
             onClick={() => {
+              // Check for validation errors first
+              const validationErr = getValidationError();
+              if (validationErr) {
+                setValidationError(validationErr);
+                setError(null); // Clear any existing payment errors
+                return;
+              }
+              
+              // If form is complete and no validation errors, proceed with checkout
               if (selectedPlan && isFormComplete() && !error && !loading) {
+                setValidationError(null); // Clear validation error before checkout
                 handleCheckout();
               }
             }}
-            disabled={!selectedPlan || !isFormComplete() || !!error || loading}
+            disabled={loading}
             label={loading ? 'Processing...' : `Sign Up Now`}
             href="#"
-            bg={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            bg={loading 
               ? '#cccccc' 
               : 'var(--e-global-color-lightgreen)'}
-            bgHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            bgHover={loading 
               ? '#cccccc' 
               : 'var(--e-global-color-dark-green)'}
-            text={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            text={loading 
               ? '#666666' 
               : 'var(--e-global-color-dark-green)'}
-            textHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            textHover={loading 
               ? '#666666' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowCircleColor={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            arrowCircleColor={loading 
               ? '#999999' 
               : 'var(--e-global-color-dark-green)'}
-            arrowCircleColorHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            arrowCircleColorHover={loading 
               ? '#999999' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowPathColor={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            arrowPathColor={loading 
               ? '#cccccc' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowPathColorHover={(!selectedPlan || !isFormComplete() || !!error || loading) 
+            arrowPathColorHover={loading 
               ? '#cccccc' 
               : 'var(--e-global-color-dark-green)'}
             style={{
               width: '100%',
               minHeight: '52px',
-              cursor: (!selectedPlan || !isFormComplete() || !!error || loading) 
+              cursor: loading 
                 ? 'not-allowed' 
                 : 'pointer',
-              opacity: (!selectedPlan || !isFormComplete() || !!error || loading) ? 0.6 : 1,
-              pointerEvents: (!selectedPlan || !isFormComplete() || !!error || loading) ? 'none' : 'auto'
+              opacity: loading ? 0.6 : 1,
+              pointerEvents: loading ? 'none' : 'auto'
             }}
           />
+          
+          {/* Display validation error if present */}
+          {validationError && (
+            <div style={{ 
+              color: '#dc3545', 
+              fontSize: '14px', 
+              marginTop: '8px',
+              padding: '8px 12px',
+              background: '#fff5f5',
+              border: '1px solid #f5c6cb',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              <span style={{ fontSize: '16px' }}>⚠️</span>
+              {validationError}
+            </div>
+          )}
+          
+          {/* Display payment error if present */}
+          {error && (
+            <div style={{ 
+              color: '#dc3545', 
+              fontSize: '14px', 
+              marginTop: '8px',
+              padding: '8px 12px',
+              background: '#fff5f5',
+              border: '1px solid #f5c6cb',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              <span style={{ fontSize: '16px' }}>❌</span>
+              {error}
+            </div>
+          )}
           
           {loading && (
             <div style={{
