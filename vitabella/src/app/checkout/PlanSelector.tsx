@@ -229,16 +229,19 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
                     loading="lazy"
                   />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 20, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                <div style={{ fontWeight: 700, fontSize: isMobile ? 22 : 20, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
                   {plan.label}
                 </div>
-                <div style={{ fontSize: 14, color: "#333", marginBottom: 12 }}>
+                <div style={{ fontSize: isMobile ? 16 : 14, color: "#333", marginBottom: 12 }}>
                   {plan.interval === "monthly" ? "Monthly Membership" : "Annual Membership"}
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 18, color: "#113c1c", marginBottom: 8 }}>
+                <div style={{ fontWeight: 700, fontSize: isMobile ? 20 : 18, color: "#113c1c", marginBottom: 8 }}>
                   {plan.displayPrice}/{plan.interval === "monthly" ? "Month" : "Year"}
                 </div>
-                <ul style={{ margin: 0, paddingLeft: 22, fontSize: 14, color: "#222", marginBottom: 10 }}>
+                <div style={{ fontWeight: 600, fontSize: isMobile ? 16 : 14, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                  Membership Includes:
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? 16 : 14, color: "#222", marginBottom: 10 }}>
                   {plan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
                 </ul>
                 <VitaBellaButton
@@ -294,16 +297,19 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
                       loading="lazy"
                     />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 22, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                  <div style={{ fontWeight: 700, fontSize: isMobile ? 22 : 22, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
                     {plan.label}
                   </div>
-                  <div style={{ fontSize: 16, color: "#333", marginBottom: 12 }}>
+                  <div style={{ fontSize: isMobile ? 16 : 16, color: "#333", marginBottom: 12 }}>
                     {plan.interval === "monthly" ? "Monthly Membership" : "Annual Membership"}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 20, color: "#113c1c", marginBottom: 8 }}>
+                  <div style={{ fontWeight: 700, fontSize: isMobile ? 20 : 20, color: "#113c1c", marginBottom: 8 }}>
                     {plan.displayPrice}/{plan.interval === "monthly" ? "Month" : "Year"}
                   </div>
-                  <ul style={{ margin: 0, paddingLeft: 22, fontSize: 15, color: "#222", marginBottom: 10 }}>
+                  <div style={{ fontWeight: 600, fontSize: isMobile ? 16 : 14, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                    Membership Includes:
+                  </div>
+                  <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? 16 : 15, color: "#222", marginBottom: 10 }}>
                     {plan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
                   </ul>
                   <VitaBellaButton
@@ -356,16 +362,19 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
                       loading="lazy"
                     />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 22, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                  <div style={{ fontWeight: 700, fontSize: isMobile ? 22 : 22, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
                     {plan.label}
                   </div>
-                  <div style={{ fontSize: 16, color: "#333", marginBottom: 12 }}>
+                  <div style={{ fontSize: isMobile ? 16 : 16, color: "#333", marginBottom: 12 }}>
                     {plan.interval === "monthly" ? "Monthly Membership" : "Annual Membership"}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 20, color: "#113c1c", marginBottom: 8 }}>
+                  <div style={{ fontWeight: 700, fontSize: isMobile ? 20 : 20, color: "#113c1c", marginBottom: 8 }}>
                     {plan.displayPrice}/{plan.interval === "monthly" ? "Month" : "Year"}
                   </div>
-                  <ul style={{ margin: 0, paddingLeft: 22, fontSize: 15, color: "#222", marginBottom: 10 }}>
+                  <div style={{ fontWeight: 600, fontSize: isMobile ? 16 : 14, color: "var(--e-global-color-dark-green)", marginBottom: 8 }}>
+                    Membership Includes:
+                  </div>
+                  <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? 16 : 15, color: "#222", marginBottom: 10 }}>
                     {plan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
                   </ul>
                   <VitaBellaButton

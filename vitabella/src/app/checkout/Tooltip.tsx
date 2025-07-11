@@ -24,6 +24,23 @@ export default function Tooltip({ content, children }: { content: React.ReactNod
     clearTimeout(hideTimeout);
   };
   
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkIsMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkIsMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
   useEffect(() => {
     if (visible && tooltipRef.current && containerRef.current) {
       const tooltip = tooltipRef.current;
@@ -78,8 +95,8 @@ export default function Tooltip({ content, children }: { content: React.ReactNod
             boxShadow: '0 4px 24px rgba(0,0,0,0.13)',
             padding: 16,
             zIndex: 9999,
-            minWidth: 220,
-            fontSize: 15,
+            minWidth: isMobile ? 200 : 220,
+            fontSize: isMobile ? 16 : 15,
             pointerEvents: 'auto',
           }}
           onMouseEnter={cancelHide}

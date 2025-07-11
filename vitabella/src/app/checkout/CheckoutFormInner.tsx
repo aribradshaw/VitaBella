@@ -807,7 +807,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 <div style={{ fontWeight: 700, fontSize: isMobile ? '18px' : '20px', color: 'var(--e-global-color-dark-green)', marginBottom: 6 }}>
                   {selectedPlan.label} {selectedPlan.interval === "monthly" ? "(Monthly Membership)" : "(Annual Membership)"}
                 </div>
-                <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? '14px' : '15px', color: '#222', marginBottom: 10 }}>
+                <div style={{ fontWeight: 600, fontSize: isMobile ? '16px' : '14px', color: 'var(--e-global-color-dark-green)', marginBottom: 8 }}>
+                  Membership Includes:
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 22, fontSize: isMobile ? '16px' : '15px', color: '#222', marginBottom: 10 }}>
                   {selectedPlan.description.map((d: string, i: number) => <li key={i}>{d}</li>)}
                 </ul>
                 <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '10px 0 14px 0' }} />
@@ -837,7 +840,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                         alignItems: 'center',
                         padding: isMobile ? '3px 6px' : '4px 8px',
                         borderRadius: '16px',
-                        fontSize: isMobile ? '10px' : '11px',
+                        fontSize: isMobile ? '16px' : '11px',
                         fontWeight: 500,
                         background: feature.available 
                           ? 'var(--e-global-color-lightgreen, #e8f5e8)' 
@@ -852,7 +855,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                       {feature.available && (
                         <span style={{ 
                           marginRight: '3px', 
-                          fontSize: isMobile ? '9px' : '10px',
+                          fontSize: isMobile ? '16px' : '10px',
                           color: 'var(--e-global-color-dark-green, #113c1c)'
                         }}>
                           ✓
@@ -874,7 +877,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                     boxShadow: '0 2px 8px rgba(243, 156, 18, 0.1)'
                   }}>
                     <div style={{
-                      fontSize: isMobile ? '13px' : '14px',
+                      fontSize: isMobile ? '16px' : '14px',
                       fontWeight: 600,
                       color: '#d68910',
                       marginBottom: '8px',
@@ -914,7 +917,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                         border: 'none',
                         borderRadius: '6px',
                         padding: isMobile ? '8px 16px' : '10px 20px',
-                        fontSize: isMobile ? '12px' : '13px',
+                        fontSize: isMobile ? '16px' : '13px',
                         fontWeight: 600,
                         cursor: 'pointer',
                         boxShadow: '0 2px 8px rgba(243, 156, 18, 0.3)',
@@ -974,11 +977,11 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                             maxHeight: '320px',
                             overflowY: 'auto'
                           }}>
-                            <div style={{ fontWeight: 600, marginBottom: 8, fontSize: isMobile ? 14 : 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
+                            <div style={{ fontWeight: 600, marginBottom: 8, fontSize: isMobile ? 16 : 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
                             <ul style={{ 
                               margin: 0, 
                               paddingLeft: 16, 
-                              fontSize: isMobile ? 11 : 12,
+                              fontSize: isMobile ? 16 : 12,
                               lineHeight: 1.4
                             }}>
                               {lab.biomarkers.map((biomarker, idx) => (
@@ -990,7 +993,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                           <div style={{ cursor: 'help' }}>
                             <div style={{ 
                               fontWeight: 600, 
-                              fontSize: isMobile ? '14px' : '15px', 
+                              fontSize: isMobile ? '16px' : '15px', 
                               color: '#113c1c', 
                               marginBottom: '4px',
                               lineHeight: '1.3'
@@ -998,7 +1001,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                               {lab.label}
                             </div>
                             <div style={{ 
-                              fontSize: isMobile ? '11px' : '12px', 
+                              fontSize: isMobile ? '16px' : '12px', 
                               color: '#666', 
                               marginBottom: '6px',
                               lineHeight: '1.4'
@@ -1007,7 +1010,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                             </div>
                             <div style={{ 
                               fontWeight: 700, 
-                              fontSize: isMobile ? '16px' : '18px', 
+                              fontSize: isMobile ? '18px' : '18px', 
                               color: '#113c1c'
                             }}>
                               ${(lab.price / 100).toFixed(0)}
@@ -1022,7 +1025,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                           onClick={() => handleLabToggle(lab.key)}
                           style={{
                             padding: isMobile ? '8px 16px' : '10px 20px',
-                            fontSize: isMobile ? '12px' : '14px',
+                            fontSize: isMobile ? '16px' : '14px',
                             fontWeight: 600,
                             borderRadius: '8px',
                             background: labCart.includes(lab.key) ? 'var(--e-global-color-dark-green)' : 'var(--e-global-color-primary, #4263AE)',
@@ -1091,6 +1094,67 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 : "Annual Recurring Membership"}
               <span style={{ float: "right", color: '#333' }}>${(planPrice / 100).toFixed(2)}</span>
             </div>
+            
+            {/* Billing Cycle Information */}
+            <div style={{ 
+              color: "#666", 
+              fontSize: isMobile ? '13px' : '14px', 
+              marginTop: 10, 
+              lineHeight: 1.4,
+              padding: '8px 12px',
+              background: '#f8f9fa',
+              borderRadius: '6px',
+              border: '1px solid #e9ecef'
+            }}>
+              {(() => {
+                const today = new Date();
+                const dayOfMonth = today.getDate();
+                const monthName = today.toLocaleDateString('en-US', { month: 'long' });
+                const nextPaymentDate = new Date(today);
+                
+                if (selectedPlan.interval === "monthly") {
+                  // Next month, same day
+                  nextPaymentDate.setMonth(nextPaymentDate.getMonth() + 1);
+                } else {
+                  // Next year, same day
+                  nextPaymentDate.setFullYear(nextPaymentDate.getFullYear() + 1);
+                }
+                
+                const formatDate = (date: Date) => {
+                  return date.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  });
+                };
+                
+                const getOrdinal = (day: number) => {
+                  if (day > 3 && day < 21) return `${day}th`;
+                  switch (day % 10) {
+                    case 1: return `${day}st`;
+                    case 2: return `${day}nd`;
+                    case 3: return `${day}rd`;
+                    default: return `${day}th`;
+                  }
+                };
+                
+                const billingFrequency = selectedPlan.interval === "monthly" 
+                  ? `${getOrdinal(dayOfMonth)} of Every Month`
+                  : `${getOrdinal(dayOfMonth)} of ${monthName} Every Year`;
+                
+                return (
+                  <>
+                    <div style={{ marginBottom: '4px' }}>
+                      <strong>Charged on {billingFrequency}</strong> with 6 Month Commitment.
+                    </div>
+                    <div>
+                      Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+            
             <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 10, marginBottom: 2 }}>
               Membership may be cancelled without penalty before or during the Initial Consultation with the provider. After that, the Terms of Service will apply.
             </div>
