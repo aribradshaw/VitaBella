@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
 
     const promoCode = promoCodes.data.at(0)!;
 
-    console.log(JSON.stringify(promoCode, null, 2));
-
     if (!promoCode.coupon.valid) {
       return NextResponse.json({ 
         valid: false, 
