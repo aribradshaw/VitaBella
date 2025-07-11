@@ -145,13 +145,14 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     
     try {
       const requestBody = {
-        couponCode: form.couponCode.trim(),
+        code: form.couponCode.trim(),
+        product: selectedPlan?.productId
       };
       
-      console.log('Sending request to /api/validate-coupon with body:', JSON.stringify(requestBody));
+      console.log('Sending request to /api/stripe/promo_codes/validate with body:', JSON.stringify(requestBody));
       
       // Call your API endpoint to validate with Stripe
-      const response = await fetch('/api/validate-coupon', {
+      const response = await fetch('/api/stripe/promo_codes/validate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       if (response.ok && result.valid) {
         console.log('Coupon validation successful!');
         setCouponStatus('valid');
-        setCouponMessage(`Coupon applied! ${result.discount}`);
+        setCouponMessage(`Coupon applied! ${result.description}`);
         setAppliedCoupon(result.coupon);
       } else {
         console.log('Coupon validation failed:', result.message);
