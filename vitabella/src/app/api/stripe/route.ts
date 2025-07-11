@@ -5,11 +5,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-06-30.basil",
 });
 
-// Handle POST requests for creating payment intents (OLD - SHOULD NOT BE CALLED)
+// Handle POST requests for creating payment intents
 export async function POST(req: NextRequest) {
-  console.log('=== OLD STRIPE API ROUTE CALLED - THIS SHOULD NOT HAPPEN ===');
-  console.error('STACK TRACE:', new Error().stack);
-  return NextResponse.json({ error: "This old API endpoint should not be called. Use /api/stripe/subscriptions instead." }, { status: 400 });
+  console.log('=== STRIPE API ROUTE CALLED ===');
   const startTime = Date.now();
   
   try {
