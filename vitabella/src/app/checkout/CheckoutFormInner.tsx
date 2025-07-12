@@ -418,8 +418,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           });
         }
         
-        // Don't set loading to false here - let the redirect happen
-        window.location.href = '/checkout/success';
+        // Redirect to confirmation page instead of success page
+        const confirmationUrl = `/confirmation?value=${total / 100}&currency=USD&product_name=${encodeURIComponent(selectedPlan?.label || '')}&product_id=${selectedPlan?.priceId}`;
+        window.location.href = confirmationUrl;
       } else {
         throw new Error('Payment was not completed successfully.');
       }
