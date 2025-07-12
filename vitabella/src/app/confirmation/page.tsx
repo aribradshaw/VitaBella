@@ -20,88 +20,111 @@ interface PurchaseData {
   num_items?: number;
 }
 
+interface StripeSession {
+  amount_total: number;
+  currency: string;
+  id: string;
+  payment_status: string;
+  customer_email?: string;
+  line_items?: Array<{
+    price: { id: string; product: string };
+    quantity: number;
+    description: string;
+    amount_total: number;
+  }>;
+}
+
 function ConfirmationContent() {
   const searchParams = useSearchParams();
   const [redirecting, setRedirecting] = useState(false);
-  
-  // Get purchase data from URL parameters (if coming from Stripe Checkout)
+  const [session, setSession] = useState<StripeSession | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const sessionId = searchParams?.get("session_id");
-  const value = searchParams?.get("value");
-  const currency = searchParams?.get("currency") || "USD";
-  const productName = searchParams?.get("product_name");
-  const productId = searchParams?.get("product_id");
-  
+
   useEffect(() => {
+    if (!sessionId) {
+      setError("Missing session ID");
+      setLoading(false);
+      return;
+    }
+
+    // Fetch session details from backend
+    fetch(`/api/stripe-session?session_id=${sessionId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) throw new Error(data.error);
+        setSession(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message || "Failed to fetch session");
+        setLoading(false);
+      });
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (!session || loading || error) return;
+
     // Fire Meta Pixel purchase event
-    const trackPurchase = () => {
-      if (typeof window !== 'undefined' && window.fbq) {
-        const purchaseData: PurchaseData = {};
-        
-        // Add purchase data if available from URL params
-        if (value) {
-          purchaseData.value = parseFloat(value);
-        }
-        if (currency) {
-          purchaseData.currency = currency;
-        }
-        if (productId) {
-          purchaseData.content_ids = [productId];
-        }
-        if (productName) {
-          purchaseData.content_name = productName;
-        }
-        
-        // Fire the purchase event
-        window.fbq('track', 'Purchase', purchaseData);
-        
-        console.log('Meta Pixel Purchase event fired:', purchaseData);
-      }
-    };
+    if (typeof window !== 'undefined' && window.fbq) {
+      const purchaseData: PurchaseData = {
+        value: session.amount_total / 100,
+        currency: session.currency,
+        content_ids: session.line_items?.map(item => item.price.id) || [],
+        content_name: session.line_items?.map(item => item.description).join(', '),
+        num_items: session.line_items?.reduce((sum, item) => sum + (item.quantity || 1), 0),
+      };
+      window.fbq('track', 'Purchase', purchaseData);
+      console.log('Meta Pixel Purchase event fired:', purchaseData);
+    }
 
     // Fire Google Analytics ecommerce purchase event
-    const trackGoogleAnalyticsPurchase = () => {
-      if (typeof window !== 'undefined' && window.gtag) {
-        const transactionId = sessionId || `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        const purchaseValue = value ? parseFloat(value) : 0;
-        
-        // Enhanced Ecommerce purchase event
-        window.gtag('event', 'purchase', {
-          transaction_id: transactionId,
-          value: purchaseValue,
-          currency: currency || 'USD',
-          items: [
-            {
-              item_id: productId || 'unknown',
-              item_name: productName || 'Product',
-              category: 'Health & Wellness',
-              quantity: 1,
-              price: purchaseValue
-            }
-          ]
-        });
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'purchase', {
+        transaction_id: session.id,
+        value: session.amount_total / 100,
+        currency: session.currency,
+        items: session.line_items?.map(item => ({
+          item_id: item.price.id,
+          item_name: item.description,
+          category: 'Health & Wellness',
+          quantity: item.quantity,
+          price: item.amount_total / 100,
+        })) || [],
+      });
+      console.log('Google Analytics Purchase event fired:', session);
+    }
 
-        console.log('Google Analytics Purchase event fired:', {
-          transaction_id: transactionId,
-          value: purchaseValue,
-          currency: currency || 'USD',
-          product: productName
-        });
-      }
-    };
-
-    // Track both events
-    trackPurchase();
-    trackGoogleAnalyticsPurchase();
-    
     // Wait a moment to ensure the pixel events are fired, then redirect
     const redirectTimer = setTimeout(() => {
       setRedirecting(true);
       window.location.href = 'https://vitabella.md-hq.com/registration';
-    }, 2000); // 2 second delay to ensure tracking
-
-    // Cleanup timer on unmount
+    }, 2000);
     return () => clearTimeout(redirectTimer);
-  }, [sessionId, value, currency, productName, productId]);
+  }, [session, loading, error]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading purchase details...</p>
+        </div>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
+          <div className="text-red-600 font-bold mb-4">Error</div>
+          <p className="text-gray-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -123,16 +146,13 @@ function ConfirmationContent() {
               />
             </svg>
           </div>
-          
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Purchase Confirmed!
           </h1>
-          
           <p className="text-gray-600 mb-6">
             Thank you for your purchase. You'll be redirected to complete your registration in just a moment.
           </p>
         </div>
-
         {redirecting ? (
           <div className="space-y-4">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
@@ -146,11 +166,10 @@ function ConfirmationContent() {
               </div>
             </div>
             <p className="text-sm text-gray-500">
-              Preparing your registration... ({Math.max(0, 2 - Math.floor((Date.now() % 2000) / 1000))}s)
+              Preparing your registration... (2s)
             </p>
           </div>
         )}
-
         {/* Manual redirect button as fallback */}
         <div className="mt-8">
           <a 
