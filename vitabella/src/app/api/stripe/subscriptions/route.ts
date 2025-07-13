@@ -95,7 +95,18 @@ export async function POST(req: NextRequest) {
         customer: stripeCustomer.id,
         items: recurringItems,
         payment_behavior: 'default_incomplete',
-        payment_settings: { save_default_payment_method: 'on_subscription' },
+        payment_settings: { 
+          save_default_payment_method: 'on_subscription',
+          payment_method_types: ['card', 'us_bank_account'],
+          payment_method_options: {
+            card: {
+              request_three_d_secure: 'automatic',
+            },
+            us_bank_account: {
+              verification_method: 'automatic',
+            },
+          },
+        },
         expand: ['latest_invoice.payment_intent'],
         metadata: {
           customerEmail: customer.email,
@@ -187,11 +198,32 @@ export async function POST(req: NextRequest) {
 
       // Get the client secret for payment confirmation
       const latestInvoice = subscription.latest_invoice as any;
-      const paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent;
+      let paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent;
       
       if (!paymentIntent || !paymentIntent.client_secret) {
         console.error('No payment intent client secret found');
         return NextResponse.json({ error: "Failed to create payment intent" }, { status: 500 });
+      }
+
+      // Update the payment intent to ensure proper subscription setup
+      try {
+        paymentIntent = await stripe.paymentIntents.update(paymentIntent.id, {
+          description: 'Subscription creation',
+          setup_future_usage: 'off_session',
+          payment_method_types: ['card', 'us_bank_account'],
+          payment_method_options: {
+            card: {
+              request_three_d_secure: 'automatic',
+            },
+            us_bank_account: {
+              verification_method: 'automatic',
+            },
+          },
+        });
+        console.log('Payment intent updated with proper subscription settings');
+      } catch (updateError) {
+        console.error('Error updating payment intent:', updateError);
+        // Continue even if update fails - the base payment intent should still work
       }
 
       const endTime = Date.now();
