@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from '@stripe/react-stripe-js';
-import { plans } from './PlanSelector';
+import { planConfigs } from './checkoutData';
 import { useLabPanels, getSelectedPlan, getPlanGroup } from './checkoutData';
 import { formatPrice, usePricing } from '@/app/checkout/hooks/usePricing';
 import PlanSelector from './PlanSelector';
@@ -80,7 +80,7 @@ export default function CheckoutForm() {
   // Build plans with real pricing data
   const plansWithPricing = React.useMemo(() => {
     if (!prices) return [];
-    return plans.map(plan => ({
+    return planConfigs.map(plan => ({
       ...plan,
       price: prices?.get(plan.priceId)?.unit_amount || 0 ,
       consultFee:prices?.get(plan.consultFeePriceId)?.unit_amount || 0 ,

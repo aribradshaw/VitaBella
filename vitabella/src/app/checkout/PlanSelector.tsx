@@ -2,87 +2,7 @@
 import React from "react";
 import VitaBellaButton from "@/components/common/VitaBellaButton";
 import { formatPrice, usePricing } from "@/app/checkout/hooks/usePricing";
-
-const planConfigs = [
-  {
-    key: "pm",
-    label: "Performance",
-    productId: "prod_OIDRrElrLen7nX",
-    type: "performance",
-    interval: "monthly",
-    priceId: "price_1NVd0PBvA5MJ1guPw1S9W0l7", // Performance Monthly
-    description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal",
-      "20% Off Supplements",
-      "Protocol-Based Supplies Included",
-      "Ongoing Coaching & Education"
-    ],
-    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
-    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
-    originalPrice: "$215",
-    costNote: "+ cost of medication"
-  },
-  {
-    key: "pa",
-    label: "Performance",
-    productId: "prod_OIDRrElrLen7nX",
-    type: "performance",
-    interval: "annual",
-    priceId: "price_1NVd0PBvA5MJ1guPfSpSCuNV", // Performance Annual
-    description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal",
-      "20% Off Supplements",
-      "Protocol-Based Supplies Included",
-      "Ongoing Coaching & Education"
-    ],
-    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
-    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
-    originalPrice: "$2,148",
-    costNote: "+ cost of medication"
-  },
-  {
-    key: "fm",
-    label: "Foundation",
-    productId: "prod_OIDPSWrTDlW8WL",
-    type: "foundation",
-    interval: "monthly",
-    priceId: "price_1NVcyrBvA5MJ1guP5ywam4pb", // Foundation Monthly
-    description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal"
-    ],
-    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
-    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
-    originalPrice: "$120",
-    costNote: "+ cost of medication"
-  },
-  {
-    key: "fa",
-    label: "Foundation",
-    productId: "prod_OIDPSWrTDlW8WL",
-    type: "foundation",
-    interval: "annual",
-    priceId: "price_1NVcyrBvA5MJ1guPHxRiZbYe", // Foundation Annual
-    description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal"
-    ],
-    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
-    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
-    originalPrice: "$1,188",
-    costNote: "+ cost of medication"
-  },
-];
+import { planConfigs } from "@/app/checkout/checkoutData";
 
 interface PlanSelectorProps {
   onPlanSelect: (plan: any) => void;
@@ -405,5 +325,3 @@ export default function PlanSelector({ onPlanSelect }: PlanSelectorProps) {
     </div>
   );
 }
-
-export { planConfigs as plans, planConfigs };

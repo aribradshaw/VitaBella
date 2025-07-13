@@ -1,4 +1,4 @@
-import { usePricing } from "@/app/checkout/hooks/usePricing";
+import { usePricing, formatPrice } from "@/app/checkout/hooks/usePricing";
 
 export interface LabPanelConfig {
   key: string;
@@ -11,6 +11,26 @@ export interface LabPanelConfig {
 
 export interface LabPanel extends LabPanelConfig {
   price: number;
+}
+
+export interface PlanConfig {
+  key: string;
+  label: string;
+  productId: string;
+  type: string;
+  interval: string;
+  priceId: string;
+  description: string[];
+  consultFeePriceId: string;
+  consultFeeProductId: string;
+  originalPrice: string;
+  costNote: string;
+}
+
+export interface Plan extends PlanConfig {
+  price: number;
+  consultFee: number;
+  displayPrice: string;
 }
 
 const labPanelConfigs: LabPanelConfig[] = [
@@ -59,6 +79,20 @@ const labPanelConfigs: LabPanelConfig[] = [
   }
 ];
 
+// Hook to get plans with real pricing
+export function usePlans(): { plans: Plan[]; loading: boolean; error: string | null } {
+  const { prices, loading, error } = usePricing();
+  
+  const plans: Plan[] = planConfigs.map(config => ({
+    ...config,
+    price: prices?.get(config.priceId)?.unit_amount || 0,
+    consultFee: prices?.get(config.consultFeePriceId)?.unit_amount || 0,
+    displayPrice: formatPrice(prices?.get(config.priceId)?.unit_amount || 0),
+  }));
+
+  return { plans, loading, error };
+}
+
 // Hook to get lab panels with real pricing
 export function useLabPanels(): { labPanels: LabPanel[]; loading: boolean; error: string | null } {
   const { prices, loading, error } = usePricing();
@@ -89,3 +123,84 @@ export function getPlanGroup(searchParams: URLSearchParams) {
   if (searchParams.has("fm") || searchParams.has("fa")) return "foundation";
   return null;
 }
+
+export const planConfigs: PlanConfig[] = [
+  {
+    key: "pm",
+    label: "Performance",
+    productId: "prod_OIDRrElrLen7nX",
+    type: "performance",
+    interval: "monthly",
+    priceId: "price_1NVd0PBvA5MJ1guPw1S9W0l7", // Performance Monthly
+    description: [
+      "Quarterly Telehealth Visits with Your Provider.",
+      "Personalized Protocols & Care Plans by Provider",
+      "Secure Messaging with Provider & Your Care Team",
+      "24/7 Access to Patient Portal",
+      "20% Off Supplements",
+      "Protocol-Based Supplies Included",
+      "Ongoing Coaching & Education"
+    ],
+    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
+    originalPrice: "$215",
+    costNote: "+ cost of medication"
+  },
+  {
+    key: "pa",
+    label: "Performance",
+    productId: "prod_OIDRrElrLen7nX",
+    type: "performance",
+    interval: "annual",
+    priceId: "price_1NVd0PBvA5MJ1guPfSpSCuNV", // Performance Annual
+    description: [
+      "Quarterly Telehealth Visits with Your Provider.",
+      "Personalized Protocols & Care Plans by Provider",
+      "Secure Messaging with Provider & Your Care Team",
+      "24/7 Access to Patient Portal",
+      "20% Off Supplements",
+      "Protocol-Based Supplies Included",
+      "Ongoing Coaching & Education"
+    ],
+    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
+    originalPrice: "$2,148",
+    costNote: "+ cost of medication"
+  },
+  {
+    key: "fm",
+    label: "Foundation",
+    productId: "prod_OIDPSWrTDlW8WL",
+    type: "foundation",
+    interval: "monthly",
+    priceId: "price_1NVcyrBvA5MJ1guP5ywam4pb", // Foundation Monthly
+    description: [
+      "Quarterly Telehealth Visits with Your Provider.",
+      "Personalized Protocols & Care Plans by Provider",
+      "Secure Messaging with Provider & Your Care Team",
+      "24/7 Access to Patient Portal"
+    ],
+    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
+    originalPrice: "$120",
+    costNote: "+ cost of medication"
+  },
+  {
+    key: "fa",
+    label: "Foundation",
+    productId: "prod_OIDPSWrTDlW8WL",
+    type: "foundation",
+    interval: "annual",
+    priceId: "price_1NVcyrBvA5MJ1guPHxRiZbYe", // Foundation Annual
+    description: [
+      "Quarterly Telehealth Visits with Your Provider.",
+      "Personalized Protocols & Care Plans by Provider",
+      "Secure Messaging with Provider & Your Care Team",
+      "24/7 Access to Patient Portal"
+    ],
+    consultFeePriceId: "price_1P9BRBBvA5MJ1guP0XFZCpjh",
+    consultFeeProductId: "prod_Pz9kGSiZJzDjPZ", // Correct consultation fee product ID
+    originalPrice: "$1,188",
+    costNote: "+ cost of medication"
+  },
+];
