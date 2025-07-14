@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       'price_1NVd0PBvA5MJ1guPfSpSCuNV', // Performance Annual
       'price_1NVcyrBvA5MJ1guP5ywam4pb', // Foundation Monthly
       'price_1NVcyrBvA5MJ1guPHxRiZbYe', // Foundation Annual
-      'price_1P9BRBBvA5MJ1guP0XFZCpjh', // Consultation Fee
+      'price_1P8pSTBvA5MJ1guP2rLedmQv', // Consultation Fee
       'price_1RJeXBBvA5MJ1guPhCQ085BJ', // Comprehensive Lab Panel
       'price_1RiL5IBvA5MJ1guPstuqR3K6', // Essential Lab Panel
     ];

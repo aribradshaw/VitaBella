@@ -181,11 +181,11 @@ export const planConfigs: PlanConfig[] = [
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P9BRBBvA5MJ1guP0XFZCpjh')
+      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P8pSTBvA5MJ1guP2rLedmQv')
     ),
     consultFeeProductId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION_PRODUCT', 'prod_SfvxHHLilZxsCi'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_Pz9kGSiZJzDjPZ')
+      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_OIF25lBLguso25')
     ),
     originalPrice: "$215",
     costNote: "+ cost of medication"
@@ -214,11 +214,11 @@ export const planConfigs: PlanConfig[] = [
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P9BRBBvA5MJ1guP0XFZCpjh')
+      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P8pSTBvA5MJ1guP2rLedmQv')
     ),
     consultFeeProductId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION_PRODUCT', 'prod_SfvxHHLilZxsCi'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_Pz9kGSiZJzDjPZ')
+      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_OIF25lBLguso25')
     ),
     originalPrice: "$2,148",
     costNote: "+ cost of medication"
@@ -244,11 +244,11 @@ export const planConfigs: PlanConfig[] = [
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P9BRBBvA5MJ1guP0XFZCpjh')
+      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P8pSTBvA5MJ1guP2rLedmQv')
     ),
     consultFeeProductId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION_PRODUCT', 'prod_SfvxHHLilZxsCi'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_Pz9kGSiZJzDjPZ')
+      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_OIF25lBLguso25')
     ),
     originalPrice: "$120",
     costNote: "+ cost of medication"
@@ -274,11 +274,11 @@ export const planConfigs: PlanConfig[] = [
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P9BRBBvA5MJ1guP0XFZCpjh')
+      getEnvVar('STRIPE_LIVE_CONSULTATION', 'price_1P8pSTBvA5MJ1guP2rLedmQv')
     ),
     consultFeeProductId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION_PRODUCT', 'prod_SfvxHHLilZxsCi'),
-      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_Pz9kGSiZJzDjPZ')
+      getEnvVar('STRIPE_LIVE_CONSULTATION_PRODUCT', 'prod_OIF25lBLguso25')
     ),
     originalPrice: "$1,188",
     costNote: "+ cost of medication"

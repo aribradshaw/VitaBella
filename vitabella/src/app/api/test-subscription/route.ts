@@ -7,7 +7,7 @@ export async function GET() {
   const testData = {
     lineItems: [
       { price: "price_1NVd0PBvA5MJ1guPw1S9W0l7", quantity: 1 }, // Performance Monthly from plan config
-      { price: "price_1P9BRBBvA5MJ1guP0XFZCpjh", quantity: 1 }, // Consultation fee
+      { price: "price_1P8pSTBvA5MJ1guP2rLedmQv", quantity: 1 }, // Consultation fee
     ],
     customer: {
       email: "test@example.com",
