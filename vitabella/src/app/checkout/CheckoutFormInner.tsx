@@ -443,10 +443,25 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             num_items: 1 + labCart.length
           });
         }
+
+        // Fire Google Analytics purchase event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'purchase', {
+            transaction_id: paymentIntent.id,
+            value: total / 100,
+            currency: 'USD',
+            items: [{
+              item_id: selectedPlan?.priceId,
+              item_name: selectedPlan?.label,
+              category: 'Membership',
+              quantity: 1,
+              price: total / 100
+            }]
+          });
+        }
         
-        // Redirect to checkout success page instead of confirmation page
-        const successUrl = `/checkout/success?value=${total / 100}&currency=USD&product_name=${encodeURIComponent(selectedPlan?.label || '')}&product_id=${selectedPlan?.priceId}`;
-        window.location.href = successUrl;
+        // Redirect to MD-HQ registration instead of internal success page
+        window.location.href = 'https://vitabella.md-hq.com/registration';
       } else {
         throw new Error('Payment was not completed successfully.');
       }
