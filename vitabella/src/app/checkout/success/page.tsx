@@ -1,9 +1,9 @@
 "use client";
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
-export default function CheckoutSuccess() {
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const [orderDetails, setOrderDetails] = useState({
     value: searchParams?.get('value') || '0',
@@ -133,5 +133,32 @@ export default function CheckoutSuccess() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function CheckoutSuccessLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full">
+        <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+          <div className="animate-pulse">
+            <div className="w-16 h-16 bg-emerald-200 rounded-full mx-auto mb-4"></div>
+            <div className="h-6 bg-gray-200 rounded mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded mb-4"></div>
+            <div className="h-10 bg-emerald-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main exported component with Suspense boundary
+export default function CheckoutSuccess() {
+  return (
+    <Suspense fallback={<CheckoutSuccessLoading />}>
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }
