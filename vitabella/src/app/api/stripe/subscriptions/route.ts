@@ -327,6 +327,7 @@ export async function POST(req: NextRequest) {
         amount: finalTotalAmount,
         currency: 'usd',
         customer: stripeCustomer.id,
+        receipt_email: customer.email, // Enable automatic receipts
         setup_future_usage: 'off_session', // This allows us to save payment method for future use
         metadata: {
           customerEmail: customer.email,

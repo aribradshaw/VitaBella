@@ -81,6 +81,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   // Validation error state
   const [validationError, setValidationError] = useState<string | null>(null);
   
+  // Success redirect state
+  const [successRedirecting, setSuccessRedirecting] = useState(false);
+  
   // Card element state
   const [cardComplete, setCardComplete] = useState({
     cardNumber: false,
@@ -412,6 +415,10 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       if (paymentIntent && paymentIntent.status === 'succeeded') {
         console.log('Payment succeeded, creating subscription...');
         
+        // Show success feedback immediately
+        setError(null);
+        setLoading(false);
+        
         // Create subscription after successful payment
         try {
           const subscriptionResponse = await fetch("/api/stripe/create-subscription", {
@@ -460,8 +467,13 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           });
         }
         
-        // Redirect to MD-HQ registration instead of internal success page
-        window.location.href = 'https://vitabella.md-hq.com/registration';
+        // Set success state to show feedback message
+        setSuccessRedirecting(true);
+        
+        // Small delay to ensure user sees the success message, then redirect
+        setTimeout(() => {
+          window.location.href = 'https://vitabella.md-hq.com/registration';
+        }, 1000); // 1 second delay to show success message
       } else {
         throw new Error('Payment was not completed successfully.');
       }
@@ -932,6 +944,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           <VitaBellaButton
             type="button"
             onClick={() => {
+              // Don't allow clicks when redirecting
+              if (successRedirecting) return;
+              
               // Check for validation errors first
               const validationErr = getValidationError();
               if (validationErr) {
@@ -946,46 +961,46 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 handleCheckout();
               }
             }}
-            disabled={loading}
-            label={loading ? 'Processing...' : `Sign Up Now`}
+            disabled={loading || successRedirecting}
+            label={successRedirecting ? 'Success! Redirecting...' : loading ? 'Processing...' : `Sign Up Now`}
             href="#"
-            bg={loading 
+            bg={loading || successRedirecting
               ? '#cccccc' 
               : 'var(--e-global-color-lightgreen)'}
-            bgHover={loading 
+            bgHover={loading || successRedirecting
               ? '#cccccc' 
               : 'var(--e-global-color-dark-green)'}
-            text={loading 
+            text={loading || successRedirecting
               ? '#666666' 
               : 'var(--e-global-color-dark-green)'}
-            textHover={loading 
+            textHover={loading || successRedirecting
               ? '#666666' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowCircleColor={loading 
+            arrowCircleColor={loading || successRedirecting
               ? '#999999' 
               : 'var(--e-global-color-dark-green)'}
-            arrowCircleColorHover={loading 
+            arrowCircleColorHover={loading || successRedirecting
               ? '#999999' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowPathColor={loading 
+            arrowPathColor={loading || successRedirecting
               ? '#cccccc' 
               : 'var(--e-global-color-lightgreen)'}
-            arrowPathColorHover={loading 
+            arrowPathColorHover={loading || successRedirecting
               ? '#cccccc' 
               : 'var(--e-global-color-dark-green)'}
             style={{
               width: '100%',
               minHeight: '52px',
-              cursor: loading 
+              cursor: loading || successRedirecting
                 ? 'not-allowed' 
                 : 'pointer',
-              opacity: loading ? 0.6 : 1,
-              pointerEvents: loading ? 'none' : 'auto'
+              opacity: loading || successRedirecting ? 0.6 : 1,
+              pointerEvents: loading || successRedirecting ? 'none' : 'auto'
             }}
           />
           
           {/* Display validation error if present */}
-          {validationError && (
+          {validationError && !successRedirecting && (
             <div style={{ 
               color: '#dc3545', 
               fontSize: '14px', 
@@ -1004,7 +1019,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           )}
           
           {/* Display payment error if present */}
-          {error && (
+          {error && !successRedirecting && (
             <div style={{ 
               color: '#dc3545', 
               fontSize: '14px', 
@@ -1019,6 +1034,37 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             }}>
               <span style={{ fontSize: '16px' }}>❌</span>
               {error}
+            </div>
+          )}
+
+          {/* Display success message when redirecting */}
+          {successRedirecting && (
+            <div style={{ 
+              color: '#28a745', 
+              fontSize: '16px', 
+              marginTop: '12px',
+              padding: '16px 12px',
+              background: '#f8fff9',
+              border: '1px solid #28a745',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              textAlign: 'center',
+              justifyContent: 'center'
+            }}>
+              <div style={{
+                width: '20px',
+                height: '20px',
+                border: '2px solid #28a74540',
+                borderTop: '2px solid #28a745',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }} />
+              <div>
+                <div style={{ fontWeight: 600, marginBottom: '4px' }}>✅ Payment Successful!</div>
+                <div style={{ fontSize: '14px' }}>Redirecting to your registration form...</div>
+              </div>
             </div>
           )}
           

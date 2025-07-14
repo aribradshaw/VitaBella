@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
         amount,
         currency: "usd",
         automatic_payment_methods: { enabled: true },
+        receipt_email: customer?.email || undefined, // Enable automatic receipts
         metadata: {
           customerEmail: customer?.email || "",
         },
