@@ -33,12 +33,25 @@ export interface Plan extends PlanConfig {
   displayPrice: string;
 }
 
-// Auto-detect test vs live mode from environment
-const isTestMode = process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_') ?? true;
+// Auto-detect test vs live mode from public environment variables
+// Use public environment variables that are safe to expose to the browser
+const isProduction = process.env.NODE_ENV === 'production' || 
+                    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+
+// Use a public environment variable to determine Stripe mode
+// This should be set in your Vercel environment variables
+const stripeMode = process.env.NEXT_PUBLIC_STRIPE_MODE || 'test';
+const isTestMode = stripeMode === 'test';
+
+// If no explicit mode is set, fall back to environment-based detection
+// In production, default to live mode unless explicitly set to test
+const finalIsTestMode = process.env.NEXT_PUBLIC_STRIPE_MODE 
+  ? stripeMode === 'test'
+  : !isProduction;
 
 // Helper function to get price/product IDs based on current mode
 const getStripeId = (testId: string, liveId: string) => {
-  return isTestMode ? testId : liveId;
+  return finalIsTestMode ? testId : liveId;
 };
 
 // Get environment variables with fallback
@@ -273,8 +286,12 @@ export const planConfigs: PlanConfig[] = [
 ];
 
 // Add debugging info
-console.log(`🔧 Stripe Mode: ${isTestMode ? 'TEST' : 'LIVE'}`);
-console.log(`🔑 Using ${isTestMode ? 'test' : 'live'} price IDs`);
+console.log(`🌍 Environment: ${process.env.NODE_ENV || 'unknown'}`);
+console.log(`🚀 Vercel Env: ${process.env.NEXT_PUBLIC_VERCEL_ENV || 'local'}`);
+console.log(`🎯 Stripe Mode Setting: ${stripeMode}`);
+console.log(`🔧 Stripe Mode: ${finalIsTestMode ? 'TEST' : 'LIVE'}`);
+console.log(`🔑 Using ${finalIsTestMode ? 'test' : 'live'} price IDs`);
+console.log(`🎯 Production Mode: ${isProduction}`);
 
 // For backwards compatibility, export the configs
 export const labPanels: LabPanel[] = labPanelConfigs.map(config => ({

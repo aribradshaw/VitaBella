@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// Add logging for Stripe configuration
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
+const isTestMode = stripeSecretKey?.startsWith('sk_test_');
+console.log('🔧 Server Stripe Mode:', isTestMode ? 'TEST' : 'LIVE');
+console.log('🔒 Server Stripe Key Prefix:', stripeSecretKey?.substring(0, 7) + '...');
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2025-06-30.basil",
 });
 
