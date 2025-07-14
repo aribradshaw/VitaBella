@@ -316,9 +316,13 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
 
   // Calculate the discounted recurring price for display
   const getDiscountedRecurringPrice = () => {
-    if (!appliedCoupon) return planPrice;
+    // One-time coupons should NOT affect the recurring price display
+    // Only recurring coupons should affect this
+    if (!appliedCoupon || appliedCoupon.duration !== 'repeating') {
+      return planPrice; // Show original price for one-time coupons
+    }
     
-    // Check if coupon applies to the plan
+    // Only apply discount to recurring price if it's a repeating coupon
     const planProductId = selectedPlan?.productId;
     if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
       if (appliedCoupon.type === 'percent') {
@@ -406,6 +410,28 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       }
       
       if (paymentIntent && paymentIntent.status === 'succeeded') {
+        console.log('Payment succeeded, creating subscription...');
+        
+        // Create subscription after successful payment
+        try {
+          const subscriptionResponse = await fetch("/api/stripe/create-subscription", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paymentIntentId: paymentIntent.id }),
+          });
+          
+          if (subscriptionResponse.ok) {
+            const subscriptionData = await subscriptionResponse.json();
+            console.log('Subscription created:', subscriptionData.subscriptionId);
+          } else {
+            console.error('Failed to create subscription:', await subscriptionResponse.text());
+            // Continue anyway - payment was successful
+          }
+        } catch (subscriptionError) {
+          console.error('Error creating subscription:', subscriptionError);
+          // Continue anyway - payment was successful
+        }
+
         // Fire Meta Pixel purchase event
         if (typeof window !== 'undefined' && window.fbq) {
           window.fbq('track', 'Purchase', {
@@ -418,9 +444,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           });
         }
         
-        // Redirect to confirmation page instead of success page
-        const confirmationUrl = `/confirmation?value=${total / 100}&currency=USD&product_name=${encodeURIComponent(selectedPlan?.label || '')}&product_id=${selectedPlan?.priceId}`;
-        window.location.href = confirmationUrl;
+        // Redirect to checkout success page instead of confirmation page
+        const successUrl = `/checkout/success?value=${total / 100}&currency=USD&product_name=${encodeURIComponent(selectedPlan?.label || '')}&product_id=${selectedPlan?.priceId}`;
+        window.location.href = successUrl;
       } else {
         throw new Error('Payment was not completed successfully.');
       }

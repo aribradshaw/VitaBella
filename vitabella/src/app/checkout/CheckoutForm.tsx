@@ -161,6 +161,17 @@ export default function CheckoutForm() {
       const data = await res.json();
       console.log('Response data:', JSON.stringify(data, null, 2));
       
+      // Handle free subscription case
+      if (data.freeSubscription) {
+        console.log('Free subscription created:', data.subscriptionId);
+        setError(null);
+        
+        // Redirect directly to success page for free subscriptions
+        const successUrl = `/checkout/success?value=0&currency=USD&product_name=${encodeURIComponent(selectedPlan?.label || '')}&product_id=${selectedPlan?.priceId}&free=true`;
+        window.location.href = successUrl;
+        return null;
+      }
+      
       if (data.clientSecret) {
         console.log('Payment intent created successfully with client secret:', data.clientSecret);
         setClientSecret(data.clientSecret);

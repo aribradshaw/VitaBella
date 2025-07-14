@@ -57,13 +57,24 @@ export async function POST(req: NextRequest) {
         console.log('Created new customer:', stripeCustomer.id);
       }
 
-      // Separate recurring items (subscription) from one-time items (invoice items)
+      // Separate recurring items (subscription) from one-time items
       const recurringItems: Stripe.SubscriptionCreateParams.Item[] = [];
-      const oneTimeItems: { price: string; quantity: number }[] = [];
+      const oneTimeItems: Array<{ priceId: string; quantity: number; amount: number; productId: string; description: string }> = [];
+      
+      console.log('Processing line items:', lineItems.length);
       
       for (const item of lineItems) {
         try {
-          const price = await stripe.prices.retrieve(item.price);
+          const price = await stripe.prices.retrieve(item.price, { expand: ['product'] });
+          const product = price.product as Stripe.Product;
+          
+          console.log(`Processing item ${item.price}:`, {
+            priceId: item.price,
+            productId: product.id,
+            productName: product.name,
+            recurring: !!price.recurring,
+            unitAmount: price.unit_amount
+          });
           
           if (price.recurring) {
             // This is a recurring price (membership plan)
@@ -71,14 +82,17 @@ export async function POST(req: NextRequest) {
               price: item.price,
               quantity: item.quantity || 1,
             });
-            console.log(`Added recurring item: ${item.price}`);
+            console.log(`Added recurring item: ${item.price} - $${(price.unit_amount || 0) / 100}`);
           } else {
             // This is a one-time price (consultation fee, lab panels)
             oneTimeItems.push({
-              price: item.price,
+              priceId: item.price,
               quantity: item.quantity || 1,
+              amount: price.unit_amount || 0,
+              productId: product.id,
+              description: product.name || 'One-time item'
             });
-            console.log(`Added one-time item: ${item.price}`);
+            console.log(`Added one-time item: ${item.price} - $${(price.unit_amount || 0) / 100}`);
           }
         } catch (err) {
           console.error(`Error retrieving price ${item.price}:`, err);
@@ -90,160 +104,271 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "At least one recurring item is required for subscription" }, { status: 400 });
       }
 
-      // Create subscription parameters
-      const subscriptionParams: Stripe.SubscriptionCreateParams = {
-        customer: stripeCustomer.id,
-        items: recurringItems,
-        payment_behavior: 'default_incomplete',
-        payment_settings: { 
-          save_default_payment_method: 'on_subscription',
-          payment_method_types: ['card', 'us_bank_account'],
-          payment_method_options: {
-            card: {
-              request_three_d_secure: 'automatic',
-            },
-            us_bank_account: {
-              verification_method: 'automatic',
-            },
-          },
-        },
-        expand: ['latest_invoice.payment_intent'],
-        metadata: {
-          customerEmail: customer.email,
-          customerName: `${customer.firstName} ${customer.lastName}`,
-        },
-      };
-
-      // Add coupon to subscription if provided and valid
-      if (coupon && coupon.id) {
-        console.log('=== PROCESSING COUPON FOR SUBSCRIPTION ===');
-        console.log('Coupon object:', JSON.stringify(coupon, null, 2));
-        
-        try {
-          // Validate coupon exists in Stripe
-          const stripeCoupon = await stripe.coupons.retrieve(coupon.id);
-          console.log('Stripe coupon retrieved:', stripeCoupon.id);
-          
-          // Apply coupon to subscription
-          (subscriptionParams as any).coupon = coupon.id;
-          console.log('Applied coupon to subscription:', coupon.id);
-        } catch (couponError) {
-          console.error('Error applying coupon to subscription:', couponError);
-          // Don't fail the entire subscription creation for coupon errors
-        }
+      // Calculate amounts separately for better logic
+      let subscriptionAmount = 0; // Only recurring subscription items
+      let oneTimeAmount = 0; // Only one-time items (consultation, labs)
+      
+      // Get subscription amount (recurring only)
+      for (const item of recurringItems) {
+        const price = await stripe.prices.retrieve(item.price!);
+        subscriptionAmount += (price.unit_amount || 0) * (item.quantity || 1);
+      }
+      
+      // Get one-time items amount  
+      for (const item of oneTimeItems) {
+        oneTimeAmount += item.amount * item.quantity;
       }
 
-      // Create the subscription
-      const subscription = await stripe.subscriptions.create(subscriptionParams);
-      console.log('Subscription created:', subscription.id);
+      const totalAmount = subscriptionAmount + oneTimeAmount;
+      console.log('Subscription amount:', subscriptionAmount, 'cents ($' + (subscriptionAmount / 100) + ')');
+      console.log('One-time amount:', oneTimeAmount, 'cents ($' + (oneTimeAmount / 100) + ')');
+      console.log('Total amount:', totalAmount, 'cents ($' + (totalAmount / 100) + ')');
 
-      // Add one-time items as invoice items for the first invoice
-      if (oneTimeItems.length > 0) {
-        console.log('Adding one-time items to invoice...');
-        
-        for (const item of oneTimeItems) {
-          try {
-            const price = await stripe.prices.retrieve(item.price, { expand: ['product'] });
-            let shouldApplyCoupon = false;
-            
-            // Check if this one-time item is eligible for the coupon
-            if (coupon && coupon.applicableProducts) {
-              const productId = typeof price.product === 'string' ? price.product : price.product?.id;
-              shouldApplyCoupon = productId && coupon.applicableProducts.includes(productId);
-              console.log(`One-time item ${item.price} (product: ${productId}) coupon eligible: ${shouldApplyCoupon}`);
-            }
-            
-            const invoiceItemParams: any = {
-              customer: stripeCustomer.id,
-              price: item.price,
-              quantity: item.quantity,
-              subscription: subscription.id,
-            };
-            
-            // Apply coupon to individual invoice item if eligible
-            if (shouldApplyCoupon && coupon.id) {
-              try {
-                // For one-time items, we need to create a discount manually
-                // since Stripe doesn't apply subscription coupons to invoice items
-                const stripeCoupon = await stripe.coupons.retrieve(coupon.id);
-                
-                if (stripeCoupon.percent_off) {
-                  // Calculate discount amount for percentage coupons
-                  const discountAmount = Math.round((price.unit_amount || 0) * (stripeCoupon.percent_off / 100));
-                  invoiceItemParams.amount = (price.unit_amount || 0) - discountAmount;
-                  invoiceItemParams.currency = price.currency;
-                  delete invoiceItemParams.price; // Use amount instead of price when applying custom discount
-                  console.log(`Applied ${stripeCoupon.percent_off}% discount to one-time item: ${discountAmount} cents off`);
-                } else if (stripeCoupon.amount_off) {
-                  // Calculate discount amount for fixed amount coupons
-                  const discountAmount = Math.min(stripeCoupon.amount_off, price.unit_amount || 0);
-                  invoiceItemParams.amount = (price.unit_amount || 0) - discountAmount;
-                  invoiceItemParams.currency = price.currency;
-                  delete invoiceItemParams.price; // Use amount instead of price when applying custom discount
-                  console.log(`Applied $${discountAmount/100} discount to one-time item`);
-                }
-              } catch (discountError) {
-                console.error('Error applying discount to one-time item:', discountError);
-                // Continue without discount if there's an error
+      // Apply coupon discount if provided - separate subscription vs one-time discounts
+      let subscriptionDiscountAmount = 0;
+      let oneTimeDiscountAmount = 0;
+      let validCoupon = null;
+      let applicableToSubscription = false;
+      let applicableToOneTime = false;
+      
+      if (coupon && coupon.id) {
+        try {
+          validCoupon = await stripe.coupons.retrieve(coupon.id);
+          console.log('Stripe coupon retrieved:', validCoupon.id, validCoupon);
+          console.log('Coupon percent_off:', validCoupon.percent_off);
+          console.log('Coupon amount_off:', validCoupon.amount_off);
+          console.log('Coupon applies_to:', validCoupon.applies_to);
+          
+          // Get applicable products from Stripe coupon configuration
+          let applicableProducts: string[] = [];
+          
+          if (validCoupon.applies_to?.products) {
+            // Use Stripe's applies_to configuration if available
+            applicableProducts = validCoupon.applies_to.products;
+            console.log('Using Stripe applies_to products:', applicableProducts);
+          } else if (coupon.applicableProducts) {
+            // Fallback to frontend coupon data
+            applicableProducts = coupon.applicableProducts;
+            console.log('Using frontend applicable products:', applicableProducts);
+          } else {
+            // If no specific products configured, don't apply to anything
+            console.log('No specific products configured for coupon - coupon will not be applied');
+            applicableProducts = [];
+          }
+          
+          console.log('Coupon applicable products:', applicableProducts);
+          
+          // Only proceed with discount calculation if there are applicable products
+          if (applicableProducts.length === 0) {
+            console.log('No applicable products for this coupon - no discount will be applied');
+          } else {
+            // Check if coupon applies to subscription items
+            for (const item of recurringItems) {
+              const price = await stripe.prices.retrieve(item.price!);
+              const productId = typeof price.product === 'string' ? price.product : (price.product as any)?.id;
+              if (applicableProducts.includes(productId)) {
+                applicableToSubscription = true;
+                console.log(`Subscription item ${item.price} (product: ${productId}) is covered by coupon`);
               }
             }
             
-            await stripe.invoiceItems.create(invoiceItemParams);
-            console.log(`Added one-time item to invoice: ${item.price}`);
-          } catch (itemError) {
-            console.error(`Error adding one-time item ${item.price}:`, itemError);
+            // Check if coupon applies to one-time items
+            for (const item of oneTimeItems) {
+              if (applicableProducts.includes(item.productId)) {
+                applicableToOneTime = true;
+                console.log(`One-time item ${item.priceId} (product: ${item.productId}) is covered by coupon`);
+              }
+            }
           }
+          
+          // Calculate discount for subscription items
+          if (applicableToSubscription && subscriptionAmount > 0) {
+            if (validCoupon.percent_off) {
+              subscriptionDiscountAmount = Math.round(subscriptionAmount * (validCoupon.percent_off / 100));
+            } else if (validCoupon.amount_off) {
+              // For fixed amount coupons, calculate proportional discount
+              if (applicableToOneTime && oneTimeAmount > 0) {
+                // Split the fixed discount proportionally between subscription and one-time items
+                const totalApplicableAmount = subscriptionAmount + oneTimeAmount;
+                const subscriptionProportion = subscriptionAmount / totalApplicableAmount;
+                subscriptionDiscountAmount = Math.min(
+                  Math.round((validCoupon.amount_off || 0) * subscriptionProportion),
+                  subscriptionAmount
+                );
+              } else {
+                // Apply full discount to subscription only
+                subscriptionDiscountAmount = Math.min(validCoupon.amount_off, subscriptionAmount);
+              }
+            }
+            console.log(`Subscription discount: ${subscriptionDiscountAmount} cents`);
+          }
+          
+          // Calculate discount for one-time items
+          if (applicableToOneTime && oneTimeAmount > 0) {
+            console.log('Calculating one-time discounts...');
+            console.log('One-time items:', oneTimeItems.map(item => ({ 
+              priceId: item.priceId, 
+              productId: item.productId, 
+              amount: item.amount 
+            })));
+            console.log('Applicable products list:', applicableProducts);
+            
+            // Calculate discount per item instead of total
+            let totalOneTimeDiscount = 0;
+            
+            for (const item of oneTimeItems) {
+              let itemDiscount = 0;
+              
+              if (applicableProducts.includes(item.productId)) {
+                console.log(`Item ${item.priceId} (product: ${item.productId}) IS covered by coupon`);
+                
+                if (validCoupon.percent_off) {
+                  itemDiscount = Math.round(item.amount * (validCoupon.percent_off / 100));
+                } else if (validCoupon.amount_off) {
+                  // For fixed amount coupons, calculate proportional discount
+                  if (applicableToSubscription && subscriptionAmount > 0) {
+                    // Split the fixed discount proportionally between subscription and one-time items
+                    const totalApplicableAmount = subscriptionAmount + oneTimeAmount;
+                    const oneTimeProportion = oneTimeAmount / totalApplicableAmount;
+                    itemDiscount = Math.min(
+                      Math.round((validCoupon.amount_off || 0) * oneTimeProportion * (item.amount / oneTimeAmount)),
+                      item.amount
+                    );
+                  } else {
+                    // Apply full discount to one-time items only
+                    const applicableOneTimeAmount = oneTimeItems
+                      .filter(oti => applicableProducts.includes(oti.productId))
+                      .reduce((sum, oti) => sum + oti.amount, 0);
+                    
+                    if (applicableOneTimeAmount > 0) {
+                      const itemProportion = item.amount / applicableOneTimeAmount;
+                      itemDiscount = Math.min(
+                        Math.round((validCoupon.amount_off || 0) * itemProportion),
+                        item.amount
+                      );
+                    }
+                  }
+                }
+                
+                console.log(`Item ${item.priceId}: Original $${item.amount/100}, Discount $${itemDiscount/100}, Final $${(item.amount - itemDiscount)/100}`);
+              } else {
+                console.log(`Item ${item.priceId} (product: ${item.productId}) is NOT covered by coupon - no discount`);
+              }
+              
+              totalOneTimeDiscount += itemDiscount;
+            }
+            
+            oneTimeDiscountAmount = totalOneTimeDiscount;
+            console.log(`Total one-time discount: ${oneTimeDiscountAmount} cents`);
+          }
+          
+        } catch (couponError) {
+          console.error('Error validating coupon:', couponError);
+          // Continue without coupon if invalid
         }
       }
 
+      const finalSubscriptionAmount = Math.max(0, subscriptionAmount - subscriptionDiscountAmount);
+      const finalOneTimeAmount = Math.max(0, oneTimeAmount - oneTimeDiscountAmount);
+      const totalDiscountAmount = subscriptionDiscountAmount + oneTimeDiscountAmount;
+      const finalTotalAmount = finalSubscriptionAmount + finalOneTimeAmount;
+
+      console.log('Final subscription amount after discount:', finalSubscriptionAmount, 'cents ($' + (finalSubscriptionAmount / 100) + ')');
+      console.log('Final one-time amount after discount:', finalOneTimeAmount, 'cents ($' + (finalOneTimeAmount / 100) + ')');
+      console.log('Total discount applied:', totalDiscountAmount, 'cents ($' + (totalDiscountAmount / 100) + ')');
+      console.log('Final total amount:', finalTotalAmount, 'cents ($' + (finalTotalAmount / 100) + ')');
+
+      // Only create completely free subscription if EVERYTHING is actually free
+      if (finalTotalAmount === 0) {
+        console.log('Creating completely free subscription (no payment required)');
+        
+        // Create subscription directly without payment
+        const subscription = await stripe.subscriptions.create({
+          customer: stripeCustomer.id,
+          items: recurringItems,
+          discounts: validCoupon ? [{ coupon: validCoupon.id }] : undefined,
+          metadata: {
+            customerEmail: customer.email,
+            customerName: `${customer.firstName} ${customer.lastName}`,
+            freeSubscription: 'true',
+            couponApplied: validCoupon?.id || 'none'
+          },
+        });
+
+        console.log('Completely free subscription created:', subscription.id);
+
+        // Add one-time items to the subscription invoice as free
+        if (oneTimeItems.length > 0) {
+          for (const item of oneTimeItems) {
+            await stripe.invoiceItems.create({
+              customer: stripeCustomer.id,
+              subscription: subscription.id,
+              price_data: {
+                currency: 'usd',
+                product: item.productId,
+                unit_amount: 0, // Free
+              },
+              quantity: item.quantity,
+              description: `${item.description} (Free with coupon)`
+            });
+          }
+        }
+
+        return NextResponse.json({ 
+          freeSubscription: true,
+          subscriptionId: subscription.id,
+          customerId: stripeCustomer.id,
+          message: 'Subscription created successfully - no payment required!'
+        });
+      }
+
+      // Create a direct payment intent for the total amount
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: finalTotalAmount,
+        currency: 'usd',
+        customer: stripeCustomer.id,
+        setup_future_usage: 'off_session', // This allows us to save payment method for future use
+        metadata: {
+          customerEmail: customer.email,
+          customerName: `${customer.firstName} ${customer.lastName}`,
+          subscriptionItems: JSON.stringify(recurringItems),
+          oneTimeItems: JSON.stringify(oneTimeItems),
+          couponApplied: validCoupon?.id || 'none',
+          discountAmount: totalDiscountAmount.toString(),
+          subscriptionAmount: finalSubscriptionAmount.toString(),
+          oneTimeAmount: finalOneTimeAmount.toString()
+        },
+      });
+
+      console.log('Created payment intent:', paymentIntent.id, 'for amount:', paymentIntent.amount, 'cents');
+
       // Get the client secret for payment confirmation
-      const latestInvoice = subscription.latest_invoice as any;
-      let paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent;
-      
-      if (!paymentIntent || !paymentIntent.client_secret) {
+      if (!paymentIntent.client_secret) {
         console.error('No payment intent client secret found');
         return NextResponse.json({ error: "Failed to create payment intent" }, { status: 500 });
       }
 
-      // Update the payment intent to ensure proper subscription setup
-      try {
-        paymentIntent = await stripe.paymentIntents.update(paymentIntent.id, {
-          description: 'Subscription creation',
-          setup_future_usage: 'off_session',
-          payment_method_types: ['card', 'us_bank_account'],
-          payment_method_options: {
-            card: {
-              request_three_d_secure: 'automatic',
-            },
-            us_bank_account: {
-              verification_method: 'automatic',
-            },
-          },
-        });
-        console.log('Payment intent updated with proper subscription settings');
-      } catch (updateError) {
-        console.error('Error updating payment intent:', updateError);
-        // Continue even if update fails - the base payment intent should still work
-      }
-
       const endTime = Date.now();
-      console.log(`=== STRIPE SUBSCRIPTION API SUCCESS (${endTime - startTime}ms) ===`);
-      console.log('Subscription ID:', subscription.id);
+      console.log(`=== STRIPE PAYMENT INTENT API SUCCESS (${endTime - startTime}ms) ===`);
       console.log('Payment Intent ID:', paymentIntent.id);
+      console.log('Amount:', paymentIntent.amount, 'cents ($' + (paymentIntent.amount / 100) + ')');
       
       return NextResponse.json({ 
         clientSecret: paymentIntent.client_secret,
-        subscriptionId: subscription.id,
+        paymentIntentId: paymentIntent.id,
         customerId: stripeCustomer.id,
+        amount: paymentIntent.amount
       });
       
     } catch (err: any) {
-      console.error('Error creating subscription:', err);
-      return NextResponse.json({ error: err.message }, { status: 500 });
+      console.error('Error creating payment intent:', err);
+      console.error('Error stack:', err.stack);
+      return NextResponse.json({ error: err.message || 'Failed to create payment intent' }, { status: 500 });
     }
   } catch (err: any) {
-    console.error('=== STRIPE SUBSCRIPTION API ERROR ===');
+    console.error('=== STRIPE PAYMENT INTENT API ERROR ===');
     console.error('Error:', err);
+    console.error('Error stack:', err.stack);
     return NextResponse.json({ error: 'Server error processing request' }, { status: 500 });
   }
 }
