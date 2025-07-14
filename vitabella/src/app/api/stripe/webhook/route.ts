@@ -57,6 +57,38 @@ async function handlePaymentSuccess(paymentIntent: Stripe.PaymentIntent) {
   console.log('Payment Intent ID:', paymentIntent.id);
   console.log('Customer ID:', paymentIntent.customer);
   console.log('Amount:', paymentIntent.amount);
+  console.log('Receipt Email:', paymentIntent.receipt_email);
+
+  // Ensure receipt email is sent
+  if (paymentIntent.receipt_email) {
+    try {
+      console.log('Verifying receipt email delivery for payment:', paymentIntent.id);
+      
+      // List charges for this payment intent to check receipt status
+      const charges = await stripe.charges.list({
+        payment_intent: paymentIntent.id,
+        limit: 1
+      });
+      
+      if (charges.data.length > 0) {
+        const charge = charges.data[0];
+        console.log('Charge ID:', charge.id);
+        console.log('Receipt Email on Charge:', charge.receipt_email);
+        console.log('Receipt URL:', charge.receipt_url);
+        
+        // If receipt email wasn't set on the charge, update it
+        if (!charge.receipt_email && paymentIntent.receipt_email) {
+          console.log('Setting receipt email on charge...');
+          await stripe.charges.update(charge.id, {
+            receipt_email: paymentIntent.receipt_email
+          });
+          console.log('Receipt email updated on charge');
+        }
+      }
+    } catch (error) {
+      console.error('Error handling receipt for payment:', paymentIntent.id, error);
+    }
+  }
 
   try {
     // Get metadata from payment intent

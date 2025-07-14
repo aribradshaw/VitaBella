@@ -84,6 +84,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   // Success redirect state
   const [successRedirecting, setSuccessRedirecting] = useState(false);
   
+  // Processing state for better feedback
+  const [processingState, setProcessingState] = useState<'idle' | 'creating-payment' | 'confirming-payment' | 'processing-subscription' | 'success'>('idle');
+  
   // Card element state
   const [cardComplete, setCardComplete] = useState({
     cardNumber: false,
@@ -347,6 +350,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     setError(null);
     setValidationError(null); // Clear validation errors when starting checkout
     setLoading(true);
+    setProcessingState('creating-payment');
     
     try {
       if (!stripe || !elements) {
@@ -358,6 +362,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       console.log('Current client secret:', currentClientSecret);
       if (!currentClientSecret) {
         console.log('No client secret, calling createPaymentIntent...');
+        setProcessingState('creating-payment');
         // Pass coupon information to createPaymentIntent
         currentClientSecret = await createPaymentIntent(appliedCoupon);
         console.log('Received client secret:', currentClientSecret);
@@ -371,6 +376,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         throw new Error('Card element not found.');
       }
       
+      setProcessingState('confirming-payment');
       console.log('About to confirm payment with client secret:', currentClientSecret);
       const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(currentClientSecret, {
         payment_method: {
@@ -415,9 +421,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       if (paymentIntent && paymentIntent.status === 'succeeded') {
         console.log('Payment succeeded, creating subscription...');
         
-        // Show success feedback immediately
-        setError(null);
-        setLoading(false);
+        setProcessingState('processing-subscription');
         
         // Create subscription after successful payment
         try {
@@ -438,6 +442,34 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           console.error('Error creating subscription:', subscriptionError);
           // Continue anyway - payment was successful
         }
+
+        // Ensure receipt email is sent (backup mechanism)
+        try {
+          const receiptResponse = await fetch("/api/stripe/send-receipt", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+              paymentIntentId: paymentIntent.id,
+              email: form.email 
+            }),
+          });
+          
+          if (receiptResponse.ok) {
+            const receiptData = await receiptResponse.json();
+            console.log('Receipt email configured:', receiptData.receiptEmail);
+          } else {
+            console.error('Failed to configure receipt email');
+          }
+        } catch (receiptError) {
+          console.error('Error configuring receipt email:', receiptError);
+          // Continue anyway - not critical
+        }
+
+        setProcessingState('success');
+        
+        // Show success feedback immediately
+        setError(null);
+        setLoading(false);
 
         // Fire Meta Pixel purchase event
         if (typeof window !== 'undefined' && window.fbq) {
@@ -482,6 +514,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       const errorMessage = err instanceof Error ? err.message : 'Payment failed. Please try again.';
       setError(errorMessage);
       setLoading(false);
+      setProcessingState('idle');
     }
   };
 
@@ -962,7 +995,15 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               }
             }}
             disabled={loading || successRedirecting}
-            label={successRedirecting ? 'Success! Redirecting...' : loading ? 'Processing...' : `Sign Up Now`}
+            label={
+              successRedirecting ? 'Success! Redirecting...' : 
+              processingState === 'creating-payment' ? 'Creating Payment...' :
+              processingState === 'confirming-payment' ? 'Confirming Payment...' :
+              processingState === 'processing-subscription' ? 'Setting Up Account...' :
+              processingState === 'success' ? 'Success! Redirecting...' :
+              loading ? 'Processing...' : 
+              `Sign Up Now`
+            }
             href="#"
             bg={loading || successRedirecting
               ? '#cccccc' 
@@ -998,6 +1039,40 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               pointerEvents: loading || successRedirecting ? 'none' : 'auto'
             }}
           />
+          
+          {/* Display processing status */}
+          {(loading || processingState !== 'idle') && !successRedirecting && (
+            <div style={{ 
+              color: '#2563eb', 
+              fontSize: '14px', 
+              marginTop: '12px',
+              padding: '12px 16px',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              textAlign: 'center',
+              justifyContent: 'center'
+            }}>
+              <div style={{
+                width: '16px',
+                height: '16px',
+                border: '2px solid #bfdbfe',
+                borderTop: '2px solid #2563eb',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }} />
+              <div>
+                {processingState === 'creating-payment' && 'Setting up your payment...'}
+                {processingState === 'confirming-payment' && 'Processing your card...'}
+                {processingState === 'processing-subscription' && 'Creating your membership...'}
+                {processingState === 'success' && 'Payment successful! Setting up redirect...'}
+                {processingState === 'idle' && loading && 'Processing...'}
+              </div>
+            </div>
+          )}
           
           {/* Display validation error if present */}
           {validationError && !successRedirecting && (
@@ -1048,10 +1123,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
               border: '1px solid #28a745',
               borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               gap: '12px',
-              textAlign: 'center',
-              justifyContent: 'center'
+              textAlign: 'left'
             }}>
               <div style={{
                 width: '20px',
@@ -1059,11 +1133,16 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 border: '2px solid #28a74540',
                 borderTop: '2px solid #28a745',
                 borderRadius: '50%',
-                animation: 'spin 1s linear infinite'
+                animation: 'spin 1s linear infinite',
+                flexShrink: 0,
+                marginTop: '2px'
               }} />
-              <div>
-                <div style={{ fontWeight: 600, marginBottom: '4px' }}>✅ Payment Successful!</div>
-                <div style={{ fontSize: '14px' }}>Redirecting to your registration form...</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600, marginBottom: '6px' }}>✅ Payment Successful!</div>
+                <div style={{ fontSize: '14px', marginBottom: '8px' }}>Redirecting to your registration form...</div>
+                <div style={{ fontSize: '13px', color: '#166534', fontStyle: 'italic' }}>
+                  📧 A receipt has been sent to {form.email}. Please check your spam folder if you don't see it within a few minutes.
+                </div>
               </div>
             </div>
           )}

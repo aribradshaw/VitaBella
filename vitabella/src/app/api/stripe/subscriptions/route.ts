@@ -329,6 +329,9 @@ export async function POST(req: NextRequest) {
         customer: stripeCustomer.id,
         receipt_email: customer.email, // Enable automatic receipts
         setup_future_usage: 'off_session', // This allows us to save payment method for future use
+        description: `VitaBella ${recurringItems.map(item => `Membership Plan`).join(', ')}${oneTimeItems.length > 0 ? ` + ${oneTimeItems.length} consultation/lab items` : ''}`,
+        statement_descriptor: 'VITABELLA*',
+        statement_descriptor_suffix: 'MEMBERSHIP',
         metadata: {
           customerEmail: customer.email,
           customerName: `${customer.firstName} ${customer.lastName}`,
@@ -337,7 +340,9 @@ export async function POST(req: NextRequest) {
           couponApplied: validCoupon?.id || 'none',
           discountAmount: totalDiscountAmount.toString(),
           subscriptionAmount: finalSubscriptionAmount.toString(),
-          oneTimeAmount: finalOneTimeAmount.toString()
+          oneTimeAmount: finalOneTimeAmount.toString(),
+          receiptRequested: 'true',
+          businessName: 'VitaBella'
         },
       });
 

@@ -61,8 +61,13 @@ export async function POST(req: NextRequest) {
         currency: "usd",
         automatic_payment_methods: { enabled: true },
         receipt_email: customer?.email || undefined, // Enable automatic receipts
+        description: `VitaBella Membership Purchase`,
+        statement_descriptor: 'VITABELLA*',
+        statement_descriptor_suffix: 'PURCHASE',
         metadata: {
           customerEmail: customer?.email || "",
+          receiptRequested: 'true',
+          businessName: 'VitaBella'
         },
       };
 
