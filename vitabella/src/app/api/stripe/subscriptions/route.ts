@@ -264,7 +264,7 @@ export async function POST(req: NextRequest) {
           
         } catch (couponError) {
           console.error('Error validating coupon:', couponError);
-          // Continue without coupon if invalid
+          // Continue without coupon if invalid.
         }
       }
 
