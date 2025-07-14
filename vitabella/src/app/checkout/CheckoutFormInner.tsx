@@ -220,11 +220,19 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       // Add plan product ID
       if (selectedPlan?.productId) {
         productIds.push(selectedPlan.productId);
+        console.log('Added plan product ID:', selectedPlan.productId);
       }
       
-      // Add consultation fee product ID if different from plan
-      if (selectedPlan?.consultFeeProductId && selectedPlan.consultFeeProductId !== selectedPlan.productId) {
-        productIds.push(selectedPlan.consultFeeProductId);
+      // Add consultation fee product ID (should always be different from plan)
+      if (selectedPlan?.consultFeeProductId) {
+        if (!productIds.includes(selectedPlan.consultFeeProductId)) {
+          productIds.push(selectedPlan.consultFeeProductId);
+          console.log('Added consultation fee product ID:', selectedPlan.consultFeeProductId);
+        } else {
+          console.log('Consultation fee product ID already in list:', selectedPlan.consultFeeProductId);
+        }
+      } else {
+        console.log('No consultation fee product ID found');
       }
       
       // Add lab panel product IDs
@@ -259,6 +267,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
       
       if (response.ok && result.valid) {
         console.log('Coupon validation successful!');
+        console.log('Coupon details:', result.coupon);
+        console.log('Applicable products:', result.coupon?.applicableProducts);
+        console.log('Product IDs we sent:', productIds);
         setCouponStatus('valid');
         setCouponMessage(`Coupon Applied! ${result.description}`);
         setAppliedCoupon(result.coupon);
@@ -286,35 +297,64 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   
   // Calculate coupon discount with selective application
   const couponDiscount = appliedCoupon ? (() => {
+    console.log('=== COUPON DISCOUNT CALCULATION ===');
+    console.log('Applied coupon:', appliedCoupon);
+    console.log('Selected plan:', selectedPlan);
+    
     // Calculate what items the coupon applies to
     let applicableAmount = 0;
     
     // Check if coupon applies to the current plan's product
     const planProductId = selectedPlan?.productId;
+    console.log('Plan product ID:', planProductId);
     if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
       applicableAmount += planPrice;
+      console.log('Plan discount applies - added $', planPrice / 100, 'to applicable amount');
+    } else {
+      console.log('Plan discount does NOT apply');
     }
     
-    // For consultation fee, we'll assume it's part of the plan offering
-    // so if the coupon applies to the plan, it also applies to consultation
-    if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
+    // Check if coupon applies to consultation fee separately (it has its own productId)
+    const consultFeeProductId = selectedPlan?.consultFeeProductId;
+    console.log('Consultation fee product ID:', consultFeeProductId);
+    if (consultFeeProductId && appliedCoupon.applicableProducts?.includes(consultFeeProductId)) {
       applicableAmount += consultFee;
+      console.log('Consultation fee discount applies - added $', consultFee / 100, 'to applicable amount');
+    } else {
+      console.log('Consultation fee discount does NOT apply');
     }
     
-    // Labs are typically separate products and wouldn't be included 
-    // unless specifically configured in the coupon
-    // Note: Since labs don't have productIds in the current structure,
-    // they won't be discounted unless the coupon is configured differently
-    
-    // Calculate discount only on applicable amount
-    if (applicableAmount > 0) {
-      if (appliedCoupon.type === 'percent') {
-        return Math.round(applicableAmount * (appliedCoupon.value / 100));
-      } else if (appliedCoupon.type === 'fixed') {
-        return Math.min(appliedCoupon.value, applicableAmount); // Don't exceed applicable amount
+    // Check if coupon applies to lab panels
+    const selectedLabs = labPanels.filter((l: any) => labCart.includes(l.key));
+    for (const lab of selectedLabs) {
+      console.log('Checking lab:', lab.key, 'product ID:', lab.productId);
+      if (lab.productId && appliedCoupon.applicableProducts?.includes(lab.productId)) {
+        applicableAmount += lab.price;
+        console.log('Lab discount applies - added $', lab.price / 100, 'to applicable amount');
+      } else {
+        console.log('Lab discount does NOT apply');
       }
     }
     
+    console.log('Total applicable amount:', applicableAmount, 'cents ($' + (applicableAmount / 100) + ')');
+    
+    // Calculate discount only on applicable amount
+    if (applicableAmount > 0) {
+      let discount = 0;
+      if (appliedCoupon.type === 'percent') {
+        discount = Math.round(applicableAmount * (appliedCoupon.value / 100));
+        console.log('Percent discount:', appliedCoupon.value + '%', 'of $' + (applicableAmount / 100), '= $' + (discount / 100));
+      } else if (appliedCoupon.type === 'fixed') {
+        // For fixed amount discounts, convert from cents to match price format
+        const discountValue = appliedCoupon.value;
+        discount = Math.min(discountValue, applicableAmount); // Don't exceed applicable amount
+        console.log('Fixed discount:', '$' + (discountValue / 100), 'capped at applicable amount = $' + (discount / 100));
+      }
+      console.log('Final discount amount:', discount, 'cents ($' + (discount / 100) + ')');
+      return discount;
+    }
+    
+    console.log('No applicable amount - no discount');
     return 0;
   })() : 0;
   
@@ -323,19 +363,21 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
   // Calculate the discounted recurring price for display
   const getDiscountedRecurringPrice = () => {
     // One-time coupons should NOT affect the recurring price display
-    // Only recurring coupons should affect this
-    if (!appliedCoupon || appliedCoupon.duration !== 'repeating') {
+    // Only recurring coupons (repeating or forever) should affect this
+    if (!appliedCoupon || (appliedCoupon.duration !== 'repeating' && appliedCoupon.duration !== 'forever')) {
       return planPrice; // Show original price for one-time coupons
     }
     
-    // Only apply discount to recurring price if it's a repeating coupon
+    // Only apply discount to recurring price if it's a repeating or forever coupon
     const planProductId = selectedPlan?.productId;
     if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
       if (appliedCoupon.type === 'percent') {
         const discountAmount = Math.round(planPrice * (appliedCoupon.value / 100));
         return planPrice - discountAmount;
       } else if (appliedCoupon.type === 'fixed') {
-        return Math.max(0, planPrice - appliedCoupon.value);
+        // For fixed amount discounts, convert from cents to match price format
+        const discountValue = appliedCoupon.value;
+        return Math.max(0, planPrice - discountValue);
       }
     }
     
@@ -1538,19 +1580,70 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 fontSize: isMobile ? '16px' : '17px', 
                 marginTop: 8, 
                 color: couponDiscount > 0 ? '#28a745' : '#666',
-                padding: '6px 0',
+                padding: '10px 12px',
                 borderTop: couponDiscount > 0 ? '1px solid #28a74520' : 'none',
                 borderBottom: couponDiscount > 0 ? '1px solid #28a74520' : 'none',
-                background: couponDiscount > 0 ? '#f8fff9' : 'transparent'
+                background: couponDiscount > 0 ? '#f8fff9' : 'transparent',
+                borderRadius: couponDiscount > 0 ? '6px' : '0',
+                border: couponDiscount > 0 ? '1px solid #28a74530' : 'none'
               }}>
-                Coupon Applied: {appliedCoupon.description}
-                <span style={{ 
-                  float: "right", 
-                  color: couponDiscount > 0 ? '#28a745' : '#666',
-                  fontWeight: 700
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: couponDiscount > 0 ? '8px' : '0'
                 }}>
-                  {couponDiscount > 0 ? `-$${(couponDiscount / 100).toFixed(2)}` : 'Applied'}
-                </span>
+                  <span>Coupon Applied: {appliedCoupon.description}</span>
+                  <span style={{ 
+                    color: couponDiscount > 0 ? '#28a745' : '#666',
+                    fontWeight: 700
+                  }}>
+                    {couponDiscount > 0 ? `-$${(couponDiscount / 100).toFixed(2)}` : 'Applied'}
+                  </span>
+                </div>
+                
+                {/* Show breakdown of what's discounted */}
+                {couponDiscount > 0 && (
+                  <div style={{ 
+                    fontSize: isMobile ? '13px' : '14px',
+                    color: '#166534',
+                    lineHeight: 1.3
+                  }}>
+                    <strong>Discount applies to:</strong>
+                    {(() => {
+                      const discountedItems = [];
+                      const planProductId = selectedPlan?.productId;
+                      const consultFeeProductId = selectedPlan?.consultFeeProductId;
+                      
+                      if (planProductId && appliedCoupon.applicableProducts?.includes(planProductId)) {
+                        discountedItems.push('Membership Plan');
+                      }
+                      
+                      if (consultFeeProductId && appliedCoupon.applicableProducts?.includes(consultFeeProductId)) {
+                        discountedItems.push('Initial Consultation Fee');
+                      }
+                      
+                      const selectedLabs = labPanels.filter((l: any) => labCart.includes(l.key));
+                      for (const lab of selectedLabs) {
+                        if (lab.productId && appliedCoupon.applicableProducts?.includes(lab.productId)) {
+                          discountedItems.push('Lab Panel');
+                        }
+                      }
+                      
+                      return discountedItems.length > 0 ? ` ${discountedItems.join(', ')}` : ' No applicable items found';
+                    })()}
+                    {appliedCoupon.duration === 'forever' && (
+                      <div style={{ marginTop: '4px', fontStyle: 'italic' }}>
+                        🎉 This discount will continue forever on recurring charges!
+                      </div>
+                    )}
+                    {appliedCoupon.duration === 'repeating' && appliedCoupon.duration_in_months && (
+                      <div style={{ marginTop: '4px', fontStyle: 'italic' }}>
+                        ⏰ This discount will apply for {appliedCoupon.duration_in_months} month{appliedCoupon.duration_in_months > 1 ? 's' : ''} on recurring charges.
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
             <div style={{ background: '#e0e0e0', height: 1, borderRadius: 1, margin: '14px 0 10px 0' }} />
@@ -1638,7 +1731,19 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                       color: '#666',
                       lineHeight: 1.4
                     }}>
-                      Charged on {billingFrequency}. Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
+                      {discountedRecurringPrice !== planPrice ? (
+                        <>
+                          Charged on {billingFrequency} at the discounted rate of <strong>${(discountedRecurringPrice / 100).toFixed(2)}</strong> 
+                          {appliedCoupon?.duration === 'forever' ? ' forever' : 
+                           appliedCoupon?.duration === 'repeating' && appliedCoupon?.duration_in_months ? 
+                           ` for ${appliedCoupon.duration_in_months} month${appliedCoupon.duration_in_months > 1 ? 's' : ''}` : 
+                           ''}. Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
+                        </>
+                      ) : (
+                        <>
+                          Charged on {billingFrequency}. Next Payment Occurring on <strong>{formatDate(nextPaymentDate)}</strong> recurring {selectedPlan.interval === "monthly" ? "monthly" : "annually"} until cancelled.
+                        </>
+                      )}
                     </div>
                   </>
                 );

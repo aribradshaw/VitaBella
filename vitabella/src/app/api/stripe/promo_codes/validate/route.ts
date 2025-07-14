@@ -72,6 +72,8 @@ export async function POST(req: NextRequest) {
     if (promoCode.coupon.duration === 'repeating' && promoCode.coupon.duration_in_months) {
       const months = promoCode.coupon.duration_in_months;
       description = `${baseDescription} for ${months} month${months > 1 ? 's' : ''}`;
+    } else if (promoCode.coupon.duration === 'forever') {
+      description = `${baseDescription} forever`;
     } else if (promoCode.coupon.duration === 'once') {
       description = `${baseDescription}`;
     }
