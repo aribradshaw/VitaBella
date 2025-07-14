@@ -14,19 +14,8 @@ function CheckoutSuccessContent() {
   });
 
   useEffect(() => {
-    // Fire Meta Pixel purchase event if it exists
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Purchase', {
-        value: parseFloat(orderDetails.value),
-        currency: orderDetails.currency,
-        content_type: 'product',
-        content_ids: [orderDetails.productId],
-        content_name: orderDetails.productName,
-        num_items: 1
-      });
-    }
-
     // Fire Google Analytics purchase event if it exists
+    // Note: Facebook Pixel Purchase tracking is handled in CheckoutFormInner.tsx to avoid double attribution
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'purchase', {
         transaction_id: Date.now().toString(),
@@ -44,18 +33,14 @@ function CheckoutSuccessContent() {
   }, [orderDetails]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4" style={{ marginTop: 'var(--space-4x)' }}>
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-          {/* Success Icon */}
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-
           {/* Success Message */}
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
             {orderDetails.isFree ? 'Subscription Activated!' : 'Payment Successful!'}
           </h1>
           
