@@ -62,7 +62,7 @@ const steps: Step[] = [
     label: "How did you hear about us?",
     fields: [
       { name: "referral", type: "radio", label: "Referral", required: true, options: ["Google", "Instagram", "Facebook", "LinkedIn", "TikTok", "Friend / Referral", "Other"] },
-      // Show a text box for Friend, with appropriate label
+      // Show a text box for Friend, with appropriate label.
       { name: "referralFriend", type: "text", label: "Who referred you? (Friend)", required: false, conditional: (form) => form.referral === "Friend / Referral" },
       { name: "referralOther", type: "text", label: "Please specify", required: false, conditional: (form) => form.referral === "Other" },
     ],
