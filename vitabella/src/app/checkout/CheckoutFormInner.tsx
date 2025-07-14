@@ -544,10 +544,46 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
         // Set success state to show feedback message
         setSuccessRedirecting(true);
         
-        // Small delay to ensure user sees the success message, then redirect
-        setTimeout(() => {
-          window.location.href = 'https://vitabella.md-hq.com/registration';
-        }, 1000); // 1 second delay to show success message
+        // Ensure we prevent any other redirects during this process
+        setLoading(false);
+        setProcessingState('success');
+        
+        // Immediate redirect to prevent competing redirects
+        const redirectToMdHq = () => {
+          console.log('Attempting redirect to md-hq...');
+          console.log('Current pathname:', window.location.pathname);
+          console.log('Full URL:', window.location.href);
+          
+          // Double-check that we haven't been redirected already
+          if (window.location.pathname.includes('/checkout') && !window.location.pathname.includes('/success')) {
+            console.log('Conditions met, executing redirect to md-hq registration...');
+            
+            // Use multiple redirect methods for maximum reliability
+            try {
+              window.location.replace('https://vitabella.md-hq.com/registration');
+            } catch (e) {
+              console.error('Replace failed, trying href:', e);
+              window.location.href = 'https://vitabella.md-hq.com/registration';
+            }
+          } else {
+            console.log('Redirect prevented - already on different page');
+          }
+        };
+        
+        console.log('Payment successful, setting up redirect to md-hq...');
+        
+        // Prevent any potential event-based redirects
+        window.addEventListener('beforeunload', (e) => {
+          console.log('Page unloading, destination unknown');
+        });
+        
+        // Try immediate redirect first
+        redirectToMdHq();
+        
+        // Set backup redirects with different timings
+        setTimeout(redirectToMdHq, 50);
+        setTimeout(redirectToMdHq, 200);
+        setTimeout(redirectToMdHq, 1000);
       } else {
         throw new Error('Payment was not completed successfully.');
       }
