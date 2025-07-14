@@ -171,11 +171,10 @@ export const planConfigs: PlanConfig[] = [
       getEnvVar('STRIPE_LIVE_PERFORMANCE_MONTHLY', 'price_1NVd0PBvA5MJ1guPw1S9W0l7')
     ),
     description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal",
-      "20% Off Supplements",
+      "Access to wholesale-priced medication (membership-only pricing)",
+      "Quarterly Telehealth Visits with a Provider",
+      "Personalized Protocols & Treatment Plans by Provider",
+      "Secure 24/7 Access to Patient Portal & Care Team",
       "Protocol-Based Supplies Included",
       "Ongoing Coaching & Education"
     ],
@@ -204,11 +203,10 @@ export const planConfigs: PlanConfig[] = [
       getEnvVar('STRIPE_LIVE_PERFORMANCE_ANNUAL', 'price_1NVd0PBvA5MJ1guPfSpSCuNV')
     ),
     description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal",
-      "20% Off Supplements",
+      "Access to wholesale-priced medication (membership-only pricing)",
+      "Quarterly Telehealth Visits with a Provider",
+      "Personalized Protocols & Treatment Plans by Provider",
+      "Secure 24/7 Access to Patient Portal & Care Team",
       "Protocol-Based Supplies Included",
       "Ongoing Coaching & Education"
     ],
@@ -237,10 +235,12 @@ export const planConfigs: PlanConfig[] = [
       getEnvVar('STRIPE_LIVE_FOUNDATION_MONTHLY', 'price_1NVcyrBvA5MJ1guP5ywam4pb')
     ),
     description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal"
+      "Access to wholesale-priced medication (membership-only pricing)",
+      "Quarterly Telehealth Visits with a Provider",
+      "Personalized Protocols & Treatment Plans by Provider",
+      "Secure 24/7 Access to Patient Portal & Care Team",
+      "Protocol-Based Supplies Included",
+      "Ongoing Coaching & Education"
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),
@@ -267,10 +267,12 @@ export const planConfigs: PlanConfig[] = [
       getEnvVar('STRIPE_LIVE_FOUNDATION_ANNUAL', 'price_1NVcyrBvA5MJ1guPHxRiZbYe')
     ),
     description: [
-      "Quarterly Telehealth Visits with Your Provider.",
-      "Personalized Protocols & Care Plans by Provider",
-      "Secure Messaging with Provider & Your Care Team",
-      "24/7 Access to Patient Portal"
+      "Access to wholesale-priced medication (membership-only pricing)",
+      "Quarterly Telehealth Visits with a Provider",
+      "Personalized Protocols & Treatment Plans by Provider",
+      "Secure 24/7 Access to Patient Portal & Care Team",
+      "Protocol-Based Supplies Included",
+      "Ongoing Coaching & Education"
     ],
     consultFeePriceId: getStripeId(
       getEnvVar('STRIPE_TEST_CONSULTATION', 'price_1Rka5KQx05mO0IRPFhhKj8w7'),

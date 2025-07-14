@@ -760,7 +760,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           marginBottom: isMobile ? '1rem' : '0',
           boxSizing: 'border-box',
-          overflowX: 'hidden'
+          overflowX: 'hidden',
+          order: isMobile ? 2 : 1
         }}
           onSubmit={e => { e.preventDefault(); handleCheckout(); }}
         >
@@ -1227,7 +1228,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
           maxWidth: isMobile ? '100%' : 'auto',
           minWidth: isMobile ? 'auto' : '500px',
           boxSizing: 'border-box',
-          overflowX: 'hidden'
+          overflowX: 'hidden',
+          order: isMobile ? 1 : 2
         }}>
           {/* Order Summary */}
           <div className="order-summary" style={{ 
@@ -1454,40 +1456,89 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                   gap: isMobile ? '8px' : '10px', 
                   width: '100%'
                 }}>
-                  {labPanels.map((lab) => (
-                    <div key={lab.key} className="lab-item" style={{ 
-                      display: 'flex', 
-                      alignItems: 'stretch', 
-                      background: labCart.includes(lab.key) ? '#eaf7ed' : '#ffffff', 
-                      borderRadius: '12px',
-                      border: labCart.includes(lab.key) ? '2px solid #113c1c' : '1px solid #d0d0d0', 
-                      padding: '12px', 
-                      boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.07)' : 'none', 
-                      transition: 'all 0.18s', 
-                      width: '100%',
-                      boxSizing: 'border-box'
-                    }}>
+                  {labPanels.map((lab) => {
+                    const handleContainerClick = (e: React.MouseEvent) => {
+                      // Don't handle clicks if any mobile popup is open or if not on mobile
+                      if (!isMobile || e.defaultPrevented) return;
+                      
+                      // Check if there's already a mobile popup open by checking the DOM
+                      const existingPopup = document.querySelector('[data-mobile-popup]');
+                      if (existingPopup) return;
+                      
+                      // Find the tooltip content element and trigger its mobile popup
+                      const tooltipElement = e.currentTarget.querySelector('[data-tooltip-trigger]') as HTMLElement;
+                      if (tooltipElement) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        tooltipElement.click();
+                      }
+                    };
+
+                    return (
+                    <div 
+                      key={lab.key} 
+                      className="lab-item" 
+                      onClick={handleContainerClick}
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'stretch', 
+                        background: labCart.includes(lab.key) ? '#eaf7ed' : '#ffffff', 
+                        borderRadius: '12px',
+                        border: labCart.includes(lab.key) ? '2px solid #113c1c' : '1px solid #d0d0d0', 
+                        padding: '12px', 
+                        boxShadow: labCart.includes(lab.key) ? '0 2px 8px rgba(17,60,28,0.07)' : 'none', 
+                        transition: 'all 0.18s', 
+                        width: '100%',
+                        boxSizing: 'border-box',
+                        cursor: isMobile ? 'pointer' : 'default'
+                      }}
+                    >
                       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, marginRight: '12px' }}>
-                        <Tooltip content={
-                          <div style={{ 
-                            width: '260px',
-                            maxHeight: '320px',
-                            overflowY: 'auto'
-                          }}>
-                            <div style={{ fontWeight: 600, marginBottom: 8, fontSize: isMobile ? 16 : 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
-                            <ul style={{ 
-                              margin: 0, 
-                              paddingLeft: 16, 
-                              fontSize: isMobile ? 16 : 12,
-                              lineHeight: 1.4
+                        <Tooltip 
+                          content={
+                            <div style={{ 
+                              width: '260px',
+                              maxHeight: '320px',
+                              overflowY: 'auto'
                             }}>
-                              {lab.biomarkers.map((biomarker, idx) => (
-                                <li key={idx} style={{ marginBottom: 2 }}>{biomarker}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        }>
-                          <div style={{ cursor: 'help' }}>
+                              <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 15, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
+                              <ul style={{ 
+                                margin: 0, 
+                                paddingLeft: 16, 
+                                fontSize: 12,
+                                lineHeight: 1.4
+                              }}>
+                                {lab.biomarkers.map((biomarker, idx) => (
+                                  <li key={idx} style={{ marginBottom: 2 }}>{biomarker}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          }
+                          mobileContent={
+                            <div style={{ 
+                              width: '100%',
+                              maxHeight: '100%'
+                            }}>
+                              <div style={{ fontWeight: 600, marginBottom: 12, fontSize: 16, color: '#113c1c' }}>{lab.label} Biomarkers:</div>
+                              <ul style={{ 
+                                margin: 0, 
+                                paddingLeft: 16, 
+                                fontSize: 15,
+                                lineHeight: 1.6
+                              }}>
+                                {lab.biomarkers.map((biomarker, idx) => (
+                                  <li key={idx} style={{ marginBottom: 6 }}>{biomarker}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          }
+                          mobilePopupProps={{
+                            onAdd: () => handleLabToggle(lab.key),
+                            addButtonText: labCart.includes(lab.key) ? 'Remove' : 'Add',
+                            showAddButton: true
+                          }}
+                        >
+                          <div style={{ cursor: isMobile ? 'pointer' : 'help' }} data-tooltip-trigger>
                             <div style={{ 
                               fontWeight: 600, 
                               fontSize: isMobile ? '16px' : '15px', 
@@ -1519,7 +1570,11 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                         <button
                           type="button"
                           className="lab-button"
-                          onClick={() => handleLabToggle(lab.key)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation(); // Prevent container click
+                            handleLabToggle(lab.key);
+                          }}
                           style={{
                             padding: isMobile ? '8px 16px' : '10px 20px',
                             fontSize: isMobile ? '16px' : '14px',
@@ -1554,7 +1609,8 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                         </button>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -1724,7 +1780,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                       color: 'var(--e-global-color-dark-green)',
                       marginBottom: '8px'
                     }}>
-                      6 Month Commitment
+                      6 Month Commitment to Your Health
                     </div>
                     <div style={{ 
                       fontSize: isMobile ? '13px' : '14px',
@@ -1753,57 +1809,6 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
             <div style={{ color: "#666", fontSize: isMobile ? '12px' : '14px', marginTop: 10, marginBottom: 2 }}>
               Membership may be cancelled without penalty before or during the Initial Consultation with the provider. After that, the Terms of Service will apply.
             </div>
-            
-            {/* Mobile-only Finish Checkout button */}
-            {isMobile && (
-              <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    // Scroll to the checkout form
-                    const checkoutForm = document.querySelector('.checkout-form');
-                    if (checkoutForm) {
-                      checkoutForm.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                      });
-                    }
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '12px 20px',
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    borderRadius: '8px',
-                    border: 'none',
-                    background: 'var(--e-global-color-primary, #4263AE)',
-                    color: 'white',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 8px rgba(66, 99, 174, 0.2)',
-                    transition: 'all 0.2s ease',
-                    boxSizing: 'border-box'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.background = 'var(--e-global-color-primary-hover, #365a9e)';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(66, 99, 174, 0.3)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.background = 'var(--e-global-color-primary, #4263AE)';
-                    e.currentTarget.style.transform = 'translateY(0px)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(66, 99, 174, 0.2)';
-                  }}
-                  onMouseDown={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0px)';
-                  }}
-                  onMouseUp={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                  }}
-                >
-                  Finish Checkout ↑
-                </button>
-              </div>
-            )}
           </>
         )}
       </div>
