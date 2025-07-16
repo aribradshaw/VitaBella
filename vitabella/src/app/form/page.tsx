@@ -6,6 +6,7 @@ import Script from "next/script";
 
 import { isStateAvailable, getAvailableStates, getUnavailableStates, US_STATES } from "@/constants/states";
 import links from "@/constants/links.json";
+import productsData from "@/app/product/products.json";
 import "./form.css";
 import VitaBellaLogo from "@/components/common/VitaBellaLogo";
 
@@ -59,6 +60,47 @@ const steps: Step[] = [
     ],
   },
   {
+    label: "Current Treatment",
+    fields: [
+      { name: "currentTreatment", type: "radio", label: "Are you already being treated by another clinic?", required: true, options: ["Yes", "No"] },
+      { name: "currentTreatmentReason", type: "textarea", label: "Why are you looking for a new provider?", required: false, conditional: (form) => form.currentTreatment === "Yes" },
+    ],
+    onlyForWaitlist: false,
+  },
+  {
+    label: "Wellness Partner Factors",
+    fields: [
+      { name: "factor_cost", type: "checkbox", label: "Cost", required: false },
+      { name: "factor_treatment_options", type: "checkbox", label: "Treatment Options", required: false },
+      { name: "factor_education", type: "checkbox", label: "Education", required: false },
+      { name: "factor_convenience", type: "checkbox", label: "Convenience", required: false },
+      { name: "factor_other", type: "checkbox", label: "Other", required: false },
+    ],
+    onlyForWaitlist: false,
+  },
+  {
+    label: "Treatment Interests",
+    fields: [
+      { name: "interest_anti_aging", type: "checkbox", label: "Anti-Aging", required: false },
+      { name: "interest_cognitive_health", type: "checkbox", label: "Cognitive Health", required: false },
+      { name: "interest_weight_loss", type: "checkbox", label: "Weight Loss", required: false },
+      { name: "interest_hair_loss", type: "checkbox", label: "Hair Loss", required: false },
+      { name: "interest_hormone_therapy", type: "checkbox", label: "Hormone Therapy", required: false },
+      { name: "interest_injury_recovery", type: "checkbox", label: "Injury and Recovery", required: false },
+      { name: "interest_sexual_wellness", type: "checkbox", label: "Sexual Wellness", required: false },
+      { name: "interest_skin_care", type: "checkbox", label: "Skin Care", required: false },
+      { name: "specificProducts", type: "text", label: "Search for specific products (optional)", required: false },
+    ],
+    onlyForWaitlist: false,
+  },
+  {
+    label: "Your Goals 90 Days",
+    fields: [
+      { name: "goals90Days", type: "textarea", label: "What are your goals for the next 90 days?", required: false },
+    ],
+    onlyForWaitlist: false,
+  },
+  {
     label: "How did you hear about us?",
     fields: [
       { name: "referral", type: "radio", label: "Referral", required: true, options: ["Google", "Instagram", "Facebook", "LinkedIn", "TikTok", "Friend / Referral", "Other"] },
@@ -66,91 +108,6 @@ const steps: Step[] = [
       { name: "referralFriend", type: "text", label: "Who referred you? (Friend)", required: false, conditional: (form) => form.referral === "Friend / Referral" },
       { name: "referralOther", type: "text", label: "Please specify", required: false, conditional: (form) => form.referral === "Other" },
     ],
-  },
-  {
-    label: "Your Goals",
-    fields: [
-      { name: "goal_energy", type: "checkbox", label: "Increase Energy Levels", required: false },
-      { name: "goal_mental", type: "checkbox", label: "Improve Mental Clarity", required: false },
-      { name: "goal_performance", type: "checkbox", label: "Enhance Physical Performance", required: false },
-      { name: "goal_hormones", type: "checkbox", label: "Balance Hormones", required: false },
-      { name: "goal_sleep", type: "checkbox", label: "Optimize Sleep Clarity", required: false },
-      { name: "goal_weight", type: "checkbox", label: "Lose Weight", required: false },
-      { name: "goals", type: "textarea", label: "What are your primary health goals for the next 90 days?", required: false },
-    ],
-    onlyForWaitlist: true,
-  },
-  {
-    label: "Objectives",
-    fields: [
-      { name: "obj_cognitive", type: "checkbox", label: "Maintain peak cognitive performance", required: false },
-      { name: "obj_fitness", type: "checkbox", label: "Achieve optimal physical fitness", required: false },
-      { name: "obj_longevity", type: "checkbox", label: "Support longevity and healthy aging", required: false },
-      { name: "obj_prevent", type: "checkbox", label: "Prevent age-related decline", required: false },
-      { name: "obj_career", type: "checkbox", label: "Maintain career performance edge", required: false },
-      { name: "obj_hormone", type: "checkbox", label: "Support long-term hormone balance", required: false },
-      { name: "obj_other", type: "checkbox", label: "Other", required: false },
-      { name: "objectives", type: "textarea", label: "What are your long-term (1+ year) health objectives?", required: false },
-    ],
-    onlyForWaitlist: true,
-  },
-  {
-    label: "Activity",
-    fields: [
-      {
-        name: "activity",
-        type: "select",
-        label: "How often do you engage in physical activity?",
-        required: true,
-        options: [
-          "Never",
-          "Rarely (1-2x/month)",
-          "Occasionally (1-2x/week)",
-          "Regularly (3-4x/week)",
-          "Daily",
-          "Other"
-        ]
-      },
-      {
-        name: "activityOther",
-        type: "text",
-        label: "Please elaborate (optional)",
-        required: false,
-        conditional: (form) => form.activity === "Other"
-      },
-    ],
-    onlyForWaitlist: true,
-  },
-  {
-    label: "Stress",
-    fields: [
-      {
-        name: "stress",
-        type: "select",
-        label: "How often do you experience stress?",
-        required: true,
-        options: [
-          "Never",
-          "Rarely",
-          "Occasionally",
-          "Regularly",
-          "Daily"
-        ]
-      },
-    ],
-    onlyForWaitlist: true,
-  },
-  {
-    label: "Eating",
-    fields: [
-      {
-        name: "eating",
-        type: "custom-dot",
-        label: "How would you rate your overall eating habits?",
-        required: true
-      },
-    ],
-    onlyForWaitlist: true,
   },
   {
     label: "Consent",
@@ -171,25 +128,23 @@ const initialForm = {
   referralFriend: "",
   referralDoctor: "",
   referralOther: "",
-  goal_energy: false,
-  goal_mental: false,
-  goal_performance: false,
-  goal_hormones: false,
-  goal_sleep: false,
-  goal_weight: false,
-  obj_cognitive: false,
-  obj_fitness: false,
-  obj_longevity: false,
-  obj_prevent: false,
-  obj_career: false,
-  obj_hormone: false,
-  obj_other: false,
-  goals: "",
-  objectives: "",
-  activity: "",
-  activityOther: "",
-  stress: "",
-  eating: "",
+  currentTreatment: "",
+  currentTreatmentReason: "",
+  interest_anti_aging: false,
+  interest_cognitive_health: false,
+  interest_weight_loss: false,
+  interest_hair_loss: false,
+  interest_hormone_therapy: false,
+  interest_injury_recovery: false,
+  interest_sexual_wellness: false,
+  interest_skin_care: false,
+  specificProducts: "",
+  factor_cost: false,
+  factor_treatment_options: false,
+  factor_education: false,
+  factor_convenience: false,
+  factor_other: false,
+  goals90Days: "",
   comms_accept: false,
   recordSourceDetail1: "website", // hidden tracking field
 };
@@ -202,6 +157,10 @@ function VitaBellaMultiStepForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
+  // Product search functionality
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [showProductSuggestions, setShowProductSuggestions] = useState(false);
   // --- HubSpot tracking additions ---
   const [hubspotUtk, setHubspotUtk] = useState("");
   const [pageUrl, setPageUrl] = useState("");
@@ -227,6 +186,37 @@ function VitaBellaMultiStepForm() {
   }, [hydrated]);
 
   if (!hydrated) return null; // or a loading spinner
+
+  // Product search functionality
+  const searchProducts = (query: string) => {
+    if (!query.trim()) return [];
+    const lowercaseQuery = query.toLowerCase();
+    return productsData
+      .filter(product => product.Title && product.Status === "Active")
+      .filter(product => 
+        product.Title.toLowerCase().includes(lowercaseQuery) ||
+        (product["Short Description"] && product["Short Description"].toLowerCase().includes(lowercaseQuery))
+      )
+      .slice(0, 10) // Limit to 10 suggestions
+      .map(product => product.Title);
+  };
+
+  const handleProductSearch = (query: string) => {
+    setProductSearchQuery(query);
+    setShowProductSuggestions(query.length > 0);
+  };
+
+  const selectProduct = (productName: string) => {
+    if (!selectedProducts.includes(productName)) {
+      setSelectedProducts([...selectedProducts, productName]);
+    }
+    setProductSearchQuery("");
+    setShowProductSuggestions(false);
+  };
+
+  const removeProduct = (productName: string) => {
+    setSelectedProducts(selectedProducts.filter(p => p !== productName));
+  };
 
   // Phone formatting
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -272,24 +262,22 @@ function VitaBellaMultiStepForm() {
 
   // Dynamically filter steps based on state and referral
   const getActiveSteps = () => {
-    // Always show referral step, even for waitlist
     return steps.filter((stepObj) => {
       // Always show the referral step (the one with referral field)
       if (stepObj.fields.some(f => f.name === "referral")) return true;
-      // Only show referralOther if referral is Other
-      if (stepObj.fields.some(f => f.name === "referralOther")) {
-        return form.referral === "Other";
-      }
-      // For all other steps, show only if onlyForWaitlist matches state availability
+      
+      // For steps with onlyForWaitlist defined, filter based on state
       if (typeof stepObj.onlyForWaitlist === 'boolean') {
         if (stepObj.onlyForWaitlist) {
           // Only show if user is in a waitlist state
           return !isStateAvailable(form.state);
         } else {
-          // Only show if user is in an accepted state
-          return isStateAvailable(form.state);
+          // onlyForWaitlist: false means show for ALL users (both waitlist and accepted)
+          return true;
         }
       }
+      
+      // For steps without onlyForWaitlist defined, show by default
       return true;
     });
   };
@@ -324,8 +312,11 @@ function VitaBellaMultiStepForm() {
     const currentStepFields = activeSteps[step].fields;
     const radioFields = currentStepFields.filter(field => field.type === "radio");
     
-    // If this step has only one radio field and it's required, auto-advance
-    if (radioFields.length === 1 && radioFields[0].required && radioFields[0].name === name) {
+    // Check if this step has conditional fields that might become visible
+    const hasConditionalFields = currentStepFields.some(field => field.conditional);
+    
+    // If this step has only one radio field and it's required, and no conditional fields, auto-advance
+    if (radioFields.length === 1 && radioFields[0].required && radioFields[0].name === name && !hasConditionalFields) {
       // Add a small delay for better UX
       setTimeout(() => {
         if (step < activeSteps.length - 1) {
@@ -420,8 +411,29 @@ function VitaBellaMultiStepForm() {
           phone: form.phone,
           state: form.state,
           referral: form.referral,
-          referral___doctor_name: form.referralDoctor,   // <-- Add this
-          referral___friend_name: form.referralFriend,   // <-- Add this
+          referral___doctor_name: form.referralDoctor,
+          referral___friend_name: form.referralFriend,
+          currentTreatment: form.currentTreatment,
+          currentTreatmentReason: form.currentTreatmentReason,
+          treatmentInterests: [
+            form.interest_anti_aging && "Anti-Aging",
+            form.interest_cognitive_health && "Cognitive Health", 
+            form.interest_weight_loss && "Weight Loss",
+            form.interest_hair_loss && "Hair Loss",
+            form.interest_hormone_therapy && "Hormone Therapy",
+            form.interest_injury_recovery && "Injury and Recovery",
+            form.interest_sexual_wellness && "Sexual Wellness",
+            form.interest_skin_care && "Skin Care"
+          ].filter(Boolean).join(", "),
+          specificProducts: selectedProducts.join(", "),
+          goals90Days: form.goals90Days,
+          wellnessFactors: [
+            form.factor_cost && "Cost",
+            form.factor_treatment_options && "Treatment Options",
+            form.factor_education && "Education", 
+            form.factor_convenience && "Convenience",
+            form.factor_other && "Other"
+          ].filter(Boolean).join(", "),
           recaptchaToken,
           listType,
           STATE: stateFullName,
@@ -597,91 +609,156 @@ function VitaBellaMultiStepForm() {
         </div>
       );
     }
-    // Custom rendering for Your Goals step: checkboxes + textarea with label
+    // Custom rendering for Treatment Interests step: checkboxes
     if (
-      activeSteps[step].label === "Your Goals" &&
-      activeSteps[step].fields.some(f => f.name === "goal_energy")
+      activeSteps[step].label === "Treatment Interests" &&
+      activeSteps[step].fields.some(f => f.name === "interest_anti_aging")
     ) {
       return (
         <div>
           <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
-            What are your primary health goals for the next 90 days?
+            What treatments are you interested in? (Select all that apply)
           </label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_energy" checked={form.goal_energy} onChange={handleChange} className="vita-bella-form-checkbox" /> Increase Energy Levels
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 24 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_anti_aging" checked={form.interest_anti_aging} onChange={handleChange} className="vita-bella-form-checkbox" /> Anti-Aging
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_mental" checked={form.goal_mental} onChange={handleChange} className="vita-bella-form-checkbox" /> Improve Mental Clarity
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_cognitive_health" checked={form.interest_cognitive_health} onChange={handleChange} className="vita-bella-form-checkbox" /> Cognitive Health
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_performance" checked={form.goal_performance} onChange={handleChange} className="vita-bella-form-checkbox" /> Enhance Physical Performance
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_weight_loss" checked={form.interest_weight_loss} onChange={handleChange} className="vita-bella-form-checkbox" /> Weight Loss
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_hormones" checked={form.goal_hormones} onChange={handleChange} className="vita-bella-form-checkbox" /> Balance Hormones
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_hair_loss" checked={form.interest_hair_loss} onChange={handleChange} className="vita-bella-form-checkbox" /> Hair Loss
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_sleep" checked={form.goal_sleep} onChange={handleChange} className="vita-bella-form-checkbox" /> Optimize Sleep Clarity
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_hormone_therapy" checked={form.interest_hormone_therapy} onChange={handleChange} className="vita-bella-form-checkbox" /> Hormone Therapy
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="goal_weight" checked={form.goal_weight} onChange={handleChange} className="vita-bella-form-checkbox" /> Lose Weight
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_injury_recovery" checked={form.interest_injury_recovery} onChange={handleChange} className="vita-bella-form-checkbox" /> Injury and Recovery
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_sexual_wellness" checked={form.interest_sexual_wellness} onChange={handleChange} className="vita-bella-form-checkbox" /> Sexual Wellness
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="interest_skin_care" checked={form.interest_skin_care} onChange={handleChange} className="vita-bella-form-checkbox" /> Skin Care
             </label>
           </div>
-          <div>
-            <label className="vita-bella-form-label">Please elaborate (optional)</label>
-            <textarea
-              name="goals"
-              value={form.goals}
-              onChange={handleChange}
-              className="vita-bella-form-textarea"
-              style={{ minHeight: 80 }}
+          <div style={{ position: 'relative' }}>
+            <label className="vita-bella-form-label" style={{ fontSize: '1rem', marginBottom: 8, display: 'block' }}>
+              Search for specific products (optional)
+            </label>
+            <input
+              type="text"
+              value={productSearchQuery}
+              onChange={(e) => handleProductSearch(e.target.value)}
+              placeholder="Type product names..."
+              className="vita-bella-form-input"
+              style={{ width: '100%' }}
             />
+            {showProductSuggestions && productSearchQuery && (
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                backgroundColor: 'white',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                maxHeight: '200px',
+                overflowY: 'auto',
+                zIndex: 1000,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}>
+                {searchProducts(productSearchQuery).map((product, index) => (
+                  <div
+                    key={index}
+                    onClick={() => selectProduct(product)}
+                    style={{
+                      padding: '8px 12px',
+                      cursor: 'pointer',
+                      borderBottom: '1px solid #f0f0f0'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                  >
+                    {product}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+          {selectedProducts.length > 0 && (
+            <div style={{ marginTop: 16, marginBottom: 24 }}>
+              <label className="vita-bella-form-label" style={{ fontSize: '1rem', marginBottom: 8, display: 'block' }}>
+                Selected Products:
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {selectedProducts.map((product, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      backgroundColor: '#012B27',
+                      color: '#fff',
+                      padding: '0px 12px',
+                      borderRadius: '16px',
+                      fontSize: '1rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6
+                    }}
+                  >
+                    {product}
+                    <button
+                      type="button"
+                      onClick={() => removeProduct(product)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '18px',
+                        color: '#fff',
+                        opacity: 0.8
+                      }}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
-    // Custom rendering for Objectives step: checkboxes + textarea with label
+    
+    // Custom rendering for Wellness Partner Factors step: checkboxes
     if (
-      activeSteps[step].label === "Objectives" &&
-      activeSteps[step].fields.some(f => f.name === "obj_cognitive")
+      activeSteps[step].label === "Wellness Partner Factors" &&
+      activeSteps[step].fields.some(f => f.name === "factor_cost")
     ) {
       return (
         <div>
           <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
-            What are your long-term (1+ year) health objectives?
+            When selecting a wellness partner / clinic, which factor is most important? (Select all that apply)
           </label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_cognitive" checked={form.obj_cognitive} onChange={handleChange} className="vita-bella-form-checkbox" /> Maintain peak cognitive performance
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="factor_cost" checked={form.factor_cost} onChange={handleChange} className="vita-bella-form-checkbox" /> Cost
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_fitness" checked={form.obj_fitness} onChange={handleChange} className="vita-bella-form-checkbox" /> Achieve optimal physical fitness
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="factor_treatment_options" checked={form.factor_treatment_options} onChange={handleChange} className="vita-bella-form-checkbox" /> Treatment Options
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_longevity" checked={form.obj_longevity} onChange={handleChange} className="vita-bella-form-checkbox" /> Support longevity and healthy aging
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="factor_education" checked={form.factor_education} onChange={handleChange} className="vita-bella-form-checkbox" /> Education
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_prevent" checked={form.obj_prevent} onChange={handleChange} className="vita-bella-form-checkbox" /> Prevent age-related decline
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="factor_convenience" checked={form.factor_convenience} onChange={handleChange} className="vita-bella-form-checkbox" /> Convenience
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_career" checked={form.obj_career} onChange={handleChange} className="vita-bella-form-checkbox" /> Maintain career performance edge
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+              <input type="checkbox" name="factor_other" checked={form.factor_other} onChange={handleChange} className="vita-bella-form-checkbox" /> Other
             </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_hormone" checked={form.obj_hormone} onChange={handleChange} className="vita-bella-form-checkbox" /> Support long-term hormone balance
-            </label>
-            <label className="vita-bella-form-label">
-              <input type="checkbox" name="obj_other" checked={form.obj_other} onChange={handleChange} className="vita-bella-form-checkbox" /> Other
-            </label>
-          </div>
-          <div>
-            <label className="vita-bella-form-label">Please elaborate (optional)</label>
-            <textarea
-              name="objectives"
-              value={form.objectives}
-              onChange={handleChange}
-              className="vita-bella-form-textarea"
-              style={{ minHeight: 80 }}
-            />
           </div>
         </div>
       );
@@ -689,97 +766,6 @@ function VitaBellaMultiStepForm() {
     // ...existing code for other fields...
     return activeSteps[step].fields.map(field => {
       if (field.conditional && !field.conditional(form)) return null;
-      // Special case: Activity step, show textarea if 'Other' is selected
-      if (field.name === "activityOther") {
-        return (
-          <div key="activityOther">
-            <label className="vita-bella-form-label">{field.label}</label>
-            <textarea
-              name="activityOther"
-              value={form.activityOther}
-              onChange={handleChange}
-              className="vita-bella-form-textarea"
-              style={{ minHeight: 80 }}
-            />
-          </div>
-        );
-      }
-      // Custom horizontal dot selector for eating habits
-      if (field.type === "custom-dot" && field.name === "eating") {
-        // Use global colors from :root
-        const colorSelected = 'var(--e-global-color-dark-green)';
-        const colorUnselected = 'var(--e-global-color-off-white)';
-        const colorDotSelected = 'var(--e-global-color-green)';
-        const colorDotUnselected = 'var(--e-global-color-grey2)';
-        const colorOutline = 'var(--e-global-color-green)';
-        return (
-          <div key="eating" style={{ marginBottom: 24 }}>
-            <label className="vita-bella-form-label" style={{ display: 'block', marginBottom: 12, fontWeight: "bold", color: 'var(--e-global-color-dark-green)', fontSize: '1.15rem' }}>{field.label}</label>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28 }}>
-              {[0,1,2,3,4,5].map((val) => {
-                const isSelected = form.eating === val.toString();
-                return (
-                  <button
-                    key={val}
-                    type="button"
-                    onClick={() => setForm(f => ({ ...f, eating: val.toString() }))}
-                    aria-label={
-                      val === 0 ? '0 - Poor / Mostly junk food' :
-                      val === 5 ? '5 - Excellent / Whole foods' :
-                      val.toString()
-                    }
-                    style={{
-                      background: isSelected ? colorSelected : colorUnselected,
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: 38,
-                      height: 38,
-                      minWidth: 38,
-                      minHeight: 38,
-                      maxWidth: 38,
-                      maxHeight: 38,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      outline: isSelected ? `2.5px solid ${colorOutline}` : 'none',
-                      boxShadow: isSelected ? '0 2px 8px rgba(44,60,50,0.10)' : 'none',
-                      transition: 'background 0.2s, outline 0.2s',
-                      padding: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 24,
-                        height: 24,
-                        borderRadius: '50%',
-                        background: isSelected ? colorDotSelected : colorDotUnselected,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: isSelected ? 'var(--e-global-color-dark-green)' : '#fff',
-                        fontWeight: '700' as React.CSSProperties['fontWeight'],
-                        fontSize: 14,
-                        transition: 'background 0.2s, color 0.2s',
-                        userSelect: 'none',
-                      }}
-                    >
-                      {val}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: 13, color: '#888', fontWeight: '500' as React.CSSProperties['fontWeight'] }}>
-              <span>0 - Poor / Mostly junk food</span>
-              <span>5 - Excellent / Whole foods</span>
-            </div>
-            {field.required && !form.eating && (
-              <div style={{ color: 'red', fontSize: 13, marginTop: 4 }}>Please select a rating.</div>
-            )}
-          </div>
-        );
-      }
       switch (field.type) {
         case "radio":
           // Special button-style rendering for referral step
@@ -812,7 +798,12 @@ function VitaBellaMultiStepForm() {
           }
           // Regular radio button rendering for other fields
           return (
-            <div key={field.name} className="vita-bella-form-radio-group">
+            <div key={field.name} className="vita-bella-form-radio-group" style={{ marginBottom: 24 }}>
+              {field.label && (
+                <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+                  {field.label} {field.required && <span style={{ color: 'red' }}>*</span>}
+                </label>
+              )}
               {field.options?.map((opt: string) => (
                 <label key={opt} className="vita-bella-form-label">
                   <input
@@ -831,17 +822,22 @@ function VitaBellaMultiStepForm() {
           );
         case "checkbox":
           return (
-            <label key={field.name} className="vita-bella-form-label">
-              <input
-                type="checkbox"
-                name={field.name}
-                checked={!!form[field.name as keyof typeof initialForm]}
-                onChange={handleChange}
-                required={field.required}
-                className="vita-bella-form-checkbox"
-              />
-              {field.label}
-            </label>
+            <div key={field.name} style={{ marginBottom: 24 }}>
+              <label className="vita-bella-form-label" style={{ fontWeight: "bold", color: '#1a3b2a', fontSize: '1.15rem', marginBottom: 16, display: 'block' }}>
+                {field.label} {field.required && <span style={{ color: 'red' }}>*</span>}
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  name={field.name}
+                  checked={!!form[field.name as keyof typeof initialForm]}
+                  onChange={handleChange}
+                  required={field.required}
+                  className="vita-bella-form-checkbox"
+                />
+                Yes
+              </label>
+            </div>
           );
         case "select":
           if (field.name === "state") {
@@ -885,7 +881,7 @@ function VitaBellaMultiStepForm() {
           );
         case "textarea":
           return (
-            <div key={field.name}>
+            <div key={field.name} style={{ marginBottom: 24 }}>
               <label className="vita-bella-form-label">{field.label}</label>
               <textarea
                 name={field.name}

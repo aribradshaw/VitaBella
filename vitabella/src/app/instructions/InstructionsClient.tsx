@@ -86,15 +86,31 @@ export default function InstructionsClient() {
         <div style={{ flex: 1, minWidth: 260, maxWidth: 1340/2 }}>
           <h2 className="h4" style={{ marginBottom: 12 }}>{treatment.name}</h2>
           {treatment.vimeo ? (
-            <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 10, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
-              <iframe
-                src={treatment.vimeo.replace("vimeo.com/", "player.vimeo.com/video/").replace(/\/(\w+)$/, "?h=$1")}
-                title={treatment.name + " Video"}
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0, borderRadius: 10 }}
-                allow="autoplay; fullscreen"
-                allowFullScreen
-              />
-            </div>
+            <>
+              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 10, boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}>
+                <iframe
+                  src={treatment.vimeo.replace("vimeo.com/", "player.vimeo.com/video/").replace(/\/(\w+)$/, "?h=$1")}
+                  title={treatment.name + " Video"}
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0, borderRadius: 10 }}
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+              {(treatment.name === "NAD+" || treatment.name === "Sermorelin") && (
+                <div style={{ 
+                  marginTop: 12, 
+                  padding: "12px 16px", 
+                  background: "#fff5f5", 
+                  border: "1px solid #fed7d7", 
+                  borderRadius: 8, 
+                  color: "#c53030", 
+                  fontSize: 14, 
+                  lineHeight: 1.5 
+                }}>
+                  <strong>Important:</strong> Some products come "lyophilized" which require adding Bacteriostatic water to the powder inside of the vial. Your product, if already in liquid form, may not need this step.
+                </div>
+              )}
+            </>
           ) : (
             <div style={{ minHeight: 220, display: "flex", alignItems: "center", justifyContent: "center", background: "#f7f7f7", borderRadius: 10, boxShadow: "0 2px 12px rgba(0,0,0,0.07)", color: "#888", fontSize: 20, fontWeight: 500 }}>
               No video available
