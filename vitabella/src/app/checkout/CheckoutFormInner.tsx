@@ -94,6 +94,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     cardCvc: false
   });
   
+  // Terms of Service agreement state
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -156,6 +159,9 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
     if (!cardComplete.cardNumber) return "Please enter a valid card number.";
     if (!cardComplete.cardExpiry) return "Please enter a valid expiry date.";
     if (!cardComplete.cardCvc) return "Please enter a valid security code (CVC).";
+    
+    // Terms of Service validation
+    if (!agreeToTerms) return "Please agree to the Terms of Service and Privacy Policy to continue.";
     
     return null;
   };
@@ -1050,6 +1056,68 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 {couponMessage}
               </div>
             )}
+          </div>
+          
+          {/* Terms of Service Agreement */}
+          <div style={{ 
+            marginTop: 24, 
+            marginBottom: 20,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            padding: '16px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px',
+            border: '1px solid #e9ecef'
+          }}>
+            <input
+              type="checkbox"
+              id="agreeToTerms"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+              style={{
+                marginTop: '2px',
+                width: '18px',
+                height: '18px',
+                accentColor: 'var(--e-global-color-primary, #4263AE)',
+                cursor: 'pointer'
+              }}
+            />
+            <label 
+              htmlFor="agreeToTerms"
+              style={{
+                fontSize: '14px',
+                lineHeight: '1.5',
+                color: '#495057',
+                cursor: 'pointer',
+                userSelect: 'none'
+              }}
+            >
+              I agree to Vita Bella's{' '}
+              <a 
+                href="/terms" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  color: 'var(--e-global-color-primary, #4263AE)',
+                  textDecoration: 'underline'
+                }}
+              >
+                Terms of Service
+              </a>
+              {' '}and{' '}
+              <a 
+                href="/privacy-policy" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  color: 'var(--e-global-color-primary, #4263AE)',
+                  textDecoration: 'underline'
+                }}
+              >
+                Privacy Policy
+              </a>
+            </label>
           </div>
           
           {/* Checkout Button */}
