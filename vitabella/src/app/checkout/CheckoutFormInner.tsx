@@ -1093,7 +1093,7 @@ export default function CheckoutFormInner(props: CheckoutFormProps) {
                 userSelect: 'none'
               }}
             >
-              I agree to Vita Bella's{' '}
+              I have read, understand, and agree to the{' '}
               <a 
                 href="/terms" 
                 target="_blank" 
