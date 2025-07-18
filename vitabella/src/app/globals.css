@@ -11,20 +11,51 @@
     font-size: 1.7rem !important;
   }
 }
+
+/* Optimized font loading with better font-display and metric overrides */
 @font-face {
   font-family: 'Tusker Grotesk';
   src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
+  font-variation-settings: 'wght' 600;
 }
 
 @font-face {
   font-family: 'Switzer';
-  src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
-  font-weight: 400;
+  src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype-variations');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
+}
+
+/* Font metric overrides to prevent layout shifts */
+@supports (font-display: swap) {
+  @font-face {
+    font-family: 'Tusker Grotesk';
+    src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    font-variation-settings: 'wght' 600;
+    /* Font metric overrides to prevent layout shifts */
+    ascent-override: 90%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+  }
+
+  @font-face {
+    font-family: 'Switzer';
+    src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype-variations');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+    /* Font metric overrides to prevent layout shifts */
+    ascent-override: 90%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+  }
 }
 
 :root {
@@ -172,25 +203,6 @@ html {
   font-display: swap;
 }
 
-/* Font loading optimization */
-@supports (font-display: swap) {
-  @font-face {
-    font-family: 'Tusker Grotesk';
-    src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Switzer';
-    src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-}
-
 /* Fallback fonts to prevent layout shifts */
 .hero-heading-test, .highlight {
   font-family: 'Tusker Grotesk', 'Arial Black', 'Helvetica Bold', sans-serif;
@@ -226,36 +238,20 @@ img {
   contain: layout style paint;
 }
 
-/* HubSpot chat widget container */
+/* HubSpot chat widget - minimal styling */
 #hubspot-messages-iframe-container {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  z-index: 2147483647 !important;
-  width: 400px !important;
-  height: 600px !important;
-  pointer-events: auto;
-  transition: opacity 0.3s ease;
+  z-index: 1000 !important;
+  max-width: 400px !important;
+  max-height: 600px !important;
 }
 
-/* Ensure HubSpot widget doesn't cause layout shifts */
+/* Remove any unwanted styling from HubSpot iframe */
 #hubspot-messages-iframe-container iframe {
   border: none !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Reserve space for HubSpot widget to prevent layout shifts */
-body::after {
-  content: '';
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  z-index: 2147483646;
-  pointer-events: none;
-  opacity: 0;
+  box-shadow: none !important;
 }
 
 /* Headings based on design system */

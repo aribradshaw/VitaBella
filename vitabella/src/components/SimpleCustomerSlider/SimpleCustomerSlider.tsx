@@ -67,10 +67,10 @@ const SimpleCustomerSlider = () => {
 						draggable={false}
 						style={{
 							width: '100%',
-							height: 'auto',
+							height: '350px',
 							aspectRatio: '1/1',
 							objectFit: 'cover',
-							borderRadius: '50%'
+							borderRadius: '12px'
 						}}
 						loading="lazy"
 					/>

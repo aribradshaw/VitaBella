@@ -1,6 +1,8 @@
 
 
 
+import React from "react";
+import Image from "next/image";
 import productsRaw from "../product/products.json";
 import styles from "./b12.module.css";
 import Link from "next/link";
@@ -35,16 +37,21 @@ export default function B12Client() {
         <div className={styles.b12IntroRow}>
           <div className={styles.b12IntroText}>
             <h1 className={styles.b12SeoTitle}>Vitamin B12 Injection Benefits: Beyond the Hype</h1>
-            <p>If you’ve recently heard someone talk about how much better they feel after a vitamin B12 injection, you’re not alone. Once mainly for those with diagnosed deficiencies, vitamin B12 injections are now popular among people seeking a science-backed boost in energy, wellness, and cognitive performance. But what are the real vitamin b12 injection benefits, and is this therapy right for you?</p>
+            <p>If you've recently heard someone talk about how much better they feel after a vitamin B12 injection, you're not alone. Once mainly for those with diagnosed deficiencies, vitamin B12 injections are now popular among people seeking a science-backed boost in energy, wellness, and cognitive performance. But what are the real vitamin b12 injection benefits, and is this therapy right for you?</p>
           </div>
           <div className={styles.b12IntroImageWrap}>
-            <img
-              src={b12?.imageBG?.replace('/public', '') || "/products/BG/methylcobalamin-b-12.webp"}
-              alt={b12?.Title || "Vitamin B12 Injection"}
-              className={styles.b12IntroImage}
-              style={{ objectFit: 'cover', width: '100%', minHeight: '450px', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(44,60,50,0.07)' }}
-              loading="lazy"
-            />
+            <div style={{ position: 'relative', width: '100%', minHeight: '450px' }}>
+              <Image
+                src={b12?.imageBG?.replace('/public', '') || "/products/BG/methylcobalamin-b-12.webp"}
+                alt={b12?.Title || "Vitamin B12 Injection"}
+                fill
+                className={styles.b12IntroImage}
+                style={{ objectFit: 'cover', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(44,60,50,0.07)' }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
 
@@ -52,7 +59,7 @@ export default function B12Client() {
         <article className="prose prose-lg prose-headings:text-[#012B27] prose-p:mb-4 prose-ul:mb-4 prose-li:marker:text-[#012B27]" style={{ background: 'none', boxShadow: 'none', padding: 0 }}>
           {/* --- Begin B12 Content --- */}
           <h2>What Is Vitamin B12 and Why Does It Matter?</h2>
-          <p>Vitamin B12, or cobalamin, is a vital water-soluble nutrient that plays a key role in your body’s health. It’s naturally found in animal-based foods like meat, poultry, fish, eggs, and dairy. For B12 to be absorbed properly, your stomach produces intrinsic factor, a protein essential for uptake.</p>
+          <p>Vitamin B12, or cobalamin, is a vital water-soluble nutrient that plays a key role in your body's health. It's naturally found in animal-based foods like meat, poultry, fish, eggs, and dairy. For B12 to be absorbed properly, your stomach produces intrinsic factor, a protein essential for uptake.</p>
           <ul>
             <li>Producing healthy red blood cells, which carry oxygen</li>
             <li>Maintaining nerve cell health and neurological function</li>
@@ -63,15 +70,15 @@ export default function B12Client() {
           <h2>Who Can Benefit Most from Vitamin B12 Injections?</h2>
           <p>While anyone can have low B12, some groups are especially at risk:</p>
           <ul>
-            <li>Vegans and vegetarians: Plant-based diets often lack enough B12 since it’s mainly in animal products.</li>
-            <li>Older adults: Aging can reduce the body’s ability to absorb B12, even with a good diet.</li>
-            <li>People with gastrointestinal or autoimmune conditions: Diseases like Crohn’s, celiac, or pernicious anemia can block B12 absorption.</li>
-            <li>Those who’ve had certain surgeries: Gastrointestinal surgeries may reduce intrinsic factor production, limiting B12 uptake from food or oral supplements.</li>
+            <li>Vegans and vegetarians: Plant-based diets often lack enough B12 since it's mainly in animal products.</li>
+            <li>Older adults: Aging can reduce the body's ability to absorb B12, even with a good diet.</li>
+            <li>People with gastrointestinal or autoimmune conditions: Diseases like Crohn's, celiac, or pernicious anemia can block B12 absorption.</li>
+            <li>Those who've had certain surgeries: Gastrointestinal surgeries may reduce intrinsic factor production, limiting B12 uptake from food or oral supplements.</li>
           </ul>
           <p>For these groups, vitamin B12 injection benefits often exceed those of oral supplements, delivering the nutrient directly into the bloodstream for fast, reliable absorption.</p>
           <h2>Vitamin B12 Injection Benefits: What the Science Says</h2>
           <ol>
-            <li><strong>Enhanced Energy and Reduced Fatigue</strong><br />Vitamin B12 helps turn food into usable energy and supports red blood cell formation. Studies show people with low B12 often feel tired and weak, and B12 injections can quickly restore energy—especially for those who can’t absorb the vitamin well by mouth.</li>
+            <li><strong>Enhanced Energy and Reduced Fatigue</strong><br />Vitamin B12 helps turn food into usable energy and supports red blood cell formation. Studies show people with low B12 often feel tired and weak, and B12 injections can quickly restore energy—especially for those who can't absorb the vitamin well by mouth.</li>
             <li><strong>Cognitive Clarity and Mood Support</strong><br />B12 is essential for producing neurotransmitters like serotonin and dopamine, which affect mood, memory, and focus. Research indicates vitamin B12 injections may improve concentration, memory, and mental clarity, and reduce symptoms of depression and anxiety, particularly in those with deficiencies.</li>
             <li><strong>Cardiovascular and Metabolic Health</strong><br />Vitamin B12 helps regulate homocysteine levels, a marker linked to heart disease risk. B12 injections can lower homocysteine, supporting heart health when combined with folic acid and other B vitamins. Some evidence also suggests B12 supports weight management and metabolism, making it a helpful addition to medically supervised weight loss programs.</li>
             <li><strong>Nerve Health and Injury Recovery</strong><br />Adequate B12 is crucial for nerve maintenance and repair. B12 injections are sometimes used clinically to treat neuropathy and nerve injuries, providing support for chronic nerve pain or recovery.</li>
@@ -123,7 +130,7 @@ export default function B12Client() {
             <div className={styles.b12BottomCta}>
               <h2>Take the Next Step Toward Better Health</h2>
             <p>
-                Ready to experience the potential benefits of vitamin B12 injections? Vita Bella’s science-backed approach can help you optimize your well-being and regain your energy and confidence. Reach out to your healthcare provider or{' '}
+                Ready to experience the potential benefits of vitamin B12 injections? Vita Bella's science-backed approach can help you optimize your well-being and regain your energy and confidence. Reach out to your healthcare provider or{' '}
                 <Link href="/membership" className={styles.b12MembershipLink}>
                     contact our team
                 </Link>

@@ -69,12 +69,6 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="footer">
-      {/* HubSpot Embed Code */}
-      <Script
-        id="hubspot-script"
-        src="//js.hs-scripts.com/48837321.js"
-        strategy="lazyOnload"
-      />
       {/* Meta/Facebook Pixel Code */}
       <Script id="facebook-pixel" strategy="afterInteractive">
         {`

@@ -98,13 +98,13 @@
 
 @media (max-width: 600px) {
   .slide {
-    min-width: 100px;
-    max-width: 160px;
+    min-width: 180px;
+    max-width: 200px;
     padding: var(--space-1x); /* Remove extra space below image */
   }
   .photo {
-    width: 50vw;
-    height: 300px; /* Make images taller on mobile */
+    width: 120px;
+    height: 160px; /* Make images more proportional on mobile */
     margin-bottom: 0.1rem;
   }
   .caption {
