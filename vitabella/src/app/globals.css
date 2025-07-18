@@ -16,6 +16,7 @@
   src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -23,6 +24,7 @@
   src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -163,6 +165,97 @@ button {
 }
 .text-uppercase {
   text-transform: uppercase;
+}
+
+/* Prevent layout shifts during font loading */
+html {
+  font-display: swap;
+}
+
+/* Font loading optimization */
+@supports (font-display: swap) {
+  @font-face {
+    font-family: 'Tusker Grotesk';
+    src: url('/fonts/Tusker Grotesque/TuskerGrotesk-4600Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Switzer';
+    src: url('/fonts/Switzer/WEB/fonts/Switzer-Variable.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+/* Fallback fonts to prevent layout shifts */
+.hero-heading-test, .highlight {
+  font-family: 'Tusker Grotesk', 'Arial Black', 'Helvetica Bold', sans-serif;
+}
+
+.subtext, .testimonial-text {
+  font-family: 'Switzer', Arial, Helvetica, sans-serif;
+}
+
+/* Ensure consistent sizing for images and containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent layout shifts for dynamic content */
+.hero-container,
+.testimonial,
+.navbar,
+.footer {
+  contain: layout style paint;
+}
+
+/* Reserve space for dynamic content */
+.testimonial img {
+  min-width: 142px;
+  min-height: 49px;
+}
+
+/* Prevent layout shifts in sliders */
+.sliderWrapper,
+.slidesFlex {
+  contain: layout style paint;
+}
+
+/* HubSpot chat widget container */
+#hubspot-messages-iframe-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 2147483647 !important;
+  width: 400px !important;
+  height: 600px !important;
+  pointer-events: auto;
+  transition: opacity 0.3s ease;
+}
+
+/* Ensure HubSpot widget doesn't cause layout shifts */
+#hubspot-messages-iframe-container iframe {
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Reserve space for HubSpot widget to prevent layout shifts */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  z-index: 2147483646;
+  pointer-events: none;
+  opacity: 0;
 }
 
 /* Headings based on design system */

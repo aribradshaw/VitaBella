@@ -36,6 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <CanonicalTag />
+        {/* Preload HubSpot script to reduce layout shift */}
+        <link rel="preload" href="//js.hs-scripts.com/48837321.js" as="script" />
         {/* Google Tag Manager */}
         <Script id="gtm-init" strategy="afterInteractive" dangerouslySetInnerHTML={{
           __html: `
@@ -73,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
         <Footer />
+        {/* HubSpot will create its own container */}
       </body>
     </html>
   );

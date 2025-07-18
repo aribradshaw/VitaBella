@@ -15,6 +15,7 @@ type HeroKey = keyof typeof heroData;
 const Hero: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(1); // Start with hormone-therapy
   const [isMobile, setIsMobile] = useState(false); // Default to false for SSR
+  const [isClient, setIsClient] = useState(false); // Track if we're on client
   const [fading, setFading] = useState<'none' | 'out' | 'in'>('none'); // For mobile nav fade
   const fadeTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -33,10 +34,11 @@ const Hero: React.FC = () => {
 
   // Handle resize and set initial isMobile
   useEffect(() => {
-    setIsMobile(typeof window !== 'undefined' && window.innerWidth <= 767);
-    const handleResize = () => setIsMobile(window.innerWidth <= 767);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    setIsClient(true);
+    const updateMobile = () => setIsMobile(window.innerWidth <= 767);
+    updateMobile();
+    window.addEventListener('resize', updateMobile);
+    return () => window.removeEventListener('resize', updateMobile);
   }, []);
 
   // Handle navbar button click (mobile: fade, desktop: instant)
@@ -88,7 +90,7 @@ const Hero: React.FC = () => {
     backgroundColor: data.backgroundColor,
   } as React.CSSProperties;
   const heroContainerStyle = {
-    backgroundImage: `url('${isMobile ? data.mobileImage : data.mainImage}')`,
+    backgroundImage: `url('${isClient && isMobile ? data.mobileImage : data.mainImage}')`,
   } as React.CSSProperties;
 
   return (
@@ -102,12 +104,12 @@ const Hero: React.FC = () => {
         <div
           style={{
             display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            gap: isMobile ? 12 : 20,
-            alignItems: isMobile ? 'stretch' : 'center',
-            justifyContent: isMobile ? 'center' : 'flex-start',
-            width: isMobile ? '100%' : 'auto',
-            marginBottom: isMobile ? '-var(--space-1x)' : 0,
+            flexDirection: isClient && isMobile ? 'column' : 'row',
+            gap: isClient && isMobile ? 12 : 20,
+            alignItems: isClient && isMobile ? 'stretch' : 'center',
+            justifyContent: isClient && isMobile ? 'center' : 'flex-start',
+            width: isClient && isMobile ? '100%' : 'auto',
+            marginBottom: isClient && isMobile ? '-var(--space-1x)' : 0,
           }}
         >
           <VitaBellaButton
@@ -123,8 +125,8 @@ const Hero: React.FC = () => {
             arrowPathColorHover={data.backgroundColor}
             style={{
               minWidth: 200,
-              width: isMobile ? '70%' : 250,
-              alignSelf: isMobile ? 'center' : 'flex-start',
+              width: isClient && isMobile ? '70%' : 250,
+              alignSelf: isClient && isMobile ? 'center' : 'flex-start',
               fontSize: '1.1rem',
               boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
             }}
@@ -142,10 +144,10 @@ const Hero: React.FC = () => {
             arrowPathColorHover={data.backgroundColor}
             style={{
               minWidth: 150,
-              width: isMobile ? '50%' : 175,
-              alignSelf: isMobile ? 'center' : 'flex-start',
+              width: isClient && isMobile ? '50%' : 175,
+              alignSelf: isClient && isMobile ? 'center' : 'flex-start',
               fontSize: '1.1rem',
-              marginBottom: isMobile ? 8 : 0,
+              marginBottom: isClient && isMobile ? 8 : 0,
               boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
             }}
           />
@@ -158,7 +160,13 @@ const Hero: React.FC = () => {
             width={142}
             height={49}
             priority
-            style={{ width: '142px', height: '49px' }}
+            style={{ 
+              width: '142px', 
+              height: '49px',
+              minWidth: '142px',
+              minHeight: '49px',
+              objectFit: 'contain'
+            }}
           />
           <div className="testimonial-text">
             <h4>10,000+ Customers</h4>
@@ -169,7 +177,7 @@ const Hero: React.FC = () => {
       {/* Navbar */}
       <div className="navbar" style={{ borderTopColor: data.mainColor }}>
         <div className="navbar-inner">
-          {isMobile ? (
+          {isClient && isMobile ? (
             <div
               style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', gap: 0 }}
               onTouchStart={handleTouchStart}

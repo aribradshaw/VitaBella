@@ -66,71 +66,75 @@ const categories = [
 // Responsive visible cards
 function useVisibleCards() {
   const [visible, setVisible] = React.useState(4);
+  const [isClient, setIsClient] = React.useState(false);
+  
   React.useEffect(() => {
-	const update = () => {
-	  if (window.innerWidth <= 700) setVisible(1);
-	  else if (window.innerWidth <= 1100) setVisible(2);
-	  else setVisible(4);
-	};
-	update();
-	window.addEventListener('resize', update);
-	return () => window.removeEventListener('resize', update);
+    setIsClient(true);
+    const update = () => {
+      if (window.innerWidth <= 700) setVisible(1);
+      else if (window.innerWidth <= 1100) setVisible(2);
+      else setVisible(4);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
-  return visible;
+  return { visible, isClient };
 }
 
 
 const CategorySlider: React.FC = () => {
-  const visibleCount = useVisibleCards();
+  const { visible: visibleCount, isClient } = useVisibleCards();
   // Detect mobile for button label
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
-  const [mobile, setMobile] = React.useState(isMobile);
+  const [mobile, setMobile] = React.useState(false);
+  
   React.useEffect(() => {
-	const update = () => setMobile(window.innerWidth <= 700);
-	update();
-	window.addEventListener('resize', update);
-	return () => window.removeEventListener('resize', update);
+    const update = () => setMobile(window.innerWidth <= 700);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
+  
   return (
-	<VitaBellaSlider
-	  items={categories}
-	  visibleCount={visibleCount}
-	  renderSlide={(cat) => (
-		<div className={styles.card}>
-		  <div className={styles.imageHolder}>
-			<img
-			  src={cat.image}
-			  alt={cat.title}
-			  style={{
-				width: "100%",
-				height: "100%",
-				objectFit: "cover",
-				borderRadius: "18px 18px 0 0"
-			  }}
-			/>
-		  </div>
-		  <div className={styles.cardContent}>
-			<div className={styles.cardTitle}>{cat.title}</div>
-			<div className={styles.cardDesc}>{cat.desc}</div>
-			<div className={styles.buttonBottom}>
-			  <VitaBellaButton
-				label={mobile ? "Get Started" : "Get Started Today"}
-				href={cat.href}
-				bg="var(--e-global-color-white)"
-				bgHover="var(--e-global-color-lightgreen)"
-				text="var(--e-global-color-dark-green)"
-				textHover="var(--e-global-color-dark-green)"
-				arrowCircleColor="var(--e-global-color-dark-green)"
-				arrowCircleColorHover="var(--e-global-color-dark-green)"
-				arrowPathColor="var(--e-global-color-white)"
-				arrowPathColorHover="var(--e-global-color-lightgreen)"
-			  />
-			</div>
-		  </div>
-		</div>
-	  )}
-	  style={visibleCount === 1 ? { justifyContent: 'center', display: 'flex' } : {}}
-	/>
+    <VitaBellaSlider
+      items={categories}
+      visibleCount={visibleCount}
+      renderSlide={(cat) => (
+        <div className={styles.card}>
+          <div className={styles.imageHolder}>
+            <img
+              src={cat.image}
+              alt={cat.title}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "18px 18px 0 0"
+              }}
+            />
+          </div>
+          <div className={styles.cardContent}>
+            <div className={styles.cardTitle}>{cat.title}</div>
+            <div className={styles.cardDesc}>{cat.desc}</div>
+            <div className={styles.buttonBottom}>
+              <VitaBellaButton
+                label={isClient && mobile ? "Get Started" : "Get Started Today"}
+                href={cat.href}
+                bg="var(--e-global-color-white)"
+                bgHover="var(--e-global-color-lightgreen)"
+                text="var(--e-global-color-dark-green)"
+                textHover="var(--e-global-color-dark-green)"
+                arrowCircleColor="var(--e-global-color-dark-green)"
+                arrowCircleColorHover="var(--e-global-color-dark-green)"
+                arrowPathColor="var(--e-global-color-white)"
+                arrowPathColorHover="var(--e-global-color-lightgreen)"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      style={visibleCount === 1 ? { justifyContent: 'center', display: 'flex' } : {}}
+    />
   );
 };
 

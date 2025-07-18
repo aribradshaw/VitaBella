@@ -65,6 +65,14 @@ const SimpleCustomerSlider = () => {
 						alt={t.alt}
 						className={styles.photo}
 						draggable={false}
+						style={{
+							width: '100%',
+							height: 'auto',
+							aspectRatio: '1/1',
+							objectFit: 'cover',
+							borderRadius: '50%'
+						}}
+						loading="lazy"
 					/>
 					<div className={styles.caption}>{t.caption}</div>
 				</div>

@@ -125,7 +125,7 @@ const Hero: React.FC = () => {
               minWidth: 200,
               width: isMobile ? '70%' : 250,
               alignSelf: isMobile ? 'center' : 'flex-start',
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
             }}
           />
@@ -144,7 +144,7 @@ const Hero: React.FC = () => {
               minWidth: 150,
               width: isMobile ? '50%' : 175,
               alignSelf: isMobile ? 'center' : 'flex-start',
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               marginBottom: isMobile ? 8 : 0,
               boxShadow: '0 2px 8px rgba(44, 60, 50, 0.07)',
             }}

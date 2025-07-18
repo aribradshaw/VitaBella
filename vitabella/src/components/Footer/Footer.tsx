@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
       <Script
         id="hubspot-script"
         src="//js.hs-scripts.com/48837321.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
       {/* Meta/Facebook Pixel Code */}
       <Script id="facebook-pixel" strategy="afterInteractive">
