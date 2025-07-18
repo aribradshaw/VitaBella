@@ -238,21 +238,7 @@ img {
   contain: layout style paint;
 }
 
-/* HubSpot chat widget - minimal styling */
-#hubspot-messages-iframe-container {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 1000 !important;
-  max-width: 400px !important;
-  max-height: 600px !important;
-}
 
-/* Remove any unwanted styling from HubSpot iframe */
-#hubspot-messages-iframe-container iframe {
-  border: none !important;
-  box-shadow: none !important;
-}
 
 /* Headings based on design system */
 .h1 {

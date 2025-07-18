@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `
         }} />
         {/* HubSpot */}
-        <Script id="hs-script-loader" src="//js.hs-scripts.com/48837321.js" strategy="afterInteractive" async defer />
+        <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/48837321.js"></script>
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
